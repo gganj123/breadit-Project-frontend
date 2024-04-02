@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oleo+Script:wght@700&display=swap");
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400;
+}
+
+::selection {
+  background-color:#ffc3dc;
+  color:#fff;
+}
+
+.font_oleo {
+  font-family: "Oleo Script", system-ui;
+}
+
+/* header */
+header {
+  width: 100%;
+  border-bottom: 1px solid #f2f2f2;
+  box-sizing: border-box;
+  background-color: #fffdf4;
+}
+
+header ul {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #575757;
+}
+
+header ul li {
+  width: 20%;
+}
+
+header li + li {
+  border-left: 1px solid #575757;
+}
+
+header ul li a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 66px;
+}
+
+.box_arrow_btn a {
+  display: flex;
+  height: 66px;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-size: 20px;
+  color: #222;
+  font-weight: 400;
+}
+
+/* footer */
+footer {
+  background-color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer_logo {
+  font-size: 40px;
+  color: #fff;
+}
+
+.footer_info h5 {
+  font-size: 14px;
+  color: #fff;
+  margin: 20px 0 10px;
+}
+
+.footer_info p {
+  font-size: 16px;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+.footer_info p:nth-of-type(2) {
+  margin-bottom: 10px;
+}
+
+.footer_icon {
+  gap: 10px;
+}
+
+.isActive {
+  background-color: #ffcb46;
+}
+
+.box_arrow_btn {
+  height: 66px;
+  padding-left: 20px;
+  border: solid 1px #575757;
+  background-color: #fff;
+  position: relative;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.box_arrow_btn span {
+  display: inline-block;
+  height: 100%;
+  width: 66px;
+  background-color: #ffdfed;
+  border-left: solid 1px #575757;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: background-color 0.25s;
+}
+
+.box_arrow_btn span:hover {
+  background-color: #ffc3dc;
+}
+
+.box_arrow_btn span::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-top: solid 1px #575757;
+  border-right: solid 1px #575757;
+  position: absolute;
+  top: 40%;
+  left: 36%;
+  transform: rotate(45deg);
+}
+
+.flex_default {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.img_box {
+  background-color: #ccc;
+}
+
+.btn_default {
+  display: inline-block;
+  height: 42px;
+  line-height: 40px;
+  background-color: #575757;
+  padding: 0 24px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.bold {
+  font-weight: 700;
+}

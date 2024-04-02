@@ -1,35 +1,49 @@
-import { Link } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
+import infoRoof from "/info_roof.svg";
 
-import Logo from "/Logo.svg";
+import MainBanner from "./MainBanner";
+import Categories from "./Categories";
+import MainReview from "./MainReview";
+import MainRecipe from "./MainRecipe";
+import MainInstagram from "./MainInstagram";
+
+import "./common.css";
+import "./main.css";
 
 export default function Home() {
   return (
-    <div>
-      <header>
-        <div>
-          <Link to="/login" className="isActive">
-            Magazine
-          </Link>
-          <Link to="/signup">Map</Link>
-          <Link to="/">
-            <img src={Logo} className="logo" alt="Vite logo" />
-          </Link>
-          <Link to="/signup">Community</Link>
-          <Link to="/login">Login/Join</Link>
-        </div>
-      </header>
-      <div className="post__list">
-        {[...Array(10)].map((e, index) => (
-          <div key={index} className="post__box">
-            <Link to="/login">게시글 {index}</Link>
-          </div>
-        ))}
+    <>
+      <Header />
+      <MainBanner />
+      <Categories />
+      <div className="infinite_roof categories_roof">
+        <p>
+          Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;toast&nbsp;&nbsp;&nbsp;bread&nbsp;&nbsp;&nbsp;
+          pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
+          toast&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;toast&nbsp;&nbsp;&nbsp;
+          bread&nbsp;&nbsp;&nbsp;pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
+          toast&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;toast&nbsp;&nbsp;&nbsp;bread&nbsp;&nbsp;&nbsp;
+          pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
+          toast&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;toast&nbsp;&nbsp;&nbsp;
+          bread&nbsp;&nbsp;&nbsp;pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
+          toast
+        </p>
       </div>
-      <footer>
-        <div>Menu 1</div>
-        <div>Menu 2</div>
-        <div>Menu 3</div>
-      </footer>
-    </div>
+      <MainReview />
+
+      <section className="noise_bg">
+        <MainRecipe />
+
+        <div className="infinite_roof info_roof">
+          <img src={infoRoof} alt="" />
+          <img src={infoRoof} alt="" />
+          <img src={infoRoof} alt="" />
+          <img src={infoRoof} alt="" />
+        </div>
+        <MainInstagram />
+      </section>
+      <Footer />
+    </>
   );
 }
