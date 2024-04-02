@@ -11,11 +11,11 @@ export default function Home() {
             Magazine
           </Link>
           <Link to="/signup">Map</Link>
-          <Link to="/mypage">
+          <Link to="/">
             <img src={Logo} className="logo" alt="Vite logo" />
           </Link>
-          <Link to="/signup">회원가입</Link>
-          <Link to="/mypage">마이페이지</Link>
+          <Link to="/signup">Community</Link>
+          <Link to="/login">Login/Join</Link>
         </div>
       </header>
       <div className="post__list">
