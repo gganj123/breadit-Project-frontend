@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
 
-export default function Home() {
+export default function CommunityPage() {
   return (
-    <div>
+    <>
       <header>
         <div>
           <Link to="/login" className="isActive">
@@ -17,18 +17,11 @@ export default function Home() {
           <Link to="/mypage">마이페이지</Link>
         </div>
       </header>
-      <div className="post__list">
-        {[...Array(10)].map((e, index) => (
-          <div key={index} className="post__box">
-            <Link to="/login">게시글 {index}</Link>
-          </div>
-        ))}
+      <div className="container">
+        <div>
+          <h2 className="oleo-script-bold">Community</h2>
+        </div>
       </div>
-      <footer>
-        <div>Menu 1</div>
-        <div>Menu 2</div>
-        <div>Menu 3</div>
-      </footer>
-    </div>
+    </>
   );
 }
