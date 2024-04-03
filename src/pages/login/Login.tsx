@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
-import { Input } from '../../components/Input';
-import Button from '../../components/Button';
+import { Input } from '../../components/atoms/input/Input';
+import Button from '../../components/atoms/buttons/Button';
 import { GoogleLogin } from 'react-google-login';
 
 // kakao KEY, URI, URL

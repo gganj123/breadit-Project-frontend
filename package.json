@@ -35,14 +35,5 @@
     "scss": "^0.2.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "jsxBracketSameLine": false,
-    "semi": true,
-    "useTabs": false
   }
 }
