@@ -40,7 +40,7 @@ export default function Home() {
           <img src={BannerCircle2} className="circle_center" />
         </div>
       </article>
-      <section className="container noise_bg categories_cont">
+      <section className="main_cont noise_bg categories_cont">
         <div className="categories_title">
           <h3>
             <img src={CategoriesTitle} />
@@ -98,7 +98,7 @@ export default function Home() {
           toast
         </p>
       </div>
-      <section className="container review_cont">
+      <section className="main_cont review_cont">
         <div className="main_title flex_default">
           <h3 className="main_title_text">최근 추가된 빵집 리뷰 🍰</h3>
           <img src={Review} className="review_right" />
@@ -106,7 +106,7 @@ export default function Home() {
         <MainReviewList />
       </section>
       <section className="noise_bg">
-        <section className="container recipe_cont">
+        <section className="main_cont recipe_cont">
           <div className="main_title flex_default">
             <h3 className="font_oleo eng_title">Recipe</h3>
             <p className="main_title_text">🍳 빵잘알들의 레시피</p>
@@ -149,7 +149,7 @@ export default function Home() {
           <img src={infoRoof} alt="" />
           <img src={infoRoof} alt="" />
         </div>
-        <section className="container instagram_cont">
+        <section className="main_cont instagram_cont">
           <div className="main_title flex_default">
             <h3 className="font_oleo eng_title">Instagram</h3>
             <p className="main_title_text">
