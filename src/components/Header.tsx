@@ -6,7 +6,7 @@ const Header: React.FC = () => {
     <header>
       <ul>
         <li>
-          <Link to="/">
+          <Link to="/magazine">
             Magazine
           </Link>
         </li>

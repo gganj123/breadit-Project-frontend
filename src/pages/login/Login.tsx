@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
-import { Input } from '../../components/Input';
-import Button from '../../components/Button';
+import { Input } from '../../components/atoms/input/Input';
+import Button from '../../components/atoms/buttons/Button';
 import { GoogleLogin } from 'react-google-login';
 
 // kakao KEY, URI, URL
-const KAKAO_KEY = '';
-const REDIRECT_URI = ``;
+const KAKAO_KEY = '337cc9b1db3858ebe4a985229168765b';
+const REDIRECT_URI = `http://127.0.0.1:5173`;
 const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 const GOOGLE_KEY = '';
 

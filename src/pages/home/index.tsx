@@ -8,11 +8,24 @@ import CategoryImg3 from '/category_img3.svg';
 import CategoryImg4 from '/category_img4.svg';
 import infoRoof from '/info_roof.svg';
 import Review from '/Review.svg';
-import MainReviewList from './MainReviewList';
+import BigCardList from '../../components/BigCardList';
 
 import './main.css';
 
 export default function Home() {
+  let instagramList = [
+    { src: './instagram1.svg' },
+    { src: './instagram2.svg' },
+    { src: './instagram3.svg' },
+    { src: './instagram4.svg' },
+    { src: './instagram1.svg' },
+    { src: './instagram2.svg' },
+    { src: './instagram3.svg' },
+    { src: './instagram4.svg' },
+    { src: './instagram1.svg' },
+    { src: './instagram2.svg' },
+  ];
+
   return (
     <>
       <article className="main_banner">
@@ -99,7 +112,9 @@ export default function Home() {
           <h3 className="main_title_text">최근 추가된 빵집 리뷰 🍰</h3>
           <img src={Review} className="review_right" />
         </div>
-        <MainReviewList />
+        <ul className="big_card_list main_card_list">
+          <BigCardList />
+        </ul>
       </section>
       <section className="noise_bg">
         <section className="main_cont recipe_cont">
@@ -153,56 +168,15 @@ export default function Home() {
             </p>
           </div>
           <ul className="instagram_list">
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
-            <li className="img_box">
-              <Link to="/">
-                <img src="" />
-              </Link>
-            </li>
+            {instagramList.map((img, index) => {
+              return (
+                <li className="img_box" key={index}>
+                  <Link to="/">
+                    <img src={img.src} />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </section>
       </section>
