@@ -3,26 +3,33 @@
 }
 
 .oleo-script-regular {
-  font-family: "Oleo Script", system-ui;
+  font-family: 'Oleo Script', system-ui;
   font-weight: 400;
   font-style: normal;
 }
 
 .oleo-script-bold {
-  font-family: "Oleo Script", system-ui;
+  font-family: 'Oleo Script', system-ui;
   font-weight: 700;
   font-style: normal;
 }
 
-.container {
+.community_container {
   width: 100%;
   max-width: 1720px;
   padding: 0 100px 100px;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .community_title {
   margin: 130px 0 30px;
+  font-size: 30px;
+}
+
+.community_subtitle {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .head_content {
@@ -54,7 +61,7 @@
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
-  background: url("down-arrow.svg") no-repeat 76% 50%/15px auto;
+  background: url('down-arrow.svg') no-repeat 76% 50%/15px auto;
 }
 
 .community_search > div:after {
@@ -62,7 +69,7 @@
   right: 0;
   top: 50%;
   transform: translate(0, -50%);
-  content: "";
+  content: '';
   width: 1px;
   height: 26px;
   background-color: #a5a5a5;
@@ -128,7 +135,7 @@
 }
 
 .community_list h3 {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   font-size: 28px;
   margin: 0;
@@ -141,7 +148,7 @@
 }
 
 .community_list a {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
   font-size: 18px;
   color: #222;
@@ -149,7 +156,7 @@
 }
 
 .community_list_item {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
   font-size: 14px;
   display: flex;

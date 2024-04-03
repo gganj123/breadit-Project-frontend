@@ -1,6 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import Logo from '/Logo.svg';
+import { useParams } from 'react-router-dom';
 
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>(); // useParams 훅을 사용하여 id 매개변수를 가져옴
@@ -9,19 +8,6 @@ const DetailPage: React.FC = () => {
 
   return (
     <>
-      <header>
-        <div>
-          <Link to="/login" className="isActive">
-            Magazine
-          </Link>
-          <Link to="/signup">Map</Link>
-          <Link to="/mypage">
-            <img src={Logo} className="logo" alt="Breadit logo" />
-          </Link>
-          <Link to="/signup">회원가입</Link>
-          <Link to="/mypage">마이페이지</Link>
-        </div>
-      </header>
       <p>Detail for item with id: {id}</p>
     </>
   );
