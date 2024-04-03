@@ -4,8 +4,8 @@ import SearchIcon from '/search-icon.svg';
 import PostIcon from '/post-icon.svg';
 import RightArrow from '/right-arrow.svg';
 import './community.css';
-import SelectBox from '../components/Selectbox';
-import CategoryList from '../components/CategoryList';
+import SelectBox from '../../components/Selectbox';
+import CategoryList from '../../components/CategoryList';
 
 export default function CommunityPage() {
   //가짜데이터

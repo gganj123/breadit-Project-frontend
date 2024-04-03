@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import Figma from "/figma.svg";
-import Gitlab from "/gitlab.svg";
-import Notion from "/notion.svg";
-import "./common.css";
+import { Link } from 'react-router-dom';
+import Figma from '/figma.svg';
+import Gitlab from '/gitlab.svg';
+import Notion from '/notion.svg';
 
 const Footer: React.FC = () => {
   return (
