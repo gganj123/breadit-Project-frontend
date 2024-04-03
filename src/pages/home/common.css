@@ -128,7 +128,7 @@ footer {
 .box_arrow_btn span::after {
   content: "";
   width: 1.2rem;
-  height: 1.2;
+  height: 1.2rem;
   border-top: solid 1px #575757;
   border-right: solid 1px #575757;
   position: absolute;
