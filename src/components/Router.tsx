@@ -4,6 +4,8 @@ import MyPage from '../pages/mypage';
 import LoginPage from '../pages/login';
 import SignupPage from '../pages/signup';
 import CommunityPage from '../pages/community';
+import NearByPage from '../pages/community/nearby.tsx';
+import DetailPage from '../pages/community/detail.tsx';
 
 export default function Router() {
   return (
@@ -14,6 +16,8 @@ export default function Router() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/community" element={<CommunityPage />} />
+        <Route path="/community/nearby" element={<NearByPage />} />
+        <Route path="/community/nearby/:id" element={<DetailPage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>

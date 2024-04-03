@@ -124,7 +124,7 @@ footer {
 .container {
   width: 100%;
   max-width: 1720px;
-  margin: 0 100px;
+  padding: 0 100px 100px;
   box-sizing: border-box;
 }
 
