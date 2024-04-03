@@ -1,14 +1,14 @@
 import Router from "./components/Router";
-import { QueryClient, QueryClientProvider } from "react-query";
+// import { QueryClient, QueryClientProvider } from "react-query";
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 function App() {
   return (
     <>
-      <QueryClientProvider client={queryClient}>
+      {/* <QueryClientProvider client={queryClient}> */}
         <Router />
-      </QueryClientProvider>
+      {/* </QueryClientProvider> */}
     </>
   );
 }

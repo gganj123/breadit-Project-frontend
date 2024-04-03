@@ -6,7 +6,7 @@ import "./common.css";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="container">
+    <footer className="main_cont">
       <div className="footer_info">
         <h3 className="font_oleo footer_logo">Breadit</h3>
         <h5>Team 03</h5>
