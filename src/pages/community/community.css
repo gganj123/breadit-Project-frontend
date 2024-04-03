@@ -106,7 +106,9 @@
   height: 16px;
 }
 
-.community_post_btn > button {
+.community_post_btn > a {
+  display: block;
+  text-align: center;
   width: 120px;
   height: 42px;
   padding: 0;
@@ -116,12 +118,12 @@
   border-radius: 0;
 }
 
-.community_post_btn > button:active,
-.community_post_btn > button:focus {
+.community_post_btn > a:active,
+.community_post_btn > a:focus {
   outline: none;
 }
 
-.community_post_btn > button img {
+.community_post_btn > a img {
   margin-top: 4px;
   height: 32px;
 }
@@ -245,4 +247,36 @@
 
 .like_icon_wrapper .like {
   cursor: pointer;
+}
+
+.ql-editor {
+  height: 50vh !important;
+  background-color: #fff;
+}
+
+.edit_title input {
+  width: 100%;
+  height: 4rem;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.edit_context {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit_context a {
+  display: block;
+  text-align: center;
+  width: 100px;
+  padding: 12px 0;
+  font-size: 1.25rem;
+  background-color: #6c757d;
+  color: #fff;
 }

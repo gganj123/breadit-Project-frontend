@@ -7,6 +7,7 @@ import SignupPage from '../pages/signup/index.tsx';
 import CommunityPage from '../pages/community/index.tsx';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
+import EditPage from '../pages/community/edit.tsx';
 import MagazinePage from '../pages/magazine/index.tsx';
 import MapPage from '../pages/map/index.tsx';
 
@@ -20,6 +21,7 @@ export default function Router() {
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
           <Route path="community" element={<CommunityPage />} />
+          <Route path="community/edit" element={<EditPage />} />
           <Route path="community/nearby" element={<NearByPage />} />
           <Route path="community/nearby/:id" element={<DetailPage />} />
           <Route path="magazine" element={<MagazinePage />} />
