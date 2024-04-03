@@ -12,8 +12,12 @@
   width: 50%;
 }
 
+.main_banner .img_box {
+  background: url('main_banner.svg') no-repeat 50% 50%;
+}
+
 .main_banner .content_box {
-  background: url("/main_banner_bg.svg") no-repeat 50% 50%;
+  background: url('/main_banner_bg.svg') no-repeat 50% 50%;
   border-left: solid 1px #575757;
 }
 
@@ -114,7 +118,7 @@
 }
 
 .noise_bg {
-  background: url("/main_bg.svg") repeat;
+  background: url('/main_bg.svg') repeat;
 }
 
 .review_cont {
@@ -133,55 +137,31 @@
   padding-bottom: 1rem;
 }
 
-.review {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 2rem;
-  list-style: none;
-  overflow-x: auto;
-  padding-bottom: 3rem;
-}
-
-.review::-webkit-scrollbar {
-  background-color: rgba(255, 255, 255, 0.8);
-  height: 1rem;
-}
-
-.review::-webkit-scrollbar-thumb {
-  background-color: #575757;
-}
-
-.review li {
-  flex: 0 0 auto;
-  width: 49rem;
-  border: 1px solid #575757;
-  overflow: hidden;
-}
-
-.review .img_box {
-  height: 30rem;
-}
-
-.review .content_box {
-  padding: 3rem;
-  background-color: #fffdf4;
-  border-top: solid 1px #575757;
-}
-
-.review h5 {
-  font-size: 2.2rem;
-  margin-bottom: 1.4rem;
-}
-
-.review p {
-  font-size: 1.8rem;
-  color: #666;
-}
-
 .recipe_cont .main_title {
   border-bottom: solid 1px #575757;
   padding-bottom: 2rem;
   margin-bottom: 2rem;
+}
+
+.main_card_list {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 3rem;
+}
+
+.main_card_list::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 1rem;
+}
+
+.main_card_list::-webkit-scrollbar-thumb {
+  background-color: #575757;
+}
+
+.main_card_list .big_card {
+  min-width: 49rem;
 }
 
 .recipe {
@@ -191,9 +171,6 @@
 .recipe > div {
   width: 50%;
   border: solid 1px #575757;
-}
-
-.recipe .img_box {
 }
 
 .recipe .content_box {
@@ -239,7 +216,7 @@
 
 .go_recipe::before,
 .go_recipe::after {
-  content: "";
+  content: '';
   width: 2.8rem;
   height: 1px;
   background-color: #575757;
@@ -266,9 +243,16 @@
 }
 .instagram_cont .instagram_list li {
   width: 20%;
-  height: 0;
-  padding-top: 20%;
-  border: solid 1px #bbb;
+  overflow: hidden;
+}
+
+.instagram_cont .instagram_list li img {
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.instagram_cont .instagram_list li img:hover {
+  transform: scale(1.1);
 }
 
 .infinite_roof {

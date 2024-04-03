@@ -1,0 +1,8 @@
+.magazine {border-top:0;}
+
+.magazine_card_list {
+  display: grid;
+  gap: 5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+

@@ -6,6 +6,7 @@ import SignupPage from '../pages/signup';
 import CommunityPage from '../pages/community';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
+import MagazinePage from '../pages/magazine';
 
 export default function Router() {
   return (
@@ -18,6 +19,7 @@ export default function Router() {
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/community/nearby" element={<NearByPage />} />
         <Route path="/community/nearby/:id" element={<DetailPage />} />
+        <Route path="/magazine" element={<MagazinePage />} />
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
     </>
