@@ -1,11 +1,11 @@
 .container {
-  padding: 5em 6.25em;
+  padding: 8rem 10rem;
   border-top: solid 1px #575757;
 }
 
 .main_banner {
   display: flex;
-  height: 720px;
+  height: 72rem;
 }
 
 .main_banner > div {
@@ -18,44 +18,44 @@
 }
 
 .main_banner .content {
-  width: calc(100% - 200px);
-  min-height: 500px;
+  width: calc(100% - 20rem);
+  min-height: 50rem;
   background-color: #fff;
   border: solid 1px #575757;
   position: relative;
-  top: 120px;
-  left: 100px;
-  padding: 80px 50px 0;
+  top: 12rem;
+  left: 10rem;
+  padding: 8rem 5rem 0;
 }
 
 .main_banner .content span {
-  font-size: 20px;
+  font-size: 2rem;
   color: #3f3f3f;
 }
 
 .main_banner .content h3 {
-  font-size: 34px;
-  padding: 22px 0 26px;
+  font-size: 3.4rem;
+  padding: 2.2rem 0 2.6rem;
   border-bottom: solid 1px #575757;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
 .main_banner .content .point {
-  font-size: 22px;
+  font-size: 2.2rem;
   font-weight: 700;
 }
 
 .main_banner .content .text {
-  font-size: 20px;
+  font-size: 2rem;
   color: #181818;
   line-height: 1.6;
-  padding: 20px 0 30px;
+  padding: 2rem 0 3rem;
 }
 
 .circle_right {
   position: absolute;
-  top: -60px;
-  right: -60px;
+  top: -6rem;
+  right: -6rem;
   animation: rotate 10s linear infinite;
 }
 
@@ -77,16 +77,16 @@
 }
 
 .main_title .eng_title {
-  font-size: 30px;
+  font-size: 3rem;
 }
 
 .main_title_text {
-  font-size: 28px;
+  font-size: 2.8rem;
   font-weight: 600;
 }
 
 .categories_cont {
-  padding-top: 100px;
+  padding-top: 10rem;
 }
 
 .categories_title {
@@ -94,23 +94,23 @@
 }
 
 .categories_title h4 {
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 
 .categories {
   display: flex;
   justify-content: center;
-  gap: 60px;
-  margin-top: 60px;
+  gap: 6rem;
+  margin-top: 6rem;
 }
 
 .categories li {
-  width: 300px;
+  width: 30rem;
   text-align: center;
 }
 
 .categories .box_arrow_btn {
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 .noise_bg {
@@ -124,27 +124,27 @@
 
 .review_cont .main_title {
   position: relative;
-  padding-right: 100px;
-  margin-bottom: 30px;
+  padding-right: 10rem;
+  margin-bottom: 3rem;
   align-items: flex-end;
 }
 
 .review_cont .main_title_text {
-  padding-bottom: 10px;
+  padding-bottom: 1rem;
 }
 
 .review {
   display: flex;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 2rem;
   list-style: none;
   overflow-x: auto;
-  padding-bottom: 30px;
+  padding-bottom: 3rem;
 }
 
 .review::-webkit-scrollbar {
   background-color: rgba(255, 255, 255, 0.8);
-  height: 10px;
+  height: 1rem;
 }
 
 .review::-webkit-scrollbar-thumb {
@@ -153,35 +153,35 @@
 
 .review li {
   flex: 0 0 auto;
-  width: 490px;
+  width: 49rem;
   border: 1px solid #575757;
   overflow: hidden;
 }
 
 .review .img_box {
-  height: 300px;
+  height: 30rem;
 }
 
 .review .content_box {
-  padding: 30px;
+  padding: 3rem;
   background-color: #fffdf4;
   border-top: solid 1px #575757;
 }
 
 .review h5 {
-  font-size: 22px;
-  margin-bottom: 14px;
+  font-size: 2.2rem;
+  margin-bottom: 1.4rem;
 }
 
 .review p {
-  font-size: 18px;
+  font-size: 1.8rem;
   color: #666;
 }
 
 .recipe_cont .main_title {
   border-bottom: solid 1px #575757;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .recipe {
@@ -199,48 +199,48 @@
 .recipe .content_box {
   background-color: #fff;
   border-left: 0;
-  padding: 60px 60px 0;
+  padding: 6rem 6rem 0;
   position: relative;
-  min-height: 460px;
+  min-height: 46rem;
 }
 
 .recipe .user_info {
   display: flex;
-  gap: 12px;
+  gap: 1.2rem;
   align-items: center;
 }
 
 .recipe .user_info p {
-  font-size: 18px;
+  font-size: 1.8rem;
   font-weight: 500;
 }
 
 .recipe .content h5 {
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 500;
-  margin: 26px 0;
+  margin: 2.6rem 0;
 }
 
 .recipe .content p {
-  font-size: 18px;
+  font-size: 1.8rem;
   line-height: 1.6;
 }
 
 .go_recipe {
   display: inline-block;
-  width: 80px;
-  height: 80px;
+  width: 8rem;
+  height: 8rem;
   border: solid 1px #575757;
   background-color: #fffdf4;
   position: absolute;
-  bottom: 40px;
-  right: 40px;
+  bottom: 4rem;
+  right: 4rem;
 }
 
 .go_recipe::before,
 .go_recipe::after {
   content: "";
-  width: 28px;
+  width: 2.8rem;
   height: 1px;
   background-color: #575757;
   position: absolute;
@@ -262,7 +262,7 @@
 .instagram_cont .instagram_list {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 24px;
+  padding-top: 2.4rem;
 }
 .instagram_cont .instagram_list li {
   width: 20%;
@@ -286,17 +286,17 @@
 }
 
 .categories_roof p {
-  font-size: 16px;
+  font-size: 1.6rem;
   color: #fff;
   font-weight: 500;
   letter-spacing: 1px;
-  line-height: 80px;
+  line-height: 8rem;
 }
 
 .info_roof {
   display: flex;
-  gap: 40px;
-  padding: 20px 0;
+  gap: 4rem;
+  padding: 2rem 0;
 }
 
 .info_roof img {

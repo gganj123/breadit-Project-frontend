@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "/Logo.svg";
 import "./common.css";
 
-export default function Header() {
+const Header: React.FC = () => {
   return (
     <header>
       <ul>
@@ -30,4 +30,6 @@ export default function Header() {
       </ul>
     </header>
   );
-}
+};
+
+export default Header;

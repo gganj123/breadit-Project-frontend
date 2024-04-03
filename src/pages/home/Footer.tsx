@@ -4,7 +4,7 @@ import Gitlab from "/gitlab.svg";
 import Notion from "/notion.svg";
 import "./common.css";
 
-export default function Footer() {
+const Footer: React.FC = () => {
   return (
     <footer className="container">
       <div className="footer_info">
@@ -17,15 +17,23 @@ export default function Footer() {
       </div>
       <ul className="flex_default footer_icon">
         <li>
-          <Link to="/"><img src={Figma} /></Link>
+          <Link to="/">
+            <img src={Figma} />
+          </Link>
         </li>
         <li>
-          <Link to="/"><img src={Gitlab} /></Link>
+          <Link to="/">
+            <img src={Gitlab} />
+          </Link>
         </li>
         <li>
-          <Link to="/"><img src={Notion} /></Link>
+          <Link to="/">
+            <img src={Notion} />
+          </Link>
         </li>
       </ul>
     </footer>
   );
-}
+};
+
+export default Footer;
