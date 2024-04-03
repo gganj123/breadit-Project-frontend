@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Home from '../pages/home';
 import MyPage from '../pages/mypage';
-import LoginPage from '../pages/login';
+import LoginPage from '../pages/login/Login.tsx';
 import SignupPage from '../pages/signup';
 import CommunityPage from '../pages/community';
 import NearByPage from '../pages/community/nearby.tsx';
