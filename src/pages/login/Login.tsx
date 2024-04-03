@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
 import { Input } from '../../components/atoms/input/Input';
 import Button from '../../components/atoms/buttons/Button';
-import { GoogleLogin } from 'react-google-login';
-
-// kakao KEY, URI, URL
-const KAKAO_KEY = '337cc9b1db3858ebe4a985229168765b';
-const REDIRECT_URI = `http://127.0.0.1:5173`;
-const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-const GOOGLE_KEY = '';
+const RedirectUri = `${import.meta.env.VITE_REDIRECT_URI}`;
+const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code`;
+const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
+const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code&scope=email profile`;
 
 const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -33,34 +30,17 @@ const Login: FC = () => {
   const kakaohandleLogin = () => {
     window.location.href = kakaoURL;
   };
-
-  const handleGoogleLoginSuccess = (response) => {
-    console.log('Google login success:', response);
-    // Google 로그인 성공 처리
+  const naverhandleLogin = () => {
+    window.location.href = naverURL;
+  };
+  const googlehandleLogin = () => {
+    window.location.href = googleURL;
   };
 
-  const handleGoogleLoginFailure = (error) => {
-    console.error('Google login failed:', error);
-    // Google 로그인 실패 처리
-  };
   return (
     <>
-      <header>
-        <div>
-          <Link to="/login" className="isActive">
-            Magazine
-          </Link>
-          <Link to="/signup">Map</Link>
-          <Link to="/mypage">
-            <img src={Logo} className="logo" alt="Vite logo" />
-          </Link>
-          <Link to="/signup">회원가입</Link>
-          <Link to="/mypage">마이페이지</Link>
-        </div>
-      </header>
-
       <div>
-        <Link to="/mypage">
+        <Link to="/">
           <img src={Logo} className="logo" alt="Vite logo" />
         </Link>
         <form onSubmit={handleSubmit}>
@@ -88,13 +68,17 @@ const Login: FC = () => {
           color="#f7e600"
           onClick={() => kakaohandleLogin()}
         />
-        <Button type="button" text="네이버 로그인" color="#03c75a" />
-        <GoogleLogin
-          clientId={GOOGLE_KEY}
-          buttonText="구글 로그인"
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          cookiePolicy={'single_host_origin'}
+        <Button
+          type="button"
+          text="네이버 로그인"
+          color="#03c75a"
+          onClick={() => naverhandleLogin()}
+        />
+        <Button
+          type="button"
+          text="구글 로그인"
+          color="#03c75a"
+          onClick={() => googlehandleLogin()}
         />
       </div>
     </>
