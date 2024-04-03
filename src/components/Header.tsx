@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
-import Logo from "/Logo.svg";
-import "./common.css";
+import { Link } from 'react-router-dom';
+import Logo from '/Logo.svg';
 
 const Header: React.FC = () => {
   return (
     <header>
       <ul>
         <li>
-          <Link to="/login" className="isActive">
+          <Link to="/">
             Magazine
           </Link>
         </li>
         <li>
-          <Link to="/signup">Map</Link>
+          <Link to="/">Map</Link>
         </li>
         <li>
           <h1>
@@ -22,7 +21,7 @@ const Header: React.FC = () => {
           </h1>
         </li>
         <li>
-          <Link to="/signup">Community</Link>
+          <Link to="/community">Community</Link>
         </li>
         <li>
           <Link to="/login">Login / Join</Link>

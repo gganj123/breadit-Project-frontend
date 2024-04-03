@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import Header from './Header';
-import Footer from './Footer';
 import BannerCircle1 from '/banner_circle1.svg';
 import BannerCircle2 from '/banner_circle2.svg';
 import CategoriesTitle from '/Categories_title.svg';
@@ -12,13 +10,11 @@ import infoRoof from '/info_roof.svg';
 import Review from '/Review.svg';
 import MainReviewList from './MainReviewList';
 
-import './common.css';
 import './main.css';
 
 export default function Home() {
   return (
     <>
-      <Header />
       <article className="main_banner">
         <div className="img_box"></div>
         <div className="content_box">
@@ -210,7 +206,6 @@ export default function Home() {
           </ul>
         </section>
       </section>
-      <Footer />
     </>
   );
 }

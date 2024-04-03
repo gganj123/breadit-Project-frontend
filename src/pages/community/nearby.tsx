@@ -4,7 +4,7 @@ import SearchIcon from '/search-icon.svg';
 import PostIcon from '/post-icon.svg';
 import RightArrow from '/right-arrow.svg';
 import './community.css';
-import CategoryList from '../components/CategoryList';
+import CategoryList from '../../components/CategoryList';
 
 export default function NearByPage() {
   //가짜데이터
