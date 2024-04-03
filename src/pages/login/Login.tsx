@@ -6,8 +6,8 @@ import Button from '../../components/Button';
 import { GoogleLogin } from 'react-google-login';
 
 // kakao KEY, URI, URL
-const KAKAO_KEY = '337cc9b1db3858ebe4a985229168765b';
-const REDIRECT_URI = `http://127.0.0.1:5173`;
+const KAKAO_KEY = '';
+const REDIRECT_URI = ``;
 const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 const GOOGLE_KEY = '';
 
