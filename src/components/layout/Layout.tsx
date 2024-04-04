@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default function Layout() {
+const Layout: React.FC = () => {
   return (
     <>
       <GlobalStyle />
@@ -34,4 +34,6 @@ export default function Layout() {
       <Footer />
     </>
   );
-}
+};
+
+export default Layout;

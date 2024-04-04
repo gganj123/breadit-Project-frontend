@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
 import { Input } from '../../components/atoms/input/Input';
 import Button from '../../components/atoms/buttons/Button';
-import { GoogleLogin } from 'react-google-login';
 
 // kakao KEY, URI, URL
 const KAKAO_KEY = '337cc9b1db3858ebe4a985229168765b';
 const REDIRECT_URI = `http://127.0.0.1:5173`;
 const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-const GOOGLE_KEY = '';
 
 const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -34,15 +32,6 @@ const Login: FC = () => {
     window.location.href = kakaoURL;
   };
 
-  const handleGoogleLoginSuccess = (response) => {
-    console.log('Google login success:', response);
-    // Google 로그인 성공 처리
-  };
-
-  const handleGoogleLoginFailure = (error) => {
-    console.error('Google login failed:', error);
-    // Google 로그인 실패 처리
-  };
   return (
     <>
       <header>
@@ -89,13 +78,6 @@ const Login: FC = () => {
           onClick={() => kakaohandleLogin()}
         />
         <Button type="button" text="네이버 로그인" color="#03c75a" />
-        <GoogleLogin
-          clientId={GOOGLE_KEY}
-          buttonText="구글 로그인"
-          onSuccess={handleGoogleLoginSuccess}
-          onFailure={handleGoogleLoginFailure}
-          cookiePolicy={'single_host_origin'}
-        />
       </div>
     </>
   );

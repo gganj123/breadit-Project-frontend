@@ -1,4 +1,66 @@
-.magazine {border-top:0;}
+.magazine_banner .banner_item {
+  position: relative;
+}
+
+.magazine_banner .banner_item .banner_img {
+  width: 100%;
+}
+
+.magazine_banner .content_box {
+  max-width: 80rem;
+  position: absolute;
+  bottom: 10rem;
+  left: 10rem;
+  color: #fff;
+}
+
+.magazine_banner .content_box .font_oleo {
+  font-size: 2rem;
+  color: #dedede;
+}
+
+.magazine_banner .content_box h3 {
+  font-size: 3.4rem;
+  margin: 3rem 0 2rem;
+}
+
+.magazine_banner .content_box p {
+  font-size: 2rem;
+  word-break: keep-all;
+  line-height: 1.6;
+}
+
+.magazine_banner .slick-arrow {
+  bottom: 10rem;
+}
+
+.magazine_banner .slick-dots {
+  width: auto;
+  bottom: 10rem;
+  right: 10rem;
+  background-color: rgba(77, 77, 77, 0.6);
+  color: #dbdbdb;
+  padding: 0 2rem;
+}
+
+.magazine_dots li {
+  width: auto;
+  height: 3.4rem;
+  line-height: 2.8rem;
+  display: none;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.magazine_dots li.slick-active {
+  display: block;
+}
+
+.magazine_circle {
+  position: absolute;
+  top: 10rem;
+  right: 8rem;
+}
 
 .magazine_card_list {
   display: grid;
@@ -6,3 +68,6 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+.magazine .main_title {
+  margin-bottom: 4rem;
+}
