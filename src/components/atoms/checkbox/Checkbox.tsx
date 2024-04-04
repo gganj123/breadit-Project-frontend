@@ -16,7 +16,9 @@ const Checkbox: FC<CheckboxProps> = ({ checked, onChange }) => {
   return (
     <StyledCheckbox
       checked={checked}
-      onChange={(e) => onChange(e.target.checked)}
+      onChange={(e: { target: { checked: boolean } }) =>
+        onChange(e.target.checked)
+      }
     />
   );
 };

@@ -49,7 +49,8 @@ const TitleContainer = styled.div`
 `;
 
 const ContentContainer = styled.div<{ isOpen: boolean }>`
-  max-height: ${(props) => (props.isOpen ? '1000px' : '0')};
+  max-height: ${(props: { isOpen: boolean }) =>
+    props.isOpen ? '1000px' : '0'};
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
 `;

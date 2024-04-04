@@ -23,7 +23,7 @@ const StepNumber = styled.div<Pick<StepProps, 'isActive' | 'isCompleted'>>`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: ${(props) =>
+  background-color: ${(props: { isActive: boolean; isCompleted: boolean }) =>
     props.isActive ? '#ffc14b' : props.isCompleted ? '#ccc' : '#D9D9D9'};
   color: #fff;
   border: 1px solid #575757;

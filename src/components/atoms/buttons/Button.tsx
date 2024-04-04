@@ -1,26 +1,29 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, MouseEvent } from 'react';
 import styled from 'styled-components';
 
 type ButtonProps = {
   text: string;
   backColor: string;
   textColor: string;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   type: 'button' | 'submit';
   icon?: ReactNode; // 아이콘은 ReactNode 타입, 선택적
 };
 
-const StyledButton = styled.button<{
+type StyledButtonProps = {
   backColor: string;
   textColor: string;
   hasIcon: boolean;
-}>`
+};
+
+const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.backColor};
-  color: ${(props) => props.textColor};
-  border: ${(props) => (props.hasIcon ? 'none' : '1px solid')};
+  background-color: ${(props: { backColor: string }) => props.backColor};
+  color: ${(props: { textColor: string }) => props.textColor};
+  border: ${(props: { hasIcon: boolean }) =>
+    props.hasIcon ? 'none' : '1px solid'};
   border-radius: 8px;
   padding: 10px;
   margin: 5px 0;
