@@ -22,10 +22,9 @@ const PageContainer = styled.div`
 `;
 
 const AgreementTitle = styled.div`
-  font-size: 16px; // 글자 크기를 원하는 대로 설정
-  font-weight: bold; // 굵은 글씨
-  color: #333; // 글자 색상
-  // 추가적인 스타일 속성들...
+  font-size: 16px; 
+  font-weight: bold;
+  color: #333; 
 `;
 
 const AgreementContainer = styled.div`
@@ -63,7 +62,7 @@ const ButtonsContainer = styled.div`
 `;
 const CheckboxLabel = styled.label`
   display: flex;
-  align-items: center; // 세로 중앙 정렬
+  align-items: center; 
   cursor: pointer;
 `;
 
