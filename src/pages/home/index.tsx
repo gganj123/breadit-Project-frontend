@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom';
-import BannerCircle1 from '/banner_circle1.svg';
-import BannerCircle2 from '/banner_circle2.svg';
 import CategoriesTitle from '/Categories_title.svg';
 import CategoryImg1 from '/category_img1.svg';
 import CategoryImg2 from '/category_img2.svg';
@@ -8,8 +6,11 @@ import CategoryImg3 from '/category_img3.svg';
 import CategoryImg4 from '/category_img4.svg';
 import infoRoof from '/info_roof.svg';
 import Review from '/Review.svg';
+import MainBanner from './MainBanner';
 import BigCardList from '../../components/BigCardList';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
 export default function Home() {
@@ -28,27 +29,7 @@ export default function Home() {
 
   return (
     <>
-      <article className="main_banner">
-        <div className="img_box"></div>
-        <div className="content_box">
-          <div className="content">
-            <span className="font_oleo">Hot Brand</span>
-            <h3>MZ를 꼬시는 발칙한 디저트?</h3>
-            <p className="point">이것이 바로 MZ ? 🧠</p>
-            <p className="text">
-              효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은<br />
-              기발한 아이디어를 선보이는 공간입니다. 영화 평론가 이동진 스타일의
-              <br />
-              빨간 안경을 쓴 콘치즈 곰자를 포함해...
-            </p>
-            <Link to="/" className="btn_default">
-              Magazine +
-            </Link>
-            <img src={BannerCircle1} className="circle_right" />
-          </div>
-          <img src={BannerCircle2} className="circle_center" />
-        </div>
-      </article>
+      <MainBanner />
       <section className="main_cont noise_bg categories_cont">
         <div className="categories_title">
           <h3>
@@ -112,9 +93,8 @@ export default function Home() {
           <h3 className="main_title_text">최근 추가된 빵집 리뷰 🍰</h3>
           <img src={Review} className="review_right" />
         </div>
-        <ul className="big_card_list main_card_list">
-          <BigCardList />
-        </ul>
+
+        <BigCardList useSlider={true} />
       </section>
       <section className="noise_bg">
         <section className="main_cont recipe_cont">
