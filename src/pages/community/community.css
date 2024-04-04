@@ -280,3 +280,18 @@
   background-color: #6c757d;
   color: #fff;
 }
+
+.navigation_tab {
+  display: flex;
+  justify-content: space-between;
+  margin: 130px 0 30px;
+}
+
+.navigation_tab > ul {
+  display: flex;
+  gap: 4em;
+}
+
+.navigation_tab > ul.additional {
+  gap: 3em;
+}
