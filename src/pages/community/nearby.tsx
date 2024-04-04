@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Logo from '/Logo.svg';
 import SearchIcon from '/search-icon.svg';
 import PostIcon from '/post-icon.svg';
 import RightArrow from '/right-arrow.svg';
@@ -110,23 +109,10 @@ export default function NearByPage() {
 
   return (
     <>
-      <header>
-        <div>
-          <Link to="/login" className="isActive">
-            Magazine
-          </Link>
-          <Link to="/signup">Map</Link>
-          <Link to="/mypage">
-            <img src={Logo} className="logo" alt="Breadit logo" />
-          </Link>
-          <Link to="/signup">회원가입</Link>
-          <Link to="/mypage">마이페이지</Link>
-        </div>
-      </header>
-      <div className="container">
+      <div className="community_container">
         <div className="community">
           <h2 className="oleo-script-bold community_title">Community</h2>
-          <p>우리 동네 베이커리를 소개합니다!</p>
+          <p className="community_subtitle">우리 동네 베이커리를 소개합니다!</p>
           <div className="head_content box_wrapper">
             <div className="community_search box_wrapper">
               <input type="text" placeholder="검색어를 입력하세요." />
