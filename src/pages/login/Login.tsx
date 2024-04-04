@@ -1,8 +1,37 @@
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import Logo from '/Logo.svg';
 import { Input } from '../../components/atoms/input/Input';
 import Button from '../../components/atoms/buttons/Button';
+import { BsChatFill } from 'react-icons/bs';
+import { SiNaver } from 'react-icons/si';
+import { FcGoogle } from 'react-icons/fc';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+`;
+
+const LogoImage = styled.img`
+  width: 250px;
+  height: 70px;
+  margin-bottom: 50px;
+`;
+const SignUpTitle = styled.div`
+  font-size: 13px;
+  font-weight: 300;
+  color: #616161;
+  margin: 10px 20px 20px;
+`;
+const SocialLoginTitle = styled.div`
+  font-size: 15px;
+  font-weight: 500;
+  margin: 20px;
+`;
 const RedirectUri = `${import.meta.env.VITE_REDIRECT_URI}`;
 const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code`;
 const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
@@ -39,9 +68,9 @@ const Login: FC = () => {
 
   return (
     <>
-      <div>
+      <Container>
         <Link to="/">
-          <img src={Logo} className="logo" alt="Vite logo" />
+          <LogoImage src={Logo} className="logo" alt="Vite logo" />
         </Link>
         <form onSubmit={handleSubmit}>
           <Input
@@ -58,29 +87,43 @@ const Login: FC = () => {
             value={password}
             onChange={handlePasswordChange}
           />
-          <Button type="submit" text="로그인" color="#f0c14b" />
+          <Button
+            type="submit"
+            text="로그인"
+            backColor="#FFCB46"
+            textColor="#000000"
+            onClick={() => handleLogin()}
+          />
         </form>
-        <div>회원가입</div>
-        <div>소셜 로그인</div>
+        <Link to="/signup">
+          <SignUpTitle>회원가입</SignUpTitle>
+        </Link>
+        <SocialLoginTitle>SNS 계정으로 로그인</SocialLoginTitle>
         <Button
           type="button"
           text="카카오 로그인"
-          color="#f7e600"
+          backColor="#FEE500"
+          textColor="#000000"
           onClick={() => kakaohandleLogin()}
+          icon={<BsChatFill />}
         />
         <Button
           type="button"
           text="네이버 로그인"
-          color="#03c75a"
+          backColor="#03C75A"
+          textColor="#FFFFFF"
           onClick={() => naverhandleLogin()}
+          icon={<SiNaver />}
         />
         <Button
           type="button"
           text="구글 로그인"
-          color="#03c75a"
+          backColor="#F2F2F2"
+          textColor="#000000"
           onClick={() => googlehandleLogin()}
+          icon={<FcGoogle />}
         />
-      </div>
+      </Container>
     </>
   );
 };

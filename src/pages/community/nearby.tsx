@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
 import SearchIcon from '/search-icon.svg';
 import PostIcon from '/post-icon.svg';
-import RightArrow from '/right-arrow.svg';
 import './community.css';
 import CategoryList from '../../components/CategoryList';
+import { Link } from 'react-router-dom';
 
 export default function NearByPage() {
   //가짜데이터
@@ -119,17 +118,14 @@ export default function NearByPage() {
               <img src={SearchIcon} className="icon" alt="search icon" />
             </div>
             <div className="community_post_btn">
-              <button>
+              <Link to="/community/edit">
                 <img src={PostIcon} className="icon" alt="search icon" />
-              </button>
+              </Link>
             </div>
           </div>
           <div className="community_list">
             <div className="community_list_title box_wrapper">
               <h3>우리 동네 베이커리를 소개합니다!</h3>
-              <Link to="/community/nearby">
-                More <img src={RightArrow} className="icon" alt="arrow icon" />
-              </Link>
             </div>
             <div className="community_list_content">
               <CategoryList to="/community/nearby" images={IMAGE} />
