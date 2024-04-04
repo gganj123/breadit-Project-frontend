@@ -63,9 +63,9 @@ export default function CommunityPage() {
               <img src={SearchIcon} className="icon" alt="search icon" />
             </div>
             <div className="community_post_btn">
-              <button>
+              <Link to="/community/edit">
                 <img src={PostIcon} className="icon" alt="search icon" />
-              </button>
+              </Link>
             </div>
           </div>
           <div className="community_list">
