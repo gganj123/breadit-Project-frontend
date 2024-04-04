@@ -3,7 +3,7 @@ import Layout from '../components/layout/Layout.tsx';
 import Home from '../pages/home/index.tsx';
 import MyPage from '../pages/mypage/index.tsx';
 import LoginPage from '../pages/login/Login.tsx';
-import SignupPage from '../pages/signup/index.tsx';
+import SignupPage from '../pages/signup/SignUp.tsx';
 import CommunityPage from '../pages/community/index.tsx';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
