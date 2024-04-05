@@ -8,8 +8,7 @@ import styled from 'styled-components';
 type StepProps = {
   number: number;
   label: string;
-  isCompleted: boolean;
-  isActive: boolean;
+  isActive: boolean; // isCompleted 제거
 };
 
 const StepContainer = styled.div`
@@ -19,13 +18,13 @@ const StepContainer = styled.div`
   padding: 0 10px;
 `;
 
-const StepNumber = styled.div<Pick<StepProps, 'isActive' | 'isCompleted'>>`
+const StepNumber = styled.div<Pick<StepProps, 'isActive'>>`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: ${(props: { isActive: boolean; isCompleted: boolean }) =>
-    props.isActive ? '#ffc14b' : props.isCompleted ? '#ccc' : '#D9D9D9'};
-  color: #fff;
+  background-color: ${(props) =>
+    props.isActive ? '#ffc14b' : '#D9D9D9'}; // isActive에 따라 배경색 변경
+  color: #575757;
   border: 1px solid #575757;
   display: flex;
   align-items: center;
@@ -65,14 +64,12 @@ const StepIndicator: FC<{ currentStep: number }> = ({ currentStep }) => {
       <Connector />
       {['약관동의', '정보입력', '가입완료'].map((label, index) => {
         const stepNumber = index + 1;
-        const isCompleted = stepNumber < currentStep;
-        const isActive = stepNumber === currentStep;
+        // 현재 단계와 같거나 이전 단계인지 확인하여 활성화 여부 결정
+        const isActive = stepNumber <= currentStep;
 
         return (
           <StepContainer key={label}>
-            <StepNumber isActive={isActive} isCompleted={isCompleted}>
-              {stepNumber}
-            </StepNumber>
+            <StepNumber isActive={isActive}>{stepNumber}</StepNumber>
             <StepLabel>{label}</StepLabel>
           </StepContainer>
         );

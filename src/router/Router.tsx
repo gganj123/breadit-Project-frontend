@@ -1,9 +1,11 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout.tsx';
 import Home from '../pages/home/index.tsx';
-import MyPage from '../pages/mypage/index.tsx';
+import MyPage from '../pages/mypage/MyPage.tsx';
 import LoginPage from '../pages/login/Login.tsx';
-import SignupPage from '../pages/signup/SignUp.tsx';
+import SignupPage from '../pages/signup/SignUpPage.tsx';
+import SignUpInfoPage from '../pages/signup/SignUpInfoPage.tsx';
+import SignUpCompletePage from '../pages/signup/SignUpCompletePage.tsx';
 import CommunityPage from '../pages/community/index.tsx';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
@@ -22,6 +24,8 @@ export default function Router() {
           <Route path="mypage" element={<MyPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
+          <Route path="signup/info" element={<SignUpInfoPage />} />
+          <Route path="signup/info/complete" element={<SignUpCompletePage />} />
           <Route path="community" element={<CommunityPage />} />
           <Route path="community/edit" element={<EditPage />} />
           <Route path="community/nearby" element={<NearByPage />} />

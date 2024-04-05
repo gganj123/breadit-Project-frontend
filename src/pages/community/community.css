@@ -61,7 +61,7 @@
   -webkit-appearance: none; /* for chrome */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
-  background: url('down-arrow.svg') no-repeat 76% 50%/15px auto;
+  background: url('down-arrow.svg') no-repeat 88% 50%/15px auto;
 }
 
 .community_search > div:after {
