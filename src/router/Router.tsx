@@ -10,6 +10,8 @@ import DetailPage from '../pages/community/detail.tsx';
 import EditPage from '../pages/community/edit.tsx';
 import MagazinePage from '../pages/magazine/index.tsx';
 import MapPage from '../pages/map/index.tsx';
+import AdminPage from '../pages/admin/index.tsx';
+import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
 
 export default function Router() {
   return (
@@ -26,6 +28,10 @@ export default function Router() {
           <Route path="community/nearby/:id" element={<DetailPage />} />
           <Route path="magazine" element={<MagazinePage />} />
           <Route path="map" element={<MapPage />} />
+          <Route path="admin" element={<AdminPage />} />
+          <Route path="admin-magazine" element={<AdminMagazinePage />} />
+          <Route path="admin-community" element={<AdminPage />} />
+          <Route path="admin-recipe" element={<AdminPage />} />
         </Route>
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>

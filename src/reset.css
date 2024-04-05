@@ -11,7 +11,6 @@ form, fieldset, legend, input, button, select, option, textarea {
 h1, h2, h3, h4, h5, h6 {font-weight:700;}
 ul, ol, li {list-style: none;}
 table, td, th, tr {border-collapse: collapse;}
-th {text-align: left;}
 a {color: #222; text-decoration: none;}
 textarea {resize: none;}
 fieldset {border: 0;}
