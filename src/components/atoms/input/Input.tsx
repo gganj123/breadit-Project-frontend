@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+type InputFieldProps = {
+  type: string;
+  placeholder: string;
+  name: string;
+  value: string;
+  width?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
 
 const StyledInput = styled.input`
-  width: 100%;
+  width: ${(props) => props.width || '100%'};
   height: 50px;
   background-color: white;
   padding: 10px;
@@ -20,19 +28,12 @@ const StyledInput = styled.input`
   }
 `;
 
-type InputFieldProps = {
-  type: string;
-  placeholder: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
-
 export const Input: React.FC<InputFieldProps> = ({
   type,
   placeholder,
   name,
   value,
+  width,
   onChange,
 }) => {
   return (
@@ -41,6 +42,7 @@ export const Input: React.FC<InputFieldProps> = ({
       placeholder={placeholder}
       name={name}
       value={value}
+      width={width}
       onChange={onChange}
     />
   );
