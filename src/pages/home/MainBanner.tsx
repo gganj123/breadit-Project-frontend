@@ -1,87 +1,36 @@
-import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
 import BannerCircle1 from '/banner_circle1.svg';
 import BannerCircle2 from '/banner_circle2.svg';
-const MainBanner = () => {
-  let settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+
+import LinkDefault from '../../components/atoms/links/LinkDefault';
+
+type BannerProps = {
+  src: string;
+  title: string;
+  content: string;
+};
+
+const MainBanner: React.FC<BannerProps> = ({ src, title, content }) => {
+  function contentHTML() {
+    let HTML = { __html: content };
+
+    return HTML;
+  }
 
   return (
-    <article className="main_banner">
-      <Slider {...settings}>
-        <div className="banner_item">
-          <div className="img_box"></div>
-          <div className="content_box">
-            <div className="content">
-              <span className="font_oleo">Hot Brand</span>
-              <h3>MZ를 꼬시는 발칙한 디저트?</h3>
-              <p className="point">이것이 바로 MZ ? 🧠</p>
-              <p className="text">
-                효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은<br />
-                기발한 아이디어를 선보이는 공간입니다. 영화 평론가 이동진
-                스타일의
-                <br />
-                빨간 안경을 쓴 콘치즈 곰자를 포함해...
-              </p>
-              <Link to="/" className="btn_default">
-                Magazine +
-              </Link>
-              <img src={BannerCircle1} className="circle_right" />
-            </div>
-            <img src={BannerCircle2} className="circle_center" />
-          </div>
+    <div className="banner_item">
+      <div className="img_box" style={{ background: `url(/${src})` }}></div>
+      <div className="content_box">
+        <div className="content">
+          <span className="font_oleo">Hot Brand</span>
+          <h3>{title}</h3>
+          <p className="point">이것이 바로 MZ ? 🧠</p>
+          <div className="text" dangerouslySetInnerHTML={contentHTML()} />
+          <LinkDefault text={'Magazine +'} go={'/magazine'} />
+          <img src={BannerCircle1} className="circle_right" />
         </div>
-        <div className="banner_item">
-          <div className="img_box"></div>
-          <div className="content_box">
-            <div className="content">
-              <span className="font_oleo">Hot Brand</span>
-              <h3>MZ를 꼬시는 발칙한 디저트?</h3>
-              <p className="point">이것이 바로 MZ ? 🧠</p>
-              <p className="text">
-                효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은<br />
-                기발한 아이디어를 선보이는 공간입니다. 영화 평론가 이동진
-                스타일의
-                <br />
-                빨간 안경을 쓴 콘치즈 곰자를 포함해...
-              </p>
-              <Link to="/" className="btn_default">
-                Magazine +
-              </Link>
-              <img src={BannerCircle1} className="circle_right" />
-            </div>
-            <img src={BannerCircle2} className="circle_center" />
-          </div>
-        </div>
-        <div className="banner_item">
-          <div className="img_box"></div>
-          <div className="content_box">
-            <div className="content">
-              <span className="font_oleo">Hot Brand</span>
-              <h3>MZ를 꼬시는 발칙한 디저트?</h3>
-              <p className="point">이것이 바로 MZ ? 🧠</p>
-              <p className="text">
-                효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은<br />
-                기발한 아이디어를 선보이는 공간입니다. 영화 평론가 이동진
-                스타일의
-                <br />
-                빨간 안경을 쓴 콘치즈 곰자를 포함해...
-              </p>
-              <Link to="/" className="btn_default">
-                Magazine +
-              </Link>
-              <img src={BannerCircle1} className="circle_right" />
-            </div>
-            <img src={BannerCircle2} className="circle_center" />
-          </div>
-        </div>
-      </Slider>
-    </article>
+        <img src={BannerCircle2} className="circle_center" />
+      </div>
+    </div>
   );
 };
 

@@ -3,21 +3,15 @@
   border-top: solid 1px #575757;
 }
 
-.main_banner {
-}
-
 .main_banner .banner_item {
   display: flex !important;
+  justify-content: flex-end;
   height: 72rem;
-  position:relative;
+  position: relative;
 }
 
 .main_banner .banner_item > div {
   width: 50%;
-}
-
-.main_banner .img_box {
-  background: url('main_banner.svg') no-repeat 50% 50%;
 }
 
 .main_banner .content_box {
@@ -56,8 +50,11 @@
 .main_banner .content .text {
   font-size: 2rem;
   color: #181818;
-  line-height: 1.6;
   padding: 2rem 0 3rem;
+}
+
+.main_banner .content .text * {
+  line-height: 1.6;
 }
 
 .circle_right {
@@ -82,6 +79,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.main_title {
+  margin-bottom: 3rem;
 }
 
 .main_title .eng_title {
@@ -133,18 +134,11 @@
 .review_cont .main_title {
   position: relative;
   padding-right: 10rem;
-  margin-bottom: 3rem;
   align-items: flex-end;
 }
 
 .review_cont .main_title_text {
   padding-bottom: 1rem;
-}
-
-.recipe_cont .main_title {
-  border-bottom: solid 1px #575757;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
 }
 
 .main_card_list {
@@ -237,7 +231,6 @@
 .instagram_cont .instagram_list {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 2.4rem;
 }
 .instagram_cont .instagram_list li {
   width: 20%;

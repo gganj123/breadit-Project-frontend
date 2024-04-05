@@ -1,20 +1,57 @@
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
 import CategoriesTitle from '/Categories_title.svg';
 import CategoryImg1 from '/category_img1.svg';
 import CategoryImg2 from '/category_img2.svg';
 import CategoryImg3 from '/category_img3.svg';
 import CategoryImg4 from '/category_img4.svg';
+import MainCategories from './MainCategories';
 import infoRoof from '/info_roof.svg';
 import Review from '/Review.svg';
 import MainBanner from './MainBanner';
-import BigCardList from '../../components/BigCardList';
+import BigCard from '../../components/BigCard';
+import MainInstagramImg from './MainInstagramImg';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
 export default function Home() {
-  let instagramList = [
+  const mainBanner = [
+    {
+      src: 'main_banner.svg',
+      title: 'MZ를 꼬시는 발칙한 디저트?',
+      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
+    },
+    {
+      src: 'main_banner.svg',
+      title: 'MZ를 꼬시는 발칙한 디저트?',
+      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
+    },
+    {
+      src: 'main_banner.svg',
+      title: 'MZ를 꼬시는 발칙한 디저트?',
+      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
+    },
+  ];
+
+  const categories = [
+    { go: '/map', src: CategoryImg1, categoryName: '케이크' },
+    { go: '/map', src: CategoryImg2, categoryName: '빵' },
+    { go: '/map', src: CategoryImg3, categoryName: '구움과자' },
+    { go: '/map', src: CategoryImg4, categoryName: '샌드위치' },
+  ];
+
+  const reviews = [
+    { src: './review_img1.svg', title: '솔티밥', content: '에레레레ㅔ에레레' },
+    { src: './review_img2.svg', title: '솔티밥', content: '아이스크림 냠냠' },
+    { src: './review_img1.svg', title: '솔티밥', content: '도넛 냠냠' },
+    { src: './review_img2.svg', title: '솔티밥', content: '에레레레ㅔ에레레' },
+    { src: './review_img1.svg', title: '솔티밥', content: '아이스크림 냠냠' },
+    { src: './review_img2.svg', title: '솔티밥', content: '도넛 냠냠' },
+  ];
+
+  let imgList = [
     { src: './instagram1.svg' },
     { src: './instagram2.svg' },
     { src: './instagram3.svg' },
@@ -27,9 +64,37 @@ export default function Home() {
     { src: './instagram2.svg' },
   ];
 
+  const bannerSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  const reviewSettings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    variableWidth: true,
+    draggable: true,
+  };
+
   return (
     <>
-      <MainBanner />
+      <article className="main_banner">
+        <Slider {...bannerSettings}>
+          {mainBanner.map((banner, index) => (
+            <MainBanner
+              src={banner.src}
+              title={banner.title}
+              content={banner.content}
+              key={index}
+            />
+          ))}
+        </Slider>
+      </article>
       <section className="main_cont noise_bg categories_cont">
         <div className="categories_title">
           <h3>
@@ -38,41 +103,16 @@ export default function Home() {
           <h4 className="main_title_text">하늘 아래 같은 빵은 없다 🍞</h4>
         </div>
         <ul className="categories">
-          <li>
-            <Link to="/">
-              <img src={CategoryImg1} />
-              <div className="flex_default box_arrow_btn">
-                케이크
-                <span></span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src={CategoryImg2} />
-              <div className="flex_default box_arrow_btn">
-                빵<span></span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src={CategoryImg3} />
-              <div className="flex_default box_arrow_btn">
-                구움과자
-                <span></span>
-              </div>
-            </Link>
-          </li>
-          <li>
-            <Link to="/">
-              <img src={CategoryImg4} />
-              <div className="flex_default box_arrow_btn">
-                샌드위치
-                <span></span>
-              </div>
-            </Link>
-          </li>
+          {categories.map((category, index) => {
+            return (
+              <MainCategories
+                go={category.go}
+                src={category.src}
+                categoryName={category.categoryName}
+                key={index}
+              />
+            );
+          })}
         </ul>
       </section>
       <div className="infinite_roof categories_roof">
@@ -94,7 +134,18 @@ export default function Home() {
           <img src={Review} className="review_right" />
         </div>
 
-        <BigCardList useSlider={true} />
+        <Slider {...reviewSettings}>
+          {reviews.map((review, index) => {
+            return (
+              <BigCard
+                src={review.src}
+                title={review.title}
+                content={review.content}
+                key={index}
+              />
+            );
+          })}
+        </Slider>
       </section>
       <section className="noise_bg">
         <section className="main_cont recipe_cont">
@@ -118,7 +169,7 @@ export default function Home() {
                   ></span>
                   <p className="nickname">귀여운게 제일 좋아</p>
                 </div>
-                <h5>( 제목 ) 온세상 강쥐 쿠키를 구워봤어요~~!</h5>
+                <h5>온세상 강쥐 쿠키를 구워봤어요~~!</h5>
                 <p>
                   강아지 쿠키 만드는 방법 공유드립니다!! 우선 밀가루와 뭐쩌구가
                   <br />
@@ -129,7 +180,7 @@ export default function Home() {
                   <br />
                   금손 100g ...
                 </p>
-                <Link to="/" className="go_recipe" />
+                <Link to="/community/nearby" className="go_recipe" />
               </div>
             </div>
           </div>
@@ -148,14 +199,8 @@ export default function Home() {
             </p>
           </div>
           <ul className="instagram_list">
-            {instagramList.map((img, index) => {
-              return (
-                <li className="img_box" key={index}>
-                  <Link to="/">
-                    <img src={img.src} />
-                  </Link>
-                </li>
-              );
+            {imgList.map((img, index) => {
+              return <MainInstagramImg src={img.src} key={index} />;
             })}
           </ul>
         </section>

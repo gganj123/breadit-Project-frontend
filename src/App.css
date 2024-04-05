@@ -1,18 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@700&display=swap');
 
-html {
-  overflow-x: hidden;
-}
 
-html::-webkit-scrollbar {
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 1.2rem;
-}
-
-html::-webkit-scrollbar-thumb {
-  background-color: #575757;
-}
 
 /* header */
 header {
@@ -43,7 +30,7 @@ header ul li a {
   height: 6.6rem;
   font-size: 1.6rem;
 }
-
+ 
 .box_arrow_btn a {
   display: flex;
   height: 6.6rem;
@@ -141,37 +128,6 @@ footer {
   width: 100%;
 }
 
-.btn_default {
-  display: inline-block;
-  height: 4.2rem;
-  line-height: 4rem;
-  background-color: #575757;
-  padding: 0 2.4rem;
-  font-size: 1.8rem;
-  color: #fff;
-}
-
 .bold {
   font-weight: 700;
-}
-
-.big_card {
-  border: 1px solid #575757;
-  overflow: hidden;
-}
-
-.big_card .content_box {
-  padding: 3rem;
-  background-color: #fffdf4;
-  border-top: solid 1px #575757;
-}
-
-.big_card h5 {
-  font-size: 2.2rem;
-  margin-bottom: 1.4rem;
-}
-
-.big_card p {
-  font-size: 1.8rem;
-  color: #666;
 }
