@@ -1,5 +1,5 @@
-import axios, { AxiosError } from 'axios';
 import { useRef, useState, useMemo } from 'react';
+import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
 
 //이렇게 라이브러리를 불러와서 사용하면 됩니다
 import ReactQuill from 'react-quill';
@@ -9,11 +9,17 @@ export const EditorComponent = () => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
 
+  // AWS S3 설정
+  const s3 = new AWS.S3({
+    accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+    secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+    region: `${import.meta.env.VITE_REGION}`,
+  });
+
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
     // 파일을 업로드 하기 위한 input 태그 생성
     const input = document.createElement('input');
-    const formData = new FormData();
     let url = '';
 
     input.setAttribute('type', 'file');
@@ -24,15 +30,20 @@ export const EditorComponent = () => {
     input.onchange = async () => {
       const file = input.files;
       if (file !== null) {
-        formData.append('image', file[0]);
+        const params = {
+          Bucket: 'elice-breadit-project',
+          Key: `images/${file[0].name}`, // S3에 저장될 경로 및 파일 이름
+          Body: file[0],
+          ACL: 'public-read', // 이미지를 공개 읽기로 설정
+        };
 
-        // 저의 경우 파일 이미지를 서버에 저장했기 때문에
-        // 백엔드 개발자분과 통신을 통해 이미지를 저장하고 불러왔습니다.
-        try {
-          const res = await axios.get(url);
-
-          // 백엔드 개발자 분이 통신 성공시에 보내주는 이미지 url을 변수에 담는다.
-          url = res.data.url;
+        // S3에 이미지 업로드
+        s3.upload(params, (err, data) => {
+          if (err) {
+            console.error(err);
+            return;
+          }
+          url = data.Location; // 업로드된 이미지의 URL
 
           // 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드
           // 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.
@@ -47,12 +58,7 @@ export const EditorComponent = () => {
               `<img src=${url} alt="이미지 태그가 삽입됩니다." />`
             );
           }
-
-          return { ...res, success: true };
-        } catch (error) {
-          const err = error as AxiosError;
-          return { ...err.response, success: false };
-        }
+        });
       }
     };
   };
