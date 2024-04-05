@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     font-size: 62.5%;
+    color:#333;
   } 
 
   html {
@@ -28,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Noto Sans KR", sans-serif;
     font-weight: 400;
-    background-color:#fffdf4;
+    background-color:#fdfaf7;
   }
   
   ::selection {

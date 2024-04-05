@@ -3,7 +3,7 @@
   height: 100%;
   padding: 6rem 5rem;
   position: absolute;
-  top: 6.6rem;
+  top: 7.4rem;
   left: 0;
 }
 
@@ -15,11 +15,11 @@
 .admin_area {
   margin-left: 20%;
   background-color: #fff;
-  border-left: solid 1px #575757;
 }
 
 .admin_cont {
   max-width: 1170px;
+  min-height: 92vh;
   margin: 0 auto;
   padding: 6rem 0;
 }

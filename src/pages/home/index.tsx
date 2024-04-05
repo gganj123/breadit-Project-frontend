@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import CategoriesTitle from '/Categories_title.svg';
 import CategoryImg1 from '/category_img1.svg';
 import CategoryImg2 from '/category_img2.svg';
 import CategoryImg3 from '/category_img3.svg';
 import CategoryImg4 from '/category_img4.svg';
 import MainCategories from './MainCategories';
-import infoRoof from '/info_roof.svg';
 import Review from '/Review.svg';
 import MainBanner from './MainBanner';
 import BigCard from '../../components/BigCard';
@@ -95,12 +93,10 @@ export default function Home() {
           ))}
         </Slider>
       </article>
-      <section className="main_cont noise_bg categories_cont">
+      <section className="main_cont categories_cont">
         <div className="categories_title">
-          <h3>
-            <img src={CategoriesTitle} />
-          </h3>
-          <h4 className="main_title_text">하늘 아래 같은 빵은 없다 🍞</h4>
+          <h3 className="font_oleo">Categories</h3>
+          <p>하늘 아래 같은 빵은 없다 🍞</p>
         </div>
         <ul className="categories">
           {categories.map((category, index) => {
@@ -186,10 +182,10 @@ export default function Home() {
           </div>
         </section>
         <div className="infinite_roof info_roof">
-          <img src={infoRoof} alt="" />
-          <img src={infoRoof} alt="" />
-          <img src={infoRoof} alt="" />
-          <img src={infoRoof} alt="" />
+            <span className="font_oleo">we loves bread, we are breadit!</span>
+            <span className="font_oleo">we loves bread, we are breadit!</span>
+            <span className="font_oleo">we loves bread, we are breadit!</span>
+            <span className="font_oleo">we loves bread, we are breadit!</span>
         </div>
         <section className="main_cont instagram_cont">
           <div className="main_title flex_default">
