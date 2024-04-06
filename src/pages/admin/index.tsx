@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
@@ -6,12 +8,20 @@ import AdminTable from './AdminTable';
 import './admin.css';
 
 const AdminMain: React.FC = () => {
+  const [userList, setUserList] = useState([]);
+  let url = 'http://localhost:5000/api';
+  useEffect(() => {
+    axios
+      .get(`${url}/users/`)
+      .then((response) => {
+        setUserList(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
-  let tbodyContent: { nickname: string; email: string }[] = [
-    { nickname: '메론빵 거북이', email: 'turtle_001@gmail.com' },
-    { nickname: '식빵맨', email: 'toast@gmail.com' },
-    { nickname: '포도파이', email: 'grape@gmail.com' },
-  ];
 
   return (
     <>
@@ -23,7 +33,7 @@ const AdminMain: React.FC = () => {
             <h4>사용자 관리</h4>
             <ButtonDeafult text={'선택 삭제'} />
           </div>
-          <AdminTable theadTitle={theadTitle} tbodyContent={tbodyContent} />
+          <AdminTable theadTitle={theadTitle} data={userList} />
         </section>
       </section>
     </>

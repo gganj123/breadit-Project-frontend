@@ -1,14 +1,11 @@
-import AdminTableBody from './AdminTableBody';
+import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 
 type AdminTableProps = {
   theadTitle: string[];
-  tbodyContent: { nickname: string; email?: string; title?: string }[];
+  data: { nickname: string; email?: string; title?: string }[];
 };
 
-const AdminTable: React.FC<AdminTableProps> = ({
-  theadTitle,
-  tbodyContent,
-}) => {
+const AdminTable: React.FC<AdminTableProps> = ({ theadTitle, data }) => {
   return (
     <div className="admin_table">
       <table>
@@ -26,7 +23,26 @@ const AdminTable: React.FC<AdminTableProps> = ({
             })}
           </tr>
         </thead>
-        <AdminTableBody tbodyContent={tbodyContent} />
+        <tbody>
+          {data.map((content, index) => {
+            return (
+              <tr key={index}>
+                <td>
+                  <input type="checkbox" className="checkbox" value={index} />
+                  {index + 1}
+                </td>
+                <td>{content.nickname}</td>
+                <td>
+                  {content.email}
+                  {content.title}
+                </td>
+                <td>
+                  <ButtonDeafult text={'삭제'} />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );
