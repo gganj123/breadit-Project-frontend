@@ -127,3 +127,17 @@
   font-size: 1.8rem;
   line-height: 1.6;
 }
+
+.detail_location {
+  margin-bottom: 4rem;
+}
+
+.detail_location ul {
+  display: flex;
+  gap: 3rem;
+}
+
+.detail_btns {
+  display: flex;
+  gap: 1.2rem;
+}

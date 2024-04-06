@@ -13,7 +13,10 @@ const AdminTableBody: React.FC<{
               {index + 1}
             </td>
             <td>{content.nickname}</td>
-            <td>{content.email}{content.title}</td>
+            <td>
+              {content.email}
+              {content.title}
+            </td>
             <td>
               <ButtonDeafult text={'삭제'} />
             </td>

@@ -27,26 +27,23 @@ const ContentBox = styled.div`
 `;
 
 type BigCardProps = {
-  data: {
-    title: string;
-    content: string;
-  };
+  data: { _id: string; title: string; content: string };
 };
 
 const BigCardList: React.FC<BigCardProps> = ({ data }) => {
-
+  const { _id, title, content } = data;
   return (
     <BigCard>
       <div className="img_box">
-        <Link to="/magazine/1">
+        <Link to={`/magazine/${_id}`}>
           <img src={ReviewImg} />
         </Link>
       </div>
       <ContentBox>
         <h5>
-          <Link to="/magazine/1">{data.title}</Link>
+          <Link to={`/magazine/${_id}`}>{title}</Link>
         </h5>
-        <p>{data.content}</p>
+        <p>{content}</p>
         <ButtonLike like={0} />
       </ContentBox>
     </BigCard>

@@ -1,18 +1,1 @@
-* {box-sizing: border-box;}
-html, body, h1, h2, h3, h4, h5, h6,
-p, div, em, sup, sub, code, hr, strong, span, q, blockquote,
-header, footer, aside, nav, article, section, figure, main,
-img, a, table, tr, td, th, thead, tbody, tfoot,
-ul, ol, li, dl, dt, dd, address,
-form, fieldset, legend, input, button, select, option, textarea {
-  margin: 0; padding: 0; line-height: 1.0;
-
-}
-h1, h2, h3, h4, h5, h6 {font-weight:700;}
-ul, ol, li {list-style: none;}
-table, td, th, tr {border-collapse: collapse;}
-a {color: #3d3d3d; text-decoration: none;}
-textarea {resize: none;}
-fieldset {border: 0;}
-input, button {cursor:pointer; background: none; border: 0; outline:none;}
-.skip {display: none;} 
+/* 지워주세용 */

@@ -1,8 +1,51 @@
+import { useLocation, Link } from 'react-router-dom';
 import ButtonDefault from '../../components/atoms/buttons/ButtonDefault';
+import SaveIcon from '/save_icon.svg';
+import HeartIcon from '/heart_icon.svg';
+import ShareIcon from '/share_icon.svg';
 
 const MagazineDetail: React.FC = () => {
+  const location = useLocation();
+
+  interface LocationData {
+    text: string;
+    go: string;
+  }
+
+  let locationContent: LocationData[] = [];
+  if (location.pathname.includes('magazine')) {
+    locationContent = [{ text: '매거진', go: 'magazine' }];
+  } else if (location.pathname.includes('community')) {
+    locationContent = [
+      { text: '커뮤니티', go: 'community' },
+      { text: '베이커리 추천', go: 'community' },
+    ];
+  }
+
   return (
     <section className="main_cont detail">
+      <div className="flex_default detail_location">
+        <ul>
+          {locationContent.map((text: LocationData, index: number) => {
+            return (
+              <li key={index}>
+                <Link to={`/${text.go}`}>{text.text}</Link>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="detail_btns">
+          <button>
+            <img src={SaveIcon} />
+          </button>
+          <button>
+            <img src={HeartIcon} />
+          </button>
+          <button>
+            <img src={ShareIcon} />
+          </button>
+        </div>
+      </div>
       <div className="detail_top">
         <div className="user_cont">
           <div className="user_img"></div>

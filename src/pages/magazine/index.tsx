@@ -9,17 +9,17 @@ import './magazine_main.css';
 
 const Magazine: React.FC = () => {
   const [magazineList, setMagazineList] = useState([]);
-
+  let url = 'http://localhost:5000/api';
   useEffect(() => {
     axios
-      .get('http://localhost:5001/api/magazines/')
+      .get(`${url}/magazines/`)
       .then((response) => {
         setMagazineList(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
 
   const settings = {
     dots: true,
