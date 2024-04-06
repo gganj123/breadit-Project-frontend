@@ -11,10 +11,10 @@ const AdminMain: React.FC = () => {
   let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
 
   const [recipeList, setRecipeList] = useState([]);
-  let url = 'http://localhost:5000/api';
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
   useEffect(() => {
     axios
-      .get(`${url}/recipes`)
+      .get(`${apiUrl}/recipes`)
       .then((response) => {
         setRecipeList(response.data);
         console.log(response.data);

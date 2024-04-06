@@ -2,7 +2,7 @@ import { useLocation, Link } from 'react-router-dom';
 import ButtonDefault from '../../components/atoms/buttons/ButtonDefault';
 import SaveIcon from '/save_icon.svg';
 import HeartIcon from '/heart_icon.svg';
-import ShareIcon from '/share_icon.svg';
+import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
 
 const MagazineDetail: React.FC = () => {
   const location = useLocation();
@@ -23,7 +23,7 @@ const MagazineDetail: React.FC = () => {
   }
 
   return (
-    <section className="main_cont detail">
+    <section className="detail">
       <div className="flex_default detail_location">
         <ul>
           {locationContent.map((text: LocationData, index: number) => {
@@ -41,9 +41,7 @@ const MagazineDetail: React.FC = () => {
           <button>
             <img src={HeartIcon} />
           </button>
-          <button>
-            <img src={ShareIcon} />
-          </button>
+          <CopyUrlButton />
         </div>
       </div>
       <div className="detail_top">

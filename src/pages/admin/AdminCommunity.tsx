@@ -11,10 +11,11 @@ const AdminMain: React.FC = () => {
   let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
 
   const [communityList, setCommunityList] = useState([]);
-  let url = 'http://localhost:5000/api';
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
   useEffect(() => {
     axios
-      .get(`${url}/posts`)
+      .get(`${apiUrl}/posts`)
       .then((response) => {
         setCommunityList(response.data);
       })

@@ -9,10 +9,11 @@ import './magazine_main.css';
 
 const Magazine: React.FC = () => {
   const [magazineList, setMagazineList] = useState([]);
-  let url = 'http://localhost:5000/api';
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
   useEffect(() => {
     axios
-      .get(`${url}/magazines/`)
+      .get(`${apiUrl}/magazines/`)
       .then((response) => {
         setMagazineList(response.data);
       })

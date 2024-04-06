@@ -4,6 +4,10 @@ import Gitlab from '/gitlab.svg';
 import Notion from '/notion.svg';
 
 const Footer: React.FC = () => {
+  function preparingAlert() {
+    alert('준비중 입니다.');
+  }
+
   return (
     <footer className="main_cont">
       <div className="footer_info">
@@ -15,17 +19,17 @@ const Footer: React.FC = () => {
         <p>copyright.2024 Elice Lab All rights reserved.</p>
       </div>
       <ul className="flex_default footer_icon">
-        <li>
+        <li onClick={preparingAlert}>
           <Link to="/">
             <img src={Figma} />
           </Link>
         </li>
-        <li>
+        <li onClick={preparingAlert}>
           <Link to="/">
             <img src={Gitlab} />
           </Link>
         </li>
-        <li>
+        <li onClick={preparingAlert}>
           <Link to="/">
             <img src={Notion} />
           </Link>

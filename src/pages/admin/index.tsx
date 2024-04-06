@@ -9,10 +9,11 @@ import './admin.css';
 
 const AdminMain: React.FC = () => {
   const [userList, setUserList] = useState([]);
-  let url = 'http://localhost:5000/api';
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
   useEffect(() => {
     axios
-      .get(`${url}/users/`)
+      .get(`${apiUrl}/users/`)
       .then((response) => {
         setUserList(response.data);
       })

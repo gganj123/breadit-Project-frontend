@@ -237,11 +237,11 @@ export default function Home() {
   const [magazineBanner, setMagazineBanner] = useState([]);
   const [postList, setPostList] = useState([]);
 
-  let url = 'http://localhost:5000/api'; // 요청 링크 나중에 변경하기
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`; // 요청 링크 나중에 변경하기
 
   useEffect(() => {
     axios
-      .get(`${url}/magazines`) // 메인배너 매거진 데이터 - 최대갯수 제한 필요
+      .get(`${apiUrl}/magazines`) // 메인배너 매거진 데이터 - 최대갯수 제한 필요
       .then((response) => {
         setMagazineBanner(response.data); // 메인배너 매거진
       })
@@ -250,7 +250,7 @@ export default function Home() {
       });
 
     axios
-      .get(`${url}/posts`) // 메인 최근 추가된 빵집 추천! (커뮤니티 베이커리소개)
+      .get(`${apiUrl}/posts`) // 메인 최근 추가된 빵집 추천! (커뮤니티 베이커리소개)
       .then((response) => {
         setPostList(response.data);
       })

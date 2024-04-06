@@ -26,8 +26,12 @@
 
 .magazine_banner .content_box p {
   font-size: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  line-height: 1.5;
   word-break: keep-all;
-  line-height: 1.6;
 }
 
 .magazine_banner .slick-arrow {

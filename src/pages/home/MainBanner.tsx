@@ -4,7 +4,7 @@ import BannerCircle2 from '/banner_circle2.svg';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 
 type BannerProps = {
-  data: { title: string; content: string };
+  data: { _id: string; title: string; content: string };
 };
 
 const rotate = keyframes` 
@@ -74,18 +74,25 @@ const BannerItemStyle = styled.div`
   }
 
   .content .text {
+    min-height: 9rem;
     font-size: 2rem;
-    color: #181818;
-    padding: 2rem 0 3rem;
+    color: #444;
+    margin: 2rem 0 3rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    line-height: 1.5;
+    word-break: keep-all;
   }
 
   .content .text * {
-    line-height: 1.6;
+    line-height: 1.5;
   }
 `;
 
 const MainBanner: React.FC<BannerProps> = ({ data }) => {
-  const { title, content } = data;
+  const { _id, title, content } = data;
 
   function contentHTML() {
     let HTML = { __html: content };
@@ -105,7 +112,7 @@ const MainBanner: React.FC<BannerProps> = ({ data }) => {
           <h3 className="title">{title}</h3>
           <p className="point">이것이 바로 MZ ? 🧠</p>
           <div className="text" dangerouslySetInnerHTML={contentHTML()} />
-          <LinkDefault text={'Magazine +'} go={'/magazine'} />
+          <LinkDefault text={'Magazine +'} go={`magazine/${_id}`} />
           <CircleRight src={BannerCircle1} />
         </div>
         <CircleCenter src={BannerCircle2} />

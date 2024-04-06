@@ -10,7 +10,7 @@ import './admin.css';
 const AdminMagazine: React.FC = () => {
   const [magazineList, setMagazineList] = useState([]);
 
-  const apiUrl = 'http://localhost:5000/api';
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
   useEffect(() => {
     axios
