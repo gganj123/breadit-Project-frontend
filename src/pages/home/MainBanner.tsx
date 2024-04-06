@@ -1,15 +1,13 @@
 import BannerCircle1 from '/banner_circle1.svg';
 import BannerCircle2 from '/banner_circle2.svg';
-
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 
 type BannerProps = {
-  src: string;
-  title: string;
-  content: string;
+  data: { title: string; content: string };
 };
 
-const MainBanner: React.FC<BannerProps> = ({ src, title, content }) => {
+const MainBanner: React.FC<BannerProps> = ({ data }) => {
+  const { title, content } = data;
   function contentHTML() {
     let HTML = { __html: content };
 
@@ -18,7 +16,10 @@ const MainBanner: React.FC<BannerProps> = ({ src, title, content }) => {
 
   return (
     <div className="banner_item">
-      <div className="img_box" style={{ background: `url(/${src})` }}></div>
+      <div
+        className="img_box"
+        style={{ background: `url('./main_banner.svg')` }}
+      ></div>
       <div className="content_box">
         <div className="content">
           <span className="font_oleo">Hot Brand</span>

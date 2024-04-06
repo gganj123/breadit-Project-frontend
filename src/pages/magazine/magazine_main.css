@@ -71,3 +71,59 @@
 .magazine .main_title {
   margin-bottom: 4rem;
 }
+
+.detail {
+  max-width: 1290px;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+}
+
+.detail_top {
+  margin-bottom: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.detail_title {
+  font-size: 3rem;
+  margin-bottom: 1.4rem;
+}
+
+.user_cont {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.user_cont .user_info {
+  gap: 2rem;
+}
+
+.user_cont .user_img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.user_cont .user_info p {
+  font-size: 1.8rem;
+}
+
+.user_cont .user_info .date {
+  display: inline-block;
+  padding-left: 1.4rem;
+  margin-left: 1.4rem;
+  color: #888;
+  border-left: solid 1px #b6b6b6;
+}
+
+.detail_content {
+  min-height: 28vh;
+}
+
+.detail_content p {
+  font-size: 1.8rem;
+  line-height: 1.6;
+}

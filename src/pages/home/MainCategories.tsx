@@ -1,4 +1,4 @@
-import ButtonCategory from '../../components/atoms/buttons/ButtonCategory';
+import ButtonCategory from '../../components/atoms/links/LinkCategory';
 
 type CategoryProps = {
   go: string;

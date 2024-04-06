@@ -5,12 +5,15 @@ import AdminTable from './AdminTable';
 
 import './admin.css';
 
-const AdminMain: React.FC = () => {
-  let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
-  let tbodyContent: { nickname: string; email: string }[] = [
-    { nickname: '메론빵 거북이', email: 'turtle_001@gmail.com' },
-    { nickname: '식빵맨', email: 'toast@gmail.com' },
-    { nickname: '포도파이', email: 'grape@gmail.com' },
+const AdminCommunity: React.FC = () => {
+  let theadTitle: string[] = ['No', '작성자', '제목', '관리'];
+  let tbodyContent: { nickname: string; title: string }[] = [
+    { nickname: '메론빵 거북이', title: '조보아씨 이리로 와봐유' },
+    { nickname: '식빵맨', title: '추천글만 남겨야하나요? 하..' },
+    {
+      nickname: '포도파이',
+      title: '엄마손파이와 꼭 닮은 파이 맛집',
+    },
   ];
 
   return (
@@ -30,4 +33,4 @@ const AdminMain: React.FC = () => {
   );
 };
 
-export default AdminMain;
+export default AdminCommunity;

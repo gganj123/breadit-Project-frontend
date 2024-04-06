@@ -14,6 +14,10 @@ const ButtonBox = styled.div`
   box-shadow: 0px 0px 3rem rgb(242 242 242);
   border-radius: 1rem;
   overflow: hidden;
+
+  &:hover span {
+    background-color: #f9cadb;
+  }
 `;
 
 const ButtonArrow = styled.span`
@@ -26,16 +30,12 @@ const ButtonArrow = styled.span`
   right: 0;
   transition: background-color 0.25s;
 
-  &:hover {
-    background-color: #f9cadb;
-  }
-
   &::after {
     content: '';
     width: 1.2rem;
     height: 1.2rem;
-    border-top: solid 1px #575757;
-    border-right: solid 1px #575757;
+    border-top: solid 2px #575757;
+    border-right: solid 2px #575757;
     position: absolute;
     top: 40%;
     left: 36%;

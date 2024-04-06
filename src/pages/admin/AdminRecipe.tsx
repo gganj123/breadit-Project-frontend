@@ -5,12 +5,22 @@ import AdminTable from './AdminTable';
 
 import './admin.css';
 
-const AdminMain: React.FC = () => {
-  let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
-  let tbodyContent: { nickname: string; email: string }[] = [
-    { nickname: '메론빵 거북이', email: 'turtle_001@gmail.com' },
-    { nickname: '식빵맨', email: 'toast@gmail.com' },
-    { nickname: '포도파이', email: 'grape@gmail.com' },
+const AdminRecipe: React.FC = () => {
+  let theadTitle: string[] = ['No', '작성자', '제목', '관리'];
+  let tbodyContent: { nickname: string; title: string }[] = [
+    { nickname: '메론빵 거북이', title: '때깔 고운 메론빵 굽는 방법' },
+    {
+      nickname: '복숭아 마카롱',
+      title: '모닝빵으로 샌드위치를 만들어보셨나요?!',
+    },
+    {
+      nickname: '메가커피 빨대도둑',
+      title: '민트 초코 부침개를 만들었습니다.....',
+    },
+    {
+      nickname: '엘리스토끼',
+      title: '글루텐 프리 단호박 파운드를 소개합니다.',
+    },
   ];
 
   return (
@@ -30,4 +40,4 @@ const AdminMain: React.FC = () => {
   );
 };
 
-export default AdminMain;
+export default AdminRecipe;

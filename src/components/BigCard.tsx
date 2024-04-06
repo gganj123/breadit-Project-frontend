@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import ButtonLike from './atoms/buttons/ButtonLike';
+import ReviewImg from '/review_img2.svg';
 
 const BigCard = styled.div`
   overflow: hidden;
   border-radius: 2rem;
   box-shadow: 0px 0px 3rem rgb(242 242 242);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 `;
 
-const Content_box = styled.div`
+const ContentBox = styled.div`
   padding: 3rem;
   background-color: #fff;
 
@@ -20,29 +22,33 @@ const Content_box = styled.div`
   p {
     font-size: 1.8rem;
     color: #666;
+    margin-bottom: 2rem;
   }
 `;
 
 type BigCardProps = {
-  src: string;
-  title: string;
-  content: string;
+  data: {
+    title: string;
+    content: string;
+  };
 };
 
-const BigCardList: React.FC<BigCardProps> = ({ src, title, content }) => {
+const BigCardList: React.FC<BigCardProps> = ({ data }) => {
+
   return (
     <BigCard>
       <div className="img_box">
-        <Link to="/">
-          <img src={src} />
+        <Link to="/magazine/1">
+          <img src={ReviewImg} />
         </Link>
       </div>
-      <Content_box>
+      <ContentBox>
         <h5>
-          <Link to="/">{title}</Link>
+          <Link to="/magazine/1">{data.title}</Link>
         </h5>
-        <p>{content}</p>
-      </Content_box>
+        <p>{data.content}</p>
+        <ButtonLike like={0} />
+      </ContentBox>
     </BigCard>
   );
 };

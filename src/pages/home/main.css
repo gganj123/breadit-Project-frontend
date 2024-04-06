@@ -142,6 +142,25 @@
   padding-bottom: 1rem;
 }
 
+.review_cont .slick-prev {
+  display: none !important;
+}
+
+.review_cont .slick-next {
+  right: auto;
+  left: -4rem;
+}
+
+.review_cont .slick-next::before {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border-left: solid 2px #575757;
+  border-bottom: solid 2px #575757;
+  transform: rotate(45deg);
+}
+
 .main_card_list {
   display: flex;
   gap: 2rem;
@@ -236,11 +255,10 @@
 }
 
 .instagram_cont .instagram_list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 }
 .instagram_cont .instagram_list li {
-  width: 20%;
   overflow: hidden;
 }
 

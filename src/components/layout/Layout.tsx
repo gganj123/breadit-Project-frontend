@@ -4,11 +4,11 @@ import Footer from '../Footer';
 import Header from '../Header';
 
 const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@700&display=swap');
   
   html,
-  body {
+  body {    
+    font-family: "Noto Sans KR", sans-serif;
+    font-weight: 400;
     font-size: 62.5%;
     color:#333;
   } 
@@ -27,14 +27,17 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
-    font-family: "Noto Sans KR", sans-serif;
-    font-weight: 400;
     background-color:#fdfaf7;
+    font-size:1.6rem;
   }
   
   ::selection {
     background-color: #ffcb46;
     color: #fff;
+  }
+
+  button {
+    font-family: "Noto Sans KR", sans-serif;
   }
 
   .font_oleo {

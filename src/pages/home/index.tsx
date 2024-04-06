@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import CategoryImg1 from '/category_img1.svg';
@@ -15,23 +17,18 @@ import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
 export default function Home() {
-  const mainBanner = [
-    {
-      src: 'main_banner.svg',
-      title: 'MZ를 꼬시는 발칙한 디저트?',
-      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
-    },
-    {
-      src: 'main_banner.svg',
-      title: 'MZ를 꼬시는 발칙한 디저트?',
-      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
-    },
-    {
-      src: 'main_banner.svg',
-      title: 'MZ를 꼬시는 발칙한 디저트?',
-      content: `<p>효창공원 인근에 위치한 ‘ 브레드읍읍 (@bread.oooo) ’ 은 기발한 아이디어를 선보이는 공간입니다.</p> <p>영화 평론가 이동진 스타일의 빨간 안경을 쓴 콘치즈 곰자를 포함해...</p>`,
-    },
-  ];
+  const [magazineBanner, setMagazineBanner] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:5001/api/magazines/')
+      .then((response) => {
+        setMagazineBanner(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
 
   const categories = [
     { go: '/map', src: CategoryImg1, categoryName: '케이크' },
@@ -41,12 +38,48 @@ export default function Home() {
   ];
 
   const reviews = [
-    { src: './review_img1.svg', title: '솔티밥', content: '에레레레ㅔ에레레' },
-    { src: './review_img2.svg', title: '솔티밥', content: '아이스크림 냠냠' },
-    { src: './review_img1.svg', title: '솔티밥', content: '도넛 냠냠' },
-    { src: './review_img2.svg', title: '솔티밥', content: '에레레레ㅔ에레레' },
-    { src: './review_img1.svg', title: '솔티밥', content: '아이스크림 냠냠' },
-    { src: './review_img2.svg', title: '솔티밥', content: '도넛 냠냠' },
+    {
+      go: '',
+      src: './review_img1.svg',
+      title: '솔티밥',
+      content: '에레레레ㅔ에레레',
+      like: 1,
+    },
+    {
+      go: '',
+      src: './review_img2.svg',
+      title: '솔티밥',
+      content: '아이스크림 냠냠',
+      like: 1,
+    },
+    {
+      go: '',
+      src: './review_img1.svg',
+      title: '솔티밥',
+      content: '도넛 냠냠',
+      like: 1,
+    },
+    {
+      go: '',
+      src: './review_img2.svg',
+      title: '솔티밥',
+      content: '에레레레ㅔ에레레',
+      like: 1,
+    },
+    {
+      go: '',
+      src: './review_img1.svg',
+      title: '솔티밥',
+      content: '아이스크림 냠냠',
+      like: 1,
+    },
+    {
+      go: '',
+      src: './review_img2.svg',
+      title: '솔티밥',
+      content: '도넛 냠냠',
+      like: 1,
+    },
   ];
 
   let imgList = [
@@ -77,19 +110,15 @@ export default function Home() {
     slidesToScroll: 1,
     variableWidth: true,
     draggable: true,
+    swipeToSlide: false,
   };
 
   return (
     <>
       <article className="main_banner">
         <Slider {...bannerSettings}>
-          {mainBanner.map((banner, index) => (
-            <MainBanner
-              src={banner.src}
-              title={banner.title}
-              content={banner.content}
-              key={index}
-            />
+          {magazineBanner.map((banner, index) => (
+            <MainBanner data={banner} key={index} />
           ))}
         </Slider>
       </article>
@@ -132,14 +161,7 @@ export default function Home() {
 
         <Slider {...reviewSettings}>
           {reviews.map((review, index) => {
-            return (
-              <BigCard
-                src={review.src}
-                title={review.title}
-                content={review.content}
-                key={index}
-              />
-            );
+            return <BigCard data={review} key={index} />;
           })}
         </Slider>
       </section>
@@ -182,10 +204,10 @@ export default function Home() {
           </div>
         </section>
         <div className="infinite_roof info_roof">
-            <span className="font_oleo">we loves bread, we are breadit!</span>
-            <span className="font_oleo">we loves bread, we are breadit!</span>
-            <span className="font_oleo">we loves bread, we are breadit!</span>
-            <span className="font_oleo">we loves bread, we are breadit!</span>
+          <span className="font_oleo">we loves bread, we are breadit!</span>
+          <span className="font_oleo">we loves bread, we are breadit!</span>
+          <span className="font_oleo">we loves bread, we are breadit!</span>
+          <span className="font_oleo">we loves bread, we are breadit!</span>
         </div>
         <section className="main_cont instagram_cont">
           <div className="main_title flex_default">
