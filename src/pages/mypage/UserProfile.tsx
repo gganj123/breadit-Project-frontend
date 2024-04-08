@@ -1,3 +1,6 @@
+/**
+ * 프로필 컴포넌트
+ */
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 type UserProfileProps = {
