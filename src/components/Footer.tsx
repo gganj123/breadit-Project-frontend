@@ -3,7 +3,7 @@ import Figma from '/figma.svg';
 import Gitlab from '/gitlab.svg';
 import Notion from '/notion.svg';
 
-const Footer: React.FC = () => {
+const Footer = () => {
   function preparingAlert() {
     alert('준비중 입니다.');
   }

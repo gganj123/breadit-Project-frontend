@@ -12,10 +12,7 @@ const StyleButton = styled(Link)`
   border-radius: 0.6rem;
 `;
 
-const ButtonDeafult: React.FC<{ text: string; go: string }> = ({
-  text,
-  go,
-}) => {
+const ButtonDeafult = ({ text, go }: { text: string; go: string }) => {
   return <StyleButton to={go}>{text}</StyleButton>;
 };
 

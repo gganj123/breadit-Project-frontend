@@ -12,7 +12,7 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-const ToggleLike: React.FC<{ like: number }> = ({ like }) => {
+const ToggleLike = ({ like }: { like: number }) => {
   const [isHeart, useIsHeart] = useState<boolean>(false);
   const [isLike, useIsLike] = useState<number>(like);
 

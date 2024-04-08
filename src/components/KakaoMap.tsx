@@ -104,18 +104,18 @@ const FindNearMap = styled.div`
   cursor: pointer;
 `;
 
-interface Marker {
+type Marker = {
   position: { lat: number; lng: number };
   content: string;
   address: string;
   phone: string | number;
-}
+};
 
-interface PaginationProps {
+type PaginationProps = {
   last: number;
   current: number;
   gotoPage(pageNumber: number): void;
-}
+};
 
 const Pagination: React.FC<PaginationProps> = ({ last, current, gotoPage }) => {
   if (last === 1) {
