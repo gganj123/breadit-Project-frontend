@@ -7,8 +7,9 @@ import LinkDefault from '../../components/atoms/links/LinkDefault';
 
 import './magazine_main.css';
 
-const Magazine: React.FC = () => {
+const Magazine = () => {
   const [magazineList, setMagazineList] = useState([]);
+
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
   useEffect(() => {

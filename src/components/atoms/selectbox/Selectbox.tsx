@@ -1,8 +1,8 @@
 import React from 'react';
 
-interface Props {
+type Props = {
   options: { value: string; name: string }[];
-}
+};
 
 const SelectBox: React.FC<Props> = (props) => {
   return (

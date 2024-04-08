@@ -5,8 +5,26 @@ import RightArrow from '/right-arrow.svg';
 import './community.css';
 import SelectBox from '../../components/atoms/selectbox/Selectbox';
 import CategoryList from '../../components/CategoryList';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function CommunityPage() {
+  const [postData, setPostData] = useState([]);
+
+  // 데이터를 가져오는 함수
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/posts/');
+      setPostData(response.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  // 컴포넌트가 마운트될 때 데이터를 가져옴
+  useEffect(() => {
+    fetchData();
+  }, []);
   //가짜데이터
   const OPTIONS = [
     { value: 'bakery', name: '베이커리 소개' },
@@ -76,7 +94,13 @@ export default function CommunityPage() {
               </Link>
             </div>
             <div className="community_list_content">
-              <CategoryList to="/community/nearby" images={IMAGE} />
+              <CategoryList
+                to="/community/nearby"
+                images={postData.map((post: any) => post.images)}
+                tag={IMAGE}
+                titles={postData.map((post: any) => post.title)}
+                nickname={postData.map((post: any) => post.nickname)}
+              />
             </div>
           </div>
           <div className="community_list">
@@ -87,7 +111,13 @@ export default function CommunityPage() {
               </Link>
             </div>
             <div className="community_list_content">
-              <CategoryList to="/community/nearby" images={IMAGE} />
+              <CategoryList
+                to="/community/nearby"
+                images={postData.map((post: any) => post.images)}
+                tag={IMAGE}
+                titles={postData.map((post: any) => post.title)}
+                nickname={postData.map((post: any) => post.nickname)}
+              />
             </div>
           </div>
         </div>

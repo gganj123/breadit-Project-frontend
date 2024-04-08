@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import Logo from '/Logo.svg';
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
     <header className="flex_default header">
       <nav className="main_nav">
         <ul>
           <li>
-            <Link to="/magazine">매거진</Link>
+            <Link to="/magazines">매거진</Link>
           </li>
           <li>
             <Link to="/map">지도</Link>

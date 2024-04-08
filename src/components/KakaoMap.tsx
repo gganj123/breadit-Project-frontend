@@ -5,11 +5,11 @@ import styled from 'styled-components';
 const MapContainer = styled.div`
   position: absolute;
   background: #000;
-  width: 20%;
+  width: 30%;
   height: 100%;
   overflow-y: scroll;
-  top: 6.6rem;
-  right: 0;
+  top: 7.4rem;
+  left: 0;
 
   #pagination {
     text-align: center;
@@ -25,7 +25,8 @@ const MapContainer = styled.div`
 `;
 
 const MapWrapper = styled.div`
-  width: 80%;
+  width: ${(props) => (props.expanded ? '100%' : '70%')};
+  margin-left: auto;
   height: 100vh;
 `;
 
@@ -73,7 +74,7 @@ const MapListItem = styled.div`
 const MapSearchBox = styled.div`
   position: absolute;
   top: 10rem;
-  left: 50%;
+  left: 60%;
   transform: translateX(-50%);
   z-index: 10;
   background: #fff;
@@ -102,20 +103,46 @@ const FindNearMap = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-size: 12px;
 `;
 
-interface Marker {
+const FindNearBakery = styled.div`
+  padding: 10px 20px;
+  background: #eee;
+  width: 100px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+`;
+
+const SlidePin = styled.div`
+  width: 10px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: ${(props) => (props.expanded ? '0' : '30%')};
+  transform: translateY(-50%);
+  background: red;
+  z-index: 100;
+  box-shadow: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+`;
+
+type Marker = {
   position: { lat: number; lng: number };
   content: string;
   address: string;
   phone: string | number;
-}
+};
 
-interface PaginationProps {
+type PaginationProps = {
   last: number;
   current: number;
   gotoPage(pageNumber: number): void;
-}
+};
 
 const Pagination: React.FC<PaginationProps> = ({ last, current, gotoPage }) => {
   if (last === 1) {
@@ -143,6 +170,7 @@ const MapComponent: React.FC = () => {
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [keyword, setKeyword] = useState('');
+  const [expanded, setExpanded] = useState(false);
   // pagination state 추가
   const [pagination, setPagination] = useState<PaginationProps>({
     last: 1,
@@ -159,9 +187,68 @@ const MapComponent: React.FC = () => {
     setPagination({ ...pagination, current: pageNumber });
   };
 
+  const toggleMapSize = () => {
+    setExpanded(!expanded); // 너비 및 MapContainer 표시 여부 전환
+    console.log(expanded);
+  };
+
+  // 내 위치로 주변 빵집을 찾는 함수
+  const searchBakeryNearby = (map, setMarkers) => {
+    // 현재 위치 가져오기
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        // 내 위치 기반으로 검색하기
+        const ps = new kakao.maps.services.Places();
+        ps.keywordSearch(
+          '빵집',
+          (data, status) => {
+            if (status === kakao.maps.services.Status.OK) {
+              const bounds = new kakao.maps.LatLngBounds();
+              const newMarkers: Marker[] = [];
+              for (let i = 0; i < data.length; i++) {
+                const lat = parseFloat(data[i].y);
+                const lng = parseFloat(data[i].x);
+                newMarkers.push({
+                  position: { lat, lng },
+                  content: data[i].place_name,
+                  address: data[i].road_address_name,
+                  phone: data[i].phone,
+                });
+                bounds.extend(new kakao.maps.LatLng(lat, lng));
+              }
+              const totalPages = Math.ceil(newMarkers.length / itemsPerPage);
+              setPagination((prevPagination) => ({
+                ...prevPagination,
+                last: totalPages,
+                current: 1,
+              }));
+              setMarkers(newMarkers);
+              map?.setBounds(bounds);
+            } else {
+              alert('주변 빵집을 찾을 수 없습니다.');
+            }
+          },
+          {
+            location: new kakao.maps.LatLng(lat, lng),
+            radius: 2000, // 2km 반경 내에서 검색
+          }
+        );
+      },
+      () => alert('위치 정보를 가져오는데 실패했습니다.'),
+      {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 27000,
+      }
+    );
+  };
+
   const handleSearch = () => {
     const ps = new kakao.maps.services.Places();
-    ps.keywordSearch(keyword, (data, status, _pagination) => {
+    ps.keywordSearch(keyword, (data, status) => {
       if (status === kakao.maps.services.Status.OK) {
         // 데이터가 있을 때
         const bounds = new kakao.maps.LatLngBounds();
@@ -175,6 +262,7 @@ const MapComponent: React.FC = () => {
             address: data[i].road_address_name,
             phone: data[i].phone,
           });
+          console.log(data[i]);
           bounds.extend(new kakao.maps.LatLng(lat, lng));
         }
         const totalPages = Math.ceil(newMarkers.length / itemsPerPage);
@@ -276,8 +364,12 @@ const MapComponent: React.FC = () => {
   const startIndex = (pagination.current - 1) * itemsPerPage;
   const visibleMarkers = markers.slice(startIndex, startIndex + itemsPerPage);
 
+  const searchNearbyBakeries = () => {
+    searchBakeryNearby(map, setMarkers);
+  };
+
   return (
-    <MapWrapper>
+    <MapWrapper expanded={expanded}>
       <Map
         center={{
           lat: 37.566826,
@@ -303,6 +395,10 @@ const MapComponent: React.FC = () => {
         ))}
         <MapSearchBox>
           <FindNearMap onClick={getCurrentPosBtn}>현재 위치</FindNearMap>
+          {/* 내 위치 기반 빵집 보기 버튼 추가 */}
+          <FindNearBakery onClick={searchNearbyBakeries}>
+            빵집 보기
+          </FindNearBakery>
           <input
             id="keyword"
             type="text"
@@ -313,7 +409,6 @@ const MapComponent: React.FC = () => {
           <button onClick={handleSearch}>검색하기</button>
         </MapSearchBox>
       </Map>
-
       <MapContainer>
         <MapList>
           {visibleMarkers.map((marker, index) => (
@@ -339,6 +434,7 @@ const MapComponent: React.FC = () => {
           gotoPage={gotoPage}
         />
       </MapContainer>
+      <SlidePin expanded={expanded} onClick={toggleMapSize}></SlidePin>
     </MapWrapper>
   );
 };

@@ -7,7 +7,7 @@ import AdminTable from './AdminTable';
 
 import './admin.css';
 
-const AdminMain: React.FC = () => {
+const AdminMain = () => {
   const [userList, setUserList] = useState([]);
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 

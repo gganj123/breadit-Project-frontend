@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const MainInstagramImg: React.FC<{ src: string }> = ({ src }) => {
+const MainInstagramImg = ({ src }: { src: string }) => {
   return (
     <li className="img_box">
       <Link to="/">

@@ -141,7 +141,7 @@ const GlobalStyle = createGlobalStyle`
 
 `;
 
-const Layout: React.FC = () => {
+const Layout = () => {
   return (
     <>
       <GlobalStyle />

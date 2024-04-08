@@ -7,7 +7,7 @@ import AdminTable from './AdminTable';
 
 import './admin.css';
 
-const AdminMain: React.FC = () => {
+const AdminMain = () => {
   let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
 
   const [communityList, setCommunityList] = useState([]);

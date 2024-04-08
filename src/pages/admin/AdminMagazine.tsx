@@ -7,7 +7,7 @@ import BigCard from '../../components/BigCard';
 
 import './admin.css';
 
-const AdminMagazine: React.FC = () => {
+const AdminMagazine = () => {
   const [magazineList, setMagazineList] = useState([]);
 
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
