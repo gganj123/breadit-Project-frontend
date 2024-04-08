@@ -1,0 +1,147 @@
+.magazine_banner .banner_item {
+  position: relative;
+}
+
+.magazine_banner .banner_item .banner_img {
+  width: 100%;
+}
+
+.magazine_banner .content_box {
+  max-width: 80rem;
+  position: absolute;
+  bottom: 10rem;
+  left: 10rem;
+  color: #fff;
+}
+
+.magazine_banner .content_box .font_oleo {
+  font-size: 2rem;
+  color: #dedede;
+}
+
+.magazine_banner .content_box h3 {
+  font-size: 3.4rem;
+  margin: 3rem 0 2rem;
+}
+
+.magazine_banner .content_box p {
+  font-size: 2rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.magazine_banner .slick-arrow {
+  bottom: 10rem;
+}
+
+.magazine_banner .slick-dots {
+  width: auto;
+  bottom: 10rem;
+  right: 10rem;
+  background-color: rgba(77, 77, 77, 0.6);
+  color: #dbdbdb;
+  padding: 0 2rem;
+}
+
+.magazine_dots li {
+  width: auto;
+  height: 3.4rem;
+  line-height: 2.8rem;
+  display: none;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.magazine_dots li.slick-active {
+  display: block;
+}
+
+.magazine_circle {
+  position: absolute;
+  top: 10rem;
+  right: 8rem;
+}
+
+.magazine_card_list {
+  display: grid;
+  gap: 5rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.magazine .main_title {
+  margin-bottom: 4rem;
+}
+
+.detail {
+  max-width: 1290px;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+}
+
+.detail_top {
+  margin-bottom: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.detail_title {
+  font-size: 3rem;
+  margin-bottom: 1.4rem;
+}
+
+.user_cont {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.user_cont .user_info {
+  gap: 2rem;
+}
+
+.user_cont .user_img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  background: #eee;
+}
+
+.user_cont .user_info p {
+  font-size: 1.8rem;
+}
+
+.user_cont .user_info .date {
+  display: inline-block;
+  padding-left: 1.4rem;
+  margin-left: 1.4rem;
+  color: #888;
+  border-left: solid 1px #b6b6b6;
+}
+
+.detail_content {
+  min-height: 28vh;
+}
+
+.detail_content p {
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+.detail_location {
+  margin-bottom: 4rem;
+}
+
+.detail_location ul {
+  display: flex;
+  gap: 3rem;
+}
+
+.detail_btns {
+  display: flex;
+  gap: 1.2rem;
+}
