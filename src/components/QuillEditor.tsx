@@ -1,13 +1,54 @@
 import { useRef, useState, useMemo } from 'react';
 import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 //이렇게 라이브러리를 불러와서 사용하면 됩니다
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { ImageActions } from '@xeger/quill-image-actions';
+import { ImageFormats } from '@xeger/quill-image-formats';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+Quill.register('modules/imageActions', ImageActions);
+Quill.register('modules/imageFormats', ImageFormats);
+
+const EditContextBtn = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+
+  button,
+  a {
+    display: block;
+    text-align: center;
+    width: 100px;
+    padding: 12px 0;
+    font-size: 1.25rem;
+    background-color: #6c757d;
+    color: #fff;
+  }
+`;
+
+const EditTitle = styled.input`
+  width: 100%;
+  height: 4rem;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #dedede;
+  font-size: 1rem;
+  margin-bottom: 10px;
+`;
 
 export const EditorComponent = () => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
+  const [title, setTitle] = useState('');
+  const [images, setImages] = useState([]);
 
   // AWS S3 설정
   const s3 = new AWS.S3({
@@ -18,56 +59,85 @@ export const EditorComponent = () => {
 
   // 이미지를 업로드 하기 위한 함수
   const imageHandler = () => {
-    // 파일을 업로드 하기 위한 input 태그 생성
     const input = document.createElement('input');
-    let url = '';
-
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
     input.click();
 
-    // 파일이 input 태그에 담기면 실행 될 함수
     input.onchange = async () => {
       const file = input.files;
       if (file !== null) {
-        const params = {
-          Bucket: 'elice-breadit-project',
-          Key: `images/${file[0].name}`, // S3에 저장될 경로 및 파일 이름
-          Body: file[0],
-          ACL: 'public-read', // 이미지를 공개 읽기로 설정
-        };
+        const promises = [];
+        for (let i = 0; i < file.length; i++) {
+          const params = {
+            Bucket: 'elice-breadit-project',
+            Key: `images/${file[i].name}`,
+            Body: file[i],
+            ACL: 'public-read',
+          };
 
-        // S3에 이미지 업로드
-        s3.upload(params, (err, data) => {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          url = data.Location; // 업로드된 이미지의 URL
+          promises.push(
+            new Promise((resolve, reject) => {
+              s3.upload(params, (err, data) => {
+                if (err) {
+                  console.error(err);
+                  reject(err);
+                } else {
+                  resolve(data.Location);
+                }
+              });
+            })
+          );
+        }
 
-          // 커서의 위치를 알고 해당 위치에 이미지 태그를 넣어주는 코드
-          // 해당 DOM의 데이터가 필요하기에 useRef를 사용한다.
-          const range = QuillRef.current?.getEditor().getSelection()?.index;
-          if (range !== null && range !== undefined) {
-            const quill = QuillRef.current?.getEditor();
+        Promise.all(promises)
+          .then((urls) => {
+            setImages((prevImages) => [...prevImages, ...urls]);
 
-            quill?.setSelection(range, 1);
-
-            quill?.clipboard.dangerouslyPasteHTML(
-              range,
-              `<img src=${url} alt="이미지 태그가 삽입됩니다." />`
-            );
-          }
-        });
+            const range = QuillRef.current?.getEditor().getSelection()?.index;
+            if (range !== null && range !== undefined) {
+              const quill = QuillRef.current?.getEditor();
+              urls.forEach((url) => {
+                quill?.clipboard.dangerouslyPasteHTML(
+                  range,
+                  `<img src=${url} alt="이미지 태그가 삽입됩니다." />`
+                );
+              });
+            }
+          })
+          .catch((error) => {
+            console.error('Error uploading images:', error);
+          });
       }
     };
   };
 
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'align',
+    'color',
+    'background',
+    'float',
+    'height',
+    'width',
+  ];
   // quill에서 사용할 모듈을 설정하는 코드 입니다.
   // 원하는 설정을 사용하면 되는데, 저는 아래와 같이 사용했습니다.
   // useMemo를 사용하지 않으면, 키를 입력할 때마다, imageHandler 때문에 focus가 계속 풀리게 됩니다.
   const modules = useMemo(
     () => ({
+      imageActions: {},
+      imageFormats: {},
       toolbar: {
         container: [
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -81,6 +151,10 @@ export const EditorComponent = () => {
           ],
           ['image', 'video'],
         ],
+        // 이미지 크기 조절
+        ImageResize: {
+          modules: ['Resize'],
+        },
         handlers: {
           image: imageHandler,
         },
@@ -89,8 +163,34 @@ export const EditorComponent = () => {
     []
   );
 
+  const saveToDatabase = async () => {
+    try {
+      // 서버로 콘텐츠 및 이미지 목록 전송
+      const response = await axios.post('http://localhost:5000/api/posts', {
+        user_id: 'user77777',
+        nickname: 'nickname',
+        profile: 'user',
+        title: title, // 제목 추가
+        content: contents,
+        images: images,
+        bread_id: 'category4555556',
+      });
+      console.log(response.data); // 서버로부터의 응답 확인
+      toast('글 작성이 완료되었습니다!');
+    } catch (error) {
+      console.error('Error saving to database:', error);
+    }
+  };
+
   return (
     <>
+      <EditTitle
+        className="edit_title"
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder="제목을 입력해주세요."
+      />
       <ReactQuill
         ref={(element) => {
           if (element !== null) {
@@ -99,10 +199,16 @@ export const EditorComponent = () => {
         }}
         value={contents}
         onChange={setContents}
+        formats={formats}
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
+      <EditContextBtn>
+        <button onClick={saveToDatabase}>작성하기</button>
+        <Link to="/community/nearby">취소</Link>
+      </EditContextBtn>
+      <ToastContainer />
     </>
   );
 };

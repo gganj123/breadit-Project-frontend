@@ -7,17 +7,25 @@ type Image = {
   usersrc: string;
   src: string;
   title: string;
-  username: string;
   hashtags: string[];
   likes: number;
 };
 
 type Props = {
   to: string;
-  images: Image[];
+  images: string[];
+  tag: Image[];
+  titles: string[];
+  nickname: string[];
 };
 
-const CategoryList: React.FC<Props> = ({ to, images }) => {
+const CategoryList: React.FC<Props> = ({
+  to,
+  images,
+  tag,
+  titles,
+  nickname,
+}) => {
   const [likedImages, setLikedImages] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -31,22 +39,22 @@ const CategoryList: React.FC<Props> = ({ to, images }) => {
   };
   return (
     <ul className="community_list_item">
-      {images.map((image, index) => (
+      {tag.map((img, index) => (
         <li key={index}>
           <div className="box_wrapper list_title">
             <div className="user_img_wrapper">
-              <img src={image.usersrc} alt={image.title} />
+              <img src={img.usersrc} alt={img.title} />
             </div>
-            <p>{image.username}</p>
+            <p>{nickname[index] || ''}</p>
           </div>
           <div className="list_img_wrapper">
             <Link to={`${to}/${index}`}>
-              <img src={image.src} alt={image.title} />
+              <img src={images[index]} alt={img.title} />
             </Link>
           </div>
           <div className="subcategory">
-            <p>{image.title}</p>
-            <p>{image.hashtags.join(', ')}</p>
+            <p>{titles[index] || ''}</p>
+            <p>{img.hashtags.join(', ')}</p>
             <div className="like_icon_wrapper">
               <img
                 src={likedImages[index] ? LikeIconActive : LikeIcon}
@@ -54,7 +62,7 @@ const CategoryList: React.FC<Props> = ({ to, images }) => {
                 alt="like icon"
                 onClick={() => toggleLike(index)}
               />
-              <p>{image.likes}</p>
+              <p>{img.likes}</p>
             </div>
           </div>
         </li>

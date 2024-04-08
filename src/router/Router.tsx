@@ -17,6 +17,7 @@ import AdminPage from '../pages/admin/index.tsx';
 import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
 import AdminCommunity from '../pages/admin/AdminCommunity.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
+import Kakao from '../pages/map/Kakao.tsx';
 
 export default function Router() {
   return (
@@ -40,6 +41,7 @@ export default function Router() {
           <Route path="admin-magazine" element={<AdminMagazinePage />} />
           <Route path="admin-community" element={<AdminCommunity />} />
           <Route path="admin-recipe" element={<AdminRecipe />} />
+          <Route path="maptest" element={<Kakao />} />
         </Route>
         <Route path="*" element={<Navigate replace to="/" />} />
       </Routes>
