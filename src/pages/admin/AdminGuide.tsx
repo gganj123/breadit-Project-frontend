@@ -1,4 +1,4 @@
-const AdminGuide: React.FC = () => {
+const AdminGuide = () => {
   return (
     <div className="admin_guide">
       <h4>관리자 가이드</h4>

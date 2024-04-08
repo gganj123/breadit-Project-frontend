@@ -5,7 +5,7 @@ type BannerProps = {
   data: { title: string; content: string };
 };
 
-const MagazineBanner: React.FC<BannerProps> = ({ data }) => {
+const MagazineBanner = ({ data }: BannerProps) => {
   const { title, content } = data;
   return (
     <div className="banner_item">

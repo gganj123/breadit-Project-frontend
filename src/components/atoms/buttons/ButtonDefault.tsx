@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import styled from 'styled-components';
 
 const StyleButton = styled.button`
@@ -10,7 +11,7 @@ const StyleButton = styled.button`
   border-radius: 0.6rem;
 `;
 
-const ButtonDeafult: React.FC<{ text: string }> = ({ text }) => {
+const ButtonDeafult: FC<{ text: string }> = ({ text }) => {
   return <StyleButton>{text}</StyleButton>;
 };
 

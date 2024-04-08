@@ -1,7 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ToggleLikeButton from './atoms/buttons/ToggleLikeButton';
-import ReviewImg from '/review_img2.svg';
+import Noimg from '/no_img.svg';
 
 const BigCard = styled.div`
   overflow: hidden;
@@ -41,14 +41,21 @@ type BigCardProps = {
   data: { _id: string; title: string; content: string };
 };
 
-const BigCardList: React.FC<BigCardProps> = ({ data }) => {
+const BigCardList = ({ data }: BigCardProps) => {
   const location = useLocation();
 
   const { _id, title, content } = data;
 
-  function contentHTML() {
-    let HTML = { __html: content };
+  function thumbnail() {
+    const img = content.match(/<img.*?>/g)?.[0];
+    const thumbnailImg = img ? img : `<img src=${Noimg} />`;
+    return { __html: thumbnailImg };
+  }
 
+  function noImgContent() {
+    const imgFilter = content.replace(/<img.*?>/g, '');
+
+    const HTML = { __html: imgFilter };
     return HTML;
   }
 
@@ -58,11 +65,11 @@ const BigCardList: React.FC<BigCardProps> = ({ data }) => {
         <Link
           to={
             location.pathname.includes('magazine')
-              ? `/magazine/${_id}`
+              ? `/magazines/${_id}`
               : `/community/nearby/${_id}`
           }
         >
-          <img src={ReviewImg} />
+          <div dangerouslySetInnerHTML={thumbnail()} />
         </Link>
       </div>
       <ContentBox>
@@ -70,14 +77,14 @@ const BigCardList: React.FC<BigCardProps> = ({ data }) => {
           <Link
             to={
               location.pathname.includes('magazine')
-                ? `/magazine/${_id}`
+                ? `/magazines/${_id}`
                 : `/community/nearby/${_id}`
             }
           >
             {title}
           </Link>
         </h5>
-        <div className="text" dangerouslySetInnerHTML={contentHTML()} />
+        <div className="text" dangerouslySetInnerHTML={noImgContent()} />
         <ToggleLikeButton like={0} />
       </ContentBox>
     </BigCard>

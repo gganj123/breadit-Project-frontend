@@ -68,11 +68,6 @@ const BannerItemStyle = styled.div`
     margin-bottom: 3rem;
   }
 
-  .content .point {
-    font-size: 2.2rem;
-    font-weight: 700;
-  }
-
   .content .text {
     min-height: 9rem;
     font-size: 2rem;
@@ -91,7 +86,7 @@ const BannerItemStyle = styled.div`
   }
 `;
 
-const MainBanner: React.FC<BannerProps> = ({ data }) => {
+const MainBanner = ({ data }: BannerProps) => {
   const { _id, title, content } = data;
 
   function contentHTML() {
@@ -110,7 +105,6 @@ const MainBanner: React.FC<BannerProps> = ({ data }) => {
         <div className="content">
           <span className="font_oleo hot_Brand">Hot Brand</span>
           <h3 className="title">{title}</h3>
-          <p className="point">이것이 바로 MZ ? 🧠</p>
           <div className="text" dangerouslySetInnerHTML={contentHTML()} />
           <LinkDefault text={'Magazine +'} go={`magazine/${_id}`} />
           <CircleRight src={BannerCircle1} />

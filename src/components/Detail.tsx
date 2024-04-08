@@ -1,6 +1,6 @@
 import ButtonDefault from './atoms/buttons/ButtonDefault';
 
-const Detail: React.FC = () => {
+const Detail = () => {
   return (
     <section className="post_detail">
       <div className="detail_top">

@@ -5,7 +5,7 @@ type AdminTableProps = {
   data: { nickname: string; email?: string; title?: string }[];
 };
 
-const AdminTable: React.FC<AdminTableProps> = ({ theadTitle, data }) => {
+const AdminTable = ({ theadTitle, data }: AdminTableProps) => {
   return (
     <div className="admin_table">
       <table>

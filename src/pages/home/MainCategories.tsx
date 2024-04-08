@@ -6,7 +6,7 @@ type CategoryProps = {
   categoryName: string;
 };
 
-const MainCategories: React.FC<CategoryProps> = ({ go, src, categoryName }) => {
+const MainCategories = ({ go, src, categoryName }: CategoryProps) => {
   return (
     <li>
       <img src={src} />

@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import LikeIcon from '/like-icon.svg';
 import LikeIconActive from '/like-icon-active.svg';
 
-interface Image {
+type Image = {
   usersrc: string;
   src: string;
   title: string;
   username: string;
   hashtags: string[];
   likes: number;
-}
+};
 
-interface Props {
+type Props = {
   to: string;
   images: Image[];
-}
+};
 
 const CategoryList: React.FC<Props> = ({ to, images }) => {
   const [likedImages, setLikedImages] = useState<{ [key: string]: boolean }>(
