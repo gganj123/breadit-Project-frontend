@@ -1,12 +1,14 @@
+/**
+ * 회원가입 동의 페이지 ( 첫번째 )
+ */
 import { useState, FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { RiErrorWarningFill } from 'react-icons/ri';
-import StepIndicator from './StepIndicator';
 import Button from '../../components/atoms/buttons/Button';
 import Checkbox from '../../components/atoms/checkbox/Checkbox';
-
+import StepIndicator from './StepIndicator';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { RiErrorWarningFill } from 'react-icons/ri';
 type AgreementProps = {
   title: string;
   content: string;
@@ -31,10 +33,15 @@ const AgreementTitle = styled.div`
 const AgreementContainer = styled.div`
   border: 1px solid #ccc;
   border-radius: 8px;
-  margin-left: 5px;
   margin-bottom: 15px;
   padding: 10px;
   background-color: #fff;
+`;
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 `;
 const Title = styled.div`
   font-size: 22px;
@@ -42,19 +49,6 @@ const Title = styled.div`
   text-align: center;
   margin-bottom: 30px;
 `;
-
-const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const Line = styled.div`
-  border-top: 1px solid #ccc;
-  margin-bottom: 10px;
-`;
-
 const ContentContainer = styled.div<{ isOpen: boolean }>`
   padding-top: 10px;
   font-size: 13px;
@@ -76,6 +70,11 @@ const ButtonsContainer = styled.div`
   gap: 20px;
   margin-top: 40px;
 `;
+const Line = styled.div`
+  border-top: 1px solid #ccc;
+  margin-bottom: 10px;
+`;
+
 const CheckboxLabel = styled.label`
   display: flex;
   align-items: center;
@@ -122,12 +121,12 @@ const SignUpPage: FC = () => {
   const [showWarning, setShowWarning] = useState(false);
 
   // 필수 항목 체크박스가 모두 선택되었는지 여부
-  const areRequiredChecked = termsChecked && privacyChecked;
+  const requiredChecked = termsChecked && privacyChecked;
   const handlePrevClick = () => {
     navigate('/login');
   };
   const handleNextClick = () => {
-    if (!areRequiredChecked) {
+    if (!requiredChecked) {
       // 필수 항목이 모두 체크되지 않았으면 경고 메시지 표시
       setShowWarning(true);
     } else {

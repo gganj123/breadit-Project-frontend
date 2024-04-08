@@ -1,14 +1,13 @@
 /**
  * 회원가입 단계 표시기
  */
-
 import { FC } from 'react';
 import styled from 'styled-components';
 
 type StepProps = {
   number: number;
   label: string;
-  isActive: boolean; // isCompleted 제거
+  isActive: boolean;
 };
 
 const StepContainer = styled.div`
@@ -52,7 +51,7 @@ const Connector = styled.div`
   position: absolute;
   left: 5%;
   top: 15px;
-  width: calc(90% - 10px); // 좌우 스텝 컨테이너 패딩을 제외한 너비
+  width: calc(90% - 10px);
   height: 1px;
   background-color: #ccc;
   z-index: 0;

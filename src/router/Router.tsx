@@ -2,10 +2,12 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout.tsx';
 import Home from '../pages/home/index.tsx';
 import MyPage from '../pages/mypage/MyPage.tsx';
+import MyPageCheckPassword from '../pages/mypage/CheckPassword.tsx';
+import MyPageEdit from '../pages/mypage/Edit.tsx';
 import LoginPage from '../pages/login/Login.tsx';
-import SignupPage from '../pages/signup/SignUpPage.tsx';
-import SignUpInfoPage from '../pages/signup/SignUpInfoPage.tsx';
-import SignUpCompletePage from '../pages/signup/SignUpCompletePage.tsx';
+import SignupPage from '../pages/signup/Agreement.tsx';
+import SignUpInfoPage from '../pages/signup/Info.tsx';
+import SignUpCompletePage from '../pages/signup/Complete.tsx';
 import CommunityPage from '../pages/community/index.tsx';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
@@ -25,6 +27,11 @@ export default function Router() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="mypage" element={<MyPage />} />
+          <Route
+            path="mypage/check-password"
+            element={<MyPageCheckPassword />}
+          />
+          <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signup" element={<SignupPage />} />
           <Route path="signup/info" element={<SignUpInfoPage />} />

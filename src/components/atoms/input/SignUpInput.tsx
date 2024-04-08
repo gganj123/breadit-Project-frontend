@@ -6,17 +6,16 @@ const InputContainer = styled.div<{ width?: string }>`
   flex-direction: column;
   width: ${(props) => props.width || '100%'};
 `;
-
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
 const Label = styled.label`
   font-size: 16px;
   font-weight: 500;
   color: #333;
   margin-bottom: 5px;
-`;
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
 `;
 const StyledInput = styled.input<{ width?: string; height?: string }>`
   width: ${(props) => props.width || '100%'};
@@ -39,6 +38,7 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 type InputFieldProps = {
   type: string;
   label: string;

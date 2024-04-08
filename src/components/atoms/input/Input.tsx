@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+
 type InputFieldProps = {
   type: string;
   placeholder: string;

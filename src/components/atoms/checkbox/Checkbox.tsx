@@ -61,12 +61,12 @@ const StyledLabel = styled.label<Pick<CheckboxProps, 'checked' | 'size'>>`
 `;
 
 const Checkbox: FC<CheckboxProps> = ({ checked, onChange, size }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.checked);
+  };
   return (
     <CheckboxContainer>
-      <HiddenCheckbox
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
+      <HiddenCheckbox checked={checked} onChange={handleChange} />
       <StyledLabel checked={checked} size={size} />
     </CheckboxContainer>
   );

@@ -1,9 +1,13 @@
+/**
+ * 로그인 페이지
+ */
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '/Logo.svg';
-import { Input } from '../../components/atoms/input/Input';
 import Button from '../../components/atoms/buttons/Button';
+import { Input } from '../../components/atoms/input/Input';
+
 import { BsChatFill } from 'react-icons/bs';
 import { SiNaver } from 'react-icons/si';
 import { FcGoogle } from 'react-icons/fc';
@@ -15,7 +19,6 @@ const Container = styled.div`
   justify-content: center;
   min-height: 100vh;
 `;
-
 const LogoImage = styled.img`
   width: 250px;
   height: 70px;
@@ -32,10 +35,11 @@ const SocialLoginTitle = styled.div`
   font-weight: 500;
   margin: 20px;
 `;
+
 const RedirectUri = `${import.meta.env.VITE_REDIRECT_URI}`;
+const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code&scope=email profile`;
 const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code`;
 const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
-const googleURL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_GOOGLE_CLIENT_ID}&redirect_uri=${RedirectUri}&response_type=code&scope=email profile`;
 
 const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -55,15 +59,14 @@ const Login: FC = () => {
   };
 
   const handleLogin = () => {};
-
+  const googlehandleLogin = () => {
+    window.location.href = googleURL;
+  };
   const kakaohandleLogin = () => {
     window.location.href = kakaoURL;
   };
   const naverhandleLogin = () => {
     window.location.href = naverURL;
-  };
-  const googlehandleLogin = () => {
-    window.location.href = googleURL;
   };
 
   return (
@@ -87,6 +90,7 @@ const Login: FC = () => {
             value={password}
             onChange={handlePasswordChange}
           />
+
           <Button
             type="submit"
             text="로그인"
@@ -99,6 +103,14 @@ const Login: FC = () => {
           <SignUpTitle>회원가입</SignUpTitle>
         </Link>
         <SocialLoginTitle>SNS 계정으로 로그인</SocialLoginTitle>
+        <Button
+          type="button"
+          text="구글 로그인"
+          backColor="#F2F2F2"
+          textColor="#000000"
+          onClick={() => googlehandleLogin()}
+          icon={<FcGoogle />}
+        />
         <Button
           type="button"
           text="카카오 로그인"
@@ -114,14 +126,6 @@ const Login: FC = () => {
           textColor="#FFFFFF"
           onClick={() => naverhandleLogin()}
           icon={<SiNaver />}
-        />
-        <Button
-          type="button"
-          text="구글 로그인"
-          backColor="#F2F2F2"
-          textColor="#000000"
-          onClick={() => googlehandleLogin()}
-          icon={<FcGoogle />}
         />
       </Container>
     </>

@@ -1,70 +1,62 @@
+/**
+ * 마이페이지 - 메인
+ */
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Logo from '/Logo.svg';
-import Button from '../../components/atoms/buttons/Button';
-import { Input } from '../../components/atoms/input/Input';
+import UserProfile from './UserProfile';
+import ProfileImageUpload from './ProfileImageUpload';
+const DEFAULT_IMAGE =
+  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
 
-const PageContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 150px auto;
-  padding: 20px;
-  text-align: center;
-`;
-const ButtonContainer = styled.div`
+const PageLayout = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: 5px;
-`;
-const MessageContainer = styled.div`
-  margin-bottom: 40px;
-`;
-const LogoImage = styled.img`
-  width: 250px;
-  height: 70px;
-  margin-bottom: 50px;
+  flex-direction: row;
+  margin-top: 7.4rem;
 `;
 
-const Message = styled.div`
-  font-size: 15px;
-  font-weight: 500;
-  color: #575757;
-  margin-bottom: 10px;
+const ProfileContainer = styled.aside`
+  width: 30%;
+  padding: 6rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
+
+const MainContent = styled.main`
+  flex-grow: 1;
+  padding: 6rem;
+`;
+
+const ContentTitle = styled.h1`
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+`;
+
 export default function MyPage() {
-  const [password, setPassword] = useState('');
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  const handleLogOut = () => {};
+
+  const handleDeleteAccount = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [profileImage, setProfileImage] = useState(DEFAULT_IMAGE);
+  const navigate = useNavigate();
+  const handleNavigation = (path: string) => () => navigate(path);
   return (
-    <>
-      <PageContainer>
-        <Link to="/">
-          <LogoImage src={Logo} className="logo" alt="Vite logo" />
-        </Link>
-        <MessageContainer>
-          <Message>회원 정보를 수정하기 위해</Message>
-          <Message>비밀번호를 다시 한번 확인합니다.</Message>
-        </MessageContainer>
-        <Input
-          type="password"
-          placeholder="비밀번호"
-          name="password"
-          value={password}
-          width="420px"
-          onChange={handlePasswordChange}
+    <PageLayout>
+      <ProfileContainer>
+        <ProfileImageUpload src={profileImage} showEditIcon={false} />
+        <UserProfile
+          email="breadit@naver.com"
+          nickname="식빵맨"
+          onEditProfile={handleNavigation('/mypage/check-password')}
+          onLogout={handleLogOut}
+          onDeleteAccount={handleDeleteAccount}
         />
-        <ButtonContainer>
-          <Button
-            type="submit"
-            text="확인"
-            backColor="#FFCB46"
-            textColor="#000000"
-            width="420px"
-          />
-        </ButtonContainer>
-      </PageContainer>
-    </>
+      </ProfileContainer>
+
+      <MainContent>
+        <ContentTitle>Main Content </ContentTitle>
+      </MainContent>
+    </PageLayout>
   );
 }

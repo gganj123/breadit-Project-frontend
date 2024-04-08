@@ -1,5 +1,8 @@
+/**
+ * 회원가입 완료 페이지 ( 세번째 )
+ */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import StepIndicator from './StepIndicator';
@@ -43,6 +46,10 @@ const Icon = styled.div`
 `;
 const SignUpCompletePage: React.FC = () => {
   const navigate = useNavigate();
+  const { nickname } = (useLocation().state as { nickname: string }) || {};
+
+  // navigate 함수를 인자로 받아 해당 경로로 이동하는 함수
+  const handleNavigation = (path: string) => () => navigate(path);
 
   return (
     <>
@@ -52,7 +59,7 @@ const SignUpCompletePage: React.FC = () => {
         <Icon>
           <IoCheckmarkCircleSharp size={80} color="#5FD08D" />
         </Icon>
-        <Message>식빵님,</Message>
+        <Message>{nickname}님,</Message>
         <Message>회원가입을 축하합니다.</Message>
         <SubMessage>로그인 후 다양한 서비스를 이용해보세요.</SubMessage>
         <ButtonsContainer>
@@ -63,7 +70,7 @@ const SignUpCompletePage: React.FC = () => {
             textColor="#FFFFFF"
             width="220px"
             height="60px"
-            onClick={() => navigate('/')}
+            onClick={handleNavigation('/')}
           />
           <Button
             type="button"
@@ -72,18 +79,9 @@ const SignUpCompletePage: React.FC = () => {
             textColor="#FFFFFF"
             width="220px"
             height="60px"
-            onClick={() => navigate('/login')}
+            onClick={handleNavigation('/login')}
           />
         </ButtonsContainer>
-        <Button
-          type="button"
-          text="마이페이지"
-          backColor="#575757"
-          textColor="#FFFFFF"
-          width="220px"
-          height="60px"
-          onClick={() => navigate('/mypage')}
-        />
       </PageContainer>
     </>
   );
