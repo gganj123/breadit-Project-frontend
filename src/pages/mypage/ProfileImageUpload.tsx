@@ -1,5 +1,6 @@
 /**
  * 회원 프로필 사진 업로드 컴포넌트 ( 동그라미 + 펜 아이콘 )
+ * 프로필 사진 업로드, 삭제 기능
  */
 import { ChangeEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
@@ -13,25 +14,45 @@ type ProfileImageUploadProps = {
 };
 
 const ProfileImageContainer = styled.div<{ src: string }>`
-  margin: 40px auto;
   position: relative;
   width: 140px;
   height: 140px;
   border-radius: 50%;
   background: url(${(props) => props.src}) center / cover no-repeat;
 `;
-
-const OptionsOverlay = styled.div<{ show: boolean }>`
-  display: ${(props) => (props.show ? 'block' : 'none')};
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 4px;
-  padding: 5px;
-  flex-direction: column;
+const ProfileImageWrapper = styled.div`
+  position: relative;
+  display: inline-block;
 `;
 
+const OptionsOverlay = styled.div<{ show: boolean }>`
+  display: ${(props) => (props.show ? 'flex' : 'none')};
+  position: absolute;
+  bottom: -45px;
+  right: -130px;
+  border-radius: 4px;
+  border: 1px solid #575757;
+
+  padding: 5px;
+  flex-direction: column;
+  background: #fff;
+`;
+const OptionButton = styled.button`
+  font-size: 14px;
+  color: #575757;
+  background: #fff;
+  padding: 2px 2px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+`;
 const IconContainer = styled.div`
   color: #fff;
   position: absolute;
@@ -83,29 +104,33 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   const handleRemoveImage = () => {
     onRemoveImage?.();
     setShowOptions(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
   return (
-    <ProfileImageContainer src={src}>
-      {showEditIcon && (
-        <IconContainer onClick={handleEditClick}>
-          <EditIcon />
-        </IconContainer>
-      )}
+    <ProfileImageWrapper>
+      <ProfileImageContainer src={src}>
+        {showEditIcon && (
+          <IconContainer onClick={handleEditClick}>
+            <EditIcon />
+          </IconContainer>
+        )}
 
+        <HiddenFileInput
+          ref={fileInputRef}
+          type="file"
+          onChange={handleImageUpload}
+          accept="image/*"
+        />
+      </ProfileImageContainer>
       <OptionsOverlay show={showOptions}>
-        <button onClick={() => fileInputRef.current?.click()}>
-          프로필 업로드
-        </button>
-        <button onClick={handleRemoveImage}>프로필 삭제</button>
+        <OptionButton onClick={() => fileInputRef.current?.click()}>
+          Upload a photo ...
+        </OptionButton>
+        <OptionButton onClick={handleRemoveImage}>Remove photo</OptionButton>
       </OptionsOverlay>
-
-      <HiddenFileInput
-        ref={fileInputRef}
-        type="file"
-        onChange={handleImageUpload}
-        accept="image/*"
-      />
-    </ProfileImageContainer>
+    </ProfileImageWrapper>
   );
 };
 
