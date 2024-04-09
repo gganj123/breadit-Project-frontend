@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LikeIcon from '/heart_icon.svg';
-import LikeIconActive from '/heart_icon_active.svg';
-
-type Image = {
-  usersrc: string;
-  src: string;
-  title: string;
-  hashtags: string[];
-  likes: number;
-};
+import LikeIcon from '/like-icon.svg';
+import LikeIconActive from '/like-icon-active.svg';
+import Noimg from '/no_img.svg';
 
 type Props = {
   to: string;
-  images: string[];
-  tag: Image[];
+  images: string[][];
   titles: string[];
   nickname: string[];
+  likes: number[];
+  usersrc: string[];
 };
 
 const CategoryList: React.FC<Props> = ({
   to,
   images,
-  tag,
   titles,
   nickname,
+  likes,
+  usersrc,
 }) => {
   const [likedImages, setLikedImages] = useState<{ [key: string]: boolean }>(
     {}
@@ -37,24 +32,25 @@ const CategoryList: React.FC<Props> = ({
       return newLikedImages;
     });
   };
+  const firstValues = images.map((subArray) => subArray[0]);
+
   return (
     <ul className="community_list_item">
-      {tag.map((img, index) => (
+      {images.map((image, index) => (
         <li key={index}>
           <div className="box_wrapper list_title">
             <div className="user_img_wrapper">
-              <img src={img.usersrc} alt={img.title} />
+              <img src={usersrc[index]} alt={titles[index]} />
             </div>
             <p>{nickname[index] || ''}</p>
           </div>
           <div className="list_img_wrapper">
             <Link to={`${to}/${index}`}>
-              <img src={images[index]} alt={img.title} />
+              <img src={firstValues[index] || Noimg} alt={titles[index]} />
             </Link>
           </div>
           <div className="subcategory">
             <p>{titles[index] || ''}</p>
-            <p>{img.hashtags.join(', ')}</p>
             <div className="like_icon_wrapper">
               <img
                 src={likedImages[index] ? LikeIconActive : LikeIcon}
@@ -62,7 +58,7 @@ const CategoryList: React.FC<Props> = ({
                 alt="like icon"
                 onClick={() => toggleLike(index)}
               />
-              <p>{img.likes}</p>
+              <p>{likes[index]}</p>
             </div>
           </div>
         </li>

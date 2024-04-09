@@ -1,7 +1,7 @@
 import { useRef, useState, useMemo } from 'react';
 import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 //이렇게 라이브러리를 불러와서 사용하면 됩니다
@@ -44,11 +44,18 @@ const EditTitle = styled.input`
   margin-bottom: 10px;
 `;
 
-export const EditorComponent = () => {
+export const EditorComponent: React.FC<{ selectedCategory: string }> = ({
+  selectedCategory,
+}) => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
   const [title, setTitle] = useState('');
   const [images, setImages] = useState([]);
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // -1을 전달하여 이전 페이지로 이동
+  };
 
   // AWS S3 설정
   const s3 = new AWS.S3({
@@ -163,19 +170,24 @@ export const EditorComponent = () => {
     []
   );
 
-  const saveToDatabase = async () => {
+  const handleSave = async () => {
+    let url;
+    if (selectedCategory === 'recipe') {
+      url = 'http://localhost:5000/api/recipes/';
+    } else {
+      url = 'http://localhost:5000/api/posts/';
+    }
+
     try {
-      // 서버로 콘텐츠 및 이미지 목록 전송
-      const response = await axios.post('http://localhost:5000/api/posts', {
+      const response = await axios.post(url, {
         user_id: 'user77777',
         nickname: 'nickname',
         profile: 'user',
-        title: title, // 제목 추가
+        title: title,
         content: contents,
         images: images,
         bread_id: 'category4555556',
       });
-      console.log(response.data); // 서버로부터의 응답 확인
       toast('글 작성이 완료되었습니다!');
     } catch (error) {
       console.error('Error saving to database:', error);
@@ -205,8 +217,8 @@ export const EditorComponent = () => {
         placeholder="내용을 입력해주세요."
       />
       <EditContextBtn>
-        <button onClick={saveToDatabase}>작성하기</button>
-        <Link to="/community/nearby">취소</Link>
+        <button onClick={handleSave}>작성하기</button>
+        <button onClick={goBack}>취소</button>
       </EditContextBtn>
       <ToastContainer />
     </>

@@ -21,6 +21,8 @@ import AdminCommunity from '../pages/admin/AdminCommunity.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
 import Kakao from '../pages/map/Kakao.tsx';
 import { ProfileImageProvider } from '../pages/mypage/ProfileImageContext.tsx';
+import MyRecipe from '../pages/community/recipe.tsx';
+import RecipeDetailPage from '../pages/community/recipesub.tsx';
 export default function Router() {
   return (
     <>
@@ -45,6 +47,8 @@ export default function Router() {
             <Route path="community/edit" element={<EditPage />} />
             <Route path="community/nearby" element={<NearByPage />} />
             <Route path="community/nearby/:id" element={<DetailPage />} />
+            <Route path="community/recipe" element={<MyRecipe />} />
+            <Route path="community/recipe/:id" element={<RecipeDetailPage />} />
             <Route path="magazines" element={<MagazinePage />} />
             <Route path="magazines/:id" element={<MagazineDetailPage />} />
             <Route path="map" element={<MapPage />} />

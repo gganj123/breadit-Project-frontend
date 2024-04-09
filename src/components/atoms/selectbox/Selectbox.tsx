@@ -1,13 +1,27 @@
 import React from 'react';
 
+type Option = {
+  value: string;
+  name: string;
+};
+
 type Props = {
-  options: { value: string; name: string }[];
+  options: Option[];
+  onChange: (value: string) => void;
+  value: string;
+  className?: string; // className prop 추가
 };
 
 const SelectBox: React.FC<Props> = (props) => {
+  const { options, onChange, value, className } = props;
+
   return (
-    <select>
-      {props.options.map((option) => (
+    <select
+      className={className}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
+      {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.name}
         </option>
