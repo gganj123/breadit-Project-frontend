@@ -24,8 +24,8 @@ const MapContainer = styled.div`
   }
 `;
 
-const MapWrapper = styled.div`
-  width: ${(props) => (props.expanded ? '100%' : '70%')};
+const MapWrapper = styled.div<{ $expanded: boolean }>`
+  width: ${(props) => (props.$expanded ? '100%' : '70%')};
   margin-left: auto;
   height: 100vh;
 `;
@@ -118,12 +118,12 @@ const FindNearBakery = styled.div`
   font-size: 12px;
 `;
 
-const SlidePin = styled.div`
+const SlidePin = styled.div<{ $expanded: boolean }>`
   width: 10px;
   height: 100px;
   position: absolute;
   top: 50%;
-  left: ${(props) => (props.expanded ? '0' : '30%')};
+  left: ${(props) => (props.$expanded ? '0' : '30%')};
   transform: translateY(-50%);
   background: red;
   z-index: 100;
@@ -193,7 +193,7 @@ const MapComponent: React.FC = () => {
   };
 
   // 내 위치로 주변 빵집을 찾는 함수
-  const searchBakeryNearby = (map, setMarkers) => {
+  const searchBakeryNearby = (map: kakao.maps.Map) => {
     // 현재 위치 가져오기
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -365,11 +365,11 @@ const MapComponent: React.FC = () => {
   const visibleMarkers = markers.slice(startIndex, startIndex + itemsPerPage);
 
   const searchNearbyBakeries = () => {
-    searchBakeryNearby(map, setMarkers);
+    if (map !== null) searchBakeryNearby(map);
   };
 
   return (
-    <MapWrapper expanded={expanded}>
+    <MapWrapper $expanded={expanded}>
       <Map
         center={{
           lat: 37.566826,
@@ -434,7 +434,7 @@ const MapComponent: React.FC = () => {
           gotoPage={gotoPage}
         />
       </MapContainer>
-      <SlidePin expanded={expanded} onClick={toggleMapSize}></SlidePin>
+      <SlidePin $expanded={expanded} onClick={toggleMapSize}></SlidePin>
     </MapWrapper>
   );
 };
