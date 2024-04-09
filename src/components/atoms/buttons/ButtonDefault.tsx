@@ -1,18 +1,32 @@
-import { FC } from 'react';
 import styled from 'styled-components';
 
-const StyleButton = styled.button`
+type ButtonProps = {
+  text: string;
+  backgroundcolor?: string;
+  color?: string;
+};
+
+type ButtonStyleProps = {
+  backgroundcolor?: string;
+  color?: string;
+};
+
+const ButtonStyle = styled.button<ButtonStyleProps>`
   height: 4.4rem;
-  background-color: #575757;
+  background-color: ${(props) => props.backgroundcolor || '#575757'};
   padding: 0 2.4rem;
   font-size: 1.8rem;
-  color: #fff;
-  line-height: normal;
+  color: ${(props) => props.color || '#fff'};
+  line-height: 1.5;
   border-radius: 0.6rem;
 `;
 
-const ButtonDeafult: FC<{ text: string }> = ({ text }) => {
-  return <StyleButton>{text}</StyleButton>;
+const ButtonDeafult = ({ text, backgroundcolor, color }: ButtonProps) => {
+  return (
+    <ButtonStyle backgroundcolor={backgroundcolor} color={color}>
+      {text}
+    </ButtonStyle>
+  );
 };
 
 export default ButtonDeafult;

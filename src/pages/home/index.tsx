@@ -18,9 +18,16 @@ import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
 const MainBannerStyle = styled.article`
+  background-color: #eee;
+  position: relative;
+
+  .slick-slider {
+    height: 72rem;
+  }
+
   .slick-arrow {
-    top: auto;
-    bottom: 3rem;
+    top: 94%;
+    bottom: auto;
     z-index: 99;
     width: 1.4rem;
     height: 1.4rem;
@@ -233,30 +240,36 @@ const InfiniteRoofStyle = styled.div`
   }
 `;
 
-export default function Home() {
+const Home = () => {
   const [magazineBanner, setMagazineBanner] = useState([]);
   const [postList, setPostList] = useState([]);
 
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`; // 요청 링크 나중에 변경하기
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
+  const getMagazinesAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/magazines`);
+      setMagazineBanner(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/magazines`) // 메인배너 매거진 데이터 - 최대갯수 제한 필요
-      .then((response) => {
-        setMagazineBanner(response.data); // 메인배너 매거진
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getMagazinesAPI();
+  }, []);
 
-    axios
-      .get(`${apiUrl}/posts`) // 메인 최근 추가된 빵집 추천! (커뮤니티 베이커리소개)
-      .then((response) => {
-        setPostList(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const getPostsAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/posts`);
+      setPostList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPostsAPI();
   }, []);
 
   const categories = [
@@ -409,4 +422,6 @@ export default function Home() {
       </InstagramStyle>
     </>
   );
-}
+};
+
+export default Home;

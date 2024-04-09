@@ -2,7 +2,7 @@ import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 
 type AdminTableProps = {
   theadTitle: string[];
-  data: { nickname: string; email?: string; title?: string }[];
+  data: { _id: string; nickname: string; email?: string; title?: string }[];
 };
 
 const AdminTable = ({ theadTitle, data }: AdminTableProps) => {
@@ -23,12 +23,17 @@ const AdminTable = ({ theadTitle, data }: AdminTableProps) => {
             })}
           </tr>
         </thead>
+
         <tbody>
           {data.map((content, index) => {
             return (
               <tr key={index}>
                 <td>
-                  <input type="checkbox" className="checkbox" value={index} />
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    value={content._id}
+                  />
                   {index + 1}
                 </td>
                 <td>{content.nickname}</td>

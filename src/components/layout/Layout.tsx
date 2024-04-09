@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
 import { Outlet } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
 import Footer from '../Footer';
 import Header from '../Header';
 
@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
   img, a, table, tr, td, th, thead, tbody, tfoot,
   ul, ol, li, dl, dt, dd, address,
   form, fieldset, legend, input, button, select, option, textarea {
-    margin: 0; padding: 0; line-height: 1.0;
+    margin: 0; padding: 0; line-height: 1.0; outline:none; font-family: "Noto Sans KR", sans-serif;
 
   }
   h1, h2, h3, h4, h5, h6 {font-weight:700;}
@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
   a {color: #3d3d3d; text-decoration: none;}
   textarea {resize: none;}
   fieldset {border: 0;}
-  input, button {cursor:pointer; background: none; border: 0; outline:none;}
+  button {cursor:pointer; background: none; border: 0; outline:none;}
   html,
   body {    
     font-family: "Noto Sans KR", sans-serif;
@@ -50,10 +50,6 @@ const GlobalStyle = createGlobalStyle`
   ::selection {
     background-color: #ffcb46;
     color: #fff;
-  }
-
-  button {
-    font-family: "Noto Sans KR", sans-serif;
   }
 
   .font_oleo {

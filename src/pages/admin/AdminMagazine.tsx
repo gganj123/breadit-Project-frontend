@@ -12,15 +12,17 @@ const AdminMagazine = () => {
 
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
+  const getMagazinesAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/magazines`);
+      setMagazineList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/magazines`)
-      .then((response) => {
-        setMagazineList(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getMagazinesAPI();
   }, []);
 
   return (
@@ -31,9 +33,16 @@ const AdminMagazine = () => {
           <AdminGuide />
           <div className="main_title flex_default">
             <h4>매거진 관리</h4>
-            <ButtonDeafult text={'매거진 발행'} />
+            <div className="buttons">
+              <ButtonDeafult
+                text={'매거진 발행'}
+                backgroundColor={'#d9d9d9'}
+                color={'#575757'}
+              />
+              <ButtonDeafult text={'선택 삭제'} />
+            </div>
           </div>
-          <div className="magazine_card_list">
+          <div className="admin_magazine_list">
             {magazineList.map((magazine, index) => {
               return <BigCard data={magazine} key={index} />;
             })}

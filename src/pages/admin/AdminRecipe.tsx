@@ -11,17 +11,20 @@ const AdminMain = () => {
   let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
 
   const [recipeList, setRecipeList] = useState([]);
+
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
+  const getRecipesAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/recipes`);
+      setRecipeList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/recipes`)
-      .then((response) => {
-        setRecipeList(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getRecipesAPI();
   }, []);
 
   return (

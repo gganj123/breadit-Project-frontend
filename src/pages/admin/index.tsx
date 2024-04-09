@@ -11,15 +11,17 @@ const AdminMain = () => {
   const [userList, setUserList] = useState([]);
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
+  const getUsersAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/users`);
+      setUserList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/users/`)
-      .then((response) => {
-        setUserList(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getUsersAPI();
   }, []);
 
   let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];

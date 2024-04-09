@@ -13,7 +13,7 @@ import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
 import EditPage from '../pages/community/edit.tsx';
 import MagazinePage from '../pages/magazine/index.tsx';
-import MagazineDetailPage from '../pages/magazine/deatil.tsx';
+import MagazineDetailPage from '../pages/magazine/Detail.tsx';
 import MapPage from '../pages/map/index.tsx';
 import AdminPage from '../pages/admin/index.tsx';
 import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';

@@ -13,15 +13,17 @@ const AdminMain = () => {
   const [communityList, setCommunityList] = useState([]);
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
+  const getpostsAPI = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/posts`);
+      setCommunityList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/posts`)
-      .then((response) => {
-        setCommunityList(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    getpostsAPI();
   }, []);
 
   return (

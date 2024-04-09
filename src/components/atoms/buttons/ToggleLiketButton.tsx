@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import likeIcon from '/like-icon.svg';
-import likeIconActive from '/like-icon-active.svg';
+import likeIcon from '/heart_icon.svg';
+import likeIconActive from '/heart_icon_active.svg';
 
 const LikeButton = styled.button`
   display: inline-flex;
@@ -12,7 +12,7 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-const ToggleLike = ({ like }: { like: number }) => {
+const ToggleLikeButton = ({ like }: { like: number }) => {
   const [isHeart, useIsHeart] = useState<boolean>(false);
   const [isLike, useIsLike] = useState<number>(like);
 
@@ -28,4 +28,4 @@ const ToggleLike = ({ like }: { like: number }) => {
   );
 };
 
-export default ToggleLike;
+export default ToggleLikeButton;

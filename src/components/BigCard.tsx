@@ -1,6 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ToggleLikeButton from './atoms/buttons/ToggleLikeButton';
+import ToggleLikeButton from './atoms/buttons/ToggleLiketButton';
 import Noimg from '/no_img.svg';
 
 const BigCard = styled.div`
@@ -8,6 +8,17 @@ const BigCard = styled.div`
   border-radius: 2rem;
   box-shadow: 0px 0px 3rem rgb(242 242 242);
   margin-bottom: 2rem;
+  max-width: 53.6rem;
+  position: relative;
+
+  .checkbox {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
 `;
 
 const ContentBox = styled.div`
@@ -61,6 +72,9 @@ const BigCardList = ({ data }: BigCardProps) => {
 
   return (
     <BigCard>
+      {location.pathname.includes('admin') && (
+        <input type="checkbox" value={_id} className="checkbox" />
+      )}
       <div className="img_box">
         <Link
           to={
