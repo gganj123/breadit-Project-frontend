@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LikeIcon from '/like-icon.svg';
-import LikeIconActive from '/like-icon-active.svg';
+import LikeIcon from '/heart_icon.svg';
+import LikeIconActive from '/heart_icon_active.svg';
 import Noimg from '/no_img.svg';
 
 type Props = {
