@@ -4,12 +4,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 
-type StepProps = {
-  number: number;
-  label: string;
-  isActive: boolean;
-};
-
 const StepContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,12 +11,12 @@ const StepContainer = styled.div`
   padding: 0 10px;
 `;
 
-const StepNumber = styled.div<Pick<StepProps, 'isActive'>>`
+const StepNumber = styled.div<{ active: string }>`
   width: 30px;
   height: 30px;
   border-radius: 50%;
   background-color: ${(props) =>
-    props.isActive ? '#ffc14b' : '#D9D9D9'}; // isActive에 따라 배경색 변경
+    props.active === 'true' ? '#ffc14b' : '#D9D9D9'}; // active 따라 배경색 변경
   color: #575757;
   border: 1px solid #575757;
   display: flex;
@@ -63,12 +57,11 @@ const StepIndicator: FC<{ currentStep: number }> = ({ currentStep }) => {
       <Connector />
       {['약관동의', '정보입력', '가입완료'].map((label, index) => {
         const stepNumber = index + 1;
-        // 현재 단계와 같거나 이전 단계인지 확인하여 활성화 여부 결정
         const isActive = stepNumber <= currentStep;
 
         return (
           <StepContainer key={label}>
-            <StepNumber isActive={isActive}>{stepNumber}</StepNumber>
+            <StepNumber active={isActive.toString()}>{stepNumber}</StepNumber>
             <StepLabel>{label}</StepLabel>
           </StepContainer>
         );

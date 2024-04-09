@@ -212,8 +212,8 @@ const SignUpInfoPage: React.FC = () => {
             <Button
               type="button"
               text="이메일 인증"
-              backColor="#575757"
-              textColor="#FFFFFF"
+              backcolor="#575757"
+              textcolor="#FFFFFF"
               width="110px"
               height="46px"
               onClick={checkEmail}
@@ -232,8 +232,8 @@ const SignUpInfoPage: React.FC = () => {
             <Button
               type="button"
               text="확인"
-              backColor="#575757"
-              textColor="#FFFFFF"
+              backcolor="#575757"
+              textcolor="#FFFFFF"
               width="110px"
               height="46px"
               onClick={checkVerificationCode}
@@ -282,8 +282,8 @@ const SignUpInfoPage: React.FC = () => {
           <Button
             type="submit"
             text="회원가입"
-            backColor="#575757"
-            textColor="#FFFFFF"
+            backcolor="#575757"
+            textcolor="#FFFFFF"
             width="100%"
             height="55px"
             disabled={!isSignUpEnabled}

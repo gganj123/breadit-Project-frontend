@@ -102,8 +102,8 @@ export default function Edit() {
             <Button
               type="submit"
               text="입력 완료"
-              backColor="#575757"
-              textColor="#FFFFFF"
+              backcolor="#575757"
+              textcolor="#FFFFFF"
               height="70px"
             />
           </Form>

@@ -1,5 +1,15 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+type InputFieldProps = {
+  type: string;
+  label: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  width?: string;
+  height?: string;
+  icon?: ReactNode;
+};
 
 const InputContainer = styled.div<{ width?: string }>`
   display: flex;
@@ -38,17 +48,6 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-type InputFieldProps = {
-  type: string;
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  width?: string;
-  height?: string;
-  icon?: ReactNode;
-};
 
 export const SignUpInput: React.FC<InputFieldProps> = ({
   type,
