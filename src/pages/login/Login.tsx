@@ -72,14 +72,11 @@ const Login: FC = () => {
           withCredentials: true, // 쿠키를 포함시키기 위해 필요
         }
       );
-
-      // 서버가 토큰을 HTTP-only 쿠키에 저장하므로 여기서는 토큰을 직접 저장하지 않습니다.
       console.log(
         '로그인 성공. 서버가 HTTP-only 쿠키에 인증 토큰을 저장했습니다.'
       );
-
       console.log(responese.data.token);
-      //window.location.href = '/';
+      window.location.href = '/';
     } catch (error) {
       console.error('로그인 에러:', error);
     }
