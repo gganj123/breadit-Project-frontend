@@ -3,6 +3,7 @@
  */
 import React, { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import Logo from '/Logo.svg';
 import Button from '../../components/atoms/buttons/Button';
@@ -42,6 +43,7 @@ const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.met
 const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
 
 const Login: FC = () => {
+  const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -58,7 +60,31 @@ const Login: FC = () => {
     handleLogin();
   };
 
-  const handleLogin = () => {};
+  const handleLogin = async () => {
+    try {
+      const responese = await axios.post(
+        `${apiUrl}/users/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // 쿠키를 포함시키기 위해 필요
+        }
+      );
+
+      // 서버가 토큰을 HTTP-only 쿠키에 저장하므로 여기서는 토큰을 직접 저장하지 않습니다.
+      console.log(
+        '로그인 성공. 서버가 HTTP-only 쿠키에 인증 토큰을 저장했습니다.'
+      );
+
+      console.log(responese.data.token);
+      //window.location.href = '/';
+    } catch (error) {
+      console.error('로그인 에러:', error);
+    }
+  };
+
   const googlehandleLogin = () => {
     window.location.href = googleURL;
   };
@@ -94,8 +120,8 @@ const Login: FC = () => {
           <Button
             type="submit"
             text="로그인"
-            backColor="#FFCB46"
-            textColor="#000000"
+            backcolor="#FFCB46"
+            textcolor="#000000"
             onClick={() => handleLogin()}
           />
         </form>
@@ -106,24 +132,24 @@ const Login: FC = () => {
         <Button
           type="button"
           text="구글 로그인"
-          backColor="#F2F2F2"
-          textColor="#000000"
+          backcolor="#F2F2F2"
+          textcolor="#000000"
           onClick={() => googlehandleLogin()}
           icon={<FcGoogle />}
         />
         <Button
           type="button"
           text="카카오 로그인"
-          backColor="#FEE500"
-          textColor="#000000"
+          backcolor="#FEE500"
+          textcolor="#000000"
           onClick={() => kakaohandleLogin()}
           icon={<BsChatFill />}
         />
         <Button
           type="button"
           text="네이버 로그인"
-          backColor="#03C75A"
-          textColor="#FFFFFF"
+          backcolor="#03C75A"
+          textcolor="#FFFFFF"
           onClick={() => naverhandleLogin()}
           icon={<SiNaver />}
         />

@@ -1,24 +1,23 @@
 import styled from 'styled-components';
 
 type StyledButtonProps = {
-  backColor: string;
-  textColor: string;
-  hasIcon: boolean;
+  backcolor: string;
+  textcolor: string;
+  hasicon: string;
   width?: string;
   height?: string;
   disabled?: boolean;
-  borderRadius?: string;
+  borderradius?: string;
 };
 
 export const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props: { backColor: string }) => props.backColor};
-  color: ${(props: { textColor: string }) => props.textColor};
-  border: ${(props: { hasIcon: boolean }) =>
-    props.hasIcon ? 'none' : '1px solid'};
-  border-radius: ${(props) => props.borderRadius || '8px'};
+  background-color: ${(props: { backcolor: string }) => props.backcolor};
+  color: ${(props: { textcolor: string }) => props.textcolor};
+  border: ${(props) => (props.hasicon === 'true' ? 'none' : '1px solid')};
+  border-radius: ${(props) => props.borderradius || '8px'};
   padding: 10px;
   margin: 5px 0;
   width: ${(props) => props.width || '460px'};

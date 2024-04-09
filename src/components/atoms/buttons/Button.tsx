@@ -3,40 +3,40 @@ import { StyledButton } from './Button.styles';
 
 type ButtonProps = {
   text: string;
-  backColor: string;
-  textColor: string;
+  backcolor: string;
+  textcolor: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   type: 'button' | 'submit';
   icon?: ReactNode;
   width?: string;
   height?: string;
   disabled?: boolean;
-  borderRadius?: string;
+  borderradius?: string;
 };
 
 const Button: FC<ButtonProps> = ({
   text,
-  backColor,
-  textColor,
+  backcolor,
+  textcolor,
   onClick,
   type,
   icon,
   width,
   height,
   disabled,
-  borderRadius,
+  borderradius,
 }) => {
   return (
     <StyledButton
-      backColor={backColor}
-      textColor={textColor}
+      backcolor={backcolor}
+      textcolor={textcolor}
       onClick={onClick}
       type={type}
-      hasIcon={!!icon}
+      hasicon={icon ? 'true' : 'false'}
       width={width}
       height={height}
       disabled={disabled}
-      borderRadius={borderRadius}
+      borderradius={borderradius}
     >
       {icon && <span className="icon-container">{icon}</span>}
       {text}

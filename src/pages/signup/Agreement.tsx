@@ -49,11 +49,11 @@ const Title = styled.div`
   text-align: center;
   margin-bottom: 30px;
 `;
-const ContentContainer = styled.div<{ isOpen: boolean }>`
+const ContentContainer = styled.div<{ open: boolean }>`
   padding-top: 10px;
   font-size: 13px;
   line-height: 1.6;
-  max-height: ${({ isOpen }) => (isOpen ? '1000px' : '0')};
+  max-height: ${({ open }) => (open ? '1000px' : '0')};
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -105,7 +105,7 @@ const Agreement: FC<AgreementProps> = ({
         </CheckboxLabel>
         {isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
       </TitleContainer>
-      <ContentContainer isOpen={isOpen}>
+      <ContentContainer open={isOpen}>
         <Line></Line>
         {content}
       </ContentContainer>
@@ -196,15 +196,15 @@ const SignUpPage: FC = () => {
         <Button
           type="button"
           text="이전"
-          backColor="#575757"
-          textColor="#FFFFFF"
+          backcolor="#575757"
+          textcolor="#FFFFFF"
           onClick={handlePrevClick}
         />
         <Button
           type="button"
           text="다음"
-          backColor="#575757"
-          textColor="#FFFFFF"
+          backcolor="#575757"
+          textcolor="#FFFFFF"
           onClick={handleNextClick}
         />
       </ButtonsContainer>

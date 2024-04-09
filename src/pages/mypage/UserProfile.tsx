@@ -63,11 +63,11 @@ const UserProfile: React.FC<UserProfileProps> = ({
       <Button
         type="button"
         text="정보 수정"
-        backColor="#575757"
-        textColor="#FFFFFF"
+        backcolor="#575757"
+        textcolor="#FFFFFF"
         width="140px"
         height="40px"
-        borderRadius="0px"
+        borderradius="0px"
         onClick={onEditProfile}
       />
       <ActionsContainer>

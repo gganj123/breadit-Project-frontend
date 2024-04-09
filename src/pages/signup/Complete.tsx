@@ -66,8 +66,8 @@ const SignUpCompletePage: React.FC = () => {
           <Button
             type="button"
             text="홈으로"
-            backColor="#575757"
-            textColor="#FFFFFF"
+            backcolor="#575757"
+            textcolor="#FFFFFF"
             width="220px"
             height="60px"
             onClick={handleNavigation('/')}
@@ -75,8 +75,8 @@ const SignUpCompletePage: React.FC = () => {
           <Button
             type="button"
             text="로그인"
-            backColor="#575757"
-            textColor="#FFFFFF"
+            backcolor="#575757"
+            textcolor="#FFFFFF"
             width="220px"
             height="60px"
             onClick={handleNavigation('/login')}

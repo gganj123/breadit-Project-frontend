@@ -20,23 +20,24 @@ const ProfileImageContainer = styled.div<{ src: string }>`
   border-radius: 50%;
   background: url(${(props) => props.src}) center / cover no-repeat;
 `;
+
 const ProfileImageWrapper = styled.div`
   position: relative;
   display: inline-block;
 `;
 
-const OptionsOverlay = styled.div<{ show: boolean }>`
-  display: ${(props) => (props.show ? 'flex' : 'none')};
+const OptionsOverlay = styled.div`
+  display: none;
   position: absolute;
   bottom: -45px;
   right: -130px;
   border-radius: 4px;
   border: 1px solid #575757;
-
   padding: 5px;
   flex-direction: column;
   background: #fff;
 `;
+
 const OptionButton = styled.button`
   font-size: 14px;
   color: #575757;
@@ -53,6 +54,7 @@ const OptionButton = styled.button`
     background-color: #f2f2f2;
   }
 `;
+
 const IconContainer = styled.div`
   color: #fff;
   position: absolute;
@@ -71,6 +73,7 @@ const IconContainer = styled.div`
 const EditIcon = styled(FaPen)`
   font-size: 13px;
 `;
+
 const HiddenFileInput = styled.input`
   display: none;
 `;
@@ -101,6 +104,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
       reader.readAsDataURL(file);
     }
   };
+
   const handleRemoveImage = () => {
     onRemoveImage?.();
     setShowOptions(false);
@@ -108,6 +112,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
       fileInputRef.current.value = '';
     }
   };
+
   return (
     <ProfileImageWrapper>
       <ProfileImageContainer src={src}>
@@ -124,7 +129,7 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
           accept="image/*"
         />
       </ProfileImageContainer>
-      <OptionsOverlay show={showOptions}>
+      <OptionsOverlay style={{ display: showOptions ? 'flex' : 'none' }}>
         <OptionButton onClick={() => fileInputRef.current?.click()}>
           Upload a photo ...
         </OptionButton>
