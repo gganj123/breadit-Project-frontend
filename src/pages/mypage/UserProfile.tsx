@@ -16,6 +16,7 @@ const Nickname = styled.div`
   font-weight: 600;
   text-align: center;
   color: #222222;
+  margin-top: 30px;
   margin-bottom: 30px;
 `;
 
@@ -23,6 +24,7 @@ const Email = styled.div`
   font-size: 16px;
   text-align: center;
   color: #777777;
+
   margin-bottom: 20px;
 `;
 

@@ -6,9 +6,8 @@ import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import { SignUpInput } from '../../components/atoms/input/SignUpInput';
 import ProfileImageUpload from './ProfileImageUpload';
-
-const DEFAULT_IMAGE =
-  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+import { useProfileImage } from './ProfileImageContext';
+import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled.div`
   display: flex;
@@ -48,18 +47,26 @@ const Email = styled.div`
   font-size: 16px;
   text-align: center;
   color: #777777;
+  margin-top: 50px;
   margin-bottom: 50px;
 `;
 export default function Edit() {
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
-  const [profileImage, setProfileImage] = useState(DEFAULT_IMAGE);
-
+  const { profileImage, setProfileImage } = useProfileImage();
+  const navigate = useNavigate();
   const handleImageChange = (imageUrl: string) => {
     setProfileImage(imageUrl);
   };
   const handleRemoveImage = () => {
-    setProfileImage(DEFAULT_IMAGE);
+    setProfileImage(
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+    );
+  };
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    navigate('/mypage');
   };
   return (
     <>
@@ -72,7 +79,7 @@ export default function Edit() {
             onRemoveImage={handleRemoveImage}
           />
           <Email>breadit@naver.com</Email>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <SignUpInput
               type="password"
               label="비밀번호"
@@ -91,14 +98,15 @@ export default function Edit() {
               width="100%"
               onChange={(e) => setNickname(e.target.value)}
             />
+
+            <Button
+              type="submit"
+              text="입력 완료"
+              backColor="#575757"
+              textColor="#FFFFFF"
+              height="70px"
+            />
           </Form>
-          <Button
-            type="submit"
-            text="입력 완료"
-            backColor="#575757"
-            textColor="#FFFFFF"
-            height="70px"
-          />
         </FormContainer>
       </PageContainer>
     </>
