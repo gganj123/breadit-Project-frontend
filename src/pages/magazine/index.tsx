@@ -12,7 +12,6 @@ type MagazineParameters = {
   nickname: string;
   title: string;
   content: string;
-  // 다른 필드들도 필요에 따라 추가
 };
 
 const Magazine = () => {
@@ -20,7 +19,7 @@ const Magazine = () => {
   const [magazineList, setMagazineList] = useState<MagazineParameters[]>([]);
 
   useEffect(() => {
-    console.log(getMagazineListQuery.data);
+    getMagazineListQuery.refetch();
     if (getMagazineListQuery.data) {
       setMagazineList(getMagazineListQuery.data);
     }
@@ -63,7 +62,7 @@ const Magazine = () => {
           <h3 className="main_title_text">
             놓치면 아쉬울, 새로운 베이커리 소식 🍰
           </h3>
-          <LinkDefault text={'Post +'} go={'/'} />
+          <LinkDefault text={'Post +'} go={'/magazines/edit'} />
         </div>
 
         <div className="magazine_card_list">

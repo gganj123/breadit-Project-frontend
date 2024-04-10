@@ -14,6 +14,7 @@ import DetailPage from '../pages/community/detail.tsx';
 import EditPage from '../pages/community/edit.tsx';
 import MagazinePage from '../pages/magazine/index.tsx';
 import MagazineDetailPage from '../pages/magazine/Detail.tsx';
+import MagazineEditPage from '../pages/magazine/Edit.tsx';
 import MapPage from '../pages/map/index.tsx';
 import AdminPage from '../pages/admin/index.tsx';
 import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
@@ -51,6 +52,7 @@ export default function Router() {
             <Route path="community/recipe/:id" element={<RecipeDetailPage />} />
             <Route path="magazines" element={<MagazinePage />} />
             <Route path="magazines/:id" element={<MagazineDetailPage />} />
+            <Route path="magazines/edit" element={<MagazineEditPage />} />
             <Route path="map" element={<MapPage />} />
             <Route path="admin" element={<AdminPage />} />
             <Route path="admin-magazine" element={<AdminMagazinePage />} />

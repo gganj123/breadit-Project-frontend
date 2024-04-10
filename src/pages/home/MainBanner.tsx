@@ -107,7 +107,7 @@ const MainBanner = ({ data }: BannerProps) => {
           <span className="font_oleo hot_Brand">Hot Brand</span>
           <h3 className="title">{title}</h3>
           <div className="text" dangerouslySetInnerHTML={noImgContent()} />
-          <LinkDefault text={'Magazine +'} go={`magazine/${_id}`} />
+          <LinkDefault text={'Magazine +'} go={`magazines/${_id}`} />
           <CircleRight src={BannerCircle1} />
         </div>
         <CircleCenter src={BannerCircle2} />

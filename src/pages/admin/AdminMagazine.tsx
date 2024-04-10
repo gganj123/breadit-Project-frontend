@@ -36,7 +36,7 @@ const AdminMagazine = () => {
             <div className="buttons">
               <ButtonDeafult
                 text={'매거진 발행'}
-                backgroundColor={'#d9d9d9'}
+                backgroundcolor={'#d9d9d9'}
                 color={'#575757'}
               />
               <ButtonDeafult text={'선택 삭제'} />

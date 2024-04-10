@@ -35,7 +35,7 @@
 }
 
 .magazine_banner .slick-arrow {
-  bottom: 10rem;
+  display: none;
 }
 
 .magazine_banner .slick-dots {

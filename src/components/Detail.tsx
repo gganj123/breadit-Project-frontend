@@ -2,6 +2,7 @@ import ButtonDefault from './atoms/buttons/ButtonDefault';
 import styled from 'styled-components';
 import ToggleLikeButton from './atoms/buttons/ToggleLiketButton';
 import Comments from './CommentList';
+import CommentIcon from '/icons/comment_icon.svg';
 
 const DetailTopStyle = styled.div`
   display: flex;

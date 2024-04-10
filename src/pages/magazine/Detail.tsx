@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import DetailContent from '../../components/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
+import { useGetMagazineByIdApi } from '../../hooks/useMagazineApi';
 
 const MagazineDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id?: string }>();
+  const useGetMagazineQuery = useGetMagazineByIdApi(id ?? '');
   const [detailData, setDetailData] = useState({
     nickname: '',
     profile: '',
@@ -16,20 +17,13 @@ const MagazineDetail = () => {
     content: '',
   });
 
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
-
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/magazines/${id}`)
-      .then((response) => {
-        setDetailData(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    useGetMagazineQuery.refetch();
+    if (useGetMagazineQuery.data) {
+      setDetailData(useGetMagazineQuery.data);
+    }
+  }, [useGetMagazineQuery.data]);
 
-  console.log(detailData);
   return (
     <section className="detail">
       <div className="flex_default detail_top">

@@ -44,7 +44,7 @@ const EditTitle = styled.input`
   margin-bottom: 10px;
 `;
 
-export const EditorComponent: React.FC<{ selectedCategory: string }> = ({
+export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
   selectedCategory,
 }) => {
   const QuillRef = useRef<ReactQuill>();

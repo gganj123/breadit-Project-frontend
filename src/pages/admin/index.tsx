@@ -4,35 +4,47 @@ import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 import AdminTable from './AdminTable';
+import {
+  useGetUserListApi,
+  useDeleteUserByIdApi,
+} from '../../hooks/useUserApi';
 
 import './admin.css';
 
-const AdminMain = () => {
-  const [userList, setUserList] = useState([]);
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+type UserParameters = {
+  _id: string;
+  nickname: string;
+  email: string;
+};
 
-  const getUsersAPI = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/users`);
-      setUserList(response.data);
-      getUsersAPI();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const AdminMain = () => {
+  const [userList, setUserList] = useState<UserParameters[]>([]);
+
+  const getUserListQuery = useGetUserListApi();
 
   useEffect(() => {
-    getUsersAPI();
-  }, []);
-
-  const deleteUserAPI = async (id: string) => {
-    try {
-      await axios.delete(`${apiUrl}/users/${id}`);
-      console.log(`${apiUrl}/users/${id}`);
-    } catch (error) {
-      console.error(error);
+    if (getUserListQuery.data) {
+      setUserList(getUserListQuery.data);
     }
+  }, [getUserListQuery.data]);
+
+  const { mutate } = useDeleteUserByIdApi();
+
+  const deleteUserIdFind = (id: string) => {
+    mutate(id); // useDeleteUserByIdApi에 delete user id 전달
+    console.log(id);
   };
+
+  // const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
+  // const deleteUserAPI = async (id: string) => {
+  //   try {
+  //     await axios.delete(`${apiUrl}/users/${id}`);
+  //     console.log(`${apiUrl}/users/${id}`);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
 
@@ -49,7 +61,7 @@ const AdminMain = () => {
           <AdminTable
             theadTitle={theadTitle}
             data={userList}
-            deleteEvent={(id: string) => deleteUserAPI(id)}
+            deleteEvent={(id: string) => deleteUserIdFind(id)}
           />
         </section>
       </section>

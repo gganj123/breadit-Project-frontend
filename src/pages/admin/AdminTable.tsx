@@ -2,7 +2,12 @@ import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 
 type AdminTableProps = {
   theadTitle: string[];
-  data: { _id: string; nickname: string; email?: string; title?: string }[];
+  data: {
+    _id: string;
+    nickname: string;
+    email?: string;
+    title?: string;
+  }[];
   deleteEvent: (id: string) => void;
 };
 
