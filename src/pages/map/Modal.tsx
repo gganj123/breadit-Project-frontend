@@ -1,5 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './Kakao.style.tsx';
+import axios from 'axios';
+import styled from 'styled-components';
+import MapDetailContent from '../../components/MapDetailContent.tsx';
+
+const MapDetailStyle = styled.section`
+  width: 40rem;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  z-index: 12;
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+`;
 
 const Modal = ({
   search,
@@ -35,6 +54,33 @@ const Modal = ({
     });
   };
 
+  const [isShowDetail, setIsShowDetail] = useState(false);
+  const [mapDetail, setMapDetail] = useState({
+    basicInfo: {
+      placenamefull: '',
+      address: {
+        newaddr: { newaddrfull: '', bsizonno: '' },
+        region: { newaddrfullname: '' },
+      },
+    },
+  });
+
+  // 상세 정보 요청 api
+  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
+  const getMapData = async (id: string) => {
+    try {
+      const response = await axios.get(`${apiUrl}/kakao-maps/${id}`, {
+        withCredentials: true,
+      });
+      console.log(id);
+      setMapDetail(response.data);
+      setIsShowDetail(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <S.ModalContainer isClosed={!isModalOpen}>
       <S.List>
@@ -45,6 +91,7 @@ const Modal = ({
             onClick={() => {
               setOpenMarkerId(data.id);
               moveLatLng(data);
+              getMapData(data.id);
             }}
             selected={data.id === openMarkerId}
           >
@@ -91,6 +138,18 @@ const Modal = ({
           </S.Item>
         ))}
       </S.List>
+      {isShowDetail && (
+        <MapDetailStyle>
+          <MapDetailContent data={mapDetail} />
+          <button
+            onClick={() => {
+              setIsShowDetail(false);
+            }}
+          >
+            X
+          </button>
+        </MapDetailStyle>
+      )}
       {/* 검색 결과가 없을 경우 표시 */}
       {search.length === 0 && <S.NoList>검색된 결과가 없습니다 😢</S.NoList>}
     </S.ModalContainer>
