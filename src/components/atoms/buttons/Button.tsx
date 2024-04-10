@@ -5,6 +5,8 @@ type ButtonProps = {
   text: string;
   backcolor: string;
   textcolor: string;
+  onMouseEnter?: (e: MouseEvent<HTMLButtonElement>) => void;
+  onMouseLeave?: (e: MouseEvent<HTMLButtonElement>) => void;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
   type: 'button' | 'submit';
   icon?: ReactNode;
@@ -18,6 +20,8 @@ const Button: FC<ButtonProps> = ({
   text,
   backcolor,
   textcolor,
+  onMouseEnter,
+  onMouseLeave,
   onClick,
   type,
   icon,
@@ -31,6 +35,8 @@ const Button: FC<ButtonProps> = ({
       backcolor={backcolor}
       textcolor={textcolor}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       type={type}
       hasicon={icon ? 'true' : 'false'}
       width={width}

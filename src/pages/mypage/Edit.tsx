@@ -16,7 +16,6 @@ const PageContainer = styled.div`
   width: 100%;
   max-width: 600px;
   margin: 150px auto;
-  padding: 20px;
 `;
 const FormContainer = styled.div`
   display: flex;
@@ -27,7 +26,7 @@ const FormContainer = styled.div`
   background-color: white;
   border: 1px solid #000;
   border-radius: 8px;
-  padding: 20px;
+  padding: 40px;
 `;
 const Form = styled.form`
   display: flex;
@@ -71,7 +70,7 @@ export default function Edit() {
   return (
     <>
       <PageContainer>
-        <Title>회원정보 입력</Title>
+        <Title>회원정보 수정</Title>
         <FormContainer>
           <ProfileImageUpload
             src={profileImage}
@@ -101,10 +100,11 @@ export default function Edit() {
 
             <Button
               type="submit"
-              text="입력 완료"
+              text="수정 완료"
               backcolor="#575757"
               textcolor="#FFFFFF"
-              height="70px"
+              height="60px"
+              width="100%"
             />
           </Form>
         </FormContainer>

@@ -30,6 +30,10 @@ const SignUpTitle = styled.div`
   font-weight: 300;
   color: #616161;
   margin: 10px 20px 20px;
+  &:hover {
+    color: #575757;
+    font-weight: 600;
+  }
 `;
 const SocialLoginTitle = styled.div`
   font-size: 15px;

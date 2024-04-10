@@ -282,10 +282,10 @@ const SignUpInfoPage: React.FC = () => {
           <Button
             type="submit"
             text="회원가입"
-            backcolor="#575757"
+            backcolor={isSignUpEnabled ? '#575757' : '#B7B7B7'}
             textcolor="#FFFFFF"
             width="100%"
-            height="55px"
+            height="60px"
             disabled={!isSignUpEnabled}
           />
         </Form>
