@@ -1,8 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import ButtonDefault from './atoms/buttons/ButtonDefault';
 import styled from 'styled-components';
 import ToggleLikeButton from './atoms/buttons/ToggleLiketButton';
 import Comments from './CommentList';
-import CommentIcon from '/icons/comment_icon.svg';
 
 const DetailTopStyle = styled.div`
   display: flex;
@@ -40,24 +40,34 @@ const UserStyle = styled.div`
 `;
 
 const DetailContentStyle = styled.div`
-  margin-top: 3rem;
-  min-height: 24vh;
+  margin: 3rem 0 4rem;
+  min-height: 26vh;
   font-size: 1.8rem;
   line-height: 1.6;
 `;
 
 type DetailProps = {
   data: {
+    _id: string;
     nickname: string;
     profile: string;
     createdAt: string;
     title: string;
     content: string;
   };
+  deleteEvent: (id: string) => void;
 };
 
-const DetailContent = ({ data }: DetailProps) => {
-  const { nickname, profile, createdAt, title, content } = data;
+const DetailContent = ({ data, deleteEvent }: DetailProps) => {
+  const { _id, nickname, profile, createdAt, title, content } = data;
+  const navigate = useNavigate();
+
+  const clickDeleteEvent = (id: string) => {
+    if (confirm('삭제하시겠습니까?')) {
+      deleteEvent(id);
+      navigate(-1);
+    }
+  };
 
   const sliceDate = createdAt.slice(0, 10);
 
@@ -86,6 +96,7 @@ const DetailContent = ({ data }: DetailProps) => {
             text={'삭제'}
             backgroundcolor={'#d9d9d9'}
             color={'#575757'}
+            clickevent={() => clickDeleteEvent(_id)}
           />
           <ButtonDefault text={'수정'} />
         </div>

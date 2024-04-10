@@ -148,13 +148,25 @@ const RecipeStyle = styled.section`
 
   .recipe .user_info {
     display: flex;
-    gap: 1.2rem;
+    gap: 1.8rem;
     align-items: center;
   }
 
   .recipe .user_info p {
     font-size: 1.8rem;
     font-weight: 500;
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+  }
+
+  .recipe .user_info p .nickname {
+    font-size: 2.2rem;
+    font-weight: 400;
+  }
+
+  .recipe .user_info p .date {
+    color: #888;
   }
 
   .recipe .content h5 {
@@ -341,6 +353,13 @@ const Home = () => {
     return sliceDate;
   }
 
+  function noImgContent() {
+    const imgFilter = recipeData.content.replace(/<img.*?>/g, '');
+
+    const HTML = { __html: imgFilter };
+    return HTML;
+  }
+
   return (
     <>
       <MainBannerStyle>
@@ -419,7 +438,7 @@ const Home = () => {
                 </p>
               </div>
               <h5>{recipeData.title}</h5>
-              <p>{recipeData.content}</p>
+              <div dangerouslySetInnerHTML={noImgContent()} />
               <RecipeGoStyle to="/community/nearby" className="go_recipe" />
             </div>
           </div>

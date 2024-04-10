@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { repositories } from '../apis';
 
 type MagazineParameters = {
@@ -23,5 +23,17 @@ export const useGetMagazineByIdApi = (targetId: string) => {
     enabled: false,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
+  });
+};
+
+export const useDeleteMagazineByIdApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (targetId: string) =>
+      repositories.magazinesApis.deleteMagazine(targetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazines'] });
+    },
   });
 };

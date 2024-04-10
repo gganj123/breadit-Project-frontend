@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
-import { useGetMagazineByIdApi } from '../../hooks/useMagazineApi';
+import {
+  useGetMagazineByIdApi,
+  useDeleteMagazineByIdApi,
+} from '../../hooks/useMagazineApi';
 
 const MagazineDetail = () => {
   const { id } = useParams<{ id?: string }>();
   const useGetMagazineQuery = useGetMagazineByIdApi(id ?? '');
   const [detailData, setDetailData] = useState({
+    _id: '',
     nickname: '',
     profile: '',
     createdAt: '',
@@ -24,6 +28,12 @@ const MagazineDetail = () => {
     }
   }, [useGetMagazineQuery.data]);
 
+  const { mutate } = useDeleteMagazineByIdApi();
+
+  const deleteMagazineIdFind = (id: string) => {
+    mutate(id);
+  };
+
   return (
     <section className="detail">
       <div className="flex_default detail_top">
@@ -37,7 +47,10 @@ const MagazineDetail = () => {
           <CopyUrlButton />
         </div>
       </div>
-      <DetailContent data={detailData} />
+      <DetailContent
+        data={detailData}
+        deleteEvent={(id: string) => deleteMagazineIdFind(id)}
+      />
     </section>
   );
 };

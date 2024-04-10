@@ -1,6 +1,6 @@
 import { EditorComponent } from '../../components/QuillEditor';
 
-export default function EditPage() {
+const MagazineEdit = () => {
   return (
     <>
       <div className="community_container">
@@ -11,4 +11,6 @@ export default function EditPage() {
       </div>
     </>
   );
-}
+};
+
+export default MagazineEdit;

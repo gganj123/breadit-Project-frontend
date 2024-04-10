@@ -22,4 +22,13 @@ export const magazinesApis = {
       console.error(err);
     }
   },
+
+  async deleteMagazine(id: string) {
+    try {
+      const reponse = await axios.delete(`${apiUrl}/magazines/${id}`);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };
