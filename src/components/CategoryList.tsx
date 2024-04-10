@@ -7,11 +7,8 @@ import Noimg from '/no_img.svg';
 type Props = {
   to: string;
   images: string[][];
-  images: string[][];
   titles: string[];
   nickname: string[];
-  likes: number[];
-  usersrc: string[];
   likes: number[];
   usersrc: string[];
 };
@@ -21,8 +18,6 @@ const CategoryList: React.FC<Props> = ({
   images,
   titles,
   nickname,
-  likes,
-  usersrc,
   likes,
   usersrc,
 }) => {
@@ -39,23 +34,18 @@ const CategoryList: React.FC<Props> = ({
   };
   const firstValues = images.map((subArray) => subArray[0]);
 
-  const firstValues = images.map((subArray) => subArray[0]);
-
   return (
     <ul className="community_list_item">
-      {images.map((image, index) => (
       {images.map((image, index) => (
         <li key={index}>
           <div className="box_wrapper list_title">
             <div className="user_img_wrapper">
-              <img src={usersrc[index]} alt={titles[index]} />
               <img src={usersrc[index]} alt={titles[index]} />
             </div>
             <p>{nickname[index] || ''}</p>
           </div>
           <div className="list_img_wrapper">
             <Link to={`${to}/${index}`}>
-              <img src={firstValues[index] || Noimg} alt={titles[index]} />
               <img src={firstValues[index] || Noimg} alt={titles[index]} />
             </Link>
           </div>
