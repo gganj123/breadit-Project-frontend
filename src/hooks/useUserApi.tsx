@@ -19,7 +19,8 @@ export const useDeleteUserByIdApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userId: string) => repositories.usersApi.deleteUser(userId), // mutation 사용법 검토받기!
+    mutationFn: (targetId: string) =>
+      repositories.usersApi.deleteUser(targetId), // mutation 사용법 검토받기!
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] }); // 사용자 목록 데이터 초기화? 새로고침?
     },
