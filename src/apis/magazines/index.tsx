@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
+// GET: getXxx, find
+
 export const magazinesApis = {
   async getMagazineList() {
     try {

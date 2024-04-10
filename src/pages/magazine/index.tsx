@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import BigCardList from '../../components/BigCard';
 import MagazineBanner from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
-import { useMagazinesApi } from '../../hooks/useMagazineApi';
+import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
 
@@ -16,8 +16,8 @@ type MagazineParameters = {
 };
 
 const Magazine = () => {
-  const { getMagazineListQuery } = useMagazinesApi();
-  const [magazineList, setMagazineList] = useState<MagazineParameters>([]);
+  const getMagazineListQuery = useGetMagazineListApi();
+  const [magazineList, setMagazineList] = useState<MagazineParameters[]>([]);
 
   useEffect(() => {
     console.log(getMagazineListQuery.data);

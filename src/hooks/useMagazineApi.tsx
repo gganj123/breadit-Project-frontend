@@ -6,17 +6,22 @@ type MagazineParameters = {
   nickname: string;
   title: string;
   content: string;
-  // 다른 필드들도 필요에 따라 추가
 };
 
-export const useMagazinesApi = () => {
-  const getMagazineListQuery = useQuery<MagazineParameters>({
+export const useGetMagazineListApi = () => {
+  return useQuery<MagazineParameters[]>({
     queryKey: ['magazines'],
     queryFn: repositories.magazinesApis.getMagazineList,
     enabled: true,
   });
+};
 
-  return {
-    getMagazineListQuery,
-  };
+export const useGetMagazineByIdApi = (targetId: string) => {
+  return useQuery({
+    queryKey: ['magazine', targetId],
+    queryFn: () => repositories.magazinesApis.getMagazine(targetId),
+    enabled: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
 };
