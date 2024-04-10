@@ -24,11 +24,6 @@
   padding: 6rem 0;
 }
 
-.admin_cont .buttons {
-  display: flex;
-  gap: 1rem;
-}
-
 .admin_guide {
   background-color: #f7f7f7;
   padding: 3rem 4rem;

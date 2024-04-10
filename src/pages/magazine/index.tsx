@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import Slider from 'react-slick';
 import BigCardList from '../../components/BigCard';
 import MagazineBanner from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
+import { useMagazinesApi } from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
 
-const Magazine = () => {
-  const [magazineList, setMagazineList] = useState([]);
+type MagazineParameters = {
+  _id: string;
+  nickname: string;
+  title: string;
+  content: string;
+  // 다른 필드들도 필요에 따라 추가
+};
 
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+const Magazine = () => {
+  const { getMagazineListQuery } = useMagazinesApi();
+  const [magazineList, setMagazineList] = useState<MagazineParameters>([]);
 
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/magazines/`)
-      .then((response) => {
-        setMagazineList(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+    console.log(getMagazineListQuery.data);
+    if (getMagazineListQuery.data) {
+      setMagazineList(getMagazineListQuery.data);
+    }
+  }, [getMagazineListQuery.data]);
 
   const settings = {
     dots: true,

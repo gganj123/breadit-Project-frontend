@@ -25,9 +25,7 @@ const CommentsContStyle = styled.section`
 
   .buttons {
     margin-top: 2rem;
-    display: flex;
     justify-content: flex-end;
-    gap: 1rem;
   }
 
   .comment_list {

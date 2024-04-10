@@ -42,7 +42,7 @@ const BannerItemStyle = styled.div`
   }
 
   .content_box {
-    background: url('/main_banner_bg.svg') no-repeat 50% 50%;
+    background: url('/bg/main_banner_bg.svg') no-repeat 50% 50%;
   }
 
   .content {
@@ -89,9 +89,10 @@ const BannerItemStyle = styled.div`
 const MainBanner = ({ data }: BannerProps) => {
   const { _id, title, content } = data;
 
-  function contentHTML() {
-    let HTML = { __html: content };
+  function noImgContent() {
+    const imgFilter = content.replace(/<img.*?>/g, '');
 
+    const HTML = { __html: imgFilter };
     return HTML;
   }
 
@@ -105,7 +106,7 @@ const MainBanner = ({ data }: BannerProps) => {
         <div className="content">
           <span className="font_oleo hot_Brand">Hot Brand</span>
           <h3 className="title">{title}</h3>
-          <div className="text" dangerouslySetInnerHTML={contentHTML()} />
+          <div className="text" dangerouslySetInnerHTML={noImgContent()} />
           <LinkDefault text={'Magazine +'} go={`magazine/${_id}`} />
           <CircleRight src={BannerCircle1} />
         </div>

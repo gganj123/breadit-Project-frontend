@@ -16,7 +16,7 @@
 
 .magazine_banner .content_box .font_oleo {
   font-size: 2rem;
-  color: #dedede;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .magazine_banner .content_box h3 {
@@ -24,7 +24,7 @@
   margin: 3rem 0 2rem;
 }
 
-.magazine_banner .content_box p {
+.magazine_banner .content_box .content {
   font-size: 2rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -105,11 +105,6 @@
   position: absolute;
   top: 4px;
   right: calc(100% + 1.6rem);
-}
-
-.detail_top .buttons {
-  display: flex;
-  gap: 1.6rem;
 }
 
 .detail_title {

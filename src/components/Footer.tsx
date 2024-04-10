@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import Figma from '/figma.svg';
-import Gitlab from '/gitlab.svg';
-import Notion from '/notion.svg';
+import Figma from '/icons/figma_icon.svg';
+import Gitlab from '/icons/gitlab_icon.svg';
+import Notion from '/icons/notion_icon.svg';
 
 const Footer = () => {
   function preparingAlert() {

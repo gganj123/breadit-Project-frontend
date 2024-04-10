@@ -4,6 +4,7 @@ type ButtonProps = {
   text: string;
   backgroundcolor?: string;
   color?: string;
+  clickevent?: () => void;
 };
 
 type ButtonStyleProps = {
@@ -21,9 +22,18 @@ const ButtonStyle = styled.button<ButtonStyleProps>`
   border-radius: 0.6rem;
 `;
 
-const ButtonDeafult = ({ text, backgroundcolor, color }: ButtonProps) => {
+const ButtonDeafult = ({
+  text,
+  backgroundcolor,
+  color,
+  clickevent,
+}: ButtonProps) => {
   return (
-    <ButtonStyle backgroundcolor={backgroundcolor} color={color}>
+    <ButtonStyle
+      backgroundcolor={backgroundcolor}
+      color={color}
+      onClick={clickevent}
+    >
       {text}
     </ButtonStyle>
   );

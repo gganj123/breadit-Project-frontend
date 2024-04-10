@@ -3,10 +3,10 @@ import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import CategoryImg1 from '/category_img1.svg';
-import CategoryImg2 from '/category_img2.svg';
-import CategoryImg3 from '/category_img3.svg';
-import CategoryImg4 from '/category_img4.svg';
+import CategoryImg1 from '/icons/category_img1.svg';
+import CategoryImg2 from '/icons/category_img2.svg';
+import CategoryImg3 from '/icons/category_img3.svg';
+import CategoryImg4 from '/icons/category_img4.svg';
 import MainCategories from './MainCategories';
 import Review from '/Review.svg';
 import MainBanner from './MainBanner';
@@ -243,6 +243,14 @@ const InfiniteRoofStyle = styled.div`
 const Home = () => {
   const [magazineBanner, setMagazineBanner] = useState([]);
   const [postList, setPostList] = useState([]);
+  const [recipeData, setRecipeData] = useState({
+    nickname: '',
+    profile: '',
+    title: '',
+    content: '',
+    images: [''],
+    createdAt: '',
+  });
 
   let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
@@ -270,6 +278,21 @@ const Home = () => {
 
   useEffect(() => {
     getPostsAPI();
+  }, []);
+
+  const getRecipesAPI = async () => {
+    try {
+      const response = await axios.get(
+        `${apiUrl}/recipes/6614f874525737b2e8e1a0e0`
+      );
+      setRecipeData(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getRecipesAPI();
   }, []);
 
   const categories = [
@@ -312,6 +335,11 @@ const Home = () => {
     draggable: true,
     swipeToSlide: false,
   };
+
+  function sliceDate(date: string) {
+    const sliceDate = date.slice(0, 10);
+    return sliceDate;
+  }
 
   return (
     <>
@@ -383,19 +411,15 @@ const Home = () => {
                     borderRadius: '50%',
                   }}
                 ></span>
-                <p className="nickname">귀여운게 제일 좋아</p>
+                <p>
+                  <span className="nickname">{recipeData.nickname}</span>
+                  <span className="date">
+                    {sliceDate(recipeData.createdAt)}
+                  </span>
+                </p>
               </div>
-              <h5>온세상 강쥐 쿠키를 구워봤어요~~!</h5>
-              <p>
-                강아지 쿠키 만드는 방법 공유드립니다!! 우선 밀가루와 뭐쩌구가
-                <br />
-                필요합니다. 그리고 최고의 손재주를 가지면 되는데요!
-                <br />
-                <br />
-                ** 재료 공유 ( 정확하게 계량해주세요. )
-                <br />
-                금손 100g ...
-              </p>
+              <h5>{recipeData.title}</h5>
+              <p>{recipeData.content}</p>
               <RecipeGoStyle to="/community/nearby" className="go_recipe" />
             </div>
           </div>

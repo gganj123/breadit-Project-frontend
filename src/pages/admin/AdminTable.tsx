@@ -3,9 +3,16 @@ import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 type AdminTableProps = {
   theadTitle: string[];
   data: { _id: string; nickname: string; email?: string; title?: string }[];
+  deleteEvent: (id: string) => void;
 };
 
-const AdminTable = ({ theadTitle, data }: AdminTableProps) => {
+const AdminTable = ({ theadTitle, data, deleteEvent }: AdminTableProps) => {
+  const clickDeleteEvent = (id: string) => {
+    if (confirm('삭제하시겠습니까?')) {
+      deleteEvent(id);
+    }
+  };
+
   return (
     <div className="admin_table">
       <table>
@@ -42,7 +49,10 @@ const AdminTable = ({ theadTitle, data }: AdminTableProps) => {
                   {content.title}
                 </td>
                 <td>
-                  <ButtonDeafult text={'삭제'} />
+                  <ButtonDeafult
+                    text={'삭제'}
+                    clickevent={() => clickDeleteEvent(content._id)}
+                  />
                 </td>
               </tr>
             );

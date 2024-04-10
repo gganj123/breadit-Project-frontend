@@ -15,6 +15,7 @@ const AdminMain = () => {
     try {
       const response = await axios.get(`${apiUrl}/users`);
       setUserList(response.data);
+      getUsersAPI();
     } catch (error) {
       console.error(error);
     }
@@ -23,6 +24,15 @@ const AdminMain = () => {
   useEffect(() => {
     getUsersAPI();
   }, []);
+
+  const deleteUserAPI = async (id: string) => {
+    try {
+      await axios.delete(`${apiUrl}/users/${id}`);
+      console.log(`${apiUrl}/users/${id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   let theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
 
@@ -36,7 +46,11 @@ const AdminMain = () => {
             <h4>사용자 관리</h4>
             <ButtonDeafult text={'선택 삭제'} />
           </div>
-          <AdminTable theadTitle={theadTitle} data={userList} />
+          <AdminTable
+            theadTitle={theadTitle}
+            data={userList}
+            deleteEvent={(id: string) => deleteUserAPI(id)}
+          />
         </section>
       </section>
     </>

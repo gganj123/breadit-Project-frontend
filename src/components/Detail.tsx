@@ -58,7 +58,7 @@ type DetailProps = {
 const DetailContent = ({ data }: DetailProps) => {
   const { nickname, profile, createdAt, title, content } = data;
 
-  const splitDate = createdAt.slice(0, 10);
+  const sliceDate = createdAt.slice(0, 10);
 
   function tagContent() {
     const HTML = { __html: content };
@@ -76,11 +76,18 @@ const DetailContent = ({ data }: DetailProps) => {
             <h3 className="detail_title">{title}</h3>
             <p>
               <span className="username">{nickname}</span>
-              <span className="date">{splitDate}</span>
+              <span className="date">{sliceDate}</span>
             </p>
           </div>
         </UserStyle>
-        <ButtonDefault text={'Edit'} />
+        <div className="buttons">
+          <ButtonDefault
+            text={'삭제'}
+            backgroundcolor={'#d9d9d9'}
+            color={'#575757'}
+          />
+          <ButtonDefault text={'수정'} />
+        </div>
       </DetailTopStyle>
       <DetailContentStyle dangerouslySetInnerHTML={tagContent()} />
       <ToggleLikeButton like={0} />

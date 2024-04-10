@@ -135,6 +135,11 @@ const GlobalStyle = createGlobalStyle`
     padding:8rem 10rem;
   }
 
+  .buttons {
+    display: flex;
+    gap: 1rem;
+  }
+
 `;
 
 const Layout = () => {
