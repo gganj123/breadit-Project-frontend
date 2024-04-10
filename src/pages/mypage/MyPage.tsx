@@ -248,7 +248,7 @@ export default function MyPage() {
               <MypageList>
                 <MypageListTitle>
                   <h3>빵집보관함</h3>
-                  <Link to="/community">
+                  <Link to="/mypage/breadbox">
                     More{' '}
                     <img src={RightArrow} className="icon" alt="arrow icon" />
                   </Link>
@@ -262,28 +262,30 @@ export default function MyPage() {
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
                   {!isLoading &&
-                    Object.keys(data).map((id) => {
-                      const basicInfo = data[id]?.basicInfo;
-                      return basicInfo && basicInfo.mainphotourl ? (
-                        <MyPageList
-                          key={id}
-                          to="/community/nearby"
-                          images={basicInfo.mainphotourl}
-                          titles={basicInfo.placenamefull}
-                          sub={basicInfo.address.region.newaddrfullname}
-                          rest={`#${basicInfo.category.catename}`}
-                        />
-                      ) : (
-                        <p key={id}>No data available</p>
-                      );
-                    })}
+                    Object.keys(data)
+                      .slice(0, 4)
+                      .map((id) => {
+                        const basicInfo = data[id]?.basicInfo;
+                        return basicInfo && basicInfo.mainphotourl ? (
+                          <MyPageList
+                            key={id}
+                            to={`https://place.map.kakao.com/${id}`}
+                            images={basicInfo.mainphotourl}
+                            titles={basicInfo.placenamefull}
+                            sub={basicInfo.address.region.newaddrfullname}
+                            rest={`#${basicInfo.category.catename}`}
+                          />
+                        ) : (
+                          <p key={id}>No data available</p>
+                        );
+                      })}
                 </ListWrapper>
               </MypageList>
 
               <MypageList>
                 <MypageListTitle>
                   <h3>우리 동네 베이커리를 소개합니다!</h3>
-                  <Link to="/community">
+                  <Link to="/mypage/bakery-introduction">
                     More{' '}
                     <img src={RightArrow} className="icon" alt="arrow icon" />
                   </Link>
@@ -312,8 +314,8 @@ export default function MyPage() {
 
               <MypageList>
                 <MypageListTitle>
-                  <h3>우리 동네 베이커리를 소개합니다!</h3>
-                  <Link to="/community">
+                  <h3>나만의 레시피를 공유해요</h3>
+                  <Link to="/mypage/recipe-introduction">
                     More{' '}
                     <img src={RightArrow} className="icon" alt="arrow icon" />
                   </Link>

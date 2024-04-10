@@ -23,6 +23,8 @@ import Kakao from '../pages/map/Kakao.tsx';
 import { ProfileImageProvider } from '../pages/mypage/ProfileImageContext.tsx';
 import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
+import DynamicSection from '../pages/mypage/DynamicSection.tsx';
+
 export default function Router() {
   return (
     <>
@@ -31,6 +33,7 @@ export default function Router() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="mypage" element={<MyPage />} />
+            <Route path="mypage/:section" element={<DynamicSection />} />
             <Route
               path="mypage/check-password"
               element={<MyPageCheckPassword />}
