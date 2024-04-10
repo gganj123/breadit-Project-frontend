@@ -59,7 +59,6 @@ const CategoryList: React.FC<Props> = ({
                 onClick={() => toggleLike(index)}
               />
               <p>{likes[index]}</p>
-              <p>{likes[index]}</p>
             </div>
           </div>
         </li>
