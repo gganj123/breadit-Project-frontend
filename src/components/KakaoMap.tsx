@@ -220,7 +220,7 @@ const MapComponent: React.FC = () => {
     console.log(expanded);
   };
 
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+  const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
   const getMapData = async (id: string) => {
     try {
