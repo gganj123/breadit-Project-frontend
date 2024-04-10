@@ -1,13 +1,14 @@
+import axios from 'axios';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import MapDetailContent from './MapDetailContent';
 
 const MapContainer = styled.div`
   position: absolute;
   background: #000;
-  width: 30%;
+  width: 40rem;
   height: 100%;
-  overflow-y: scroll;
   top: 7.4rem;
   left: 0;
 
@@ -25,7 +26,7 @@ const MapContainer = styled.div`
 `;
 
 const MapWrapper = styled.div<{ $expanded: boolean }>`
-  width: ${(props) => (props.$expanded ? '100%' : '70%')};
+  width: ${(props) => (props.$expanded ? '100%' : 'calc(100% - 40rem)')};
   margin-left: auto;
   height: 100vh;
 `;
@@ -45,9 +46,6 @@ const MapList = styled.ul`
   }
   li {
     width: 100%;
-    a {
-      cursor: pointer;
-    }
   }
 `;
 
@@ -126,7 +124,7 @@ const SlidePin = styled.div<{ $expanded: boolean }>`
   height: 100px;
   position: absolute;
   top: 50%;
-  left: ${(props) => (props.$expanded ? '0' : '30%')};
+  left: ${(props) => (props.$expanded ? '0' : '40rem')};
   transform: translateY(-50%);
   background: red;
   z-index: 100;
@@ -134,8 +132,25 @@ const SlidePin = styled.div<{ $expanded: boolean }>`
   cursor: pointer;
 `;
 
+const MapDetailStyle = styled.section`
+  width: 40rem;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  z-index: 12;
+
+  button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+`;
+
 type Marker = {
   position: { lat: number; lng: number };
+  id: string;
   content: string;
   address: string;
   phone: string | number;
@@ -174,6 +189,16 @@ const MapComponent: React.FC = () => {
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [keyword, setKeyword] = useState('');
   const [expanded, setExpanded] = useState(false);
+  const [isShowDetail, setIsShowDetail] = useState(false);
+  const [mapDetail, setMapDetail] = useState({
+    basicInfo: {
+      placenamefull: '',
+      address: {
+        newaddr: { newaddrfull: '', bsizonno: '' },
+        region: { newaddrfullname: '' },
+      },
+    },
+  });
   // pagination state 추가
   const [pagination, setPagination] = useState<PaginationProps>({
     last: 1,
@@ -190,22 +215,23 @@ const MapComponent: React.FC = () => {
     setPagination({ ...pagination, current: pageNumber });
   };
 
-  const handleListItemClick = (marker: Marker) => {
-    if (map) {
-      const markerPosition = new kakao.maps.LatLng(
-        marker.position.lat,
-        marker.position.lng
-      );
-      map.panTo(markerPosition); // 해당 마커의 위치로 지도 이동
-
-      // 마커 클릭 시 해당 마커 정보를 표시
-      setInfo(marker);
-    }
-  };
-
   const toggleMapSize = () => {
     setExpanded(!expanded); // 너비 및 MapContainer 표시 여부 전환
     console.log(expanded);
+  };
+
+  const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+
+  const getMapData = async (id: string) => {
+    try {
+      const response = await axios.get(`${apiUrl}/kakao-maps/${id}`, {
+        withCredentials: true,
+      });
+      setMapDetail(response.data);
+      setIsShowDetail(true);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // 내 위치로 주변 빵집을 찾는 함수
@@ -229,6 +255,7 @@ const MapComponent: React.FC = () => {
                 const lng = parseFloat(data[i].x);
                 newMarkers.push({
                   position: { lat, lng },
+                  id: data[i].id,
                   content: data[i].place_name,
                   address: data[i].road_address_name,
                   phone: data[i].phone,
@@ -274,6 +301,7 @@ const MapComponent: React.FC = () => {
           const lng = parseFloat(data[i].x);
           newMarkers.push({
             position: { lat, lng },
+            id: data[i].id,
             content: data[i].place_name,
             address: data[i].road_address_name,
             phone: data[i].phone,
@@ -354,6 +382,7 @@ const MapComponent: React.FC = () => {
               lat,
               lng,
             },
+            id: data[i].id,
             content: data[i].place_name,
             address: data[i].road_address_name,
             phone: data[i].phone,
@@ -429,11 +458,15 @@ const MapComponent: React.FC = () => {
         <MapList>
           {visibleMarkers.map((marker, index) => (
             <li key={index}>
-              <a onClick={() => handleListItemClick(marker)}>
-                <MapListItem>
+              <a>
+                <MapListItem
+                  onClick={() => {
+                    getMapData(marker.id);
+                  }}
+                >
                   <div className="img" />
                   <div>
-                    <p className="title">{marker.content}</p>
+                    <p className="title">{marker.content},</p>
                     <span>{marker.address}</span>
                     <p>내 위치로 부터 2km</p>
                     <p>{marker.phone}</p>
@@ -449,6 +482,19 @@ const MapComponent: React.FC = () => {
           current={pagination.current}
           gotoPage={gotoPage}
         />
+        {isShowDetail && (
+          <MapDetailStyle>
+            <MapDetailContent data={mapDetail} />
+            <button
+              onClick={() => {
+                setIsShowDetail(false);
+              }}
+            >
+              X
+            </button>
+          </MapDetailStyle>
+        )}
+        {/* 디테일정보 전달 */}
       </MapContainer>
       <SlidePin $expanded={expanded} onClick={toggleMapSize}></SlidePin>
     </MapWrapper>
