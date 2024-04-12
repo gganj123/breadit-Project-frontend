@@ -1,154 +1,13 @@
 import axios from 'axios';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import * as S from './KakaoMap.style';
 import MapDetailContent from './MapDetailContent';
+import { searchBakeryNearby } from '../components/SearchArea';
+import { useLocation } from 'react-router-dom';
+import { Hearts } from 'react-loader-spinner';
 
-const MapContainer = styled.div`
-  position: absolute;
-  background: #000;
-  width: 40rem;
-  height: 100%;
-  top: 7.4rem;
-  left: 0;
-
-  #pagination {
-    text-align: center;
-    font-size: 25px;
-    a {
-      cursor: pointer;
-      color: #fff;
-      + a {
-        margin-left: 15px;
-      }
-    }
-  }
-`;
-
-const MapWrapper = styled.div<{ $expanded: boolean }>`
-  width: ${(props) => (props.$expanded ? '100%' : 'calc(100% - 40rem)')};
-  margin-left: auto;
-  height: 100vh;
-`;
-
-const MapList = styled.ul`
-  width: 90%;
-  margin: 20px auto 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  .img {
-    width: 50px;
-    height: 50px;
-    background: gray;
-    border-radius: 50%;
-    margin-right: 26px;
-  }
-  li {
-    width: 100%;
-  }
-`;
-
-const MapListItem = styled.div`
-  width: 100%;
-  display: flex;
-  background: #fff;
-  padding: 16px;
-  border-radius: 20px;
-  p {
-    margin-top: 10px;
-  }
-  .title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #000;
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  span {
-    margin: 10px 0;
-    font-size: 1rem;
-    color: dimgray;
-  }
-`;
-
-const MapSearchBox = styled.div`
-  position: absolute;
-  top: 10rem;
-  left: 60%;
-  transform: translateX(-50%);
-  z-index: 10;
-  background: #fff;
-  width: 50%;
-  height: 35px;
-  display: flex;
-
-  input {
-    width: 90%;
-    padding: 10px;
-    cursor: default;
-  }
-  button {
-    width: 10%;
-    background: blue;
-    color: #fff;
-  }
-`;
-
-const FindNearMap = styled.div`
-  padding: 10px 20px;
-  background: #eee;
-  width: 100px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 12px;
-`;
-
-const FindNearBakery = styled.div`
-  padding: 10px 20px;
-  background: #eee;
-  width: 100px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  font-size: 12px;
-`;
-
-const SlidePin = styled.div<{ $expanded: boolean }>`
-  width: 10px;
-  height: 100px;
-  position: absolute;
-  top: 50%;
-  left: ${(props) => (props.$expanded ? '0' : '40rem')};
-  transform: translateY(-50%);
-  background: red;
-  z-index: 100;
-  box-shadow: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-`;
-
-const MapDetailStyle = styled.section`
-  width: 40rem;
-  height: 100%;
-  background-color: #fff;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  z-index: 12;
-
-  button {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-`;
-
-type Marker = {
+export type Marker = {
   position: { lat: number; lng: number };
   id: string;
   content: string;
@@ -156,7 +15,7 @@ type Marker = {
   phone: string | number;
 };
 
-type PaginationProps = {
+export type PaginationProps = {
   last: number;
   current: number;
   gotoPage(pageNumber: number): void;
@@ -184,6 +43,19 @@ const Pagination: React.FC<PaginationProps> = ({ last, current, gotoPage }) => {
 };
 
 const MapComponent: React.FC = () => {
+  // 기본 위치 상태
+  const [state, setState] = useState<{
+    center: { lat: number; lng: number };
+    errMsg: string | null; // Adjusted type to allow string or null
+    isLoading: boolean;
+  }>({
+    center: {
+      lat: 33.450701,
+      lng: 126.570667,
+    },
+    errMsg: null,
+    isLoading: true,
+  });
   const [info, setInfo] = useState<Marker | null>(null);
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
@@ -211,13 +83,61 @@ const MapComponent: React.FC = () => {
     },
   });
 
+  const location = useLocation();
+  const categoryName = new URLSearchParams(location.search).get('category');
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            },
+            isLoading: false,
+          }));
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      setState((prev) => ({
+        ...prev,
+        errMsg: 'geolocation을 사용할수 없어요..',
+        isLoading: false,
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (categoryName) {
+      const categoryKeywords = {
+        케이크: '케이크',
+        빵집: '빵집',
+        구움쿠키: '구움쿠키',
+        샌드위치: '샌드위치',
+      };
+
+      const searchKeyword = categoryKeywords[categoryName] || '';
+      // searchBakeryNearby 함수 호출 시 검색 키워드 전달
+      searchBakeryNearby(map, setMarkers, setPagination, searchKeyword);
+    }
+  }, [categoryName, map, setMarkers, setPagination]);
+
   const gotoPage = (pageNumber: number) => {
     setPagination({ ...pagination, current: pageNumber });
   };
 
+  //목록리스트 안보이게 넣어주는 버튼 기능
   const toggleMapSize = () => {
     setExpanded(!expanded); // 너비 및 MapContainer 표시 여부 전환
-    console.log(expanded);
   };
 
   const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
@@ -232,61 +152,6 @@ const MapComponent: React.FC = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  // 내 위치로 주변 빵집을 찾는 함수
-  const searchBakeryNearby = (map: kakao.maps.Map) => {
-    // 현재 위치 가져오기
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const lat = pos.coords.latitude;
-        const lng = pos.coords.longitude;
-
-        // 내 위치 기반으로 검색하기
-        const ps = new kakao.maps.services.Places();
-        ps.keywordSearch(
-          '빵집',
-          (data, status) => {
-            if (status === kakao.maps.services.Status.OK) {
-              const bounds = new kakao.maps.LatLngBounds();
-              const newMarkers: Marker[] = [];
-              for (let i = 0; i < data.length; i++) {
-                const lat = parseFloat(data[i].y);
-                const lng = parseFloat(data[i].x);
-                newMarkers.push({
-                  position: { lat, lng },
-                  id: data[i].id,
-                  content: data[i].place_name,
-                  address: data[i].road_address_name,
-                  phone: data[i].phone,
-                });
-                bounds.extend(new kakao.maps.LatLng(lat, lng));
-              }
-              const totalPages = Math.ceil(newMarkers.length / itemsPerPage);
-              setPagination((prevPagination) => ({
-                ...prevPagination,
-                last: totalPages,
-                current: 1,
-              }));
-              setMarkers(newMarkers);
-              map?.setBounds(bounds);
-            } else {
-              alert('주변 빵집을 찾을 수 없습니다.');
-            }
-          },
-          {
-            location: new kakao.maps.LatLng(lat, lng),
-            radius: 2000, // 2km 반경 내에서 검색
-          }
-        );
-      },
-      () => alert('위치 정보를 가져오는데 실패했습니다.'),
-      {
-        enableHighAccuracy: true,
-        maximumAge: 30000,
-        timeout: 27000,
-      }
-    );
   };
 
   const handleSearch = () => {
@@ -329,14 +194,22 @@ const MapComponent: React.FC = () => {
     });
   };
 
+  //내위치 찾는 클릭이벤트
   const getCurrentPosBtn = () => {
     navigator.geolocation.getCurrentPosition(
-      getPosSuccess,
+      (pos) => {
+        console.log(
+          'Current position:',
+          pos.coords.latitude,
+          pos.coords.longitude
+        );
+        getPosSuccess(pos);
+      },
       () => alert('위치 정보를 가져오는데 실패했습니다.'),
       {
-        enableHighAccuracy: true,
-        maximumAge: 30000,
-        timeout: 27000,
+        enableHighAccuracy: true, //위치를 가능한 정확하게 가져올지 여부
+        maximumAge: 30000, //이전에 가져온 위치 정보를 얼마나 오래 사용할지
+        timeout: 27000, //위치 정보를 가져오는 데 허용되는 시간
       }
     );
   };
@@ -348,18 +221,30 @@ const MapComponent: React.FC = () => {
       pos.coords.longitude
     );
 
+    // 새로운 마커 생성
+    const newMarker = {
+      position: {
+        lat: currentPos.getLat(),
+        lng: currentPos.getLng(),
+      },
+      id: '현재 위치', // 임의의 ID 설정
+      content: '당신은 현재 이곳에 있습니다.', // 마커 내용 설정
+      address: 'Your current location', // 현재 위치 주소 설정
+      phone: '', // 전화번호 정보 설정
+    };
+
     if (map) {
       map.panTo(currentPos);
 
-      const newMarkers = markers.map((marker) => ({
-        ...marker,
-        position: {
-          lat: currentPos.getLat(),
-          lng: currentPos.getLng(),
-        },
-      }));
+      // 기존 마커 배열에 새로운 마커 추가하여 업데이트
+      const newMarkers = [...markers];
 
       setMarkers(newMarkers);
+      setPagination((prevPagination) => ({
+        ...prevPagination,
+        last: 1,
+        current: 1,
+      }));
     }
   };
 
@@ -410,11 +295,19 @@ const MapComponent: React.FC = () => {
   const visibleMarkers = markers.slice(startIndex, startIndex + itemsPerPage);
 
   const searchNearbyBakeries = () => {
-    if (map !== null) searchBakeryNearby(map);
+    if (map !== null) {
+      searchBakeryNearby(map, setMarkers, setPagination, '빵집');
+    }
   };
 
+  if (state.isLoading)
+    return (
+      <S.LoaderWrapper>
+        <Hearts color="#FFCB46" height={100} width={100} />
+      </S.LoaderWrapper>
+    );
   return (
-    <MapWrapper $expanded={expanded}>
+    <S.MapWrapper $expanded={expanded}>
       <Map
         center={{
           lat: 37.566826,
@@ -427,6 +320,17 @@ const MapComponent: React.FC = () => {
         level={3}
         onCreate={(map) => setMap(map)}
       >
+        {/* 현재 위치 마커 표시 */}
+        <MapMarker
+          position={state.center}
+          image={{
+            src: 'https://cdn-icons-png.flaticon.com/128/7124/7124723.png',
+            size: {
+              width: 50,
+              height: 50,
+            },
+          }}
+        />
         {visibleMarkers.map((marker, index) => (
           <MapMarker
             key={`marker-${index}`}
@@ -438,12 +342,12 @@ const MapComponent: React.FC = () => {
             )}
           </MapMarker>
         ))}
-        <MapSearchBox>
-          <FindNearMap onClick={getCurrentPosBtn}>현재 위치</FindNearMap>
+        <S.MapSearchBox>
+          <S.FindNearMap onClick={getCurrentPosBtn}>내 위치</S.FindNearMap>
           {/* 내 위치 기반 빵집 보기 버튼 추가 */}
-          <FindNearBakery onClick={searchNearbyBakeries}>
-            빵집 보기
-          </FindNearBakery>
+          <S.FindNearBakery onClick={searchNearbyBakeries}>
+            근처 빵집
+          </S.FindNearBakery>
           <input
             id="keyword"
             type="text"
@@ -452,30 +356,30 @@ const MapComponent: React.FC = () => {
             onChange={(e) => setKeyword(e.target.value)}
           />
           <button onClick={handleSearch}>검색하기</button>
-        </MapSearchBox>
+        </S.MapSearchBox>
       </Map>
-      <MapContainer>
-        <MapList>
+      <S.MapContainer>
+        <S.MapList>
           {visibleMarkers.map((marker, index) => (
             <li key={index}>
               <a>
-                <MapListItem
+                <S.MapListItem
                   onClick={() => {
                     getMapData(marker.id);
                   }}
                 >
                   <div className="img" />
                   <div>
-                    <p className="title">{marker.content},</p>
+                    <p className="title">{marker.content}</p>
                     <span>{marker.address}</span>
                     <p>내 위치로 부터 2km</p>
                     <p>{marker.phone}</p>
                   </div>
-                </MapListItem>
+                </S.MapListItem>
               </a>
             </li>
           ))}
-        </MapList>
+        </S.MapList>
         {/* Pagination 추가 */}
         <Pagination
           last={pagination.last}
@@ -483,7 +387,7 @@ const MapComponent: React.FC = () => {
           gotoPage={gotoPage}
         />
         {isShowDetail && (
-          <MapDetailStyle>
+          <S.MapDetailStyle>
             <MapDetailContent data={mapDetail} />
             <button
               onClick={() => {
@@ -492,12 +396,12 @@ const MapComponent: React.FC = () => {
             >
               X
             </button>
-          </MapDetailStyle>
+          </S.MapDetailStyle>
         )}
         {/* 디테일정보 전달 */}
-      </MapContainer>
-      <SlidePin $expanded={expanded} onClick={toggleMapSize}></SlidePin>
-    </MapWrapper>
+      </S.MapContainer>
+      <S.SlidePin $expanded={expanded} onClick={toggleMapSize}></S.SlidePin>
+    </S.MapWrapper>
   );
 };
 

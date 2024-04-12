@@ -7,12 +7,16 @@ import SelectBox from '../../components/atoms/selectbox/Selectbox';
 import CategoryList from '../../components/CategoryList';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useGetPostListApi } from '../../hooks/usePostApi';
 
 export default function CommunityPage() {
   const [postData, setPostData] = useState<any[]>([]);
   const [recipeData, setRecipeData] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [likeCounts, setLikeCounts] = useState<number[]>([]);
+
+  const getPostListQuery = useGetPostListApi();
 
   // 데이터를 가져오는 함수
   const fetchData = async () => {
@@ -23,6 +27,15 @@ export default function CommunityPage() {
       );
       setPostData(postResponse.data);
       setRecipeData(recipeResponse.data);
+
+      const postLikeCounts = postResponse.data.map(
+        (post: any) => post.like_count
+      );
+      const recipeLikeCounts = recipeResponse.data.map(
+        (recipe: any) => recipe.like_count
+      );
+      const allLikeCounts = [...postLikeCounts, ...recipeLikeCounts];
+      setLikeCounts(allLikeCounts);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -101,8 +114,11 @@ export default function CommunityPage() {
                   nickname={filteredData
                     .slice(0, 4)
                     .map((post) => post.nickname)}
-                  likes={[1, 2, 3, 4]}
+                  likes={likeCounts.slice(0, 4)}
                   usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
+                  postIdArray={filteredData
+                    .slice(0, 4)
+                    .map((post) => post.postId)}
                 />
               </div>
             </div>
@@ -135,8 +151,11 @@ export default function CommunityPage() {
                     images={postData.slice(0, 4).map((post) => post.images)}
                     titles={postData.slice(0, 4).map((post) => post.title)}
                     nickname={postData.slice(0, 4).map((post) => post.nickname)}
-                    likes={[1, 2, 3, 4]}
+                    likes={likeCounts.slice(0, 4)}
                     usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
+                    postIdArray={filteredData
+                      .slice(0, 4)
+                      .map((post) => post.postId)}
                   />
                 </div>
               </div>
@@ -156,8 +175,11 @@ export default function CommunityPage() {
                     nickname={recipeData
                       .slice(0, 4)
                       .map((post) => post.nickname)}
-                    likes={[1, 2, 3, 4]}
+                    likes={likeCounts.slice(0, 4)}
                     usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
+                    postIdArray={filteredData
+                      .slice(0, 4)
+                      .map((post) => post.postId)}
                   />
                 </div>
               </div>
