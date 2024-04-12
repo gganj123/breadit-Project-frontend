@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../pages/login/AuthContext'; // AuthContext의 경로에 맞게 수정하세요.
+import { useAuth } from '../pages/login/AuthContext'; 
 import Logo from '/Logo.svg';
 
 const Header = () => {
-  const { user, logout } = useAuth(); // useAuth 훅으로 로그인 상태와 로그아웃 함수 가져오기
+  const { user, logout } = useAuth(); 
 
   return (
     <header className="flex_default header">
