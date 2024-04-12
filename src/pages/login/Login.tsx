@@ -2,13 +2,13 @@
  * 로그인 페이지
  */
 import React, { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import Logo from '/Logo.svg';
 import Button from '../../components/atoms/buttons/Button';
 import { Input } from '../../components/atoms/input/Input';
-
+import { useAuth } from './AuthContext';
 import { BsChatFill } from 'react-icons/bs';
 import { SiNaver } from 'react-icons/si';
 import { FcGoogle } from 'react-icons/fc';
@@ -47,6 +47,8 @@ const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.met
 const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
 
 const Login: FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,21 +68,25 @@ const Login: FC = () => {
 
   const handleLogin = async () => {
     try {
-      const responese = await axios.post(
-        `${apiUrl}/users/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true, // 쿠키를 포함시키기 위해 필요
-        }
-      );
-      console.log(
-        '로그인 성공. 서버가 HTTP-only 쿠키에 인증 토큰을 저장했습니다.'
-      );
-      console.log(responese.data.token);
-      window.location.href = '/';
+      const response = await axios.post(`${apiUrl}/users/login`, {
+        email,
+        password,
+      });
+
+      const { accessToken, refreshToken, decodedAccessToken } = response.data;
+      console.log('로그인 성공:', {
+        accessToken,
+        refreshToken,
+        decodedAccessToken,
+      });
+      console.log(response.data.decodedAccessToken);
+      // decodedAccessToken에서 userId만 추출하여 저장
+      const userId = decodedAccessToken.userId;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('id', userId);
+      login({ accessToken }, accessToken);
+      navigate('/');
     } catch (error) {
       console.error('로그인 에러:', error);
     }
@@ -123,7 +129,6 @@ const Login: FC = () => {
             text="로그인"
             backcolor="#FFCB46"
             textcolor="#000000"
-            onClick={() => handleLogin()}
           />
         </form>
         <Link to="/signup">
