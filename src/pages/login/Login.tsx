@@ -2,8 +2,7 @@
  * 로그인 페이지
  */
 import React, { FC, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '/Logo.svg';
 import Button from '../../components/atoms/buttons/Button';
@@ -47,9 +46,8 @@ const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.met
 const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=false&redirect_uri=${RedirectUri}`;
 
 const Login: FC = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { login } = useAuth();
-  const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -61,34 +59,14 @@ const Login: FC = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleLogin();
-  };
-
-  const handleLogin = async () => {
+    console.log('Attempting to log in with:', email, password); // 로그인 시도 로깅
     try {
-      const response = await axios.post(`${apiUrl}/users/login`, {
-        email,
-        password,
-      });
-
-      const { accessToken, refreshToken, decodedAccessToken } = response.data;
-      console.log('로그인 성공:', {
-        accessToken,
-        refreshToken,
-        decodedAccessToken,
-      });
-      console.log(response.data.decodedAccessToken);
-      // decodedAccessToken에서 userId만 추출하여 저장
-      const userId = decodedAccessToken.userId;
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-      localStorage.setItem('id', userId);
-      login({ accessToken }, accessToken);
-      navigate('/');
+      await login(email, password);
+      console.log('Login successful'); // 성공 로깅
     } catch (error) {
-      console.error('로그인 에러:', error);
+      console.error('Login failed:', error); // 실패 로깅
     }
   };
 

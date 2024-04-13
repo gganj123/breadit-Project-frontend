@@ -1,79 +1,117 @@
-/**
- * 사용자 인증 상태를 관리하기 위한 컨텍스트
- * 사용자의 로그인 상태를 관리하고,
- * 로그인 및 로그아웃 함수를 제공하여 컴포넌트에서 쉽게 사용자 인증을 처리할 수 있습니다.
- */
-import {
+import React, {
   createContext,
   useContext,
   useState,
   useEffect,
   ReactNode,
 } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type User = {
   id?: string;
-  name?: string;
+  nickname?: string;
   email?: string;
   accessToken?: string;
 };
 
 type AuthContextType = {
   user: User | null;
-  setUser: (user: User) => void;
-  login: (userData: User, accessToken: string) => void;
+  loading: boolean;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-// 컨텍스트 프로바이더 컴포넌트
 type AuthProviderProps = {
   children: ReactNode;
 };
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+// AuthProvider 구현
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // 페이지 로드 시 로컬 스토리지에서 accessToken을 조회하고, 있을 경우 상태 업데이트
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      setUser({ accessToken: token });
-    }
+    const loadUser = async () => {
+      const accessToken = localStorage.getItem('accessToken');
+      const userId = localStorage.getItem('id');
+      if (accessToken && userId) {
+        await fetchUserData(userId, accessToken);
+      }
+    };
+    loadUser();
   }, []);
-  // 로그인 함수: 사용자 데이터와 액세스 토큰을 받아 로컬 스토리지에 저장하고 상태 업데이트
-  const login = (userData: User, accessToken: string) => {
-    localStorage.setItem('accessToken', accessToken);
-    if (userData.id) {
-      localStorage.setItem('id', userData.id);
+
+  // 특정 유저 정보 조회
+  const fetchUserData = async (userId: string, accessToken: string) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_SERVER}/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      setUser(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch user data:', error);
+      setLoading(false);
     }
-    setUser(userData);
   };
-  const handleSetUser = (userData: User) => {
-    setUser(userData);
+
+  // 로그인
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_SERVER}/users/login`,
+        {
+          email,
+          password,
+        }
+      );
+      const { accessToken, refreshToken, decodedAccessToken } = response.data;
+      console.log('로그인 성공:', {
+        accessToken,
+        refreshToken,
+        decodedAccessToken,
+      });
+      console.log(response.data.decodedAccessToken);
+      const userId = decodedAccessToken.userId;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('id', userId);
+
+      navigate('/');
+      await fetchUserData(userId, accessToken);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
   };
+  // 로그아웃
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('id');
-    setUser(null);
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      localStorage.clear();
+      setUser(null);
+      navigate('/');
+    }
   };
 
   return (
-    <AuthContext.Provider
-      value={{ user, setUser: handleSetUser, login, logout }}
-    >
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// 컨텍스트를 사용하기 쉽게 하는 커스텀 훅
-export const useAuth = (): AuthContextType => {
+export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === null) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
+
+export default AuthProvider;
