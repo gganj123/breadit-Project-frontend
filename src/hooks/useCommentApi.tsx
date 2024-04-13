@@ -1,14 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { repositories } from '../apis';
 
-type CommentParameters = {
-  _id?: string;
+export type CommentParameters = {
+  _id: string;
   nickname: string;
   profile: string;
   user_id: string;
   post_id: string;
   content: string;
-  can_post?: boolean;
+  can_post: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

@@ -66,7 +66,8 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
   const [commentText, setCommentText] = useState(content);
   const { mutate } = useEditCommentApi();
 
-  function clickDeleteEvent(deleteId: string) {
+  function handleDeleteEventClick(deleteId: string) {
+    // handleEvent, handleSubjectEvent
     if (confirm('삭제하시겠습니까?')) {
       deleteEvent(deleteId);
     }
@@ -130,7 +131,7 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
               />
               <ButtonDeafult
                 text={'삭제'}
-                clickevent={() => clickDeleteEvent(_id)}
+                clickevent={() => handleDeleteEventClick(_id)}
               />
             </div>
           </>

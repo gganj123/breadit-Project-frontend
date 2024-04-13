@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Slider from 'react-slick';
-import BigCardList from '../../components/BigCard';
+import BigCardList from '../../components/BigCard/BigCard.tsx';
 import MagazineBanner from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 import { useGetMagazineListApi } from '../../hooks/useMagazineApi';

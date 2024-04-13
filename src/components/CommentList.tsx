@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ButtonDeafult from './atoms/buttons/ButtonDefault';
+import ButtonDefault from './atoms/buttons/ButtonDefault';
 import Comment from './Comment';
 import {
   useCommentByPostIdApi,
@@ -40,14 +40,14 @@ const CommentsContStyle = styled.section`
   }
 `;
 
-const Comments = ({ postId }: { postId: string }) => {
+type CommentsProps = {
+  postId: string;
+};
+
+const Comments = ({ postId }: CommentsProps) => {
   const getCommentListByPostIdQuery = useCommentByPostIdApi(postId || '');
   const { mutate: deleteMutate } = useDeleteCommentByIdApi();
   const { mutate: createMutate } = useCreateCommentApi();
-
-  useEffect(() => {
-    getCommentListByPostIdQuery.refetch();
-  }, [getCommentListByPostIdQuery.data]);
 
   const commentList = getCommentListByPostIdQuery.data || [];
 
@@ -98,19 +98,23 @@ const Comments = ({ postId }: { postId: string }) => {
         />
 
         <div className="buttons">
-          <ButtonDeafult
+          <ButtonDefault
             text={'취소'}
             backgroundcolor={'#d9d9d9'}
             color={'#575757'}
             clickevent={resetComment}
           />
-          <ButtonDeafult text={'등록'} clickevent={createComment} />
+          <ButtonDefault text={'등록'} clickevent={createComment} />
         </div>
       </div>
       <div className="comment_list">
-        {commentList.map((comment, index) => {
+        {commentList.map((comment) => {
           return (
-            <Comment key={index} data={comment} deleteEvent={deleteCommentId} />
+            <Comment
+              key={comment._id}
+              data={comment}
+              deleteEvent={deleteCommentId}
+            />
           );
         })}
       </div>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
-import BigCard from '../../components/BigCard';
+import BigCard from '../../components/BigCard/BigCard.tsx';
 
 import './admin.css';
 

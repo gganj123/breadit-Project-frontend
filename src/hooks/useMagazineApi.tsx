@@ -21,7 +21,7 @@ export const useGetMagazineByIdApi = (targetId: string) => {
   return useQuery({
     queryKey: ['magazine', targetId],
     queryFn: () => repositories.magazinesApis.getMagazine(targetId),
-    enabled: false,
+    enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

@@ -15,15 +15,15 @@ const LikeButton = styled.button`
 
 type likeProps = {
   like: number;
-  location?: string | '';
+  // location?: string | '';
   postId?: string | '';
 };
 
-const ToggleLikeButton = ({ like, location, postId }: likeProps) => {
-  const [isHeart, setIsHeart] = useState<boolean>(false);
+const ToggleLikeButton = ({ like, postId }: likeProps) => {
+  const [isHeart, setIsHeart] = useState(false);
   const [isLike, setIsLike] = useState<number>(like);
 
-  const { mutate: magazineMutate, isSuccess, data } = useMagazineLikeStateApi();
+  const { mutate: magazineMutate } = useMagazineLikeStateApi();
 
   useEffect(() => {
     if (postId) {
@@ -32,9 +32,6 @@ const ToggleLikeButton = ({ like, location, postId }: likeProps) => {
         userId: '609c788df383f331a4a627c3',
       });
     }
-
-    console.log(`성공여부 ${isSuccess}`);
-    console.log('isLikedByUser:', data);
   }, [postId]);
 
   function heartToggle() {
