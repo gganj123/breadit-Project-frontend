@@ -10,7 +10,10 @@ const MainCategories = ({ go, src, categoryName }: CategoryProps) => {
   return (
     <li>
       <img src={src} />
-      <ButtonCategory go={go} categoryName={categoryName} />
+      <ButtonCategory
+        go={`${go}?category=${categoryName}`}
+        categoryName={categoryName}
+      />
     </li>
   );
 };

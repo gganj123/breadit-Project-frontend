@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BallTriangle } from 'react-loader-spinner';
-import MyPageList from '../../components/MypageList';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Pagination from '../../components/Pagination';
+import MyPageList from '../../components/MypageList';
 
 const ContextWrap = styled.div`
   width: 100%;
@@ -170,19 +171,6 @@ export default function BreadBoxSection() {
     setCurrentPage(pageNumber);
   };
 
-  // 페이지 번호를 생성하는 함수
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (
-      let i = 1;
-      i <= Math.ceil(Object.keys(data).length / itemsPerPage);
-      i++
-    ) {
-      pageNumbers.push(i);
-    }
-    return pageNumbers;
-  };
-
   return (
     <>
       <ContextWrap>
@@ -199,33 +187,12 @@ export default function BreadBoxSection() {
           {!isLoading && getCurrentItems()}
         </ListWrapper>
         {/* pagination 버튼 표시 */}
-        <Pagination>
-          {getPageNumbers().map((number) => (
-            <PageNumber key={number} onClick={() => handlePageChange(number)}>
-              {number}
-            </PageNumber>
-          ))}
-        </Pagination>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(Object.keys(data).length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </ContextWrap>
     </>
   );
 }
-
-const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-`;
-
-const PageNumber = styled.button`
-  border: none;
-  background: none;
-  cursor: pointer;
-  margin: 0 5px;
-  font-size: 16px;
-  color: #333;
-  &:hover {
-    font-weight: bold;
-  }
-`;

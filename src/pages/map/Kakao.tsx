@@ -198,14 +198,14 @@ const Kakao = () => {
   };
 
   // 카카오톡 공유 init 설정
-  useEffect(() => {
-    if (window.Kakao) {
-      const kakao = window.Kakao;
-      if (!kakao.isInitialized()) {
-        kakao.init('6e832d3a7a5f7064a7edf8263c1a4f16');
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.Kakao) {
+  //     const kakao = window.Kakao;
+  //     if (!kakao.isInitialized()) {
+  //       kakao.init('6e832d3a7a5f7064a7edf8263c1a4f16');
+  //     }
+  //   }
+  // }, []);
 
   if (state.isLoading)
     return (
