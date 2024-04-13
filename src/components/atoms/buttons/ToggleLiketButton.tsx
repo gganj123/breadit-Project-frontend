@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import likeIcon from '/heart_icon.svg';
 import likeIconActive from '/heart_icon_active.svg';
+import { useMagazineLikeStateApi } from '../../../hooks/useLikeApi';
 
 const LikeButton = styled.button`
   display: inline-flex;
@@ -12,9 +13,29 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-const ToggleLikeButton = ({ like }: { like: number }) => {
+type likeProps = {
+  like: number;
+  location?: string | '';
+  postId?: string | '';
+};
+
+const ToggleLikeButton = ({ like, location, postId }: likeProps) => {
   const [isHeart, setIsHeart] = useState<boolean>(false);
   const [isLike, setIsLike] = useState<number>(like);
+
+  const { mutate: magazineMutate, isSuccess, data } = useMagazineLikeStateApi();
+
+  useEffect(() => {
+    if (postId) {
+      magazineMutate({
+        targetId: postId,
+        userId: '609c788df383f331a4a627c3',
+      });
+    }
+
+    console.log(`성공여부 ${isSuccess}`);
+    console.log('isLikedByUser:', data);
+  }, [postId]);
 
   function heartToggle() {
     setIsHeart(!isHeart);

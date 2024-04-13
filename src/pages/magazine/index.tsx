@@ -43,9 +43,11 @@ const Magazine = () => {
     <>
       <article className="magazine_banner">
         <Slider {...settings}>
-          {magazineList.map((banner, index) => {
-            return <MagazineBanner data={banner} key={index} />;
-          })}
+          {magazineList
+            .filter((banner, index) => index <= 3)
+            .map((banner, index) => {
+              return <MagazineBanner data={banner} key={index} />;
+            })}
         </Slider>
       </article>
       <section className="main_cont magazine">

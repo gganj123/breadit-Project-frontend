@@ -6,6 +6,7 @@ type MagazineParameters = {
   nickname: string;
   title: string;
   content: string;
+  like_count: number;
 };
 
 export const useGetMagazineListApi = () => {
@@ -18,7 +19,7 @@ export const useGetMagazineListApi = () => {
 
 export const useGetMagazineByIdApi = (targetId: string) => {
   return useQuery({
-    queryKey: ['magazines', targetId],
+    queryKey: ['magazine', targetId],
     queryFn: () => repositories.magazinesApis.getMagazine(targetId),
     enabled: false,
     refetchOnWindowFocus: false,
@@ -33,7 +34,7 @@ export const useDeleteMagazineByIdApi = () => {
     mutationFn: (targetId: string) =>
       repositories.magazinesApis.deleteMagazine(targetId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazines'] });
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
   });
 };

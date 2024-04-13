@@ -1,76 +1,59 @@
-import { Link, useParams } from 'react-router-dom';
-import RightArrow from '/right-arrow.svg';
-import LikePost from '/heart_icon.svg';
-import SharePost from '/share_icon.svg';
-import styled from 'styled-components';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import DetailContent from '../../components/Detail';
+import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
+import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
+import {
+  useGetPostByIdApi,
+  useDeletePostByIdApi,
+} from '../../hooks/usePostApi';
 
-const Navigation = styled.li`
-  position: relative;
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -3em;
-    width: 10px;
-    height: 10px;
-    background: url(${RightArrow}) no-repeat center center;
-    transition: all 0.3s ease-in-out;
-  }
-  &:last-child:after {
-    display: none;
-  }
-`;
+const MagazineDetail = () => {
+  const { id } = useParams<{ id?: string }>();
+  const getPostQuery = useGetPostByIdApi(id || '');
 
-const DetailPage = () => {
-  const { id } = useParams<{ id: string }>(); // useParams 훅을 사용하여 id 매개변수를 가져옴
+  useEffect(() => {
+    getPostQuery.refetch();
+  }, [getPostQuery.data]);
 
-  // id에 따라 상세 정보를 가져오는 로직을 구현하시면 됩니다.
+  const detailData = getPostQuery.data || {
+    _id: '',
+    nickname: '',
+    profile: '',
+    createdAt: '',
+    title: '',
+    content: '',
+  };
+
+  const { mutate } = useDeletePostByIdApi();
+
+  const deletePostId = (id: string) => {
+    mutate(id);
+  };
 
   return (
-    <>
-      <div className="community_container">
-        <div className="community">
-          <div className="navigation_tab">
-            <ul>
-              <Navigation>
-                <Link to="/community">Community</Link>
-              </Navigation>
-              <Navigation>
-                <Link to="/community">베이커리 추천</Link>
-              </Navigation>
-            </ul>
-            <ul className="additional">
-              <li>
-                <a>
-                  <img src={LikePost} />
-                </a>
-              </li>
-              <li>
-                <a>
-                  <img src={SharePost} />
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <div>
-              <div className="user_img_wrapper">
-                <div>이미지</div>
-              </div>
-              <div>
-                <p>제목</p>
-                <p>이름</p>
-              </div>
-            </div>
-            <div>
-              <div>버튼</div>
-            </div>
-          </div>
-          <p>Detail for item with id: {id}</p>
+    <section className="detail">
+      <div className="flex_default detail_top">
+        <ul className="location">
+          <li>
+            <Link to="/community">커뮤니티</Link>
+          </li>
+          <li>
+            <Link to="/community/nearby">베이커리 소개</Link>
+          </li>
+        </ul>
+        <div className="buttons">
+          <ToggleSaveButton />
+          <CopyUrlButton />
         </div>
       </div>
-    </>
+      <DetailContent
+        data={detailData}
+        deleteEvent={(id: string) => deletePostId(id)}
+      />
+    </section>
   );
 };
 
-export default DetailPage;
+export default MagazineDetail;

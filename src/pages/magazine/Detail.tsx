@@ -26,10 +26,10 @@ const MagazineDetail = () => {
     content: '',
   };
 
-  const { mutate } = useDeleteMagazineByIdApi();
+  const { mutate: deleteMutate } = useDeleteMagazineByIdApi();
 
   const deleteMagazineId = (id: string) => {
-    mutate(id);
+    deleteMutate(id);
   };
 
   return (

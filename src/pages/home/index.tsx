@@ -304,12 +304,12 @@ const Home = () => {
 
   const categories = [
     { go: '/map', src: CategoryImg1, categoryName: '케이크' },
-    { go: '/map', src: CategoryImg2, categoryName: '빵' },
-    { go: '/map', src: CategoryImg3, categoryName: '구움과자' },
+    { go: '/map', src: CategoryImg2, categoryName: '빵집' },
+    { go: '/map', src: CategoryImg3, categoryName: '과자' },
     { go: '/map', src: CategoryImg4, categoryName: '샌드위치' },
   ];
 
-  let dummyImgList = [
+  const dummyImgList = [
     { src: './instagram1.svg' },
     { src: './instagram2.svg' },
     { src: './instagram3.svg' },
