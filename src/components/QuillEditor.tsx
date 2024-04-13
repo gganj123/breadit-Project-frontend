@@ -118,7 +118,7 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
       }
     };
   };
-
+  console.log(images);
   const formats = [
     'header',
     'bold',
@@ -171,6 +171,13 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
   );
 
   const handleSave = async () => {
+    if (!title) {
+      console.error('제목을 입력하세요.');
+      return;
+    }
+
+    const imagesJSON = JSON.stringify(images);
+
     let url;
     if (selectedCategory === 'recipe') {
       url = 'http://localhost:5000/api/recipes/';
@@ -180,15 +187,17 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
 
     try {
       const response = await axios.post(url, {
-        user_id: 'user77777',
-        nickname: 'nickname',
-        profile: 'user',
+        user_id: '661197252555dd267724ea61',
+        thumbnail: 'gganj123.jpg',
         title: title,
+        nickname: '뿡뿡맘마',
+        profile: 'google.com/aksdnd.jpg',
         content: contents,
-        images: images,
-        bread_id: 'category4555556',
+        images: imagesJSON,
+        bread_id: 'category456',
       });
-      toast('글 작성이 완료되었습니다!');
+
+      toast(`${response.data.nickname}님 글 작성이 완료되었습니다!`);
     } catch (error) {
       console.error('Error saving to database:', error);
     }

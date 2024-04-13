@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useGetPostListApi } from '../../hooks/usePostApi';
+import Pagination from '../../components/Pagination';
 
 // 이미지 경로
 const SearchIcon = '/search-icon.svg';
@@ -11,9 +12,15 @@ const PostIcon = '/post-icon.svg';
 
 type PostParameters = {
   _id: string;
+  user_id: string;
   nickname: string;
+  profile: string;
   title: string;
   content: string;
+  images: string[]; // 이미지 경로 배열 등의 형태로 가정합니다.
+  bread_id: string;
+  createdAt: string;
+  updatedAt: string;
   like_count: number;
   // 다른 필드들도 필요에 따라 추가
 };
@@ -21,8 +28,10 @@ type PostParameters = {
 export default function NearByPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [initialData, setInitialData] = useState([]); // 처음에 모든 데이터를 저장하는 상태
-  const [postData, setPostData] = useState([]);
   const [postList, setPostList] = useState<PostParameters[]>([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   const getPostListQuery = useGetPostListApi();
 
@@ -43,13 +52,13 @@ export default function NearByPage() {
       //검색어가 있을 때는 검색된 데이터만 보여주고, 없을 때는 모든 데이터를 보여줌
       const filteredData = query
         ? response.data.filter(
-            (post) =>
+            (post: PostParameters) =>
               post.title.includes(query) ||
               post.content.includes(query) ||
               post.nickname.includes(query)
           )
         : response.data;
-      setPostData(filteredData); // 검색 결과 저장
+      setPostList(filteredData); // 검색 결과 저장
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -58,6 +67,7 @@ export default function NearByPage() {
   // 검색 수행 함수
   const performSearch = () => {
     fetchData(searchTerm); // 검색어를 인자로 넘겨 fetchData 함수 호출
+    setCurrentPage(1);
   };
 
   // 엔터 키가 눌렸을 때 검색 수행
@@ -73,12 +83,38 @@ export default function NearByPage() {
   }, []);
 
   // 검색어 입력 시 상태 업데이트 함수
-  const handleSearchInputChange = (event) => {
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setSearchTerm(event.target.value);
     // 검색어가 변경될 때마다 검색을 수행하고, 검색어가 비어있으면 처음 받아온 모든 데이터를 보여줌
     if (event.target.value === '') {
-      setPostData(initialData);
+      setPostList(initialData);
     }
+  };
+
+  const getCurrentItems = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const currentItems = postList.slice(indexOfFirstItem, indexOfLastItem);
+
+    return (
+      <CategoryList
+        to="/community/nearby"
+        images={currentItems.map((post) => post.images)}
+        titles={currentItems.map((post) => post.title)}
+        nickname={currentItems.map((post) => post.nickname)}
+        likes={currentItems.map((post) => post.like_count)}
+        usersrc={currentItems.map((post) => post.profile)}
+        postIdArray={currentItems.map((post) => post._id)}
+      />
+    );
+  };
+
+  // 페이지 변경 이벤트 핸들러
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -114,26 +150,13 @@ export default function NearByPage() {
           <div className="community_list_title box_wrapper">
             <h3>우리 동네 베이커리를 소개합니다!</h3>
           </div>
-          <div className="community_list_content">
-            <CategoryList
-              to="/community/nearby"
-              images={postData.map((post) => post.images)}
-              titles={postData.map((post) => post.title)}
-              nickname={postData.map((post) => post.nickname)}
-              likes={
-                getPostListQuery.data
-                  ? getPostListQuery.data.map((post) => post.like_count)
-                  : []
-              }
-              usersrc={postData.map((post) => post.usersrc)}
-              postIdArray={
-                getPostListQuery.data
-                  ? getPostListQuery.data.map((post) => post._id)
-                  : []
-              }
-            />
-          </div>
+          <div className="community_list_content">{getCurrentItems()}</div>
         </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(postList.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
