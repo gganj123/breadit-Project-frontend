@@ -22,8 +22,9 @@ type AuthContextType = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   updateUserInfo: (userData: Partial<User>) => Promise<void>; // 사용자 정보 업데이트 함수 추가
+  deleteUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -113,17 +114,58 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   // 로그아웃
-  const logout = () => {
+  const logout = async () => {
     if (window.confirm('로그아웃 하시겠습니까?')) {
-      localStorage.clear();
-      setUser(null);
-      navigate('/');
+      try {
+        await axios.post(
+          `${apiUrl}/users/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          }
+        );
+        localStorage.clear();
+        setUser(null);
+        navigate('/');
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    }
+  };
+
+  // 회원 탈퇴
+  const deleteUser = async () => {
+    if (
+      window.confirm(
+        '정말로 회원 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.'
+      )
+    ) {
+      setLoading(true);
+      try {
+        const userId = localStorage.getItem('id');
+        await axios.delete(`${apiUrl}/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        });
+        localStorage.clear();
+        setUser(null);
+        navigate('/');
+        alert('회원 탈퇴가 성공적으로 처리되었습니다.');
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('회원 탈퇴에 실패했습니다.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, updateUserInfo }}
+      value={{ user, loading, login, logout, updateUserInfo, deleteUser }}
     >
       {children}
     </AuthContext.Provider>

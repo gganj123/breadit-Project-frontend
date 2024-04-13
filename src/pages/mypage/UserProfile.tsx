@@ -47,8 +47,7 @@ const ActionsButton = styled.button`
 `;
 
 const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
-  const { user, logout } = useAuth();
-  const deleteAccount = () => {};
+  const { user, logout, deleteUser } = useAuth();
   return (
     <div>
       <Nickname>{user?.nickname}</Nickname>
@@ -66,7 +65,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
       <ActionsContainer>
         <ActionsButton onClick={logout}>로그아웃</ActionsButton>
         <Line />
-        <ActionsButton onClick={deleteAccount}>회원탈퇴</ActionsButton>
+        <ActionsButton onClick={deleteUser}>회원탈퇴</ActionsButton>
       </ActionsContainer>
     </div>
   );
