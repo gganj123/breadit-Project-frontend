@@ -3,7 +3,6 @@ import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 //이렇게 라이브러리를 불러와서 사용하면 됩니다
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -84,15 +83,18 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
           };
 
           promises.push(
-            new Promise((resolve, reject) => {
-              s3.upload(params, (err, data) => {
-                if (err) {
-                  console.error(err);
-                  reject(err);
-                } else {
-                  resolve(data.Location);
+            new Promise<string>((resolve, reject) => {
+              s3.upload(
+                params,
+                (err: Error | null, data: AWS.S3.ManagedUpload.SendData) => {
+                  if (err) {
+                    console.error(err);
+                    reject(err);
+                  } else {
+                    resolve(data.Location);
+                  }
                 }
-              });
+              );
             })
           );
         }
@@ -105,9 +107,11 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
             if (range !== null && range !== undefined) {
               const quill = QuillRef.current?.getEditor();
               urls.forEach((url) => {
+                // JSON 배열을 문자열로 변환하여 이미지 URL을 삽입
+                const imageUrlString = JSON.stringify(url);
                 quill?.clipboard.dangerouslyPasteHTML(
                   range,
-                  `<img src=${url} alt="이미지 태그가 삽입됩니다." />`
+                  `<img src=${imageUrlString.slice(1, -1)} alt="이미지 태그가 삽입됩니다." />` // 쌍따옴표를 제거하기 위해 slice를 사용하여 문자열을 잘라냄
                 );
               });
             }
@@ -118,7 +122,6 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
       }
     };
   };
-  console.log(images);
   const formats = [
     'header',
     'bold',
@@ -179,14 +182,22 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
     const imagesJSON = JSON.stringify(images);
 
     let url;
-    if (selectedCategory === 'recipe') {
+    if (selectedCategory === 'megazine') {
+      url = 'http://localhost:5000/api/magazines/';
+    } else if (
+      selectedCategory === 'bakery' ||
+      selectedCategory === 'default'
+    ) {
+      url = 'http://localhost:5000/api/posts/';
+    } else if (selectedCategory === 'recipe') {
       url = 'http://localhost:5000/api/recipes/';
     } else {
-      url = 'http://localhost:5000/api/posts/';
+      console.error('Invalid category:', selectedCategory);
+      return;
     }
 
     try {
-      const response = await axios.post(url, {
+      let requestData = {
         user_id: '661197252555dd267724ea61',
         thumbnail: 'gganj123.jpg',
         title: title,
@@ -195,7 +206,21 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
         content: contents,
         images: imagesJSON,
         bread_id: 'category456',
-      });
+      };
+
+      // 'selectedCategory'가 'recipe'인 경우에만 'nickname'과 'profile'을 설정
+      if (selectedCategory === 'recipe') {
+        requestData = {
+          user_id: '661197252555dd267724ea61',
+          nickname: '미친',
+          profile: 'google.com/aksdnd.jpg',
+          title: title,
+          content: contents,
+          images: imagesJSON,
+        };
+      }
+
+      const response = await axios.post(url, requestData);
 
       toast(`${response.data.nickname}님 글 작성이 완료되었습니다!`);
     } catch (error) {

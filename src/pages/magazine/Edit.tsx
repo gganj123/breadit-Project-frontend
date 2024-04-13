@@ -1,3 +1,4 @@
+import React from 'react';
 import { EditorComponent } from '../../components/QuillEditor';
 import styled from 'styled-components';
 
@@ -16,7 +17,7 @@ const MagazineEdit = () => {
     <>
       <WriteSectionStyle>
         <h2 className="oleo-script-bold">Magazine</h2>
-        <EditorComponent />
+        <EditorComponent selectedCategory={'megazine'} />
       </WriteSectionStyle>
     </>
   );
