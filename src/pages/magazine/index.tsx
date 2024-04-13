@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Slider from 'react-slick';
 import BigCardList from '../../components/BigCard';
 import MagazineBanner from './MagazineBanner';
@@ -7,23 +7,14 @@ import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
 
-type MagazineParameters = {
-  _id: string;
-  nickname: string;
-  title: string;
-  content: string;
-};
-
 const Magazine = () => {
   const getMagazineListQuery = useGetMagazineListApi();
-  const [magazineList, setMagazineList] = useState<MagazineParameters[]>([]);
 
   useEffect(() => {
     getMagazineListQuery.refetch();
-    if (getMagazineListQuery.data) {
-      setMagazineList(getMagazineListQuery.data);
-    }
   }, [getMagazineListQuery.data]);
+
+  const magazineList = getMagazineListQuery.data || [];
 
   const settings = {
     dots: true,

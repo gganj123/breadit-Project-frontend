@@ -103,7 +103,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
       </DetailTopStyle>
       <DetailContentStyle dangerouslySetInnerHTML={tagContent()} />
       <ToggleLikeButton like={0} />
-      <Comments />
+      <Comments postId={_id} />
     </>
   );
 };

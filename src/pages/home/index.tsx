@@ -12,6 +12,7 @@ import Review from '/Review.svg';
 import MainBanner from './MainBanner';
 import BigCard from '../../components/BigCard';
 import MainInstagramImg from './MainInstagramImg';
+import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -153,7 +154,6 @@ const RecipeStyle = styled.section`
   }
 
   .recipe .user_info p {
-    font-size: 1.8rem;
     font-weight: 500;
     display: flex;
     flex-flow: column;
@@ -161,11 +161,12 @@ const RecipeStyle = styled.section`
   }
 
   .recipe .user_info p .nickname {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 400;
   }
 
   .recipe .user_info p .date {
+    font-size: 1.6rem;
     color: #888;
   }
 
@@ -253,7 +254,14 @@ const InfiniteRoofStyle = styled.div`
 `;
 
 const Home = () => {
-  const [magazineBanner, setMagazineBanner] = useState([]);
+  const getMagazineListQuery = useGetMagazineListApi();
+
+  useEffect(() => {
+    getMagazineListQuery.refetch();
+  }, [getMagazineListQuery.data]);
+
+  const magazineBanner = getMagazineListQuery.data || [];
+
   const [postList, setPostList] = useState([]);
   const [recipeData, setRecipeData] = useState({
     nickname: '',
@@ -264,20 +272,7 @@ const Home = () => {
     createdAt: '',
   });
 
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
-
-  const getMagazinesAPI = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/magazines`);
-      setMagazineBanner(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getMagazinesAPI();
-  }, []);
+  const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
   const getPostsAPI = async () => {
     try {
@@ -364,9 +359,11 @@ const Home = () => {
     <>
       <MainBannerStyle>
         <Slider {...bannerSettings}>
-          {magazineBanner.map((banner, index) => (
-            <MainBanner data={banner} key={index} />
-          ))}
+          {magazineBanner
+            .filter((banner, index) => index <= 3)
+            .map((banner, index) => (
+              <MainBanner data={banner} key={index} />
+            ))}
         </Slider>
       </MainBannerStyle>
       <CategoriesStyle>
@@ -406,9 +403,11 @@ const Home = () => {
           <img src={Review} className="review_right" />
         </div>
         <Slider {...postSettings}>
-          {postList.map((post, index) => {
-            return <BigCard data={post} key={index} />; // 커뮤니티 - 베이커리 소개
-          })}
+          {postList
+            .filter((banner, index) => index <= 7)
+            .map((post, index) => {
+              return <BigCard data={post} key={index} />; // 커뮤니티 - 베이커리 소개
+            })}
         </Slider>
       </PostStyle>
       <RecipeStyle className="main_cont">

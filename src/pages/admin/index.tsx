@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';

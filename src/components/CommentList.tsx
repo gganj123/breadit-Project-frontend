@@ -1,7 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ButtonDeafult from './atoms/buttons/ButtonDefault';
 import Comment from './Comment';
+import {
+  useCommentByPostIdApi,
+  useDeleteCommentByIdApi,
+  useCreateCommentApi,
+} from '../hooks/useCommentApi';
 
 const CommentsContStyle = styled.section`
   .comment_input {
@@ -34,20 +40,38 @@ const CommentsContStyle = styled.section`
   }
 `;
 
-const Comments = () => {
-  const dummyData = [
-    {
-      nickname: '미친쿵야',
-      date: '2024-04-09',
-      content:
-        '안녕하세요. 제가 여기 가봤는데 진짜 사장님 짱 친절하시고 카페 분위기도 넘 좋았어요! 다들 한 번 꼭 가보십쇼!',
-    },
-    {
-      nickname: '반계쿵야',
-      date: '2024-04-08',
-      content: '난 반띵이지롱',
-    },
-  ];
+const Comments = ({ postId }: { postId: string }) => {
+  const getCommentListByPostIdQuery = useCommentByPostIdApi(postId || '');
+  const { mutate: deleteMutate } = useDeleteCommentByIdApi();
+  const { mutate: createMutate } = useCreateCommentApi();
+
+  useEffect(() => {
+    getCommentListByPostIdQuery.refetch();
+  }, [getCommentListByPostIdQuery.data]);
+
+  const commentList = getCommentListByPostIdQuery.data || [];
+
+  const [commentTextArea, setCommentTextArea] = useState('');
+
+  function resetComment() {
+    setCommentTextArea(''); // 취소버튼 textArea 초기화
+  }
+
+  const deleteCommentId = (id: string) => {
+    deleteMutate(id);
+  };
+
+  function createComment() {
+    const commentData = {
+      nickname: '히히sdsfsdf힛',
+      profile: 'https://example.com/profile',
+      user_id: '661197252555dd267724ea61',
+      post_id: postId,
+      content: commentTextArea,
+    };
+
+    createMutate(commentData);
+  }
 
   return (
     <CommentsContStyle>
@@ -66,19 +90,28 @@ const Comments = () => {
             <Link to="/login">로그인이 필요합니다.</Link>
           </span>
         </div>
-        <textarea name="" placeholder="댓글을 입력하세요"></textarea>
+        <textarea
+          name="comment"
+          placeholder="댓글을 입력하세요"
+          onChange={(e) => setCommentTextArea(e.target.value)}
+          value={commentTextArea}
+        />
+
         <div className="buttons">
           <ButtonDeafult
             text={'취소'}
             backgroundcolor={'#d9d9d9'}
             color={'#575757'}
+            clickevent={resetComment}
           />
-          <ButtonDeafult text={'등록'} />
+          <ButtonDeafult text={'등록'} clickevent={createComment} />
         </div>
       </div>
       <div className="comment_list">
-        {dummyData.map((data, index) => {
-          return <Comment key={index} data={data} />;
+        {commentList.map((comment, index) => {
+          return (
+            <Comment key={index} data={comment} deleteEvent={deleteCommentId} />
+          );
         })}
       </div>
     </CommentsContStyle>

@@ -13,12 +13,12 @@ const LikeButton = styled.button`
 `;
 
 const ToggleLikeButton = ({ like }: { like: number }) => {
-  const [isHeart, useIsHeart] = useState<boolean>(false);
-  const [isLike, useIsLike] = useState<number>(like);
+  const [isHeart, setIsHeart] = useState<boolean>(false);
+  const [isLike, setIsLike] = useState<number>(like);
 
   function heartToggle() {
-    useIsHeart(!isHeart);
-    useIsLike(isHeart ? isLike - 1 : isLike + 1);
+    setIsHeart(!isHeart);
+    setIsLike(isHeart ? isLike - 1 : isLike + 1);
   }
   return (
     <LikeButton onClick={heartToggle}>

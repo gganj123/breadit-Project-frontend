@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail';
@@ -11,26 +11,24 @@ import {
 
 const MagazineDetail = () => {
   const { id } = useParams<{ id?: string }>();
-  const useGetMagazineQuery = useGetMagazineByIdApi(id ?? '');
-  const [detailData, setDetailData] = useState({
+  const getMagazineQuery = useGetMagazineByIdApi(id || '');
+
+  useEffect(() => {
+    getMagazineQuery.refetch();
+  }, [getMagazineQuery.data]);
+
+  const detailData = getMagazineQuery.data || {
     _id: '',
     nickname: '',
     profile: '',
     createdAt: '',
     title: '',
     content: '',
-  });
-
-  useEffect(() => {
-    useGetMagazineQuery.refetch();
-    if (useGetMagazineQuery.data) {
-      setDetailData(useGetMagazineQuery.data);
-    }
-  }, [useGetMagazineQuery.data]);
+  };
 
   const { mutate } = useDeleteMagazineByIdApi();
 
-  const deleteMagazineIdFind = (id: string) => {
+  const deleteMagazineId = (id: string) => {
     mutate(id);
   };
 
@@ -49,7 +47,7 @@ const MagazineDetail = () => {
       </div>
       <DetailContent
         data={detailData}
-        deleteEvent={(id: string) => deleteMagazineIdFind(id)}
+        deleteEvent={(id: string) => deleteMagazineId(id)}
       />
     </section>
   );
