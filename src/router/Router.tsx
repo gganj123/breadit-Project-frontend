@@ -22,7 +22,6 @@ import AdminCommunity from '../pages/admin/AdminCommunity.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
 import Kakao from '../pages/map/Kakao.tsx';
 import { AuthProvider } from '../pages/login/AuthContext.tsx';
-import { ProfileImageProvider } from '../pages/mypage/ProfileImageContext.tsx';
 import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
 import DynamicSection from '../pages/mypage/DynamicSection.tsx';
@@ -31,49 +30,41 @@ export default function Router() {
   return (
     <>
       <AuthProvider>
-        <ProfileImageProvider>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="mypage" element={<MyPage />} />
-              <Route path="mypage/:section" element={<DynamicSection />} />
-              <Route
-                path="mypage/check-password"
-                element={<MyPageCheckPassword />}
-              />
-              <Route
-                path="mypage/check-password/edit"
-                element={<MyPageEdit />}
-              />
-              <Route path="login" element={<LoginPage />} />
-              <Route path="signup" element={<SignupPage />} />
-              <Route path="signup/info" element={<SignUpInfoPage />} />
-              <Route
-                path="signup/info/complete"
-                element={<SignUpCompletePage />}
-              />
-              <Route path="community" element={<CommunityPage />} />
-              <Route path="community/edit" element={<EditPage />} />
-              <Route path="community/nearby" element={<NearByPage />} />
-              <Route path="community/nearby/:id" element={<DetailPage />} />
-              <Route path="community/recipe" element={<MyRecipe />} />
-              <Route
-                path="community/recipe/:id"
-                element={<RecipeDetailPage />}
-              />
-              <Route path="magazines" element={<MagazinePage />} />
-              <Route path="magazines/:id" element={<MagazineDetailPage />} />
-              <Route path="magazines/edit" element={<MagazineEditPage />} />
-              <Route path="map" element={<MapPage />} />
-              <Route path="admin" element={<AdminPage />} />
-              <Route path="admin-magazine" element={<AdminMagazinePage />} />
-              <Route path="admin-community" element={<AdminCommunity />} />
-              <Route path="admin-recipe" element={<AdminRecipe />} />
-              <Route path="maptest" element={<Kakao />} />
-            </Route>
-            <Route path="*" element={<Navigate replace to="/" />} />
-          </Routes>
-        </ProfileImageProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="mypage" element={<MyPage />} />
+            <Route path="mypage/:section" element={<DynamicSection />} />
+            <Route
+              path="mypage/check-password"
+              element={<MyPageCheckPassword />}
+            />
+            <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="signup/info" element={<SignUpInfoPage />} />
+            <Route
+              path="signup/info/complete"
+              element={<SignUpCompletePage />}
+            />
+            <Route path="community" element={<CommunityPage />} />
+            <Route path="community/edit" element={<EditPage />} />
+            <Route path="community/nearby" element={<NearByPage />} />
+            <Route path="community/nearby/:id" element={<DetailPage />} />
+            <Route path="community/recipe" element={<MyRecipe />} />
+            <Route path="community/recipe/:id" element={<RecipeDetailPage />} />
+            <Route path="magazines" element={<MagazinePage />} />
+            <Route path="magazines/:id" element={<MagazineDetailPage />} />
+            <Route path="magazines/edit" element={<MagazineEditPage />} />
+            <Route path="map" element={<MapPage />} />
+            <Route path="admin" element={<AdminPage />} />
+            <Route path="admin-magazine" element={<AdminMagazinePage />} />
+            <Route path="admin-community" element={<AdminCommunity />} />
+            <Route path="admin-recipe" element={<AdminRecipe />} />
+            <Route path="maptest" element={<Kakao />} />
+          </Route>
+          <Route path="*" element={<Navigate replace to="/" />} />
+        </Routes>
       </AuthProvider>
     </>
   );

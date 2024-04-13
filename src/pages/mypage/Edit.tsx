@@ -6,8 +6,7 @@ import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import { SignUpInput } from '../../components/atoms/input/SignUpInput';
 import ProfileImageUpload from './ProfileImageUpload';
-import { useProfileImage } from './ProfileImageContext';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../login/AuthContext';
 
 const PageContainer = styled.div`
   display: flex;
@@ -50,65 +49,75 @@ const Email = styled.div`
   margin-bottom: 50px;
 `;
 export default function Edit() {
-  const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
-  const { profileImage, setProfileImage } = useProfileImage();
-  const navigate = useNavigate();
+  const { user, updateUserInfo } = useAuth();
+  const [formData, setFormData] = useState({
+    email: user?.email || '',
+    nickname: user?.nickname || '',
+    profile:
+      user?.profile ||
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+  });
+  // 이미지 업로드 핸들러
   const handleImageChange = (imageUrl: string) => {
-    setProfileImage(imageUrl);
+    setFormData({ ...formData, profile: imageUrl });
   };
   const handleRemoveImage = () => {
-    setProfileImage(
-      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-    );
+    const defaultImage =
+      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+    setFormData({ ...formData, profile: defaultImage });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate('/mypage');
+    try {
+      await updateUserInfo({ ...formData, id: user?.id });
+      alert('수정 완료했습니다.');
+    } catch (error) {
+      console.error('Error updating user:', error);
+      alert('Failed to update user.');
+    }
   };
   return (
-    <>
-      <PageContainer>
-        <Title>회원정보 수정</Title>
-        <FormContainer>
-          <ProfileImageUpload
-            src={profileImage}
-            onImageUpload={handleImageChange}
-            onRemoveImage={handleRemoveImage}
+    <PageContainer>
+      <Title>회원정보 수정</Title>
+      <FormContainer>
+        <ProfileImageUpload
+          src={formData.profile}
+          onImageUpload={handleImageChange}
+          onRemoveImage={handleRemoveImage}
+        />
+        <Email>{formData.email}</Email>
+        <Form onSubmit={handleSubmit}>
+          {/*<SignUpInput
+            type="password"
+            label="비밀번호"
+            name="password"
+            value={formData.password || ''}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
+          />*/}
+
+          <SignUpInput
+            type="text"
+            label="닉네임"
+            name="nickname"
+            value={formData.nickname}
+            onChange={(e) =>
+              setFormData({ ...formData, nickname: e.target.value })
+            }
           />
-          <Email>breadit@naver.com</Email>
-          <Form onSubmit={handleSubmit}>
-            <SignUpInput
-              type="password"
-              label="비밀번호"
-              name="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
 
-            <SignUpInput
-              type="text"
-              label="닉네임"
-              name="nickname"
-              value={nickname}
-              width="100%"
-              onChange={(e) => setNickname(e.target.value)}
-            />
-
-            <Button
-              type="submit"
-              text="수정 완료"
-              backcolor="#575757"
-              textcolor="#FFFFFF"
-              height="60px"
-              width="100%"
-            />
-          </Form>
-        </FormContainer>
-      </PageContainer>
-    </>
+          <Button
+            type="submit"
+            text="수정 완료"
+            backcolor="#575757"
+            textcolor="#FFFFFF"
+            height="60px"
+            width="100%"
+          />
+        </Form>
+      </FormContainer>
+    </PageContainer>
   );
 }
