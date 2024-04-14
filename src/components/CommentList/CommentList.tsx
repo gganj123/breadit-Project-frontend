@@ -1,51 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import ButtonDefault from './atoms/buttons/ButtonDefault';
+import ButtonDefault from '../atoms/buttons/ButtonDefault';
 import Comment from './Comment';
 import {
   useCommentByPostIdApi,
   useDeleteCommentByIdApi,
   useCreateCommentApi,
-} from '../hooks/useCommentApi';
-
-const CommentsContStyle = styled.section`
-  .comment_input {
-    margin-top: 3rem;
-  }
-
-  .my_info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  textarea {
-    width: 100%;
-    height: 13rem;
-    font-size: 1.6rem;
-    padding: 1.6rem;
-    border: solid 1px #ddd;
-  }
-
-  .buttons {
-    margin-top: 2rem;
-    justify-content: flex-end;
-  }
-
-  .comment_list {
-    margin-top: 2rem;
-    border-top: solid 1px #ddd;
-  }
-
-  .no_content {
-    text-align: center;
-    line-height: 20rem;
-    border-bottom: solid 1px #ddd;
-    color: #888;
-  }
-`;
+} from '../../hooks/useCommentApi';
+import { CommentsContStyled } from './Comment.styles';
 
 const Comments = ({ postId }: { postId: string }) => {
   const { data: commentList } = useCommentByPostIdApi(postId || '');
@@ -75,7 +37,7 @@ const Comments = ({ postId }: { postId: string }) => {
   }
 
   return (
-    <CommentsContStyle>
+    <CommentsContStyled>
       <div className="comment_input">
         <div className="my_info">
           <div
@@ -124,7 +86,7 @@ const Comments = ({ postId }: { postId: string }) => {
           <p className="no_content">댓글이 없습니다.</p>
         )}
       </div>
-    </CommentsContStyle>
+    </CommentsContStyled>
   );
 };
 

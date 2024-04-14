@@ -1,14 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { repositories } from '../apis';
 
-export const useMagazineLikeStateApi = () => {
+export const usePostMagazineLikeToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ targetId, userId }: { targetId: string; userId: string }) =>
-      repositories.likesApis.magazineLikeState(targetId, userId),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['magazine', data._id] });
+    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
+      repositories.likesApis.postMagazineLikeToggle(userId, postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
   });
 };

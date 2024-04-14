@@ -1,50 +1,12 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import ButtonDefault from './atoms/buttons/ButtonDefault';
-import styled from 'styled-components';
-import ToggleLikeButton from './atoms/buttons/ToggleLiketButton';
-import Comments from './CommentList';
-
-const DetailTopStyle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const UserStyle = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2.2rem;
-
-  .user_info {
-    gap: 2rem;
-  }
-
-  .user_img {
-    width: 8rem;
-    height: 8rem;
-    border-radius: 50%;
-    background: #eee;
-  }
-
-  .user_info p {
-    font-size: 1.8rem;
-  }
-
-  .date {
-    display: inline-block;
-    padding-left: 1.4rem;
-    margin-left: 1.4rem;
-    color: #888;
-    border-left: solid 1px #b6b6b6;
-  }
-`;
-
-const DetailContentStyle = styled.div`
-  margin: 3rem 0 4rem;
-  min-height: 26vh;
-  font-size: 1.8rem;
-  line-height: 1.6;
-`;
+import ButtonDefault from '../atoms/buttons/ButtonDefault';
+import {
+  DetailTopStyled,
+  UserStyled,
+  DetailContentStyled,
+} from './Detail.styles';
+import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
+import Comments from '../CommentList/CommentList';
 
 type DetailProps = {
   data: {
@@ -92,8 +54,8 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
 
   return (
     <>
-      <DetailTopStyle>
-        <UserStyle>
+      <DetailTopStyled>
+        <UserStyled>
           <div className="user_img">
             <img src={profile} />
           </div>
@@ -104,7 +66,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
               <span className="date">{createdAt}</span>
             </p>
           </div>
-        </UserStyle>
+        </UserStyled>
         <div className="buttons">
           <ButtonDefault
             text={'삭제'}
@@ -114,12 +76,12 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
           />
           <ButtonDefault text={'수정'} />
         </div>
-      </DetailTopStyle>
-      <DetailContentStyle dangerouslySetInnerHTML={tagContent()} />
+      </DetailTopStyled>
+      <DetailContentStyled dangerouslySetInnerHTML={tagContent()} />
       <ToggleLikeButton
-        // location={locationName}
+        location={locationName}
         postId={postId}
-        like={like_count}
+        likeCount={like_count}
         likeState={beLike}
       />
       <Comments postId={_id} />

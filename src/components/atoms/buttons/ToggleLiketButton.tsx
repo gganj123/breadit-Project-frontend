@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import likeIcon from '/heart_icon.svg';
 import likeIconActive from '/heart_icon_active.svg';
-import { useMagazineLikeStateApi } from '../../../hooks/useLikeApi';
+import { usePostMagazineLikeToggleApi } from '../../../hooks/useLikeApi';
 
 const LikeButton = styled.button`
   display: inline-flex;
@@ -14,25 +14,36 @@ const LikeButton = styled.button`
 `;
 
 type likeProps = {
-  like: number;
-  // location?: string | '';
+  likeCount: number;
+  location?: string | '';
   postId?: string | '';
   likeState: boolean;
 };
 
-const ToggleLikeButton = ({ like, postId, likeState }: likeProps) => {
-  const [isHeart, setIsHeart] = useState(likeState);
-  const [likeCountToggle, setLikeCountToggle] = useState(like);
+const ToggleLikeButton = ({
+  likeCount,
+  location,
+  postId,
+  likeState,
+}: likeProps) => {
+  const navigate = useNavigate();
+  const { mutate } = usePostMagazineLikeToggleApi();
 
-  function heartToggle() {
-    setIsHeart(!isHeart);
-    setLikeCountToggle(isHeart ? likeCountToggle - 1 : likeCountToggle + 1);
-  }
+  const userId = localStorage.getItem('id');
+
+  const heartToggle = () => {
+    userId && postId && mutate({ userId, postId });
+  };
+
+  const nonMember = () => {
+    alert('로그인 후 이용해주세요');
+    navigate('/login');
+  };
 
   return (
-    <LikeButton onClick={heartToggle}>
-      <img src={isHeart ? likeIconActive : likeIcon} />
-      {likeCountToggle}
+    <LikeButton onClick={userId ? heartToggle : nonMember}>
+      <img src={likeState ? likeIconActive : likeIcon} />
+      {likeCount}
     </LikeButton>
   );
 };

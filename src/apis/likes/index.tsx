@@ -3,12 +3,13 @@ import axios from 'axios';
 const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
 export const likesApis = {
-  async magazineLikeState(id: string, user_id: string) {
+  async postMagazineLikeToggle(userId: string, postId: string) {
     try {
-      const response = await axios.post(
-        `${apiUrl}/likes/magazine/${id}`,
-        user_id
-      );
+      const response = await axios.post(`${apiUrl}/likes/magazinetoggle`, {
+        user_id: userId,
+        post_id: postId,
+      });
+
       return response.data;
     } catch (err) {
       console.error(err);

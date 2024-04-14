@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import Mapicon from '/icons/map_icon.svg';
 import Clockicon from '/icons/clock_icon.svg';
 import Subwayicon from '/icons/subway_icon.svg';
+import Webicon from '/icons/web_icon.svg';
 import { MapDetailStyled } from './MapDetailContent.styles';
 
 type DetailProps = {
@@ -80,6 +81,7 @@ const MapDetailContent = ({ data }: DetailProps) => {
           <img src={Mapicon} />
           <p>{`${newaddrfullname} ${newaddrfull} ${bsizonno && `(우)${bsizonno}`}`}</p>
         </div>
+        <img src={Webicon} />
         <Link to={homepage} target="_blank">
           {homepage}
         </Link>
@@ -88,6 +90,7 @@ const MapDetailContent = ({ data }: DetailProps) => {
           timeList.map((time) => {
             return (
               <>
+                <img src={Clockicon} />
                 <p>{time.timeName}</p>
                 <p>{time.dayOfWeek}</p>
                 <p>{time.timeSE}</p>
@@ -108,6 +111,7 @@ const MapDetailContent = ({ data }: DetailProps) => {
           stationList.map((station) => {
             return (
               <p className="station_name">
+                <img src={Subwayicon} />
                 {station.stationSimpleName}
                 <span className="exit_num">{station.exitNum}번 출구</span>
                 <span className="exit_minute">
