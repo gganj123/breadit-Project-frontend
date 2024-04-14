@@ -31,14 +31,14 @@ export const useGetMagazineByQueryApi = ({
 };
 
 export const useGetMagazineByIdApi = ({
-  targetId,
+  targetId = '',
   accessToken,
 }: {
-  targetId: string;
-  accessToken: string;
+  targetId?: string;
+  accessToken: string | null;
 }) => {
   return useQuery({
-    queryKey: ['magazine', targetId],
+    queryKey: ['magazine', targetId, accessToken],
     queryFn: () =>
       repositories.magazinesApis.getMagazine(targetId, accessToken),
     enabled: !!targetId,

@@ -23,17 +23,17 @@ export const magazinesApis = {
     }
   },
 
-  async getMagazine(id: string, token: string) {
+  async getMagazine(id: string, token: string | null) {
     try {
       if (token) {
-        let response = await axios.get(`${apiUrl}/magazines/${id}`, {
+        const response = await axios.get(`${apiUrl}/magazines/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         return response.data;
       } else {
-        let response = await axios.get(`${apiUrl}/magazines/${id}`);
+        const response = await axios.get(`${apiUrl}/magazines/${id}`);
         return response.data;
       }
     } catch (err) {
