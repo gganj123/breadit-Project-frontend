@@ -13,7 +13,20 @@ export const useGetMagazineListApi = () => {
   return useQuery<MagazineParameters[]>({
     queryKey: ['magazines'],
     queryFn: repositories.magazinesApis.getMagazineList,
-    enabled: false,
+    enabled: true,
+  });
+};
+
+export const useGetMagazineByQueryApi = ({
+  query,
+  key,
+}: {
+  query: string;
+  key: string;
+}) => {
+  return useQuery({
+    queryKey: ['magazines', query, key],
+    queryFn: () => repositories.magazinesApis.getMagazineQuery(query, key),
   });
 };
 
@@ -21,7 +34,7 @@ export const useGetMagazineByIdApi = (targetId: string) => {
   return useQuery({
     queryKey: ['magazine', targetId],
     queryFn: () => repositories.magazinesApis.getMagazine(targetId),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

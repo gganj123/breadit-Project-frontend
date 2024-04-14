@@ -12,6 +12,15 @@ export const postsApis = {
     }
   },
 
+  async getPostQuery(query: string, key: string) {
+    try {
+      const response = await axios.get(`${apiUrl}/posts?${query}=${key}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   async getPost(id: string) {
     try {
       const response = await axios.get(`${apiUrl}/posts/${id}`);

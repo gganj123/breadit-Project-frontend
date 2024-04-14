@@ -3,6 +3,7 @@ import { postsApis } from './posts';
 import { usersApi } from './users';
 import { commentsApis } from './comments';
 import { likesApis } from './likes';
+import { recipesApis } from './recipes';
 
 const repositories = {
   magazinesApis,
@@ -10,6 +11,7 @@ const repositories = {
   usersApi,
   commentsApis,
   likesApis,
+  recipesApis,
 };
 Object.freeze(repositories);
 

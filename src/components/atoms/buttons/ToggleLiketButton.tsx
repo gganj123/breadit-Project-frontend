@@ -17,34 +17,22 @@ type likeProps = {
   like: number;
   location?: string | '';
   postId?: string | '';
+  likeState: boolean;
 };
 
-const ToggleLikeButton = ({ like, location, postId }: likeProps) => {
-  const [isHeart, setIsHeart] = useState<boolean>(false);
-  const [isLike, setIsLike] = useState<number>(like);
-
-  const { mutate: magazineMutate, isSuccess, data } = useMagazineLikeStateApi();
-
-  useEffect(() => {
-    if (postId) {
-      magazineMutate({
-        targetId: postId,
-        userId: '609c788df383f331a4a627c3',
-      });
-    }
-
-    console.log(`성공여부 ${isSuccess}`);
-    console.log('isLikedByUser:', data);
-  }, [postId]);
+const ToggleLikeButton = ({ like, location, postId, likeState }: likeProps) => {
+  const [isHeart, setIsHeart] = useState(likeState);
+  const [likeCountToggle, setLikeCountToggle] = useState(like);
 
   function heartToggle() {
     setIsHeart(!isHeart);
-    setIsLike(isHeart ? isLike - 1 : isLike + 1);
+    setLikeCountToggle(isHeart ? likeCountToggle - 1 : likeCountToggle + 1);
   }
+
   return (
     <LikeButton onClick={heartToggle}>
       <img src={isHeart ? likeIconActive : likeIcon} />
-      {isLike}
+      {likeCountToggle}
     </LikeButton>
   );
 };

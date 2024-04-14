@@ -48,14 +48,14 @@ const ContentBox = styled.div`
   }
 `;
 
-type BigCardProps = {
-  data: { _id: string; title: string; content: string };
+export type BigCardProps = {
+  data: { _id: string; title: string; content: string; like_count: number };
 };
 
 const BigCardList = ({ data }: BigCardProps) => {
   const location = useLocation();
 
-  const { _id, title, content } = data;
+  const { _id, title, content, like_count } = data;
 
   function thumbnail() {
     const img = content.match(/<img.*?>/g)?.[0];
@@ -99,7 +99,7 @@ const BigCardList = ({ data }: BigCardProps) => {
           </Link>
         </h5>
         <div className="text" dangerouslySetInnerHTML={noImgContent()} />
-        <ToggleLikeButton like={0} />
+        <ToggleLikeButton like={like_count} />
       </ContentBox>
     </BigCard>
   );

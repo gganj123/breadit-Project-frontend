@@ -1,29 +1,13 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 import BigCard from '../../components/BigCard';
+import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
 
 import './admin.css';
 
 const AdminMagazine = () => {
-  const [magazineList, setMagazineList] = useState([]);
-
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
-
-  const getMagazinesAPI = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/magazines`);
-      setMagazineList(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getMagazinesAPI();
-  }, []);
+  const { data: magazineList } = useGetMagazineListApi();
 
   return (
     <>
@@ -43,9 +27,10 @@ const AdminMagazine = () => {
             </div>
           </div>
           <div className="admin_magazine_list">
-            {magazineList.map((magazine, index) => {
-              return <BigCard data={magazine} key={index} />;
-            })}
+            {magazineList &&
+              magazineList.map((magazine, index) => {
+                return <BigCard data={magazine} key={index} />;
+              })}
           </div>
         </section>
       </section>

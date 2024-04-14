@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import ButtonDeafult from './atoms/buttons/ButtonDefault';
@@ -41,15 +41,9 @@ const CommentsContStyle = styled.section`
 `;
 
 const Comments = ({ postId }: { postId: string }) => {
-  const getCommentListByPostIdQuery = useCommentByPostIdApi(postId || '');
+  const { data: commentList } = useCommentByPostIdApi(postId || '');
   const { mutate: deleteMutate } = useDeleteCommentByIdApi();
   const { mutate: createMutate } = useCreateCommentApi();
-
-  useEffect(() => {
-    getCommentListByPostIdQuery.refetch();
-  }, [getCommentListByPostIdQuery.data]);
-
-  const commentList = getCommentListByPostIdQuery.data || [];
 
   const [commentTextArea, setCommentTextArea] = useState('');
 
@@ -108,11 +102,16 @@ const Comments = ({ postId }: { postId: string }) => {
         </div>
       </div>
       <div className="comment_list">
-        {commentList.map((comment, index) => {
-          return (
-            <Comment key={index} data={comment} deleteEvent={deleteCommentId} />
-          );
-        })}
+        {commentList &&
+          commentList.map((comment) => {
+            return (
+              <Comment
+                key={comment._id}
+                data={comment}
+                deleteEvent={deleteCommentId}
+              />
+            );
+          })}
       </div>
     </CommentsContStyle>
   );

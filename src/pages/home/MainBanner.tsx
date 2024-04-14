@@ -3,10 +3,6 @@ import BannerCircle1 from '/banner_circle1.svg';
 import BannerCircle2 from '/banner_circle2.svg';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 
-type BannerProps = {
-  data: { _id: string; title: string; content: string };
-};
-
 const rotate = keyframes` 
   0% {
     transform: rotate(0deg);
@@ -85,6 +81,10 @@ const BannerItemStyle = styled.div`
     line-height: 1.5;
   }
 `;
+
+export type BannerProps = {
+  data: { _id: string; title: string; content: string };
+};
 
 const MainBanner = ({ data }: BannerProps) => {
   const { _id, title, content } = data;

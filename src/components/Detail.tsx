@@ -54,12 +54,23 @@ type DetailProps = {
     createdAt: string;
     title: string;
     content: string;
+    like_count: number;
+    beLike: boolean;
   };
   deleteEvent: (id: string) => void;
 };
 
 const DetailContent = ({ data, deleteEvent }: DetailProps) => {
-  const { _id, nickname, profile, createdAt, title, content } = data;
+  const {
+    _id,
+    nickname,
+    profile,
+    createdAt,
+    title,
+    content,
+    like_count,
+    beLike,
+  } = data;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -74,12 +85,10 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
     }
   };
 
-  const sliceDate = createdAt.slice(0, 10);
-
-  function tagContent() {
+  const tagContent = () => {
     const HTML = { __html: content };
     return HTML;
-  }
+  };
 
   return (
     <>
@@ -92,7 +101,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
             <h3 className="detail_title">{title}</h3>
             <p>
               <span className="username">{nickname}</span>
-              <span className="date">{sliceDate}</span>
+              <span className="date">{createdAt}</span>
             </p>
           </div>
         </UserStyle>
@@ -107,7 +116,12 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
         </div>
       </DetailTopStyle>
       <DetailContentStyle dangerouslySetInnerHTML={tagContent()} />
-      <ToggleLikeButton location={locationName} postId={postId} like={0} />
+      <ToggleLikeButton
+        location={locationName}
+        postId={postId}
+        like={like_count}
+        likeState={beLike}
+      />
       <Comments postId={_id} />
     </>
   );

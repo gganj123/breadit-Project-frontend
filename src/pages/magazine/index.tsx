@@ -1,20 +1,20 @@
-import { useEffect } from 'react';
 import Slider from 'react-slick';
 import BigCardList from '../../components/BigCard';
-import MagazineBanner from './MagazineBanner';
+import MagazineBanner, { BannerProps } from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
-import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
+import {
+  useGetMagazineListApi,
+  useGetMagazineByQueryApi,
+} from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
 
 const Magazine = () => {
-  const getMagazineListQuery = useGetMagazineListApi();
-
-  useEffect(() => {
-    getMagazineListQuery.refetch();
-  }, [getMagazineListQuery.data]);
-
-  const magazineList = getMagazineListQuery.data || [];
+  const { data: magazineList } = useGetMagazineListApi();
+  const { data: magazineBanner } = useGetMagazineByQueryApi({
+    query: 'limit',
+    key: '3',
+  });
 
   const settings = {
     dots: true,
@@ -32,8 +32,10 @@ const Magazine = () => {
     customPaging: (i: number) => {
       return (
         <span className="customPaging">
-          <span className="currentPage">{i + 1}</span> /
-          <span className="totalPage"> {magazineList.length}</span>
+          <span className="currentPage">{i + 1}</span>/
+          <span className="totalPage">
+            {magazineBanner && magazineBanner.length}
+          </span>
         </span>
       );
     },
@@ -43,10 +45,9 @@ const Magazine = () => {
     <>
       <article className="magazine_banner">
         <Slider {...settings}>
-          {magazineList
-            .filter((banner, index) => index <= 3)
-            .map((banner, index) => {
-              return <MagazineBanner data={banner} key={index} />;
+          {magazineBanner &&
+            magazineBanner.map((banner: BannerProps['data']) => {
+              return <MagazineBanner data={banner} key={banner._id} />;
             })}
         </Slider>
       </article>
@@ -59,9 +60,10 @@ const Magazine = () => {
         </div>
 
         <div className="magazine_card_list">
-          {magazineList.map((magazine, index) => {
-            return <BigCardList data={magazine} key={index} />;
-          })}
+          {magazineList &&
+            magazineList.map((magazine) => {
+              return <BigCardList data={magazine} key={magazine._id} />;
+            })}
         </div>
       </section>
     </>

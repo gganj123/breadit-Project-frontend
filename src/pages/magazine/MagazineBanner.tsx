@@ -1,8 +1,8 @@
 import MagazineCircle from '/magazine_circle.svg';
 import MagazineBannerImg from '/magazine_banner.svg';
 
-type BannerProps = {
-  data: { title: string; content: string };
+export type BannerProps = {
+  data: { _id: string; title: string; content: string };
 };
 
 const MagazineBanner = ({ data }: BannerProps) => {

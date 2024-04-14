@@ -13,7 +13,20 @@ export const useGetPostListApi = () => {
   return useQuery<PostParameters[]>({
     queryKey: ['posts'],
     queryFn: repositories.postsApis.getPostList,
-    enabled: false,
+    enabled: true,
+  });
+};
+
+export const useGetPostByQueryApi = ({
+  query,
+  key,
+}: {
+  query: string;
+  key: string;
+}) => {
+  return useQuery({
+    queryKey: ['posts', query, key],
+    queryFn: () => repositories.postsApis.getPostQuery(query, key),
   });
 };
 
@@ -21,7 +34,7 @@ export const useGetPostByIdApi = (targetId: string) => {
   return useQuery({
     queryKey: ['post', targetId],
     queryFn: () => repositories.postsApis.getPost(targetId),
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

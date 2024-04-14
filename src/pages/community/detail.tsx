@@ -24,6 +24,7 @@ const MagazineDetail = () => {
     createdAt: '',
     title: '',
     content: '',
+    beLike: false,
   };
 
   const { mutate } = useDeletePostByIdApi();

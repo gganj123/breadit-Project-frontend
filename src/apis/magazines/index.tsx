@@ -14,6 +14,15 @@ export const magazinesApis = {
     }
   },
 
+  async getMagazineQuery(query: string, key: string) {
+    try {
+      const response = await axios.get(`${apiUrl}/magazines?${query}=${key}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   async getMagazine(id: string) {
     try {
       const response = await axios.get(`${apiUrl}/magazines/${id}`);
