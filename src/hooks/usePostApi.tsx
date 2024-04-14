@@ -34,7 +34,7 @@ export const useGetPostByIdApi = (targetId: string) => {
   return useQuery({
     queryKey: ['post', targetId],
     queryFn: () => repositories.postsApis.getPost(targetId),
-    enabled: true,
+    enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

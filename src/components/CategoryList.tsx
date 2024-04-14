@@ -103,7 +103,7 @@ const CategoryList: React.FC<Props> = ({
             <p>{nickname[index] || ''}</p>
           </div>
           <div className="list_img_wrapper">
-            <Link to={`${to}/${index}`}>
+            <Link to={`${to}/${postIdArray[index]}`}>
               <img
                 src={
                   typeof firstValues[index] === 'string'

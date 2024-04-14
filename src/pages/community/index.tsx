@@ -72,6 +72,10 @@ export default function CommunityPage() {
     return item.title.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
+  const filteredIdArray = filteredData.map((post) => post._id);
+  const postIdArray = postData.map((post) => post._id);
+  const recipeIdArray = recipeData.map((post) => post._id);
+
   return (
     <>
       <div className="community_container">
@@ -116,9 +120,7 @@ export default function CommunityPage() {
                     .map((post) => post.nickname)}
                   likes={likeCounts.slice(0, 4)}
                   usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
-                  postIdArray={filteredData
-                    .slice(0, 4)
-                    .map((post) => post.postId)}
+                  postIdArray={filteredIdArray.slice(0, 4)}
                 />
               </div>
             </div>
@@ -153,9 +155,7 @@ export default function CommunityPage() {
                     nickname={postData.slice(0, 4).map((post) => post.nickname)}
                     likes={likeCounts.slice(0, 4)}
                     usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
-                    postIdArray={filteredData
-                      .slice(0, 4)
-                      .map((post) => post.postId)}
+                    postIdArray={postIdArray.slice(0, 4)}
                   />
                 </div>
               </div>
@@ -177,9 +177,7 @@ export default function CommunityPage() {
                       .map((post) => post.nickname)}
                     likes={likeCounts.slice(0, 4)}
                     usersrc={['#빵집', '#빵집', '#빵집', '#빵집']}
-                    postIdArray={filteredData
-                      .slice(0, 4)
-                      .map((post) => post.postId)}
+                    postIdArray={recipeIdArray.slice(0, 4)}
                   />
                 </div>
               </div>

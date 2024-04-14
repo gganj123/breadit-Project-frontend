@@ -9,28 +9,14 @@ import {
   useDeletePostByIdApi,
 } from '../../hooks/usePostApi';
 
-const MagazineDetail = () => {
-  const { id } = useParams<{ id?: string }>();
-  const getPostQuery = useGetPostByIdApi(id || '');
+const CommunityDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const { data: CommunityDetail } = useGetPostByIdApi(id as string);
+  console.log(CommunityDetail);
 
-  useEffect(() => {
-    getPostQuery.refetch();
-  }, [getPostQuery.data]);
-
-  const detailData = getPostQuery.data || {
-    _id: '',
-    nickname: '',
-    profile: '',
-    createdAt: '',
-    title: '',
-    content: '',
-    beLike: false,
-  };
-
-  const { mutate } = useDeletePostByIdApi();
-
+  const { mutate: deleteMutate } = useDeletePostByIdApi();
   const deletePostId = (id: string) => {
-    mutate(id);
+    deleteMutate(id);
   };
 
   return (
@@ -38,10 +24,7 @@ const MagazineDetail = () => {
       <div className="flex_default detail_top">
         <ul className="location">
           <li>
-            <Link to="/community">커뮤니티</Link>
-          </li>
-          <li>
-            <Link to="/community/nearby">베이커리 소개</Link>
+            <Link to="/magazines">커뮤니티</Link>
           </li>
         </ul>
         <div className="buttons">
@@ -50,11 +33,22 @@ const MagazineDetail = () => {
         </div>
       </div>
       <DetailContent
-        data={detailData}
+        data={
+          CommunityDetail !== undefined
+            ? CommunityDetail
+            : {
+                _id: '',
+                nickname: '',
+                profile: '',
+                createdAt: '',
+                title: '',
+                content: '',
+              }
+        }
         deleteEvent={(id: string) => deletePostId(id)}
       />
     </section>
   );
 };
 
-export default MagazineDetail;
+export default CommunityDetail;

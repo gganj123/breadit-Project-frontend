@@ -47,12 +47,13 @@ export default function MyRecipe() {
             </div>
             <div className="community_list_content">
               <CategoryList
-                to="/community/nearby"
+                to="/community/recipe"
                 images={recipeData.map((post: any) => post.images)}
                 titles={recipeData.map((post: any) => post.title)}
                 nickname={recipeData.map((post: any) => post.nickname)}
                 likes={[1, 2, 3]}
                 usersrc={['#빵집']}
+                postIdArray={recipeData.map((post: any) => post._id)}
               />
             </div>
           </div>
