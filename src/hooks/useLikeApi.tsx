@@ -7,8 +7,8 @@ export const useMagazineLikeStateApi = () => {
   return useMutation({
     mutationFn: ({ targetId, userId }: { targetId: string; userId: string }) =>
       repositories.likesApis.magazineLikeState(targetId, userId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['likes'] });
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['magazine', data._id] });
     },
   });
 };

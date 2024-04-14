@@ -10,7 +10,7 @@ import CategoryImg4 from '/icons/category_img4.svg';
 import MainCategories from './MainCategories';
 import Review from '/Review.svg';
 import MainBanner, { BannerProps } from './MainBanner';
-import BigCard, { BigCardProps } from '../../components/BigCard';
+import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 import MainInstagramImg from './MainInstagramImg';
 import { useGetMagazineByQueryApi } from '../../hooks/useMagazineApi';
 import { useGetPostByQueryApi } from '../../hooks/usePostApi';

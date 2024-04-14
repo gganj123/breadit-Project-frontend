@@ -1,5 +1,5 @@
 import Slider from 'react-slick';
-import BigCardList from '../../components/BigCard';
+import BigCardList from '../../components/BigCard/BigCard';
 import MagazineBanner, { BannerProps } from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 import {

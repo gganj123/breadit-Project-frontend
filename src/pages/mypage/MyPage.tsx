@@ -5,13 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import ProfileImageUpload from './ProfileImageUpload';
-import { useProfileImage } from './ProfileImageContext';
 import MyPageList from '../../components/MypageList';
 import RightArrow from '/right-arrow.svg';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BallTriangle } from 'react-loader-spinner';
-
+import { useAuth } from '../login/AuthContext';
 const ContextWrap = styled.div`
   width: 100%;
   padding: 0 100px 100px;
@@ -155,9 +154,7 @@ type RestData = {
 };
 
 export default function MyPage() {
-  const handleLogOut = () => {};
-  const { profileImage } = useProfileImage();
-  const handleDeleteAccount = () => {};
+  const { user } = useAuth();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
   const handleNavigation = (path: string) => () => navigate(path);
@@ -234,13 +231,13 @@ export default function MyPage() {
         <h2 className="oleo-script-bold community_title">Mypage</h2>
         <PageLayout>
           <ProfileContainer>
-            <ProfileImageUpload src={profileImage} showEditIcon={false} />
+            {/*화면 좌측 프로필 */}
+            <ProfileImageUpload
+              src={user?.profile || '/default-profile.jpg'}
+              showEditIcon={false}
+            />
             <UserProfile
-              email="breadit@naver.com"
-              nickname="식빵맨"
               onEditProfile={handleNavigation('/mypage/check-password')}
-              onLogout={handleLogOut}
-              onDeleteAccount={handleDeleteAccount}
             />
           </ProfileContainer>
           <MainContent>

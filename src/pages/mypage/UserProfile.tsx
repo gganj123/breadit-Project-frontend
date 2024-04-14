@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import { useAuth } from '../login/AuthContext';
 type UserProfileProps = {
-  onDeleteAccount: () => void;
   onEditProfile: () => void;
 };
 
@@ -47,11 +46,8 @@ const ActionsButton = styled.button`
   font-size: 11px;
 `;
 
-const UserProfile: React.FC<UserProfileProps> = ({
-  onDeleteAccount,
-  onEditProfile,
-}) => {
-  const { user, logout } = useAuth();
+const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
+  const { user, logout, deleteUser } = useAuth();
   return (
     <div>
       <Nickname>{user?.nickname}</Nickname>
@@ -69,7 +65,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
       <ActionsContainer>
         <ActionsButton onClick={logout}>로그아웃</ActionsButton>
         <Line />
-        <ActionsButton onClick={onDeleteAccount}>회원탈퇴</ActionsButton>
+        <ActionsButton onClick={deleteUser}>회원탈퇴</ActionsButton>
       </ActionsContainer>
     </div>
   );

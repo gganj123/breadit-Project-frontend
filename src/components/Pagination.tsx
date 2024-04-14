@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface PageNumberProps {
-  active?: boolean; // active 속성을 optional로 설정
+  active?: boolean;
 }
 
 const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
@@ -16,7 +16,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
         <PageNumber
           key={pageNumber}
           onClick={() => onPageChange(pageNumber)}
-          active={pageNumber === currentPage} // active 속성을 사용
+          active={pageNumber === currentPage ? 'true' : undefined} // active 속성을 사용
         >
           {pageNumber}
         </PageNumber>
@@ -38,9 +38,8 @@ const PageNumber = styled.button<PageNumberProps>`
   cursor: pointer;
   margin: 0 5px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#FFCB46' : '#333')}; // active 속성 사용
-  font-weight: ${(props) =>
-    props.active ? 'bold' : 'normal'}; // active 속성 사용
+  color: ${(props) => (props.active ? '#FFCB46' : '#333')};
+  font-weight: ${(props) => (props.active ? 'bold' : 'normal')};
 `;
 
 export default Pagination;

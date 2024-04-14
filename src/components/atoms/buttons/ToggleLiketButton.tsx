@@ -15,12 +15,12 @@ const LikeButton = styled.button`
 
 type likeProps = {
   like: number;
-  location?: string | '';
+  // location?: string | '';
   postId?: string | '';
   likeState: boolean;
 };
 
-const ToggleLikeButton = ({ like, location, postId, likeState }: likeProps) => {
+const ToggleLikeButton = ({ like, postId, likeState }: likeProps) => {
   const [isHeart, setIsHeart] = useState(likeState);
   const [likeCountToggle, setLikeCountToggle] = useState(like);
 

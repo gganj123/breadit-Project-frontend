@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ButtonDeafult from './atoms/buttons/ButtonDefault';
+import ButtonDefault from './atoms/buttons/ButtonDefault';
 import Comment from './Comment';
 import {
   useCommentByPostIdApi,
@@ -92,13 +92,13 @@ const Comments = ({ postId }: { postId: string }) => {
         />
 
         <div className="buttons">
-          <ButtonDeafult
+          <ButtonDefault
             text={'취소'}
             backgroundcolor={'#d9d9d9'}
             color={'#575757'}
             clickevent={resetComment}
           />
-          <ButtonDeafult text={'등록'} clickevent={createComment} />
+          <ButtonDefault text={'등록'} clickevent={createComment} />
         </div>
       </div>
       <div className="comment_list">

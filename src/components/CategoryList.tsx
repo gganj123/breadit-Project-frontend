@@ -84,11 +84,11 @@ const CategoryList: React.FC<Props> = ({
 
   const firstValues = images.map((item) => {
     if (typeof item === 'string') {
-      return item;
+      return item.replace(/[\[\]"]/g, ''); // 대괄호와 큰따옴표 제거
     } else if (Array.isArray(item) && item.length > 0) {
-      return item[0];
+      return item[0].replace(/[\[\]"]/g, ''); // 대괄호와 큰따옴표 제거
     } else {
-      return null;
+      return Noimg;
     }
   });
 
@@ -104,7 +104,14 @@ const CategoryList: React.FC<Props> = ({
           </div>
           <div className="list_img_wrapper">
             <Link to={`${to}/${index}`}>
-              <img src={firstValues[index] || Noimg} alt={titles[index]} />
+              <img
+                src={
+                  typeof firstValues[index] === 'string'
+                    ? firstValues[index]
+                    : Noimg
+                }
+                alt={titles[index]}
+              />
             </Link>
           </div>
           <div className="subcategory">

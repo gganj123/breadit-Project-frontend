@@ -1,52 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
-import styled from 'styled-components';
-import ToggleLikeButton from './atoms/buttons/ToggleLiketButton';
+import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
 import Noimg from '/no_img.svg';
-
-const BigCard = styled.div`
-  overflow: hidden;
-  border-radius: 2rem;
-  box-shadow: 0px 0px 3rem rgb(242 242 242);
-  margin-bottom: 2rem;
-  max-width: 53.6rem;
-  position: relative;
-
-  .checkbox {
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-  }
-`;
-
-const ContentBox = styled.div`
-  padding: 3rem;
-  background-color: #fff;
-
-  h5 {
-    font-size: 2.2rem;
-    margin-bottom: 1.4rem;
-  }
-
-  .text {
-    font-size: 1.8rem;
-    color: #666;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    line-height: 1.5;
-    word-break: keep-all;
-  }
-
-  .text * {
-    line-height: 1.5;
-  }
-`;
+import { BigCardStyled, ContentBoxStyled } from './BigCard.styles';
 
 export type BigCardProps = {
   data: { _id: string; title: string; content: string; like_count: number };
@@ -71,7 +26,7 @@ const BigCardList = ({ data }: BigCardProps) => {
   }
 
   return (
-    <BigCard>
+    <BigCardStyled>
       {location.pathname.includes('admin') && (
         <input type="checkbox" value={_id} className="checkbox" />
       )}
@@ -86,7 +41,7 @@ const BigCardList = ({ data }: BigCardProps) => {
           <div dangerouslySetInnerHTML={thumbnail()} />
         </Link>
       </div>
-      <ContentBox>
+      <ContentBoxStyled>
         <h5>
           <Link
             to={
@@ -100,8 +55,8 @@ const BigCardList = ({ data }: BigCardProps) => {
         </h5>
         <div className="text" dangerouslySetInnerHTML={noImgContent()} />
         <ToggleLikeButton like={like_count} />
-      </ContentBox>
-    </BigCard>
+      </ContentBoxStyled>
+    </BigCardStyled>
   );
 };
 

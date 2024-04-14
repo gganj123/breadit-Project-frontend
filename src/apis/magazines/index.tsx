@@ -34,8 +34,8 @@ export const magazinesApis = {
 
   async deleteMagazine(id: string) {
     try {
-      const reponse = await axios.delete(`${apiUrl}/magazines/${id}`);
-      return reponse.data;
+      const response = await axios.delete(`${apiUrl}/magazines/${id}`);
+      return response.data;
     } catch (err) {
       console.error(err);
     }

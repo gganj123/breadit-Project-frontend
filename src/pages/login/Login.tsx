@@ -48,22 +48,24 @@ const naverURL = `https:nid.naver.com/oauth2.0/authorize?response_type=code&clie
 const Login: FC = () => {
   //const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Attempting to log in with:', email, password); // 로그인 시도 로깅
+    console.log('Attempting to log in with:', form.email, form.password); // 로그인 시도 로깅
     try {
-      await login(email, password);
+      await login(form.email, form.password);
       console.log('Login successful'); // 성공 로깅
     } catch (error) {
       console.error('Login failed:', error); // 실패 로깅
@@ -91,17 +93,16 @@ const Login: FC = () => {
             type="email"
             placeholder="이메일"
             name="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={form.email}
+            onChange={handleFormChange}
           />
           <Input
             type="password"
             placeholder="비밀번호"
             name="password"
-            value={password}
-            onChange={handlePasswordChange}
+            value={form.password}
+            onChange={handleFormChange}
           />
-
           <Button
             type="submit"
             text="로그인"

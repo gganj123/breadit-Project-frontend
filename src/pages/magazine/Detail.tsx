@@ -13,7 +13,6 @@ const MagazineDetail = () => {
   const { data: magazineDetail } = useGetMagazineByIdApi(id as string);
 
   const { mutate: deleteMutate } = useDeleteMagazineByIdApi();
-
   const deleteMagazineId = (id: string) => {
     deleteMutate(id);
   };

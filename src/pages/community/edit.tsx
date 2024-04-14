@@ -14,6 +14,7 @@ export default function EditPage() {
     setSelectedCategory(value);
   };
 
+  console.log(selectedCategory);
   return (
     <>
       <div className="community_container">
@@ -25,7 +26,7 @@ export default function EditPage() {
             value={selectedCategory}
             className="custom-select-box"
           />
-          <EditorComponent selectedCategory={selectedCategory} />
+          <EditorComponent selectedCategory={selectedCategory || 'default'} />
         </div>
       </div>
     </>
