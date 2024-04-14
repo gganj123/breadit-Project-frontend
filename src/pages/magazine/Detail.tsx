@@ -10,7 +10,13 @@ import {
 
 const MagazineDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: magazineDetail } = useGetMagazineByIdApi(id as string);
+
+  const accessToken = localStorage.getItem('accessToken');
+
+  const { data: magazineDetail } = useGetMagazineByIdApi({
+    targetId: id,
+    accessToken,
+  });
 
   const { mutate: deleteMutate } = useDeleteMagazineByIdApi();
   const deleteMagazineId = (id: string) => {

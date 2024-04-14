@@ -41,7 +41,6 @@ const CommentItemStyle = styled.div`
   .comment_content {
     max-width: 60rem;
     line-height: 1.4;
-    word-break: keep-all;
   }
 `;
 

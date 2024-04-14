@@ -30,10 +30,17 @@ export const useGetMagazineByQueryApi = ({
   });
 };
 
-export const useGetMagazineByIdApi = (targetId: string) => {
+export const useGetMagazineByIdApi = ({
+  targetId,
+  accessToken,
+}: {
+  targetId: string;
+  accessToken: string;
+}) => {
   return useQuery({
     queryKey: ['magazine', targetId],
-    queryFn: () => repositories.magazinesApis.getMagazine(targetId),
+    queryFn: () =>
+      repositories.magazinesApis.getMagazine(targetId, accessToken),
     enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import likeIcon from '/heart_icon.svg';
 import likeIconActive from '/heart_icon_active.svg';

@@ -117,7 +117,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
       </DetailTopStyle>
       <DetailContentStyle dangerouslySetInnerHTML={tagContent()} />
       <ToggleLikeButton
-        location={locationName}
+        // location={locationName}
         postId={postId}
         like={like_count}
         likeState={beLike}

@@ -38,6 +38,13 @@ const CommentsContStyle = styled.section`
     margin-top: 2rem;
     border-top: solid 1px #ddd;
   }
+
+  .no_content {
+    text-align: center;
+    line-height: 20rem;
+    border-bottom: solid 1px #ddd;
+    color: #888;
+  }
 `;
 
 const Comments = ({ postId }: { postId: string }) => {
@@ -103,6 +110,7 @@ const Comments = ({ postId }: { postId: string }) => {
       </div>
       <div className="comment_list">
         {commentList &&
+          commentList.length > 0 &&
           commentList.map((comment) => {
             return (
               <Comment
@@ -112,6 +120,9 @@ const Comments = ({ postId }: { postId: string }) => {
               />
             );
           })}
+        {commentList && commentList.length == 0 && (
+          <p className="no_content">댓글이 없습니다.</p>
+        )}
       </div>
     </CommentsContStyle>
   );

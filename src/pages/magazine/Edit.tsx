@@ -1,8 +1,7 @@
-import React from 'react';
 import { EditorComponent } from '../../components/QuillEditor';
 import styled from 'styled-components';
 
-const WriteSectionStyle = styled.section`
+const WriteSectionStyled = styled.section`
   max-width: 129rem;
   margin: 0 auto;
   padding: 8rem 2rem;
@@ -15,10 +14,10 @@ const WriteSectionStyle = styled.section`
 const MagazineEdit = () => {
   return (
     <>
-      <WriteSectionStyle>
+      <WriteSectionStyled>
         <h2 className="oleo-script-bold">Magazine</h2>
         <EditorComponent selectedCategory={'megazine'} />
-      </WriteSectionStyle>
+      </WriteSectionStyled>
     </>
   );
 };

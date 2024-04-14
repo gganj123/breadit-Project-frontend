@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import React, { useState, useEffect } from 'react';
 import * as S from './KakaoMap.style';
-import MapDetailContent from './MapDetailContent';
+import MapDetailContent from './MapDetailContent/MapDetailContent';
 import { searchBakeryNearby } from '../components/SearchArea';
 import { useLocation } from 'react-router-dom';
 import { Hearts } from 'react-loader-spinner';
