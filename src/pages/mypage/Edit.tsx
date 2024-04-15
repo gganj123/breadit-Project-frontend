@@ -54,7 +54,7 @@ export default function Edit() {
     email: user?.email || '',
     nickname: user?.nickname || '',
     profile: user?.profile || '',
-    id: user?._id || '', // 여기서 _id 추가
+    id: user?.id || '', // 여기서 _id 추가
   });
 
   const handleRemoveImage = () => {
