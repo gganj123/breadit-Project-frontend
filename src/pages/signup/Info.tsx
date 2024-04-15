@@ -57,7 +57,7 @@ const SignUpInfoPage: React.FC = () => {
     email: '',
     verificationCode: '',
     password: '',
-    passwordConfirm: '',
+    confirmPassword: '',
     nickname: '',
   });
   const [validation, setValidation] = useState({
@@ -65,7 +65,7 @@ const SignUpInfoPage: React.FC = () => {
     passwordsMatch: true,
   });
 
-  const { verificationCode, password, passwordConfirm } = formData;
+  const { verificationCode, password, confirmPassword } = formData;
   const { emailValid, passwordsMatch } = validation;
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -133,7 +133,7 @@ const SignUpInfoPage: React.FC = () => {
     if (name === 'password') {
       validatePassword(value);
     }
-    if (name === 'passwordConfirm') {
+    if (name === 'confirmPassword') {
       setValidation((prevValidation) => ({
         ...prevValidation,
         passwordsMatch: value === formData.password,
@@ -165,6 +165,7 @@ const SignUpInfoPage: React.FC = () => {
         email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
+        confirmPassword: formData.confirmPassword,
       });
 
       console.log('회원가입 성공:', response.data);
@@ -257,11 +258,11 @@ const SignUpInfoPage: React.FC = () => {
           <SignUpInput
             type="password"
             label="비밀번호 확인"
-            name="passwordConfirm"
-            value={formData.passwordConfirm}
+            name="confirmPassword"
+            value={formData.confirmPassword}
             onChange={handleInputChange}
             icon={
-              passwordsMatch && password && passwordConfirm ? (
+              passwordsMatch && password && confirmPassword ? (
                 <IoCheckmarkCircleSharp size={24} color="#5FD08D" />
               ) : null
             }
