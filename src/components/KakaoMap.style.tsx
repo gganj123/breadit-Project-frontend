@@ -139,11 +139,32 @@ export const MapDetailStyle = styled.section`
   top: 0;
   left: 100%;
   z-index: 12;
+  box-shadow: 1rem 1rem 1.2rem rgba(0, 0, 0, 0.1);
 
-  button {
+  .closed_detail_btn {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 10%;
+    left: 100%;
+    background-color: #fff;
+    width: 4rem;
+    height: 4rem;
+    box-shadow: 1rem 1rem 1.2rem rgba(0, 0, 0, 0.1);
+  }
+
+  .closed_detail_btn::before,
+  .closed_detail_btn::after {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2px;
+    background-color: #666;
+    position: absolute;
+    left: 1rem;
+    transform: rotate(45deg);
+  }
+
+  .closed_detail_btn::after {
+    transform: rotate(135deg);
   }
 `;
 

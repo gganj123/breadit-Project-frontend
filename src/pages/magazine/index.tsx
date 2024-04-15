@@ -11,10 +11,7 @@ import './magazine_main.css';
 
 const Magazine = () => {
   const { data: magazineList } = useGetMagazineListApi();
-  const { data: magazineBanner } = useGetMagazineByQueryApi({
-    query: 'limit',
-    key: '3',
-  });
+  const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
 
   const settings = {
     dots: true,

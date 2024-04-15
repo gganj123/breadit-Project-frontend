@@ -1,11 +1,10 @@
 import axios from 'axios';
-
-const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
+import { API_URL } from '../../constants/index.tsx';
 
 export const usersApi = {
   async getUserList() {
     try {
-      const response = await axios.get(`${apiUrl}/users`);
+      const response = await axios.get(`${API_URL}/users`);
       return response.data;
     } catch (err) {
       console.error(err);
@@ -14,7 +13,7 @@ export const usersApi = {
 
   async deleteUser(id: string) {
     try {
-      const reponse = await axios.delete(`${apiUrl}/users/${id}`);
+      const reponse = await axios.delete(`${API_URL}/users/${id}`);
       return reponse.data;
     } catch (err) {
       console.error(err);

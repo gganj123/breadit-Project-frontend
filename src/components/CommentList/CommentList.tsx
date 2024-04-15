@@ -24,52 +24,74 @@ const Comments = ({ postId }: { postId: string }) => {
     deleteMutate(id);
   };
 
-  function createComment() {
-    const commentData = {
-      nickname: '히히sdsfsdf힛',
-      profile: 'https://example.com/profile',
-      user_id: '661197252555dd267724ea61',
-      post_id: postId,
-      content: commentTextArea,
-    };
+  const userId = localStorage.getItem('id');
 
-    createMutate(commentData);
+  function createComment() {
+    if (userId !== null) {
+      const commentData = {
+        nickname: '히히sdsfsdf힛',
+        profile: 'https://example.com/profile',
+        user_id: userId,
+        post_id: postId,
+        content: commentTextArea,
+      };
+
+      createMutate(commentData);
+    }
   }
 
   return (
     <CommentsContStyled>
-      <div className="comment_input">
-        <div className="my_info">
-          <div
-            className="img_box"
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: '50%',
-              backgroundColor: '#eee',
-            }}
-          ></div>
-          <span>
-            <Link to="/login">로그인이 필요합니다.</Link>
-          </span>
-        </div>
-        <textarea
-          name="comment"
-          placeholder="댓글을 입력하세요"
-          onChange={(e) => setCommentTextArea(e.target.value)}
-          value={commentTextArea}
-        />
-
-        <div className="buttons">
-          <ButtonDefault
-            text={'취소'}
-            backgroundcolor={'#d9d9d9'}
-            color={'#575757'}
-            clickevent={resetComment}
+      {userId ? (
+        <div className="comment_input">
+          <div className="my_info">
+            <div
+              className="img_box"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                backgroundColor: '#eee',
+              }}
+            />
+            <span>닉네임 넣을 위치</span>
+          </div>
+          <textarea
+            name="comment"
+            placeholder="댓글을 입력하세요"
+            onChange={(e) => setCommentTextArea(e.target.value)}
+            value={commentTextArea}
           />
-          <ButtonDefault text={'등록'} clickevent={createComment} />
+
+          <div className="buttons">
+            <ButtonDefault
+              text={'취소'}
+              backgroundcolor={'#d9d9d9'}
+              color={'#575757'}
+              clickevent={resetComment}
+            />
+            <ButtonDefault text={'등록'} clickevent={createComment} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="comment_input">
+          <div className="my_info">
+            <div
+              className="img_box"
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: '50%',
+                backgroundColor: '#eee',
+              }}
+            />
+            <span>
+              <Link to="/login">로그인 후 댓글을 남겨주세요.</Link>
+            </span>
+          </div>
+        </div>
+      )}
+
       <div className="comment_list">
         {commentList &&
           commentList.length > 0 &&

@@ -40,4 +40,8 @@ export const DetailContentStyled = styled.div`
   min-height: 26vh;
   font-size: 1.8rem;
   line-height: 1.6;
+
+  * {
+    line-height: 1.6;
+  }
 `;

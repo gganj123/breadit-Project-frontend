@@ -1,8 +1,12 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import likeIcon from '/heart_icon.svg';
 import likeIconActive from '/heart_icon_active.svg';
-import { usePostMagazineLikeToggleApi } from '../../../hooks/useLikeApi';
+import {
+  usePostMagazineLikeToggleApi,
+  usePostPostLikeToggleApi,
+  usePostRecipeLikeToggleApi,
+} from '../../../hooks/useLikeApi';
 
 const LikeButton = styled.button`
   display: inline-flex;
@@ -13,26 +17,29 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-type likeProps = {
+type LikeProps = {
   likeCount: number;
-  location?: string | '';
   postId?: string | '';
   likeState: boolean;
 };
 
-const ToggleLikeButton = ({
-  likeCount,
-  location,
-  postId,
-  likeState,
-}: likeProps) => {
+const ToggleLikeButton = ({ likeCount, postId, likeState }: LikeProps) => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const { mutate } = usePostMagazineLikeToggleApi();
+  const { mutate: magazineLikeMutate } = usePostMagazineLikeToggleApi();
+  const { mutate: postLikeMutate } = usePostPostLikeToggleApi();
+  const { mutate: recipeLikeMutate } = usePostRecipeLikeToggleApi();
 
   const userId = localStorage.getItem('id');
 
   const heartToggle = () => {
-    userId && postId && mutate({ userId, postId });
+    if (location.pathname.includes('magazines')) {
+      userId && postId && magazineLikeMutate({ userId, postId });
+    } else if (location.pathname.includes('nearby')) {
+      userId && postId && postLikeMutate({ userId, postId });
+    } else if (location.pathname.includes('recipe')) {
+      userId && postId && recipeLikeMutate({ userId, postId });
+    }
   };
 
   const nonMember = () => {

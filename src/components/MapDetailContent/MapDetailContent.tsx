@@ -3,48 +3,55 @@ import Mapicon from '/icons/map_icon.svg';
 import Clockicon from '/icons/clock_icon.svg';
 import Subwayicon from '/icons/subway_icon.svg';
 import Webicon from '/icons/web_icon.svg';
-import { MapDetailStyled } from './MapDetailContent.styles';
+import Telicon from '/icons/tel_icon.svg';
+import Noimg from '/no_img.svg';
+import { MapDetailStyled, DetailInfoStyled } from './MapDetailContent.styles';
 
 type DetailProps = {
-  data: DetailData;
+  data?: DetailData;
 };
 
 type DetailData = {
-  basicInfo: {
-    placenamefull: string;
-    mainphotourl: string;
-    englishname: string;
-    address: {
+  basicInfo?: {
+    placenamefull?: string;
+    mainphotourl?: string;
+    phonenum?: string;
+    address?: {
       newaddr?: {
-        newaddrfull?: string | undefined;
-        bsizonno?: string | undefined;
+        newaddrfull?: string;
+        bsizonno?: string;
       };
-      region?: { newaddrfullname?: string | undefined };
+      region?: {
+        newaddrfullname?: string;
+      };
     };
-    homepage: string;
-    category: {
-      catename: string;
+    homepage?: string;
+    category?: {
+      catename?: string;
     };
-    openHour: {
-      periodList: {
-        periodName: string;
-        timeList: {
-          timeName: string;
-          timeSE: string;
-          dayOfWeek: string;
+    openHour?: {
+      periodList?: {
+        periodName?: string;
+        timeList?: {
+          timeName?: string;
+          timeSE?: string;
+          dayOfWeek?: string;
         }[];
       }[];
-      offdayList: {
-        holidayName: string;
-        weekAndDay: string;
+      offdayList?: {
+        holidayName?: string;
+        weekAndDay?: string;
       }[];
     };
   };
-  findway: {
-    subway: {
-      stationSimpleName?: string | undefined;
-      exitNum?: string | undefined;
-      toExitMinute?: string | undefined;
+  findway?: {
+    subway?: {
+      stationSimpleName?: string;
+      exitNum?: string;
+      toExitMinute?: string;
+      subwayList?: {
+        subwayName?: string;
+      }[];
     }[];
   };
 };
@@ -53,73 +60,107 @@ const MapDetailContent = ({ data }: DetailProps) => {
   const {
     placenamefull,
     mainphotourl,
-    englishname,
+    phonenum,
     address,
     homepage,
     category,
     openHour,
-  } = data.basicInfo;
-  const { subway } = data.findway;
-  const newaddrfull = address.newaddr?.newaddrfull ?? '';
-  const bsizonno = address.newaddr?.bsizonno ?? '';
-  const newaddrfullname = address.region?.newaddrfullname ?? '';
-  const stationList = subway;
-  const timeList = openHour.periodList[0].timeList;
-  const offDay = openHour.offdayList;
+  } = data?.basicInfo ?? {};
+  const { subway } = data?.findway ?? {};
+
+  const newaddrfull = address?.newaddr?.newaddrfull ?? '';
+  const bsizonno = address?.newaddr?.bsizonno ?? '';
+  const newaddrfullname = address?.region?.newaddrfullname ?? '';
+
+  const stationList = subway ?? [];
+  const timeList = openHour?.periodList?.[0]?.timeList ?? [];
+  const offDay = openHour?.offdayList ?? [];
 
   return (
     <>
       <MapDetailStyled>
+        <div className="store_top">
+          {mainphotourl ? (
+            <div
+              className="thumbnail_box"
+              style={{ background: `url(${mainphotourl}) 50% 50%` }}
+            />
+          ) : (
+            <div
+              className="thumbnail_box"
+              style={{ background: `url(${Noimg}) 50% 50%` }}
+            />
+          )}
+          <div className="store_name">
+            {category?.catename && <span>{category.catename}</span>}
+            {placenamefull && <h4>{placenamefull}</h4>}
+          </div>
+        </div>
         <div className="store_info">
-          <img src={mainphotourl} className="thumbnail" />
-          <span>{englishname}</span>
-          <span>{category.catename}</span>
-          <h4>{placenamefull}</h4>
-        </div>
+          <DetailInfoStyled>
+            <img src={Mapicon} />
+            <p>{`${newaddrfullname} ${newaddrfull} ${bsizonno && `(우)${bsizonno}`}`}</p>
+          </DetailInfoStyled>
+          {phonenum && (
+            <DetailInfoStyled>
+              <img src={Telicon} />
+              <p>{phonenum}</p>
+            </DetailInfoStyled>
+          )}
+          {homepage && (
+            <DetailInfoStyled>
+              <img src={Webicon} />
+              <Link to={homepage} target="_blank" className="web_link">
+                {homepage}
+              </Link>
+            </DetailInfoStyled>
+          )}
 
-        <div>
-          <img src={Mapicon} />
-          <p>{`${newaddrfullname} ${newaddrfull} ${bsizonno && `(우)${bsizonno}`}`}</p>
-        </div>
-        <img src={Webicon} />
-        <Link to={homepage} target="_blank">
-          {homepage}
-        </Link>
-
-        {timeList &&
-          timeList.map((time) => {
-            return (
-              <>
+          <div className="time_area">
+            {timeList.length > 0 && timeList[0].timeName && (
+              <h5>
                 <img src={Clockicon} />
-                <p>{time.timeName}</p>
-                <p>{time.dayOfWeek}</p>
-                <p>{time.timeSE}</p>
-              </>
-            );
-          })}
-        {offDay &&
-          offDay.map((day) => {
-            return (
-              <>
-                <p>{day.holidayName}</p>
-                <p>{day.weekAndDay}</p>
-              </>
-            );
-          })}
+                {timeList[0].timeName && <span>{timeList[0].timeName}</span>}
+              </h5>
+            )}
+            {timeList.map((time, index) => (
+              <div className="inner_text" key={index}>
+                {time.dayOfWeek && <span>{time.dayOfWeek}</span>}
+                {time.timeSE && <span>{time.timeSE}</span>}
+              </div>
+            ))}
+          </div>
+          {offDay.map((day, index) => (
+            <div className="inner_text" key={index}>
+              {day.holidayName && <span>{day.holidayName}</span>}
+              {day.weekAndDay && <span>{day.weekAndDay}</span>}
+            </div>
+          ))}
 
-        {stationList &&
-          stationList.map((station) => {
-            return (
-              <p className="station_name">
+          {stationList.length > 0 && stationList && (
+            <div className="subway_area">
+              <h5>
                 <img src={Subwayicon} />
-                {station.stationSimpleName}
-                <span className="exit_num">{station.exitNum}번 출구</span>
-                <span className="exit_minute">
-                  도보 {station.toExitMinute}분
-                </span>
-              </p>
-            );
-          })}
+                <span>지하철 역</span>
+              </h5>
+              {stationList.map((station, index) => (
+                <div className="inner_text" key={index}>
+                  {station.stationSimpleName && (
+                    <span>{station.stationSimpleName}</span>
+                  )}
+                  {station.exitNum && (
+                    <span className="exit_num">{station.exitNum}번 출구</span>
+                  )}
+                  {station.toExitMinute && (
+                    <span className="exit_minute">
+                      도보 {station.toExitMinute}분
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </MapDetailStyled>
     </>
   );

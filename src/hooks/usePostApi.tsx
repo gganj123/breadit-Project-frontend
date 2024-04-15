@@ -17,23 +17,23 @@ export const useGetPostListApi = () => {
   });
 };
 
-export const useGetPostByQueryApi = ({
-  query,
-  key,
-}: {
-  query: string;
-  key: string;
-}) => {
+export const useGetPostByQueryApi = (query: string) => {
   return useQuery({
-    queryKey: ['posts', query, key],
-    queryFn: () => repositories.postsApis.getPostQuery(query, key),
+    queryKey: ['posts', query],
+    queryFn: () => repositories.postsApis.getPostQuery(query),
   });
 };
 
-export const useGetPostByIdApi = (targetId: string) => {
+export const useGetPostByIdApi = ({
+  targetId = '',
+  accessToken,
+}: {
+  targetId?: string;
+  accessToken: string | null;
+}) => {
   return useQuery({
-    queryKey: ['post', targetId],
-    queryFn: () => repositories.postsApis.getPost(targetId),
+    queryKey: ['post', targetId, accessToken],
+    queryFn: () => repositories.postsApis.getPost(targetId, accessToken),
     enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -47,7 +47,19 @@ export const useDeletePostByIdApi = () => {
     mutationFn: (targetId: string) =>
       repositories.postsApis.deletePost(targetId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+};
+
+export const useDeletePostByCheckApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (targetIdList: string[]) =>
+      repositories.postsApis.deletePostByCheck(targetIdList),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 };

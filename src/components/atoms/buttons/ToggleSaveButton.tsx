@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import saveIcon from '/save_icon.svg';
 import saveIconActive from '/save_icon_active.svg';
@@ -12,16 +11,15 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-const ToggleSaveButton = () => {
-  const [isSave, useIsSave] = useState<boolean>(false);
+type SaveProps = {
+  bookmarkState: boolean;
+  bookmarkEvent: () => void;
+};
 
-  function saveToggle() {
-    useIsSave(!isSave);
-  }
-
+const ToggleSaveButton = ({ bookmarkState, bookmarkEvent }: SaveProps) => {
   return (
-    <LikeButton onClick={saveToggle}>
-      <img src={isSave ? saveIconActive : saveIcon} />
+    <LikeButton onClick={bookmarkEvent}>
+      <img src={bookmarkState ? saveIconActive : saveIcon} />
     </LikeButton>
   );
 };

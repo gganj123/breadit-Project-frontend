@@ -1,5 +1,5 @@
-import { axiosInstance, axios } from '../../utils/axios.utils.ts';
-import { API_URL } from '../../constants';
+import axios from 'axios';
+import { API_URL } from '../../constants/index.tsx';
 
 type CommentCreateParameters = {
   nickname: string;

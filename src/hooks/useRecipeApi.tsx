@@ -17,11 +17,24 @@ export const useGetRecipeListApi = () => {
   });
 };
 
-export const useGetRecipeByIdApi = (targetId: string) => {
+export const useGetRecipeByQueryApi = (query: string) => {
   return useQuery({
-    queryKey: ['recipes', targetId],
-    queryFn: () => repositories.recipesApis.getRecipe(targetId),
-    enabled: true,
+    queryKey: ['recipes', query],
+    queryFn: () => repositories.recipesApis.getRecipeQuery(query),
+  });
+};
+
+export const useGetRecipeByIdApi = ({
+  targetId = '',
+  accessToken,
+}: {
+  targetId?: string;
+  accessToken: string | null;
+}) => {
+  return useQuery({
+    queryKey: ['recipe', targetId, accessToken],
+    queryFn: () => repositories.recipesApis.getRecipe(targetId, accessToken),
+    enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });

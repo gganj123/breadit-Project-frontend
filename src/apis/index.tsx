@@ -4,6 +4,7 @@ import { usersApi } from './users';
 import { commentsApis } from './comments';
 import { likesApis } from './likes';
 import { recipesApis } from './recipes';
+import { bookmarksApis } from './bookmarks';
 
 const repositories = {
   magazinesApis,
@@ -12,6 +13,7 @@ const repositories = {
   commentsApis,
   likesApis,
   recipesApis,
+  bookmarksApis,
 };
 Object.freeze(repositories);
 

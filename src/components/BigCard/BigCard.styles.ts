@@ -25,6 +25,10 @@ export const ContentBoxStyled = styled.div`
   h5 {
     font-size: 2.2rem;
     margin-bottom: 1.4rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
   }
 
   .text {

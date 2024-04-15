@@ -1,6 +1,3 @@
-import { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import CategoryImg1 from '/icons/category_img1.svg';
@@ -14,282 +11,32 @@ import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 import MainInstagramImg from './MainInstagramImg';
 import { useGetMagazineByQueryApi } from '../../hooks/useMagazineApi';
 import { useGetPostByQueryApi } from '../../hooks/usePostApi';
+import { useGetRecipeByIdApi } from '../../hooks/useRecipeApi';
+import {
+  MainBannerStyled,
+  CategoriesStyled,
+  PostStyled,
+  RecipeStyled,
+  RecipeGoStyled,
+  InstagramStyled,
+  InfiniteRoofStyled,
+} from './home';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
-const MainBannerStyle = styled.article`
-  background-color: #eee;
-  position: relative;
-
-  .slick-slider {
-    height: 72rem;
-  }
-
-  .slick-arrow {
-    top: 94%;
-    bottom: auto;
-    z-index: 99;
-    width: 1.4rem;
-    height: 1.4rem;
-    border-top: solid 2px #656565;
-    border-right: solid 2px #656565;
-  }
-
-  .slick-prev {
-    left: calc(50% - 4rem);
-    transform: rotate(-135deg);
-  }
-
-  .slick-next {
-    right: calc(50% - 4rem);
-    transform: rotate(45deg);
-  }
-
-  .slick-arrow::before {
-    display: none;
-  }
-`;
-
-const CategoriesStyle = styled.section`
-  padding: 10rem;
-
-  .categories_title {
-    text-align: center;
-  }
-
-  .categories_title h3 {
-    font-size: 10rem;
-    color: #59a47e;
-  }
-
-  .categories_title p {
-    font-size: 2.6rem;
-    font-weight: 500;
-    margin-top: 2rem;
-  }
-
-  .categories {
-    display: flex;
-    justify-content: center;
-    gap: 6rem;
-    margin-top: 6rem;
-  }
-
-  .categories li {
-    width: 30rem;
-    text-align: center;
-  }
-
-  .categories .box_arrow_btn {
-    margin-top: 2rem;
-  }
-`;
-
-const PostStyle = styled.section`
-  padding-right: 0 !important;
-
-  .main_title {
-    position: relative;
-    padding-right: 10rem;
-    align-items: flex-end;
-  }
-
-  .main_title_text {
-    padding-bottom: 1rem;
-  }
-
-  .slick-prev {
-    display: none !important;
-  }
-
-  .slick-next {
-    right: auto;
-    left: -4rem;
-  }
-
-  .slick-next::before {
-    content: '';
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    border-left: solid 2px #575757;
-    border-bottom: solid 2px #575757;
-    transform: rotate(45deg);
-  }
-
-  .slick-slide > div {
-    margin-right: 3rem;
-  }
-`;
-
-const RecipeStyle = styled.section`
-  .recipe {
-    display: flex;
-    box-shadow: 0px 0px 3rem rgb(242 242 242);
-    border-radius: 2rem;
-    overflow: hidden;
-  }
-
-  .recipe > div {
-    width: 50%;
-  }
-
-  .recipe .img_box {
-    background-color: #ddd;
-  }
-
-  .recipe .content_box {
-    background-color: #fff;
-    border-left: 0;
-    padding: 6rem 6rem 0;
-    position: relative;
-    min-height: 46rem;
-  }
-
-  .recipe .user_info {
-    display: flex;
-    gap: 1.8rem;
-    align-items: center;
-  }
-
-  .recipe .user_info p {
-    font-weight: 500;
-    display: flex;
-    flex-flow: column;
-    gap: 1rem;
-  }
-
-  .recipe .user_info p .nickname {
-    font-size: 2rem;
-    font-weight: 400;
-  }
-
-  .recipe .user_info p .date {
-    font-size: 1.6rem;
-    color: #888;
-  }
-
-  .recipe .content h5 {
-    font-size: 2.4rem;
-    font-weight: 500;
-    margin: 2.6rem 0;
-  }
-
-  .recipe .content p {
-    font-size: 1.8rem;
-    line-height: 1.6;
-  }
-`;
-
-const RecipeGoStyle = styled(Link)`
-  display: inline-block;
-  width: 6.8rem;
-  height: 6.8rem;
-  background-color: #f9cadb;
-  position: absolute;
-  bottom: 4rem;
-  right: 4rem;
-  border-radius: 50%;
-
-  &::before,
-  &::after {
-    content: '';
-    width: 2.8rem;
-    height: 2px;
-    background-color: #fff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  }
-
-  &::before {
-    transform: translate(-50%, -50%) rotate(90deg);
-  }
-
-  &::after {
-    transform: translate(-50%, -50%);
-  }
-`;
-
-const InstagramStyle = styled.section`
-  border-top: 0;
-
-  & .instagram_list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-  }
-  & .instagram_list li {
-    overflow: hidden;
-  }
-
-  & .instagram_list li img {
-    width: 100%;
-    transition: transform 0.2s;
-  }
-
-  & .instagram_list li img:hover {
-    transform: scale(1.1);
-  }
-`;
-
-const RoofAnimation = keyframes`
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-`;
-
-const InfiniteRoofStyle = styled.div`
-  overflow: hidden;
-
-  * {
-    white-space: nowrap;
-    transform: translateX(100%);
-    animation: ${RoofAnimation} 30s linear infinite;
-  }
-`;
-
 const Home = () => {
-  const { data: magazineBanner } = useGetMagazineByQueryApi({
-    query: 'limit',
-    key: '3',
+  const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
+
+  const { data: postList } = useGetPostByQueryApi('?limit=6');
+
+  const accessToken = localStorage.getItem('accessToken');
+
+  const { data: recipeData } = useGetRecipeByIdApi({
+    targetId: '661cc2a8c22a0e88e2bd23f3',
+    accessToken,
   });
-
-  const { data: postList } = useGetPostByQueryApi({
-    query: 'limit',
-    key: '6',
-  });
-
-  const [recipeData, setRecipeData] = useState({
-    nickname: '',
-    profile: '',
-    title: '',
-    content: '',
-    images: [''],
-    createdAt: '',
-  });
-
-  const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
-
-  const getRecipesAPI = async () => {
-    try {
-      const response = await axios.get(
-        `${apiUrl}/recipes/6614f874525737b2e8e1a0e0`
-      );
-      setRecipeData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    getRecipesAPI();
-  }, []);
 
   const categories = [
     { go: '/map', src: CategoryImg1, categoryName: '케이크' },
@@ -346,15 +93,15 @@ const Home = () => {
 
   return (
     <>
-      <MainBannerStyle>
+      <MainBannerStyled>
         <Slider {...bannerSettings}>
           {magazineBanner &&
             magazineBanner.map((banner: BannerProps['data']) => (
               <MainBanner data={banner} key={banner._id} />
             ))}
         </Slider>
-      </MainBannerStyle>
-      <CategoriesStyle>
+      </MainBannerStyled>
+      <CategoriesStyled>
         <div className="categories_title">
           <h3 className="font_oleo">Categories</h3>
           <p>하늘 아래 같은 빵은 없다 🍞</p>
@@ -371,8 +118,8 @@ const Home = () => {
             );
           })}
         </ul>
-      </CategoriesStyle>
-      <InfiniteRoofStyle className="categories_roof">
+      </CategoriesStyled>
+      <InfiniteRoofStyled className="categories_roof">
         <p>
           Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;toast&nbsp;&nbsp;&nbsp;bread&nbsp;&nbsp;&nbsp;
           pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
@@ -384,8 +131,8 @@ const Home = () => {
           bread&nbsp;&nbsp;&nbsp;pundcake&nbsp;&nbsp;&nbsp;♦︎&nbsp;&nbsp;&nbsp;Sandwich&nbsp;&nbsp;&nbsp;cupcake&nbsp;&nbsp;&nbsp;★&nbsp;&nbsp;&nbsp;financier&nbsp;&nbsp;&nbsp;macaron&nbsp;&nbsp;&nbsp;scone&nbsp;&nbsp;&nbsp;♥︎&nbsp;&nbsp;&nbsp;cookie&nbsp;&nbsp;&nbsp;
           toast
         </p>
-      </InfiniteRoofStyle>
-      <PostStyle className="main_cont">
+      </InfiniteRoofStyled>
+      <PostStyled className="main_cont">
         <div className="main_title flex_default">
           <h3 className="main_title_text">최근 추가된 빵집 추천! 🍰</h3>
           <img src={Review} className="review_right" />
@@ -393,19 +140,19 @@ const Home = () => {
         <Slider {...postSettings}>
           {postList &&
             postList.map((post: BigCardProps['data']) => {
-              return <BigCard data={post} />; // 커뮤니티 - 베이커리 소개
+              return <BigCard data={post} key={post._id} />; // 커뮤니티 - 베이커리 소개
             })}
         </Slider>
-      </PostStyle>
-      <RecipeStyle className="main_cont">
+      </PostStyled>
+      <RecipeStyled className="main_cont">
         <div className="main_title flex_default">
           <h3 className="font_oleo eng_title">Recipe</h3>
           <p className="main_title_text">🍳 빵잘알들의 레시피</p>
         </div>
-        <article className="recipe">
-          <div className="img_box"></div>
-          <div className="content_box">
-            <div className="content">
+        {recipeData && (
+          <article className="recipe">
+            <div className="img_box"></div>
+            <div className="content_box">
               <div className="user_info">
                 <span
                   style={{
@@ -424,23 +171,30 @@ const Home = () => {
                 </p>
               </div>
               <h5>{recipeData.title}</h5>
-              <div dangerouslySetInnerHTML={noImgContent()} />
-              <RecipeGoStyle to="/community/nearby" className="go_recipe" />
+              <div className="content">
+                <div dangerouslySetInnerHTML={noImgContent()} />
+                <RecipeGoStyled to="/community/nearby" className="go_recipe" />
+              </div>
             </div>
-          </div>
-        </article>
-      </RecipeStyle>
-      <InfiniteRoofStyle className="info_roof">
+          </article>
+        )}
+      </RecipeStyled>
+      <InfiniteRoofStyled className="info_roof">
         <span className="font_oleo">we loves bread, we are breadit!</span>
         <span className="font_oleo">we loves bread, we are breadit!</span>
         <span className="font_oleo">we loves bread, we are breadit!</span>
         <span className="font_oleo">we loves bread, we are breadit!</span>
-      </InfiniteRoofStyle>
-      <InstagramStyle className="main_cont">
+      </InfiniteRoofStyled>
+      <InstagramStyled className="main_cont">
         <div className="main_title flex_default">
           <h3 className="font_oleo eng_title">Instagram</h3>
           <p className="main_title_text">
-            <Link to="/">🥐 브레딧 인스타그램 구경하기</Link>
+            <Link
+              to="https://www.instagram.com/breadit__?igsh=MTFjdW82YmF5MDR6Ng%3D%3D&utm_source=qr"
+              target="_blank"
+            >
+              🥐 브레딧 인스타그램 구경하기
+            </Link>
           </p>
         </div>
         <ul className="instagram_list">
@@ -448,7 +202,7 @@ const Home = () => {
             return <MainInstagramImg src={img.src} key={index} />;
           })}
         </ul>
-      </InstagramStyle>
+      </InstagramStyled>
     </>
   );
 };

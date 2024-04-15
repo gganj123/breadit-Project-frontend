@@ -1,36 +1,36 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { repositories } from '../apis';
 
-export const usePostMagazineLikeToggleApi = () => {
+export const usePostMagazineBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.likesApis.postMagazineLikeToggle(userId, postId),
+      repositories.bookmarksApis.postMagazineBookmarkToggle(userId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
   });
 };
 
-export const usePostPostLikeToggleApi = () => {
+export const usePostPostBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.likesApis.postPostLikeToggle(userId, postId),
+      repositories.bookmarksApis.postPostBookmarkToggle(userId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post'] });
     },
   });
 };
 
-export const usePostRecipeLikeToggleApi = () => {
+export const usePostRecipeBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.likesApis.postRecipeLikeToggle(userId, postId),
+      repositories.bookmarksApis.postRecipeBookmarkToggle(userId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipe'] });
     },

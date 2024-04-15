@@ -1,30 +1,38 @@
 import axios from 'axios';
-
-const apiUrl: string = `${import.meta.env.VITE_BACKEND_SERVER}`;
+import { API_URL } from '../../constants/index.tsx';
 
 export const postsApis = {
   async getPostList() {
     try {
-      const response = await axios.get(`${apiUrl}/posts`);
+      const response = await axios.get(`${API_URL}/posts`);
       return response.data;
     } catch (err) {
       console.error(err);
     }
   },
 
-  async getPostQuery(query: string, key: string) {
+  async getPostQuery(query: string) {
     try {
-      const response = await axios.get(`${apiUrl}/posts?${query}=${key}`);
+      const response = await axios.get(`${API_URL}/posts${query}`);
       return response.data;
     } catch (err) {
       console.error(err);
     }
   },
 
-  async getPost(id: string) {
+  async getPost(id: string, token: string | null) {
     try {
-      const response = await axios.get(`${apiUrl}/posts/${id}`);
-      return response.data;
+      if (token) {
+        const response = await axios.get(`${API_URL}/posts/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      } else {
+        const response = await axios.get(`${API_URL}/posts/${id}`);
+        return response.data;
+      }
     } catch (err) {
       console.error(err);
     }
@@ -32,7 +40,20 @@ export const postsApis = {
 
   async deletePost(id: string) {
     try {
-      const reponse = await axios.delete(`${apiUrl}/posts/${id}`);
+      const reponse = await axios.delete(`${API_URL}/posts/${id}`);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async deletePostByCheck(idList: string[]) {
+    try {
+      const reponse = await axios.delete(`${API_URL}/posts/`, {
+        data: {
+          postIds: idList,
+        },
+      });
       return reponse.data;
     } catch (err) {
       console.error(err);

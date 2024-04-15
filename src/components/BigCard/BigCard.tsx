@@ -54,7 +54,10 @@ const BigCardList = ({ data }: BigCardProps) => {
           </Link>
         </h5>
         <div className="text" dangerouslySetInnerHTML={noImgContent()} />
-        <ToggleLikeButton like={like_count} />
+        <ToggleLikeButton
+          likeCount={like_count ? like_count : 0}
+          likeState={false}
+        />
       </ContentBoxStyled>
     </BigCardStyled>
   );

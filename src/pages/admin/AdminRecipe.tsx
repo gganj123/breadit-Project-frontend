@@ -8,7 +8,7 @@ import {
 
 import './admin.css';
 
-const AdminMain = () => {
+const AdminRecipe = () => {
   const { data: recipeList } = useGetRecipeListApi();
   const { mutate: deleteMutate } = useDeleteRecipeByIdApi();
   const { mutate: deleteList } = useDeleteRecipeByCheckApi();
@@ -40,4 +40,4 @@ const AdminMain = () => {
   );
 };
 
-export default AdminMain;
+export default AdminRecipe;

@@ -17,16 +17,10 @@ export const useGetMagazineListApi = () => {
   });
 };
 
-export const useGetMagazineByQueryApi = ({
-  query,
-  key,
-}: {
-  query: string;
-  key: string;
-}) => {
+export const useGetMagazineByQueryApi = (query: string) => {
   return useQuery({
-    queryKey: ['magazines', query, key],
-    queryFn: () => repositories.magazinesApis.getMagazineQuery(query, key),
+    queryKey: ['magazines', query],
+    queryFn: () => repositories.magazinesApis.getMagazineQuery(query),
   });
 };
 
@@ -55,6 +49,18 @@ export const useDeleteMagazineByIdApi = () => {
       repositories.magazinesApis.deleteMagazine(targetId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['magazine'] });
+    },
+  });
+};
+
+export const useDeleteMagazineByCheckApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (targetIdList: string[]) =>
+      repositories.magazinesApis.deleteMagazineByCheck(targetIdList),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazines'] });
     },
   });
 };

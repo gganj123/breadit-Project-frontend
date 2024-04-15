@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ButtonDefault from '../atoms/buttons/ButtonDefault';
 import {
   DetailTopStyled,
@@ -34,11 +34,6 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
     beLike,
   } = data;
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const locationArray = location.pathname.split('/');
-  const locationName = locationArray[1];
-  const postId = locationArray[locationArray.length - 1];
 
   const clickDeleteEvent = (id: string) => {
     if (confirm('삭제하시겠습니까?')) {
@@ -79,8 +74,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
       </DetailTopStyled>
       <DetailContentStyled dangerouslySetInnerHTML={tagContent()} />
       <ToggleLikeButton
-        location={locationName}
-        postId={postId}
+        postId={_id}
         likeCount={like_count}
         likeState={beLike}
       />

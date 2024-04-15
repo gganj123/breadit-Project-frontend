@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
@@ -8,13 +7,38 @@ import {
   useGetPostByIdApi,
   useDeletePostByIdApi,
 } from '../../hooks/usePostApi';
+import {
+  useGetRecipeByIdApi,
+  useDeleteRecipeByIdApi,
+} from '../../hooks/useRecipeApi';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: CommunityDetail } = useGetPostByIdApi(id as string);
-  console.log(CommunityDetail);
+  const location = useLocation();
+
+  const accessToken = localStorage.getItem('accessToken');
+
+  let postDetail;
+
+  if (location.pathname.includes('nearby')) {
+    let { data } = useGetPostByIdApi({
+      targetId: id,
+      accessToken,
+    });
+
+    postDetail = data;
+  } else if (location.pathname.includes('recipe')) {
+    let { data } = useGetRecipeByIdApi({
+      targetId: id,
+      accessToken,
+    });
+    postDetail = data;
+  }
+
+  console.log(location.pathname);
 
   const { mutate: deleteMutate } = useDeletePostByIdApi();
+
   const deletePostId = (id: string) => {
     deleteMutate(id);
   };
@@ -24,18 +48,23 @@ const CommunityDetail = () => {
       <div className="flex_default detail_top">
         <ul className="location">
           <li>
-            <Link to="/magazines">커뮤니티</Link>
+            <Link to="/community">커뮤니티</Link>
+          </li>
+          <li>
+            <Link to="/community/nearby">베이커리 소개</Link>
           </li>
         </ul>
         <div className="buttons">
-          <ToggleSaveButton />
+          {postDetail && (
+            <ToggleSaveButton bookmarkState={postDetail.beBookmark} />
+          )}
           <CopyUrlButton />
         </div>
       </div>
       <DetailContent
         data={
-          CommunityDetail !== undefined
-            ? CommunityDetail
+          postDetail !== undefined
+            ? postDetail
             : {
                 _id: '',
                 nickname: '',
@@ -43,6 +72,8 @@ const CommunityDetail = () => {
                 createdAt: '',
                 title: '',
                 content: '',
+                like_count: '',
+                beLike: false,
               }
         }
         deleteEvent={(id: string) => deletePostId(id)}

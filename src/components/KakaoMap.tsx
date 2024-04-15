@@ -390,12 +390,11 @@ const MapComponent: React.FC = () => {
           <S.MapDetailStyle>
             <MapDetailContent data={mapDetail} />
             <button
+              className="closed_detail_btn"
               onClick={() => {
                 setIsShowDetail(false);
               }}
-            >
-              X
-            </button>
+            />
           </S.MapDetailStyle>
         )}
         {/* 디테일정보 전달 */}
