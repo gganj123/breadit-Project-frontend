@@ -53,36 +53,49 @@ export default function Edit() {
   const [formData, setFormData] = useState({
     email: user?.email || '',
     nickname: user?.nickname || '',
-    profile:
-      user?.profile ||
-      'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+    formData: user?.profile || '',
+    id: user?._id || '', // 여기서 _id 추가
   });
-  // 이미지 업로드 핸들러
-  const handleImageChange = (imageUrl: string) => {
-    setFormData({ ...formData, profile: imageUrl });
-  };
+
   const handleRemoveImage = () => {
     const defaultImage =
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-    setFormData({ ...formData, profile: defaultImage });
+    setFormData((prevData) => ({ ...prevData, profile: defaultImage }));
+  };
+
+  // 이미지 업로드 핸들러
+  const handleImageChange = (imageUrl: string) => {
+    console.log('Received image URL:', imageUrl);
+    setFormData({ ...formData, profile: imageUrl });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await updateUserInfo({ ...formData, id: user?.id });
+      await updateUserInfo({
+        ...user,
+        id: formData?.id,
+        nickname: formData?.nickname,
+        email: formData?.email,
+        profile: formData?.formData,
+      });
+      console.log(formData?.id);
+      console.log(formData?.nickname);
+      console.log(formData?.email);
+      console.log(formData?.formData);
       alert('수정 완료했습니다.');
     } catch (error) {
       console.error('Error updating user:', error);
       alert('Failed to update user.');
     }
   };
+
   return (
     <PageContainer>
       <Title>회원정보 수정</Title>
       <FormContainer>
         <ProfileImageUpload
-          src={formData.profile}
+          src={formData.formData}
           onImageUpload={handleImageChange}
           onRemoveImage={handleRemoveImage}
         />

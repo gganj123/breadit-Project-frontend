@@ -76,7 +76,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
-      setUser({ ...user, ...response.data }); // 업데이트된 정보로 상태 업데이트
+
+      // API 호출 후에 최신 사용자 정보를 다시 가져옵니다.
+      const updatedUserData = await axios.get(`${apiUrl}/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+
+      // 최신 사용자 정보로 상태를 업데이트합니다.
+      setUser(updatedUserData.data);
       navigate('/mypage');
       console.log('User info updated successfully');
       console.log(user);
