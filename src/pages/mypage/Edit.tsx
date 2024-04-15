@@ -53,7 +53,7 @@ export default function Edit() {
   const [formData, setFormData] = useState({
     email: user?.email || '',
     nickname: user?.nickname || '',
-    formData: user?.profile || '',
+    profile: user?.profile || '',
     id: user?._id || '', // 여기서 _id 추가
   });
 
@@ -65,7 +65,6 @@ export default function Edit() {
 
   // 이미지 업로드 핸들러
   const handleImageChange = (imageUrl: string) => {
-    console.log('Received image URL:', imageUrl);
     setFormData({ ...formData, profile: imageUrl });
   };
 
@@ -74,15 +73,11 @@ export default function Edit() {
     try {
       await updateUserInfo({
         ...user,
-        id: formData?.id,
-        nickname: formData?.nickname,
-        email: formData?.email,
-        profile: formData?.formData,
+        id: formData.id,
+        nickname: formData.nickname,
+        email: formData.email,
+        profile: formData.profile,
       });
-      console.log(formData?.id);
-      console.log(formData?.nickname);
-      console.log(formData?.email);
-      console.log(formData?.formData);
       alert('수정 완료했습니다.');
     } catch (error) {
       console.error('Error updating user:', error);
@@ -95,7 +90,7 @@ export default function Edit() {
       <Title>회원정보 수정</Title>
       <FormContainer>
         <ProfileImageUpload
-          src={formData.formData}
+          src={formData.profile}
           onImageUpload={handleImageChange}
           onRemoveImage={handleRemoveImage}
         />
