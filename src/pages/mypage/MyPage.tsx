@@ -181,48 +181,48 @@ export default function MyPage() {
     }
   };
 
-  const fetchBreadData = async (id: string) => {
-    try {
-      const postResponse = await axios.get(
-        `http://localhost:5000/api/posts/${id}`
-      );
+  // const fetchBreadData = async (id: string) => {
+  //   try {
+  //     const postResponse = await axios.get(
+  //       `http://localhost:5000/api/posts/${id}`
+  //     );
 
-      setPostData((prevData) => [...prevData, postResponse.data]);
-      console.log(postResponse.data);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-  const fetchRecipeData = async (id: string) => {
-    try {
-      const recipeResponse = await axios.get(
-        `http://localhost:5000/api/recipes/${id}`
-      );
-      setRecipeData((prevData) => [...prevData, recipeResponse.data]);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
+  //     setPostData((prevData) => [...prevData, postResponse.data]);
+  //     console.log(postResponse.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsLoading(false);
+  //   }
+  // };
+  // const fetchRecipeData = async (id: string) => {
+  //   try {
+  //     const recipeResponse = await axios.get(
+  //       `http://localhost:5000/api/recipes/${id}`
+  //     );
+  //     setRecipeData((prevData) => [...prevData, recipeResponse.data]);
+  //   } catch (error) {
+  //     console.error(error);
+  //     setIsLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
     const ids = ['509294248', '1236155226', '857475692', '1644427819']; // 여기에 여러 개의 아이디 추가
-    const breadids = [
-      '661a22cb985691ea2dffae50',
-      '661a22cb985691ea2dffae52',
-      '661a22cb985691ea2dffae54',
-      '661a22cc985691ea2dffae56',
-    ];
-    const recipeids = [
-      '6614f874525737b2e8e1a0e0',
-      '661656b9423f3780521a9e80',
-      '661656f7423f3780521a9e86',
-      '6616571c423f3780521a9e92',
-    ];
+    // const breadids = [
+    //   '661a22cb985691ea2dffae50',
+    //   '661a22cb985691ea2dffae52',
+    //   '661a22cb985691ea2dffae54',
+    //   '661a22cc985691ea2dffae56',
+    // ];
+    // const recipeids = [
+    //   '6614f874525737b2e8e1a0e0',
+    //   '661656b9423f3780521a9e80',
+    //   '661656f7423f3780521a9e86',
+    //   '6616571c423f3780521a9e92',
+    // ];
     ids.forEach((id) => fetchData(id));
-    breadids.slice(0, 4).forEach((id) => fetchBreadData(id));
-    recipeids.forEach((id) => fetchRecipeData(id));
+    // breadids.slice(0, 4).forEach((id) => fetchBreadData(id));
+    // recipeids.forEach((id) => fetchRecipeData(id));
   }, []);
 
   return (
@@ -233,7 +233,7 @@ export default function MyPage() {
           <ProfileContainer>
             {/*화면 좌측 프로필 */}
             <ProfileImageUpload
-              src={user?.profile || '/default-profile.jpg'}
+              src={user?.profile || ''}
               showEditIcon={false}
             />
             <UserProfile

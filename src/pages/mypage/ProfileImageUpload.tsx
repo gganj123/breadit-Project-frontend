@@ -2,9 +2,11 @@
  * 회원 프로필 사진 업로드 컴포넌트 ( 동그라미 + 펜 아이콘 )
  * 프로필 사진 업로드, 삭제 기능
  */
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaPen } from 'react-icons/fa';
+import AWS from 'aws-sdk';
+import { useAuth } from '../login/AuthContext';
 
 type ProfileImageUploadProps = {
   src: string;
@@ -84,24 +86,47 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   onRemoveImage,
   showEditIcon = true,
 }) => {
+  const [imageSrc, setImageSrc] = useState(src); // src 값을 상태로 관리
   const [showOptions, setShowOptions] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { user, updateUserInfo } = useAuth();
 
   const handleEditClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // 프로필 이미지 컨테이너의 onClick 이벤트가 발생하지 않도록 방지
     setShowOptions((prev) => !prev);
   };
 
-  const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        onImageUpload?.(result);
+      const imageUrl = await uploadImageToS3(file);
+      if (imageUrl) {
+        onImageUpload?.(imageUrl);
         setShowOptions(false);
-      };
-      reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const uploadImageToS3 = async (file: File) => {
+    const s3 = new AWS.S3({
+      accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+      secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+      region: `${import.meta.env.VITE_REGION}`,
+    });
+
+    const params = {
+      Bucket: 'elice-breadit-project',
+      Key: `profile/${file.name}`,
+      Body: file,
+      ACL: 'public-read',
+    };
+
+    try {
+      const data = await s3.upload(params).promise();
+      return data.Location;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
     }
   };
 
@@ -113,9 +138,13 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     }
   };
 
+  useEffect(() => {
+    setImageSrc(src);
+  }, [src]);
+
   return (
     <ProfileImageWrapper>
-      <ProfileImageContainer src={src}>
+      <ProfileImageContainer src={imageSrc}>
         {showEditIcon && (
           <IconContainer onClick={handleEditClick}>
             <EditIcon />
