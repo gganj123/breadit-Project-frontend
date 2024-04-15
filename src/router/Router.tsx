@@ -25,6 +25,7 @@ import { AuthProvider } from '../pages/login/AuthContext.tsx';
 import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
 import DynamicSection from '../pages/mypage/DynamicSection.tsx';
+import AuthRedirectPage from '../pages/login/AuthRedirectPage.tsx';
 
 export default function Router() {
   return (
@@ -41,6 +42,7 @@ export default function Router() {
             />
             <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
             <Route path="login" element={<LoginPage />} />
+            <Route path="auth-redirect" element={<AuthRedirectPage />} />
             <Route path="signup" element={<SignupPage />} />
             <Route path="signup/info" element={<SignUpInfoPage />} />
             <Route

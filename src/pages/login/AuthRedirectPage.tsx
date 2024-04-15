@@ -1,36 +1,35 @@
 /**
- * 소셜로그인 후 리디렉션 페이지
+ * 소셜로그인 후 리디렉션 되는 곳
  */
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
-const AuthRedirectPage = () => {
+const AuthRedirectPage: React.FC = () => {
   const location = useLocation();
   const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
+  const { socialLoginSuccess } = useAuth();
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
     console.log('요청 보내기');
+    console.log(code);
 
     if (code) {
+      // axios 요청에 타입 적용
       axios
-        .post(`${apiUrl}/users/kakaologin`, { code })
+        .post(`${apiUrl}/users/login/kakaosociallogin`, { code })
         .then((response) => {
-          const { token } = response.data;
-          console.log('프론트엔드가 받은 JWT 토큰:', token);
-          localStorage.setItem('jwtToken', token);
+          const { accessToken, refreshToken, user } = response.data;
+          socialLoginSuccess(accessToken, refreshToken, user.id);
         })
         .catch((error) => console.error('토큰 요청 에러:', error));
     }
   }, [location]);
 
-  return (
-    <div>
-      <h1>인증 중...</h1>
-    </div>
-  );
+  return null; // UI 렌더링 없음
 };
 
 export default AuthRedirectPage;

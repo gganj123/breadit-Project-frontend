@@ -25,6 +25,11 @@ type AuthContextType = {
   logout: () => Promise<void>;
   updateUserInfo: (userData: Partial<User>) => Promise<void>; // 사용자 정보 업데이트 함수 추가
   deleteUser: () => Promise<void>;
+  socialLoginSuccess: (
+    accessToken: string,
+    refreshToken: string,
+    userId: string
+  ) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -121,6 +126,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.error('Login error:', error);
     }
   };
+  // 소셜로그인 성공 후 호출할 함수
+  const socialLoginSuccess = async (
+    accessToken: string,
+    refreshToken: string,
+    userId: string
+  ) => {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('id', userId);
+
+    await fetchUserData(userId, accessToken); // 사용자 데이터를 가져와 상태를 업데이트
+    navigate('/');
+  };
 
   // 로그아웃
   const logout = async () => {
@@ -174,7 +192,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, updateUserInfo, deleteUser }}
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        updateUserInfo,
+        deleteUser,
+        socialLoginSuccess,
+      }}
     >
       {children}
     </AuthContext.Provider>
