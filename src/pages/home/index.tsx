@@ -270,6 +270,7 @@ const Home = () => {
     profile: '',
     title: '',
     content: '',
+    thumbnail: '',
     images: [''],
     createdAt: '',
   });
@@ -279,7 +280,7 @@ const Home = () => {
   const getRecipesAPI = async () => {
     try {
       const response = await axios.get(
-        `${apiUrl}/recipes/6614f874525737b2e8e1a0e0`
+        `${apiUrl}/recipes/661c9fcd3b1e45fa0d0c01ca`
       );
       setRecipeData(response.data);
     } catch (error) {
@@ -403,7 +404,9 @@ const Home = () => {
           <p className="main_title_text">🍳 빵잘알들의 레시피</p>
         </div>
         <article className="recipe">
-          <div className="img_box"></div>
+          <div className="img_box">
+            <img src={recipeData.thumbnail} alt="메인썸네일" />
+          </div>
           <div className="content_box">
             <div className="content">
               <div className="user_info">

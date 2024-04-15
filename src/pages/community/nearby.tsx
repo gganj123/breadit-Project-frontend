@@ -18,6 +18,7 @@ type PostParameters = {
   title: string;
   content: string;
   images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
+  thumbnail: string;
   bread_id: string;
   createdAt: string;
   updatedAt: string;
@@ -103,6 +104,7 @@ export default function NearByPage() {
       <CategoryList
         to="/community/nearby"
         images={currentItems.map((post) => post.images)}
+        thumbnail={currentItems.map((post) => post.thumbnail)}
         titles={currentItems.map((post) => post.title)}
         nickname={currentItems.map((post) => post.nickname)}
         likes={currentItems.map((post) => post.like_count)}

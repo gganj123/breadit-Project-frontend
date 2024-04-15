@@ -4,19 +4,25 @@ import Noimg from '/no_img.svg';
 import { BigCardStyled, ContentBoxStyled } from './BigCard.styles';
 
 export type BigCardProps = {
-  data: { _id: string; title: string; content: string; like_count: number };
+  data: {
+    _id: string;
+    title: string;
+    content: string;
+    like_count: number;
+    thumbnail: string;
+  };
 };
 
 const BigCardList = ({ data }: BigCardProps) => {
   const location = useLocation();
 
-  const { _id, title, content, like_count } = data;
+  const { _id, title, content, like_count, thumbnail } = data;
 
-  function thumbnail() {
-    const img = content.match(/<img.*?>/g)?.[0];
-    const thumbnailImg = img ? img : `<img src=${Noimg} />`;
-    return { __html: thumbnailImg };
-  }
+  // function thumbnail() {
+  //   const img = content.match(/<img.*?>/g)?.[0];
+  //   const thumbnailImg = img ? img : `<img src=${Noimg} />`;
+  //   return { __html: thumbnailImg };
+  // }
 
   function noImgContent() {
     const imgFilter = content.replace(/<img.*?>/g, '');
@@ -38,7 +44,8 @@ const BigCardList = ({ data }: BigCardProps) => {
               : `/community/nearby/${_id}`
           }
         >
-          <div dangerouslySetInnerHTML={thumbnail()} />
+          <img src={thumbnail} alt={'매거진 이미지'} />
+          {/* <div dangerouslySetInnerHTML={thumbnail()} /> */}
         </Link>
       </div>
       <ContentBoxStyled>

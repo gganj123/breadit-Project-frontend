@@ -5,16 +5,16 @@ import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
 import {
-  useGetPostByIdApi,
-  useDeletePostByIdApi,
-} from '../../hooks/usePostApi';
+  useGetRecipeByIdApi,
+  useDeleteRecipeByIdApi,
+} from '../../hooks/useRecipeApi';
 
 const RecipeDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: CommunityDetail } = useGetPostByIdApi(id as string);
+  const { data: RecipeDetail } = useGetRecipeByIdApi(id as string);
 
-  const { mutate: deleteMutate } = useDeletePostByIdApi();
-  const deletePostId = (id: string) => {
+  const { mutate: deleteMutate } = useDeleteRecipeByIdApi();
+  const deleteRecipeId = (id: string) => {
     deleteMutate(id);
   };
 
@@ -33,8 +33,8 @@ const RecipeDetailPage = () => {
       </div>
       <DetailContent
         data={
-          CommunityDetail !== undefined
-            ? CommunityDetail
+          RecipeDetail !== undefined
+            ? RecipeDetail
             : {
                 _id: '',
                 nickname: '',
@@ -44,7 +44,7 @@ const RecipeDetailPage = () => {
                 content: '',
               }
         }
-        deleteEvent={(id: string) => deletePostId(id)}
+        deleteEvent={(id: string) => deleteRecipeId(id)}
       />
     </section>
   );

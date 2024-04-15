@@ -12,7 +12,6 @@ import {
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { data: CommunityDetail } = useGetPostByIdApi(id as string);
-  console.log(CommunityDetail);
 
   const { mutate: deleteMutate } = useDeletePostByIdApi();
   const deletePostId = (id: string) => {
@@ -38,6 +37,7 @@ const CommunityDetail = () => {
             ? CommunityDetail
             : {
                 _id: '',
+                user_id: '',
                 nickname: '',
                 profile: '',
                 createdAt: '',
