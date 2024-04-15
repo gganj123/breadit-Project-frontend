@@ -34,7 +34,7 @@ const Home = () => {
   const accessToken = localStorage.getItem('accessToken');
 
   const { data: recipeData } = useGetRecipeByIdApi({
-    targetId: '661cc2a8c22a0e88e2bd23f3',
+    targetId: '661ccc09c22a0e88e2bd254d',
     accessToken,
   });
 
@@ -151,7 +151,9 @@ const Home = () => {
         </div>
         {recipeData && (
           <article className="recipe">
-            <div className="img_box"></div>
+            <div className="img_box">
+              <img src={recipeData.thumbnail} alt="메인썸네일" />
+            </div>
             <div className="content_box">
               <div className="user_info">
                 <span

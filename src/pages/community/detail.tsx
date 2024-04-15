@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
@@ -7,10 +6,7 @@ import {
   useGetPostByIdApi,
   useDeletePostByIdApi,
 } from '../../hooks/usePostApi';
-import {
-  useGetRecipeByIdApi,
-  useDeleteRecipeByIdApi,
-} from '../../hooks/useRecipeApi';
+import { usePostPostBookmarkToggleApi } from '../../hooks/useBookmarkApi';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -18,29 +14,23 @@ const CommunityDetail = () => {
 
   const accessToken = localStorage.getItem('accessToken');
 
-  let postDetail;
-
-  if (location.pathname.includes('nearby')) {
-    let { data } = useGetPostByIdApi({
-      targetId: id,
-      accessToken,
-    });
-
-    postDetail = data;
-  } else if (location.pathname.includes('recipe')) {
-    let { data } = useGetRecipeByIdApi({
-      targetId: id,
-      accessToken,
-    });
-    postDetail = data;
-  }
-
-  console.log(location.pathname);
+  let { data: postDetail } = useGetPostByIdApi({
+    targetId: id,
+    accessToken,
+  });
 
   const { mutate: deleteMutate } = useDeletePostByIdApi();
 
   const deletePostId = (id: string) => {
     deleteMutate(id);
+  };
+
+  const { mutate: postBookmarkMutate } = usePostPostBookmarkToggleApi();
+
+  const userId = localStorage.getItem('id');
+
+  const saveToggle = () => {
+    userId && id && postBookmarkMutate({ userId, postId: id });
   };
 
   return (
@@ -56,7 +46,10 @@ const CommunityDetail = () => {
         </ul>
         <div className="buttons">
           {postDetail && (
-            <ToggleSaveButton bookmarkState={postDetail.beBookmark} />
+            <ToggleSaveButton
+              bookmarkState={postDetail.beBookmark}
+              bookmarkEvent={() => saveToggle()}
+            />
           )}
           <CopyUrlButton />
         </div>
@@ -67,6 +60,7 @@ const CommunityDetail = () => {
             ? postDetail
             : {
                 _id: '',
+                user_id: '',
                 nickname: '',
                 profile: '',
                 createdAt: '',

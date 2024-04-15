@@ -11,6 +11,7 @@ import Comments from '../CommentList/CommentList';
 type DetailProps = {
   data: {
     _id: string;
+    user_id: string;
     nickname: string;
     profile: string;
     createdAt: string;
@@ -18,6 +19,7 @@ type DetailProps = {
     content: string;
     like_count: number;
     beLike: boolean;
+    images: string[]; // 이미지 데이터 추가
   };
   deleteEvent: (id: string) => void;
 };
@@ -32,6 +34,8 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
     content,
     like_count,
     beLike,
+    images, // 이미지 데이터
+    user_id,
   } = data;
   const navigate = useNavigate();
 
@@ -45,6 +49,20 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
   const tagContent = () => {
     const HTML = { __html: content };
     return HTML;
+  };
+
+  const goToEditPage = () => {
+    const dataToSend = {
+      id: _id,
+      user_id: user_id,
+      nickname: nickname,
+      profile: profile,
+      createdAt: createdAt,
+      title: title,
+      content: content,
+      images: images,
+    };
+    navigate('/community/edit', { state: { data: dataToSend } }); // 수정 페이지로 이동하면서 데이터 전달
   };
 
   return (
@@ -69,7 +87,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
             color={'#575757'}
             clickevent={() => clickDeleteEvent(_id)}
           />
-          <ButtonDefault text={'수정'} />
+          <ButtonDefault text={'수정'} clickevent={goToEditPage} />
         </div>
       </DetailTopStyled>
       <DetailContentStyled dangerouslySetInnerHTML={tagContent()} />

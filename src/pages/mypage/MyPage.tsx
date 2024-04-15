@@ -209,10 +209,10 @@ export default function MyPage() {
   useEffect(() => {
     const ids = ['509294248', '1236155226', '857475692', '1644427819']; // 여기에 여러 개의 아이디 추가
     const breadids = [
-      '661354a721223acc62f50e27',
-      '661355c921223acc62f50e29',
-      '6613d1003deec7fc0ea6afe7',
-      '6613d6643deec7fc0ea6affd',
+      '661a22cb985691ea2dffae50',
+      '661a22cb985691ea2dffae52',
+      '661a22cb985691ea2dffae54',
+      '661a22cc985691ea2dffae56',
     ];
     const recipeids = [
       '6614f874525737b2e8e1a0e0',

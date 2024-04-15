@@ -8,6 +8,7 @@ import axios from 'axios';
 type Props = {
   to: string;
   images: string[] | string[][];
+  thumbnail: string[];
   titles: string[];
   nickname: string[];
   likes: number[];
@@ -18,6 +19,7 @@ type Props = {
 const CategoryList: React.FC<Props> = ({
   to,
   images,
+  thumbnail,
   titles,
   nickname,
   likes,
@@ -30,11 +32,12 @@ const CategoryList: React.FC<Props> = ({
 
   useEffect(() => {
     // 로컬 스토리지에서 좋아요 상태를 가져와 업데이트합니다.
+    console.log(thumbnail);
     const likedImagesFromStorage = JSON.parse(
       localStorage.getItem('likedImages') || '{}'
     );
     setIsLikedByUserArray(likedImagesFromStorage);
-  }, []);
+  }, [thumbnail]);
 
   const toggleLike = async (index: number) => {
     try {
@@ -106,8 +109,8 @@ const CategoryList: React.FC<Props> = ({
             <Link to={`${to}/${postIdArray[index]}`}>
               <img
                 src={
-                  typeof firstValues[index] === 'string'
-                    ? firstValues[index]
+                  typeof thumbnail[index] === 'string'
+                    ? thumbnail[index]
                     : Noimg
                 }
                 alt={titles[index]}

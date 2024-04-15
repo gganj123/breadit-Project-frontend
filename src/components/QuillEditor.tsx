@@ -1,14 +1,12 @@
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useMemo, useEffect } from 'react';
 import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-//이렇게 라이브러리를 불러와서 사용하면 됩니다
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -43,27 +41,82 @@ const EditTitle = styled.input`
   margin-bottom: 10px;
 `;
 
-export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
-  selectedCategory,
-}) => {
+export const EditorComponent: React.FC<{
+  selectedCategory?: string;
+  postData: any;
+}> = ({ selectedCategory, postData }) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
-  const [title, setTitle] = useState('');
-  const [images, setImages] = useState([]);
+  const [contents, setContents] = useState(postData?.content || '');
+  const [title, setTitle] = useState(postData?.title || '');
+  const [images, setImages] = useState(postData?.images || []);
+  const [thumbnail, setThumbnail] = useState(postData?.thumbnail || '');
+
   const navigate = useNavigate();
+  const isEditMode = !!postData;
+  const saveButtonText = isEditMode ? '수정하기' : '작성하기';
 
   const goBack = () => {
-    navigate(-1); // -1을 전달하여 이전 페이지로 이동
+    navigate(-1);
   };
 
-  // AWS S3 설정
   const s3 = new AWS.S3({
     accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
     secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
     region: `${import.meta.env.VITE_REGION}`,
   });
 
-  // 이미지를 업로드 하기 위한 함수
+  const handleImageUpload = async (file: File) => {
+    const params = {
+      Bucket: 'elice-breadit-project',
+      Key: `images/${file.name}`,
+      Body: file,
+      ACL: 'public-read',
+    };
+
+    try {
+      const data = await s3.upload(params).promise();
+      return data.Location;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  };
+
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      const imageUrl = await handleImageUpload(file);
+      if (imageUrl) {
+        setThumbnail((prevImages) => [...prevImages, imageUrl]);
+      }
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  // thumbnail 상태를 사용하도록 수정
+  const thumbnailPreview = thumbnail && (
+    <div className="thumb_img">
+      <h1>썸네일 이미지</h1>
+      <img
+        src={thumbnail}
+        alt="썸네일 이미지"
+        style={{
+          maxWidth: '100px',
+          maxHeight: '100px',
+          marginRight: '10px',
+          marginBottom: '10px',
+        }}
+      />
+    </div>
+  );
+
   const imageHandler = () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -107,11 +160,10 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
             if (range !== null && range !== undefined) {
               const quill = QuillRef.current?.getEditor();
               urls.forEach((url) => {
-                // JSON 배열을 문자열로 변환하여 이미지 URL을 삽입
                 const imageUrlString = JSON.stringify(url);
                 quill?.clipboard.dangerouslyPasteHTML(
                   range,
-                  `<img src=${imageUrlString.slice(1, -1)} alt="이미지 태그가 삽입됩니다." />` // 쌍따옴표를 제거하기 위해 slice를 사용하여 문자열을 잘라냄
+                  `<img src=${imageUrlString.slice(1, -1)} alt="이미지 태그가 삽입됩니다." />`
                 );
               });
             }
@@ -122,6 +174,7 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
       }
     };
   };
+
   const formats = [
     'header',
     'bold',
@@ -141,9 +194,7 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
     'height',
     'width',
   ];
-  // quill에서 사용할 모듈을 설정하는 코드 입니다.
-  // 원하는 설정을 사용하면 되는데, 저는 아래와 같이 사용했습니다.
-  // useMemo를 사용하지 않으면, 키를 입력할 때마다, imageHandler 때문에 focus가 계속 풀리게 됩니다.
+
   const modules = useMemo(
     () => ({
       imageActions: {},
@@ -161,7 +212,6 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
           ],
           ['image', 'video'],
         ],
-        // 이미지 크기 조절
         ImageResize: {
           modules: ['Resize'],
         },
@@ -173,6 +223,15 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
     []
   );
 
+  useEffect(() => {
+    if (postData) {
+      setContents(postData.content || '');
+      setTitle(postData.title || '');
+      setImages(postData.images || []);
+      setThumbnail(postData.thumbnail || '');
+    }
+  }, [postData]);
+
   const handleSave = async () => {
     if (!title) {
       console.error('제목을 입력하세요.');
@@ -182,49 +241,67 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
     const imagesJSON = JSON.stringify(images);
 
     let url;
-    if (selectedCategory === 'megazine') {
-      url = 'http://localhost:5000/api/magazines/';
-    } else if (
-      selectedCategory === 'bakery' ||
-      selectedCategory === 'default'
-    ) {
-      url = 'http://localhost:5000/api/posts/';
-    } else if (selectedCategory === 'recipe') {
-      url = 'http://localhost:5000/api/recipes/';
-    } else {
-      console.error('Invalid category:', selectedCategory);
-      return;
-    }
-
-    try {
-      let requestData = {
-        user_id: '661197252555dd267724ea61',
-        thumbnail: 'gganj123.jpg',
-        title: title,
-        nickname: '뿡뿡맘마',
-        profile: 'google.com/aksdnd.jpg',
-        content: contents,
-        images: imagesJSON,
-        bread_id: 'category456',
-      };
-
-      // 'selectedCategory'가 'recipe'인 경우에만 'nickname'과 'profile'을 설정
-      if (selectedCategory === 'recipe') {
-        requestData = {
-          user_id: '661197252555dd267724ea61',
-          nickname: '미친',
-          profile: 'google.com/aksdnd.jpg',
+    if (postData) {
+      url = `http://localhost:5000/api/posts/${postData._id}`;
+      try {
+        const response = await axios.put(url, {
           title: title,
           content: contents,
           images: imagesJSON,
-        };
+        });
+        toast(`${response.data.nickname}님 글 수정이 완료되었습니다!`);
+      } catch (error) {
+        console.error('Error updating post:', error);
+      }
+    } else {
+      if (selectedCategory === 'megazine') {
+        url = 'http://localhost:5000/api/magazines/';
+      } else if (
+        selectedCategory === 'bakery' ||
+        selectedCategory === 'default'
+      ) {
+        url = 'http://localhost:5000/api/posts/';
+      } else if (selectedCategory === 'recipe') {
+        url = 'http://localhost:5000/api/recipes/';
+      } else {
+        console.error('Invalid category:', selectedCategory);
+        return;
       }
 
-      const response = await axios.post(url, requestData);
+      try {
+        const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
 
-      toast(`${response.data.nickname}님 글 작성이 완료되었습니다!`);
-    } catch (error) {
-      console.error('Error saving to database:', error);
+        let requestData = {
+          user_id: '661197252555dd267724ea61',
+          thumbnail: thumbnailUrl,
+          title: title,
+          nickname: '뿡뿡맘마',
+          profile: 'google.com/aksdnd.jpg',
+          content: contents,
+          images: imagesJSON,
+          bread_id: 'category456',
+        };
+
+        if (selectedCategory === 'recipe') {
+          requestData = {
+            user_id: '661197252555dd267724ea61',
+            thumbnail: thumbnailUrl,
+            nickname: '미친',
+            profile: 'google.com/aksdnd.jpg',
+            title: title,
+            content: contents,
+            images: imagesJSON,
+          };
+        }
+
+        const response = await axios.post(url, requestData);
+        console.log(111);
+        console.log(response);
+
+        toast(`${response.data.nickname}님 글 작성이 완료되었습니다!`);
+      } catch (error) {
+        console.error('Error saving to database:', error);
+      }
     }
   };
 
@@ -250,8 +327,24 @@ export const EditorComponent: React.FC<{ selectedCategory?: string }> = ({
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
+      <div
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        style={{
+          width: '100%',
+          height: '200px',
+          border: '2px dashed #ccc',
+          borderRadius: '5px',
+          textAlign: 'center',
+          lineHeight: '200px',
+          cursor: 'pointer',
+        }}
+      >
+        드래그 앤 드롭하여 이미지 업로드
+      </div>
+      {thumbnailPreview}
       <EditContextBtn>
-        <button onClick={handleSave}>작성하기</button>
+        <button onClick={handleSave}>{saveButtonText}</button>
         <button onClick={goBack}>취소</button>
       </EditContextBtn>
       <ToastContainer />

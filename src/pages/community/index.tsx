@@ -114,6 +114,9 @@ export default function CommunityPage() {
                 <CategoryList
                   to="/community/nearby"
                   images={filteredData.slice(0, 4).map((post) => post.images)}
+                  thumbnail={filteredData
+                    .slice(0, 4)
+                    .map((post) => post.thumbnail)}
                   titles={filteredData.slice(0, 4).map((post) => post.title)}
                   nickname={filteredData
                     .slice(0, 4)
@@ -151,6 +154,9 @@ export default function CommunityPage() {
                   <CategoryList
                     to="/community/nearby"
                     images={postData.slice(0, 4).map((post) => post.images)}
+                    thumbnail={postData
+                      .slice(0, 4)
+                      .map((post) => post.thumbnail)}
                     titles={postData.slice(0, 4).map((post) => post.title)}
                     nickname={postData.slice(0, 4).map((post) => post.nickname)}
                     likes={likeCounts.slice(0, 4)}
@@ -171,6 +177,9 @@ export default function CommunityPage() {
                   <CategoryList
                     to="/community/recipe"
                     images={recipeData.slice(0, 4).map((post) => post.images)}
+                    thumbnail={recipeData
+                      .slice(0, 4)
+                      .map((post) => post.thumbnail)}
                     titles={recipeData.slice(0, 4).map((post) => post.title)}
                     nickname={recipeData
                       .slice(0, 4)
