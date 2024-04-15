@@ -32,7 +32,6 @@ const CategoryList: React.FC<Props> = ({
 
   useEffect(() => {
     // 로컬 스토리지에서 좋아요 상태를 가져와 업데이트합니다.
-    console.log(thumbnail);
     const likedImagesFromStorage = JSON.parse(
       localStorage.getItem('likedImages') || '{}'
     );

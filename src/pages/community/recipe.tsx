@@ -5,9 +5,13 @@ import CategoryList from '../../components/CategoryList';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Pagination from '../../components/Pagination';
 
 export default function MyRecipe() {
   const [recipeData, setRecipeData] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   // 데이터를 가져오는 함수
   const fetchData = async () => {
@@ -23,6 +27,30 @@ export default function MyRecipe() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const getCurrentItems = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+    const currentItems = recipeData.slice(indexOfFirstItem, indexOfLastItem);
+
+    return (
+      <CategoryList
+        to="/community/recipe"
+        images={currentItems.map((post: any) => post.images)}
+        thumbnail={currentItems.map((post: any) => post.thumbnail)}
+        titles={currentItems.map((post: any) => post.title)}
+        nickname={currentItems.map((post: any) => post.nickname)}
+        likes={[1, 2, 3]}
+        usersrc={['#빵집']}
+        postIdArray={currentItems.map((post: any) => post._id)}
+      />
+    );
+  };
 
   return (
     <>
@@ -45,18 +73,13 @@ export default function MyRecipe() {
             <div className="community_list_title box_wrapper">
               <h3>나만의 레시피를 공유해요</h3>
             </div>
-            <div className="community_list_content">
-              <CategoryList
-                to="/community/recipe"
-                images={recipeData.map((post: any) => post.images)}
-                titles={recipeData.map((post: any) => post.title)}
-                nickname={recipeData.map((post: any) => post.nickname)}
-                likes={[1, 2, 3]}
-                usersrc={['#빵집']}
-                postIdArray={recipeData.map((post: any) => post._id)}
-              />
-            </div>
+            <div className="community_list_content">{getCurrentItems()}</div>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(recipeData.length / itemsPerPage)}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </>
