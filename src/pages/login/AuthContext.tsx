@@ -102,7 +102,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       console.log('fetchUserData response:', response);
-      setUser(response.data); // 사용자 데이터와 프로필 이미지 URL 포함
+      const { password, ...userInfo } = response.data; // 비밀번호 빼고 유저 정보 저장
+      setUser(userInfo);
+      console.log(user);
 
       setLoading(false);
     } catch (error) {
@@ -116,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const userId = localStorage.getItem('id');
-      const response = await axios.put(`${apiUrl}/users/${userId}`, userData, {
+      await axios.put(`${apiUrl}/users/${userId}`, userData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },

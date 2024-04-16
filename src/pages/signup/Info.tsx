@@ -161,14 +161,14 @@ const SignUpInfoPage: React.FC = () => {
 
     try {
       // 회원가입 요청
-      const response = await axios.post(`${apiUrl}/users`, {
+      await axios.post(`${apiUrl}/users`, {
         email: formData.email,
         password: formData.password,
         nickname: formData.nickname,
         confirmPassword: formData.confirmPassword,
       });
 
-      console.log('회원가입 성공:', response.data);
+      console.log('회원가입 성공:');
       handleSignUpSuccess(formData.nickname);
     } catch (error) {
       const axiosError = error as AxiosError<{ message?: string }>;
