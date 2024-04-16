@@ -10,11 +10,15 @@ import {
 } from '../../hooks/useMagazineApi';
 
 import './admin.css';
+import Pagination from '../../components/Pagination';
 
 const AdminMagazine = () => {
   const { data: magazineList } = useGetMagazineListApi();
   const { mutate: deleteList } = useDeleteMagazineByCheckApi();
   const [checkList, setCheckList] = useState<string[]>([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const deleteMagazineCheckList = (idList: string[]) => {
     deleteList(idList);
@@ -39,6 +43,15 @@ const AdminMagazine = () => {
     }
   };
 
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems =
+    magazineList?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
   return (
     <section className="admin_area">
       <AdminCategory />
@@ -55,8 +68,8 @@ const AdminMagazine = () => {
           </div>
         </div>
         <div className="admin_magazine_list">
-          {magazineList &&
-            magazineList.map((magazine, index) => {
+          {currentItems &&
+            currentItems.map((magazine, index) => {
               return (
                 <BigCard
                   data={magazine}
@@ -68,6 +81,17 @@ const AdminMagazine = () => {
                 />
               );
             })}
+        </div>
+        <div style={{ margin: '20px 0 0', paddingBottom: '6rem' }}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(
+              magazineList && magazineList.length
+                ? magazineList.length / itemsPerPage
+                : 1
+            )}
+            onPageChange={handlePageChange}
+          />
         </div>
       </section>
     </section>
