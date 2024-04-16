@@ -1,6 +1,6 @@
 import { useRef, useState, useMemo, useEffect } from 'react';
 import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -251,6 +251,7 @@ export const EditorComponent = ({
   const { mutate: editMagazine } = useEditMagazineApi();
   const { mutate: editPost } = useEditPostApi();
   const { mutate: editRecipe } = useEditRecipeApi();
+  const { state } = useLocation();
 
   const handlecreateData = () => {
     if (user !== null) {
@@ -258,36 +259,59 @@ export const EditorComponent = ({
       const imagesJSON = JSON.stringify(images);
 
       const editData = {
-        user_id: user.id || '',
-        thumbnail: thumbnailUrl,
-        title: title,
-        content: contents,
-      };
-
-      const createData = {
-        user_id: user.id || '',
+        user_id: user._id || '',
         thumbnail: thumbnailUrl,
         title: title,
         nickname: user.nickname || 'no nickname',
-        profile: 'google.com/aksdnd.jpg',
         content: contents,
         images: imagesJSON,
       };
 
       if (postData !== null) {
-        if (selectedCategory === 'magazine') {
+        if (state.editCategory === 'magazine') {
           editMagazine({ editData: editData, targetId: postData.id });
-        } else if (selectedCategory === 'default') {
+        } else if (state.editCategory === 'default') {
           editPost({ editData: editData, targetId: postData.id });
-        } else if (selectedCategory === 'recipe') {
+        } else if (state.editCategory === 'recipe') {
           editRecipe({ editData: editData, targetId: postData.id });
         }
       } else {
         if (selectedCategory === 'magazine') {
+          let createData = {
+            user_id: user._id || '',
+            thumbnail: thumbnailUrl,
+            title: title,
+            nickname: user.nickname || 'no nickname',
+            profile: 'google.com/aksdnd.jpg',
+            content: contents,
+            images: imagesJSON,
+          };
+
           createMagazine(createData);
         } else if (selectedCategory === 'default') {
+          let createData = {
+            user_id: user._id || '',
+            thumbnail: thumbnailUrl,
+            title: title,
+            nickname: user.nickname || 'no nickname',
+            profile: 'google.com/aksdnd.jpg',
+            content: contents,
+            images: imagesJSON,
+            bread_id: 'bread123',
+          };
+
           createPost(createData);
         } else if (selectedCategory === 'recipe') {
+          let createData = {
+            user_id: user._id || '',
+            thumbnail: thumbnailUrl,
+            title: title,
+            nickname: user.nickname || 'no nickname',
+            profile: 'google.com/aksdnd.jpg',
+            content: contents,
+            images: imagesJSON,
+          };
+
           createRecipe(createData);
         }
       }

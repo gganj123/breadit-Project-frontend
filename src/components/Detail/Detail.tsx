@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ButtonDefault from '../atoms/buttons/ButtonDefault';
 import {
   DetailTopStyled,
@@ -24,9 +24,10 @@ type DetailProps = {
     images: string[]; // 이미지 데이터 추가
   };
   deleteEvent: (id: string) => void;
+  editCategory: string;
 };
 
-const DetailContent = ({ data, deleteEvent }: DetailProps) => {
+const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
   const {
     _id,
     nickname,
@@ -54,6 +55,10 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
     return HTML;
   };
 
+  const location = useLocation();
+
+  const locationRoute = location.pathname.split('/')[1];
+
   const goToEditPage = () => {
     const dataToSend = {
       id: _id,
@@ -65,7 +70,9 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
       content: content,
       images: images,
     };
-    navigate('/community/edit', { state: { data: dataToSend } }); // 수정 페이지로 이동하면서 데이터 전달
+    navigate(`/${locationRoute}/edit`, {
+      state: { data: dataToSend, editCategory },
+    }); // 수정 페이지로 이동하면서 데이터 전달
   };
 
   return (
@@ -79,7 +86,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
             <h3 className="detail_title">{title}</h3>
             <p>
               <span className="username">{nickname}</span>
-              <span className="date">{createdAt && sliceDate(createdAt)}</span>
+              <span className="date">{sliceDate(createdAt)}</span>
             </p>
           </div>
         </UserStyled>

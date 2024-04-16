@@ -71,6 +71,7 @@ const CommunityDetail = () => {
               }
         }
         deleteEvent={(id: string) => deletePostId(id)}
+        editCategory={'default'}
       />
     </section>
   );

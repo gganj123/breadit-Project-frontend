@@ -32,12 +32,14 @@ export default function EditPage() {
       <div className="community_container">
         <div className="community">
           <h2 className="oleo-script-bold community_title">Community</h2>
-          <SelectBox
-            options={CATEGORY_OPTIONS}
-            onChange={handleCategoryChange}
-            value={selectedCategory}
-            className="custom-select-box"
-          />
+          {state == null && (
+            <SelectBox
+              options={CATEGORY_OPTIONS}
+              onChange={handleCategoryChange}
+              value={selectedCategory}
+              className="custom-select-box"
+            />
+          )}
           <EditorComponent
             selectedCategory={selectedCategory || 'default'}
             postData={postData}

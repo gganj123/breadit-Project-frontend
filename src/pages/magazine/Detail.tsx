@@ -66,6 +66,7 @@ const MagazineDetail = () => {
               }
         }
         deleteEvent={(id: string) => deleteMagazineId(id)}
+        editCategory={'magazine'}
       />
     </section>
   );

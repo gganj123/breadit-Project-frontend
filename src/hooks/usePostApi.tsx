@@ -17,6 +17,7 @@ export type PostCreateParameters = {
   title: string;
   content: string;
   images: string;
+  bread_id: string;
 };
 
 export type PostEditParameters = {
