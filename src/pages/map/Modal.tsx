@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from './Kakao.style.tsx';
 import axios from 'axios';
 import styled from 'styled-components';
-import MapDetailContent from '../../components/MapDetailContent.tsx';
+import MapDetailContent from '../../components/MapDetailContent/MapDetailContent.tsx';
 
 const MapDetailStyle = styled.section`
   width: 40rem;

@@ -6,6 +6,7 @@ type MagazineParameters = {
   nickname: string;
   title: string;
   content: string;
+  like_count: number;
 };
 
 export const useGetMagazineListApi = () => {
@@ -16,11 +17,25 @@ export const useGetMagazineListApi = () => {
   });
 };
 
-export const useGetMagazineByIdApi = (targetId: string) => {
+export const useGetMagazineByQueryApi = (query: string) => {
   return useQuery({
-    queryKey: ['magazine', targetId],
-    queryFn: () => repositories.magazinesApis.getMagazine(targetId),
-    enabled: false,
+    queryKey: ['magazines', query],
+    queryFn: () => repositories.magazinesApis.getMagazineQuery(query),
+  });
+};
+
+export const useGetMagazineByIdApi = ({
+  targetId = '',
+  accessToken,
+}: {
+  targetId?: string;
+  accessToken: string | null;
+}) => {
+  return useQuery({
+    queryKey: ['magazine', targetId, accessToken],
+    queryFn: () =>
+      repositories.magazinesApis.getMagazine(targetId, accessToken),
+    enabled: !!targetId,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
@@ -32,6 +47,18 @@ export const useDeleteMagazineByIdApi = () => {
   return useMutation({
     mutationFn: (targetId: string) =>
       repositories.magazinesApis.deleteMagazine(targetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+    },
+  });
+};
+
+export const useDeleteMagazineByCheckApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (targetIdList: string[]) =>
+      repositories.magazinesApis.deleteMagazineByCheck(targetIdList),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['magazines'] });
     },

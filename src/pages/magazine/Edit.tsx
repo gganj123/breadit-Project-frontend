@@ -1,14 +1,23 @@
 import { EditorComponent } from '../../components/QuillEditor';
+import styled from 'styled-components';
+
+const WriteSectionStyled = styled.section`
+  max-width: 129rem;
+  margin: 0 auto;
+  padding: 8rem 2rem;
+
+  h2 {
+    padding-bottom: 3rem;
+  }
+`;
 
 const MagazineEdit = () => {
   return (
     <>
-      <div className="community_container">
-        <div className="community">
-          <h2 className="oleo-script-bold community_title">Magazine</h2>
-          <EditorComponent />
-        </div>
-      </div>
+      <WriteSectionStyled>
+        <h2 className="oleo-script-bold">Magazine</h2>
+        <EditorComponent selectedCategory={'megazine'} />
+      </WriteSectionStyled>
     </>
   );
 };

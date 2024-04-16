@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import likeIcon from '/heart_icon.svg';
 import likeIconActive from '/heart_icon_active.svg';
+import {
+  usePostMagazineLikeToggleApi,
+  usePostPostLikeToggleApi,
+  usePostRecipeLikeToggleApi,
+} from '../../../hooks/useLikeApi';
 
 const LikeButton = styled.button`
   display: inline-flex;
@@ -12,18 +17,40 @@ const LikeButton = styled.button`
   color: #aeaeae;
 `;
 
-const ToggleLikeButton = ({ like }: { like: number }) => {
-  const [isHeart, setUseIsHeart] = useState<boolean>(false);
-  const [isLike, setUseIsLike] = useState<number>(like);
+type LikeProps = {
+  likeCount: number;
+  postId?: string | '';
+  likeState: boolean;
+};
 
-  function heartToggle() {
-    setUseIsHeart(!isHeart);
-    setUseIsLike(isHeart ? isLike - 1 : isLike + 1);
-  }
+const ToggleLikeButton = ({ likeCount, postId, likeState }: LikeProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { mutate: magazineLikeMutate } = usePostMagazineLikeToggleApi();
+  const { mutate: postLikeMutate } = usePostPostLikeToggleApi();
+  const { mutate: recipeLikeMutate } = usePostRecipeLikeToggleApi();
+
+  const userId = localStorage.getItem('id');
+
+  const heartToggle = () => {
+    if (location.pathname.includes('magazines')) {
+      userId && postId && magazineLikeMutate({ userId, postId });
+    } else if (location.pathname.includes('nearby')) {
+      userId && postId && postLikeMutate({ userId, postId });
+    } else if (location.pathname.includes('recipe')) {
+      userId && postId && recipeLikeMutate({ userId, postId });
+    }
+  };
+
+  const nonMember = () => {
+    alert('로그인 후 이용해주세요');
+    navigate('/login');
+  };
+
   return (
-    <LikeButton onClick={heartToggle}>
-      <img src={isHeart ? likeIconActive : likeIcon} />
-      {isLike}
+    <LikeButton onClick={userId ? heartToggle : nonMember}>
+      <img src={likeState ? likeIconActive : likeIcon} />
+      {likeCount}
     </LikeButton>
   );
 };

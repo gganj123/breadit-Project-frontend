@@ -288,3 +288,15 @@
   color: #6f6f6f;
   margin: 10px 0;
 }
+
+.thumb_img {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
+}
+
+.thumb_img h1 {
+  font-size: 1.2rem;
+  color: #333;
+}

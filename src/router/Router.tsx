@@ -18,10 +18,10 @@ import MagazineEditPage from '../pages/magazine/Edit.tsx';
 import MapPage from '../pages/map/index.tsx';
 import AdminPage from '../pages/admin/index.tsx';
 import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
-import AdminCommunity from '../pages/admin/AdminCommunity.tsx';
+import AdminPost from '../pages/admin/AdminPost.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
 import Kakao from '../pages/map/Kakao.tsx';
-import { ProfileImageProvider } from '../pages/mypage/ProfileImageContext.tsx';
+import { AuthProvider } from '../pages/login/AuthContext.tsx';
 import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
 import DynamicSection from '../pages/mypage/DynamicSection.tsx';
@@ -29,7 +29,7 @@ import DynamicSection from '../pages/mypage/DynamicSection.tsx';
 export default function Router() {
   return (
     <>
-      <ProfileImageProvider>
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -59,13 +59,13 @@ export default function Router() {
             <Route path="map" element={<MapPage />} />
             <Route path="admin" element={<AdminPage />} />
             <Route path="admin-magazine" element={<AdminMagazinePage />} />
-            <Route path="admin-community" element={<AdminCommunity />} />
+            <Route path="admin-post" element={<AdminPost />} />
             <Route path="admin-recipe" element={<AdminRecipe />} />
             <Route path="maptest" element={<Kakao />} />
           </Route>
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
-      </ProfileImageProvider>
+      </AuthProvider>
     </>
   );
 }

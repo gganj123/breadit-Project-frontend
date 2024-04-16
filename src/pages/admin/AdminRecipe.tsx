@@ -1,47 +1,43 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import AdminCategory from './AdminCategory';
-import AdminGuide from './AdminGuide';
-import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 import AdminTable from './AdminTable';
+import {
+  useGetRecipeListApi,
+  useDeleteRecipeByIdApi,
+  useDeleteRecipeByCheckApi,
+} from '../../hooks/useRecipeApi';
 
 import './admin.css';
 
-const AdminMain = () => {
-  let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
+const AdminRecipe = () => {
+  const { data: recipeList } = useGetRecipeListApi();
+  const { mutate: deleteMutate } = useDeleteRecipeByIdApi();
+  const { mutate: deleteList } = useDeleteRecipeByCheckApi();
 
-  const [recipeList, setRecipeList] = useState([]);
-
-  let apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
-
-  const getRecipesAPI = async () => {
-    try {
-      const response = await axios.get(`${apiUrl}/recipes`);
-      setRecipeList(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  const deleteRecipeIdFind = (id: string) => {
+    deleteMutate(id);
   };
 
-  useEffect(() => {
-    getRecipesAPI();
-  }, []);
+  const deleteRecipeCheckList = (idList: string[]) => {
+    deleteList(idList);
+  };
+
+  let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
 
   return (
-    <>
-      <section className="admin_area">
-        <AdminCategory />
-        <section className="admin_cont">
-          <AdminGuide />
-          <div className="main_title flex_default">
-            <h4>레시피 관리</h4>
-            <ButtonDeafult text={'선택 삭제'} />
-          </div>
-          <AdminTable theadTitle={theadTitle} data={recipeList} />
-        </section>
-      </section>
-    </>
+    <section className="admin_area">
+      <AdminCategory />
+
+      {recipeList && (
+        <AdminTable
+          pageTitle={'레시피 관리'}
+          theadTitle={theadTitle}
+          data={recipeList}
+          deleteEvent={(id: string) => deleteRecipeIdFind(id)}
+          deleteList={(idList: string[]) => deleteRecipeCheckList(idList)}
+        />
+      )}
+    </section>
   );
 };
 
-export default AdminMain;
+export default AdminRecipe;

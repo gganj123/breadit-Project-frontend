@@ -1,37 +1,35 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import DetailContent from '../../components/Detail';
+import { Link, useParams } from 'react-router-dom';
+import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
 import {
   useGetMagazineByIdApi,
   useDeleteMagazineByIdApi,
 } from '../../hooks/useMagazineApi';
+import { usePostMagazineBookmarkToggleApi } from '../../hooks/useBookmarkApi';
 
 const MagazineDetail = () => {
-  const { id } = useParams<{ id?: string }>();
-  const useGetMagazineQuery = useGetMagazineByIdApi(id ?? '');
-  const [detailData, setDetailData] = useState({
-    _id: '',
-    nickname: '',
-    profile: '',
-    createdAt: '',
-    title: '',
-    content: '',
+  const { id } = useParams<{ id: string }>();
+
+  const accessToken = localStorage.getItem('accessToken');
+
+  const { data: magazineDetail } = useGetMagazineByIdApi({
+    targetId: id,
+    accessToken,
   });
 
-  useEffect(() => {
-    useGetMagazineQuery.refetch();
-    if (useGetMagazineQuery.data) {
-      setDetailData(useGetMagazineQuery.data);
-    }
-  }, [useGetMagazineQuery.data]);
+  const { mutate: deleteMutate } = useDeleteMagazineByIdApi();
 
-  const { mutate } = useDeleteMagazineByIdApi();
+  const deleteMagazineId = (id: string) => {
+    deleteMutate(id);
+  };
 
-  const deleteMagazineIdFind = (id: string) => {
-    mutate(id);
+  const { mutate: magazineBookmarkMutate } = usePostMagazineBookmarkToggleApi();
+
+  const userId = localStorage.getItem('id');
+
+  const saveToggle = () => {
+    userId && id && magazineBookmarkMutate({ userId, postId: id });
   };
 
   return (
@@ -43,13 +41,31 @@ const MagazineDetail = () => {
           </li>
         </ul>
         <div className="buttons">
-          <ToggleSaveButton />
+          {magazineDetail && (
+            <ToggleSaveButton
+              bookmarkState={magazineDetail.beBookmark}
+              bookmarkEvent={() => saveToggle()}
+            />
+          )}
           <CopyUrlButton />
         </div>
       </div>
       <DetailContent
-        data={detailData}
-        deleteEvent={(id: string) => deleteMagazineIdFind(id)}
+        data={
+          magazineDetail !== undefined
+            ? magazineDetail
+            : {
+                _id: '',
+                nickname: '',
+                profile: '',
+                createdAt: '',
+                title: '',
+                content: '',
+                like_count: '',
+                beLike: false,
+              }
+        }
+        deleteEvent={(id: string) => deleteMagazineId(id)}
       />
     </section>
   );

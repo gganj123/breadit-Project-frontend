@@ -3,12 +3,9 @@
  */
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
+import { useAuth } from '../login/AuthContext';
 type UserProfileProps = {
-  onLogout: () => void;
-  onDeleteAccount: () => void;
   onEditProfile: () => void;
-  email: string;
-  nickname: string;
 };
 
 const Nickname = styled.div`
@@ -49,17 +46,12 @@ const ActionsButton = styled.button`
   font-size: 11px;
 `;
 
-const UserProfile: React.FC<UserProfileProps> = ({
-  onLogout,
-  onDeleteAccount,
-  onEditProfile,
-  email,
-  nickname,
-}) => {
+const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
+  const { user, logout, deleteUser } = useAuth();
   return (
     <div>
-      <Nickname>{nickname}</Nickname>
-      <Email>{email}</Email>
+      <Nickname>{user?.nickname}</Nickname>
+      <Email>{user?.email}</Email>
       <Button
         type="button"
         text="정보 수정"
@@ -71,9 +63,9 @@ const UserProfile: React.FC<UserProfileProps> = ({
         onClick={onEditProfile}
       />
       <ActionsContainer>
-        <ActionsButton onClick={onLogout}>로그아웃</ActionsButton>
+        <ActionsButton onClick={logout}>로그아웃</ActionsButton>
         <Line />
-        <ActionsButton onClick={onDeleteAccount}>회원탈퇴</ActionsButton>
+        <ActionsButton onClick={deleteUser}>회원탈퇴</ActionsButton>
       </ActionsContainer>
     </div>
   );

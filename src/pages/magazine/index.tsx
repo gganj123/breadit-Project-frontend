@@ -1,29 +1,17 @@
-import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import BigCardList from '../../components/BigCard';
-import MagazineBanner from './MagazineBanner';
+import BigCardList from '../../components/BigCard/BigCard';
+import MagazineBanner, { BannerProps } from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
-import { useGetMagazineListApi } from '../../hooks/useMagazineApi';
+import {
+  useGetMagazineListApi,
+  useGetMagazineByQueryApi,
+} from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
 
-type MagazineParameters = {
-  _id: string;
-  nickname: string;
-  title: string;
-  content: string;
-};
-
 const Magazine = () => {
-  const getMagazineListQuery = useGetMagazineListApi();
-  const [magazineList, setMagazineList] = useState<MagazineParameters[]>([]);
-
-  useEffect(() => {
-    getMagazineListQuery.refetch();
-    if (getMagazineListQuery.data) {
-      setMagazineList(getMagazineListQuery.data);
-    }
-  }, [getMagazineListQuery.data]);
+  const { data: magazineList } = useGetMagazineListApi();
+  const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
 
   const settings = {
     dots: true,
@@ -41,8 +29,10 @@ const Magazine = () => {
     customPaging: (i: number) => {
       return (
         <span className="customPaging">
-          <span className="currentPage">{i + 1}</span> /
-          <span className="totalPage"> {magazineList.length}</span>
+          <span className="currentPage">{i + 1}</span>/
+          <span className="totalPage">
+            {magazineBanner && magazineBanner.length}
+          </span>
         </span>
       );
     },
@@ -52,9 +42,10 @@ const Magazine = () => {
     <>
       <article className="magazine_banner">
         <Slider {...settings}>
-          {magazineList.map((banner, index) => {
-            return <MagazineBanner data={banner} key={index} />;
-          })}
+          {magazineBanner &&
+            magazineBanner.map((banner: BannerProps['data']) => {
+              return <MagazineBanner data={banner} key={banner._id} />;
+            })}
         </Slider>
       </article>
       <section className="main_cont magazine">
@@ -66,9 +57,10 @@ const Magazine = () => {
         </div>
 
         <div className="magazine_card_list">
-          {magazineList.map((magazine, index) => {
-            return <BigCardList data={magazine} key={index} />;
-          })}
+          {magazineList &&
+            magazineList.map((magazine) => {
+              return <BigCardList data={magazine} key={magazine._id} />;
+            })}
         </div>
       </section>
     </>
