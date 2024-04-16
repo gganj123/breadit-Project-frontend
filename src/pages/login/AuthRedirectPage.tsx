@@ -1,5 +1,5 @@
 /**
- * 소셜로그인 후 리디렉션 되는 곳
+ * 소셜로그인 후 리디렉션 되는 곳 - 인가코드 추출 후 서버에 보내기
  */
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -18,7 +18,6 @@ const AuthRedirectPage: React.FC = () => {
     console.log(code);
 
     if (code) {
-      // axios 요청에 타입 적용
       axios
         .post(`${apiUrl}/users/login/kakaosociallogin`, { code })
         .then((response) => {

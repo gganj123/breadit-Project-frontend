@@ -63,12 +63,11 @@ const Login: FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Attempting to log in with:', form.email, form.password); // 로그인 시도 로깅
     try {
       await login(form.email, form.password);
-      console.log('Login successful'); // 성공 로깅
+      console.log('Login successful');
     } catch (error) {
-      console.error('Login failed:', error); // 실패 로깅
+      console.error('Login failed:', error);
     }
   };
 

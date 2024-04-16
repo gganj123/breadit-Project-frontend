@@ -44,6 +44,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        // 401 오류를 감지하고, 재시도 플래그가 없는 경우 토큰 갱신을 시도
+        if (error.response.status === 401 && !error.config._retry) {
+          error.config._retry = true; // 재시도 플래그 설정
+          const currentAccessToken = localStorage.getItem('accessToken'); // 현재 사용 중인 액세스 토큰 가져오기
+          console.log('현재 사용 중인 토큰:', currentAccessToken);
+          const refreshToken = localStorage.getItem('refreshToken');
+          if (!refreshToken) {
+            console.error('No refresh token available');
+            logout(); // 리프레시 토큰이 없으면 로그아웃 처리
+            return Promise.reject(error);
+          }
+
+          try {
+            // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청
+            const res = await axios.post(`${apiUrl}/users/refreshToken`, {
+              refreshToken,
+            });
+            const { accessToken, userId } = res.data;
+            console.log('새로 발급받은 토큰:', accessToken);
+            console.log('사용자 ID:', userId);
+            // 새 토큰을 로컬 스토리지에 저장
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('id', userId);
+            console.log('토큰 갱신 성공');
+            // 요청에 새 액세스 토큰을 설정하고, 요청 재시도
+            error.config.headers['Authorization'] = `Bearer ${accessToken}`;
+            return axios(error.config);
+          } catch (refreshError) {
+            console.error('토큰 갱신 실패:', refreshError);
+            logout(); // 토큰 갱신 실패 시 로그아웃
+            return Promise.reject(refreshError);
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+
     const loadUser = async () => {
       const accessToken = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('id');
@@ -61,8 +101,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await axios.get(`${apiUrl}/users/${userId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+      console.log('fetchUserData response:', response);
       setUser(response.data); // 사용자 데이터와 프로필 이미지 URL 포함
-      console.log(response.data);
 
       setLoading(false);
     } catch (error) {
