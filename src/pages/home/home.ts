@@ -181,6 +181,7 @@ export const RecipeStyled = styled.section`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 8;
     overflow: hidden;
+    width: calc(100% - 10rem);
   }
 `;
 

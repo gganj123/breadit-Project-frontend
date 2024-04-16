@@ -1,0 +1,150 @@
+import './community.css';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import BigCard from '../../components/BigCard/BigCard';
+import RightArrow from '/right-arrow.svg';
+import { useGetPostByQueryApi } from '../../hooks/usePostApi';
+import { useGetRecipeByQueryApi } from '../../hooks/useRecipeApi';
+
+// 이미지 경로
+const SearchIcon = '/search-icon.svg';
+const PostIcon = '/post-icon.svg';
+
+type PostCommunityParameters = {
+  _id: string;
+  user_id: string;
+  nickname: string;
+  profile: string;
+  title: string;
+  content: string;
+  images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
+  thumbnail: string;
+  bread_id: string;
+  createdAt: string;
+  updatedAt: string;
+  like_count: number;
+  // 다른 필드들도 필요에 따라 추가
+};
+
+export default function NearByPage() {
+  const [postList, setPostList] = useState<PostCommunityParameters[]>([]);
+  const [recipeList, setRecipeList] = useState<PostCommunityParameters[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: postData, refetch: postRefetchSearch } = useGetPostByQueryApi(
+    `?limit=4&q=${searchQuery}`
+  );
+  const { data: recipeData, refetch: recipeRefetchSearch } =
+    useGetRecipeByQueryApi(`?limit=4&q=${searchQuery}`);
+
+  useEffect(() => {
+    if (postData) {
+      setPostList(postData);
+    }
+    if (recipeData) {
+      setRecipeList(recipeData);
+    }
+  }, [postData]);
+
+  const handleChangeSearchQuery = () => {
+    setSearchQuery(searchTerm);
+  };
+
+  const performSearch = async () => {
+    try {
+      const { data: searchResults } = await postRefetchSearch();
+      setPostList(searchResults || []);
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  };
+
+  // 검색어 입력 시 상태 업데이트 함수
+  const handleSearchInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <div className="community_container">
+      <div className="community">
+        <h2 className="oleo-script-bold community_title">Community</h2>
+        <div className="head_content box_wrapper">
+          <div className="community_search box_wrapper">
+            <input
+              type="text"
+              placeholder="검색어를 입력하세요."
+              value={searchTerm}
+              onChange={handleSearchInputChange}
+            />
+            <img
+              src={SearchIcon}
+              className="icon"
+              alt="search icon"
+              onClick={() => {
+                performSearch();
+                handleChangeSearchQuery();
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+          <div className="community_post_btn">
+            <Link to="/community/edit">
+              <img src={PostIcon} className="icon" alt="search icon" />
+            </Link>
+          </div>
+        </div>
+        <div className="community_list">
+          <div className="community_list_title box_wrapper">
+            <h3>우리 동네 베이커리를 소개합니다!</h3>
+            <Link to="/community/nearby">
+              More <img src={RightArrow} className="icon" alt="arrow icon" />
+            </Link>
+          </div>
+          <div className="community_inner">
+            {postList.length > 0 ? (
+              postList.map((post) => {
+                return (
+                  <BigCard
+                    data={post}
+                    key={post._id}
+                    go={'nearby'}
+                    userInfo={true}
+                  />
+                );
+              })
+            ) : (
+              <div>no post</div>
+            )}
+          </div>
+        </div>
+        <div className="community_list">
+          <div className="community_list_title box_wrapper">
+            <h3>나만의 레시피를 소개해요</h3>
+            <Link to="/community/recipe">
+              More <img src={RightArrow} className="icon" alt="arrow icon" />
+            </Link>
+          </div>
+          <div className="community_inner">
+            {recipeList.length > 0 ? (
+              recipeList.map((recipe) => {
+                return (
+                  <BigCard
+                    data={recipe}
+                    key={recipe._id}
+                    go={'recipe'}
+                    userInfo={true}
+                  />
+                );
+              })
+            ) : (
+              <div className="no_post">no post</div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

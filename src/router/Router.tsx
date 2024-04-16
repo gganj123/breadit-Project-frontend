@@ -9,6 +9,7 @@ import SignupPage from '../pages/signup/Agreement.tsx';
 import SignUpInfoPage from '../pages/signup/Info.tsx';
 import SignUpCompletePage from '../pages/signup/Complete.tsx';
 import CommunityPage from '../pages/community/index.tsx';
+import CommunityTest from '../pages/community/communityTest.tsx';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
 import EditPage from '../pages/community/edit.tsx';
@@ -55,6 +56,7 @@ export default function Router() {
             <Route path="community/nearby/:id" element={<DetailPage />} />
             <Route path="community/recipe" element={<MyRecipe />} />
             <Route path="community/recipe/:id" element={<RecipeDetailPage />} />
+            <Route path="community/test" element={<CommunityTest />} />
             <Route path="magazines" element={<MagazinePage />} />
             <Route path="magazines/:id" element={<MagazineDetailPage />} />
             <Route path="magazines/edit" element={<MagazineEditPage />} />

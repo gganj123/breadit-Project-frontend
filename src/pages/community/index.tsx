@@ -21,8 +21,6 @@ export default function CommunityPage() {
   const { data: communityList } = useGetPostByQueryApi('?limit=4');
   const { data: recipeList } = useGetRecipeByQueryApi('?limit=4');
 
-  console.log(searchQuery);
-
   // 데이터를 가져오는 함수
   const fetchData = async () => {
     try {

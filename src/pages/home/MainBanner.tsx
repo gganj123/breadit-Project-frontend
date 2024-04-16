@@ -13,21 +13,21 @@ const rotate = keyframes`
   }
 `;
 
-const CircleRight = styled.img`
+const CircleRightStyled = styled.img`
   position: absolute;
   top: -6rem;
   right: -6rem;
   animation: ${rotate} 10s linear infinite;
 `;
 
-const CircleCenter = styled.img`
+const CircleCenterStyled = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 `;
 
-const BannerItemStyle = styled.div`
+const BannerItemStyled = styled.div`
   display: flex;
   justify-content: flex-end;
   height: 72rem;
@@ -78,6 +78,11 @@ const BannerItemStyle = styled.div`
   }
 
   .content .text * {
+    font-size: 2rem;
+    color: #444;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
     line-height: 1.5;
   }
 `;
@@ -97,7 +102,7 @@ const MainBanner = ({ data }: BannerProps) => {
   }
 
   return (
-    <BannerItemStyle>
+    <BannerItemStyled>
       <div
         className="img_box"
         style={{
@@ -111,11 +116,11 @@ const MainBanner = ({ data }: BannerProps) => {
           <h3 className="title">{title}</h3>
           <div className="text" dangerouslySetInnerHTML={noImgContent()} />
           <LinkDefault text={'Magazine +'} go={`magazines/${_id}`} />
-          <CircleRight src={BannerCircle1} />
+          <CircleRightStyled src={BannerCircle1} />
         </div>
-        <CircleCenter src={BannerCircle2} />
+        <CircleCenterStyled src={BannerCircle2} />
       </div>
-    </BannerItemStyle>
+    </BannerItemStyled>
   );
 };
 

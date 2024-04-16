@@ -32,6 +32,14 @@ export const BigCardStyled = styled.div`
     height: 30rem;
     overflow: hidden;
   }
+
+  button {
+    cursor: default;
+  }
+
+  button img {
+    width: 2rem;
+  }
 `;
 
 export const ContentBoxStyled = styled.div`
@@ -65,5 +73,7 @@ export const ContentBoxStyled = styled.div`
     color: #666 !important;
     font-weight: 400 !important;
     line-height: 1.5;
+    font-style: normal;
+    text-decoration: none;
   }
 `;

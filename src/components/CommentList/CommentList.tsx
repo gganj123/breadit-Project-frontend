@@ -41,6 +41,7 @@ const Comments = ({ postId }: { postId: string }) => {
       };
 
       createMutate(commentData);
+      setCommentTextArea('');
     }
   };
 

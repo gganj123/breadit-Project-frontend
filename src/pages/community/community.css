@@ -300,3 +300,17 @@
   font-size: 1.2rem;
   color: #333;
 }
+
+.community_inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.no_post {
+  grid-column: 4 / 2;
+  text-align: center;
+  line-height: 20rem;
+  color: #666;
+}

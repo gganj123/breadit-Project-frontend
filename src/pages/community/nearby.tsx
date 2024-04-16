@@ -1,7 +1,5 @@
 import './community.css';
-import CategoryList from '../../components/CategoryList';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Pagination from '../../components/Pagination';
 import BigCard from '../../components/BigCard/BigCard';
@@ -14,7 +12,7 @@ import {
 const SearchIcon = '/search-icon.svg';
 const PostIcon = '/post-icon.svg';
 
-type PostParameters = {
+type PostCommunityParameters = {
   _id: string;
   user_id: string;
   nickname: string;
@@ -31,70 +29,40 @@ type PostParameters = {
 };
 
 export default function NearByPage() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [initialData, setInitialData] = useState([]); // 처음에 모든 데이터를 저장하는 상태
-  const [postList, setPostList] = useState<PostParameters[]>([]);
+  const [postList, setPostList] = useState<PostCommunityParameters[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  const { data: postList2 } = useGetPostListApi();
-  const { data: searchList } = useGetPostByQueryApi(`?q=${'누네띠네'}`);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const { data: initialData } = useGetPostListApi();
+  const { refetch: refetchSearch } = useGetPostByQueryApi(`?q=${searchQuery}`);
 
-  console.log(searchList);
-
-  // 데이터를 가져오는 함수
-  const fetchData = async (query = '') => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/posts?q=${query}`
-      );
-      setInitialData(response.data); // 처음에 받아온 모든 데이터 저장
-
-      //검색어가 있을 때는 검색된 데이터만 보여주고, 없을 때는 모든 데이터를 보여줌
-      const filteredData = query
-        ? response.data.filter(
-            (post: PostParameters) =>
-              post.title.includes(query) ||
-              post.content.includes(query) ||
-              post.nickname.includes(query)
-          )
-        : response.data;
-      setPostList(filteredData); // 검색 결과 저장
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  // 검색 수행 함수
-  const performSearch = () => {
-    fetchData(searchTerm); // 검색어를 인자로 넘겨 fetchData 함수 호출
-    // const { data } = useGetPostByQueryApi(`?q=${searchTerm}`);
-    // postList2 = data;
-    setCurrentPage(1);
-  };
-
-  // 엔터 키가 눌렸을 때 검색 수행
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      performSearch();
-    }
-  };
-
-  // 컴포넌트가 마운트될 때 데이터를 가져옴
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (initialData) {
+      setPostList(initialData);
+    }
+  }, [initialData]);
+
+  const handleChangeSearchQuery = () => {
+    setSearchQuery(searchTerm);
+  };
+
+  const performSearch = async () => {
+    try {
+      const { data: searchResults } = await refetchSearch();
+      setPostList(searchResults || []);
+    } catch (error) {
+      console.error('Search error:', error);
+    }
+  };
 
   // 검색어 입력 시 상태 업데이트 함수
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchTerm(event.target.value);
-    // 검색어가 변경될 때마다 검색을 수행하고, 검색어가 비어있으면 처음 받아온 모든 데이터를 보여줌
-    if (event.target.value === '') {
-      setPostList(initialData);
-    }
   };
 
   const getCurrentItems = () => {
@@ -104,16 +72,22 @@ export default function NearByPage() {
     const currentItems = postList.slice(indexOfFirstItem, indexOfLastItem);
 
     return (
-      <CategoryList
-        to="/community/nearby"
-        images={currentItems.map((post) => post.images)}
-        thumbnail={currentItems.map((post) => post.thumbnail)}
-        titles={currentItems.map((post) => post.title)}
-        nickname={currentItems.map((post) => post.nickname)}
-        likes={currentItems.map((post) => post.like_count)}
-        usersrc={currentItems.map((post) => post.profile)}
-        postIdArray={currentItems.map((post) => post._id)}
-      />
+      <div className="community_inner">
+        {currentItems.length > 0 ? (
+          currentItems.map((post) => {
+            return (
+              <BigCard
+                data={post}
+                key={post._id}
+                go={'nearby'}
+                userInfo={true}
+              />
+            );
+          })
+        ) : (
+          <div className="no_post">no post</div>
+        )}
+      </div>
     );
   };
 
@@ -134,15 +108,16 @@ export default function NearByPage() {
               placeholder="검색어를 입력하세요."
               value={searchTerm}
               onChange={handleSearchInputChange}
-              onKeyPress={handleKeyPress} // 엔터 키 눌렀을 때 검색 수행
             />
-            {/* 검색 아이콘을 img 태그로 변경하여 클릭 이벤트 추가 */}
             <img
               src={SearchIcon}
               className="icon"
               alt="search icon"
-              onClick={performSearch} // 검색 아이콘 클릭 시 검색 수행
-              style={{ cursor: 'pointer' }} // 커서 스타일을 포인터로 변경
+              onClick={() => {
+                performSearch();
+                handleChangeSearchQuery();
+              }}
+              style={{ cursor: 'pointer' }}
             />
           </div>
           <div className="community_post_btn">
@@ -162,14 +137,6 @@ export default function NearByPage() {
           totalPages={Math.ceil(postList.length / itemsPerPage)}
           onPageChange={handlePageChange}
         />
-      </div>
-
-      {/* 지은 */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
-        {postList2 &&
-          postList2.map((post) => {
-            return <BigCard data={post} key={post._id} go={'nearby'} />;
-          })}
       </div>
     </div>
   );

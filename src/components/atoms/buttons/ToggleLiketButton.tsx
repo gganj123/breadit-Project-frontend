@@ -21,9 +21,15 @@ type LikeProps = {
   likeCount: number;
   postId?: string | '';
   likeState: boolean;
+  eventBlock?: boolean | true;
 };
 
-const ToggleLikeButton = ({ likeCount, postId, likeState }: LikeProps) => {
+const ToggleLikeButton = ({
+  likeCount,
+  postId,
+  likeState,
+  eventBlock,
+}: LikeProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { mutate: magazineLikeMutate } = usePostMagazineLikeToggleApi();
@@ -50,7 +56,9 @@ const ToggleLikeButton = ({ likeCount, postId, likeState }: LikeProps) => {
   };
 
   return (
-    <LikeButton onClick={userId ? heartToggle : nonMember}>
+    <LikeButton
+      onClick={eventBlock ? (userId ? heartToggle : nonMember) : undefined}
+    >
       <img src={likeState ? likeIconActive : likeIcon} />
       {likeCount}
     </LikeButton>

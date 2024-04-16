@@ -90,6 +90,7 @@ const BigCardList = ({
         <ToggleLikeButton
           likeCount={like_count ? like_count : 0}
           likeState={false}
+          eventBlock={false}
         />
       </ContentBoxStyled>
     </BigCardStyled>
