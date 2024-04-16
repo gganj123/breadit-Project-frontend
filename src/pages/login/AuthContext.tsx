@@ -104,7 +104,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log('fetchUserData response:', response);
       const { password, ...userInfo } = response.data; // 비밀번호 빼고 유저 정보 저장
       setUser(userInfo);
-      console.log(user);
 
       setLoading(false);
     } catch (error) {
@@ -135,7 +134,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(updatedUserData.data);
       navigate('/mypage');
       console.log('User info updated successfully');
-      console.log(user);
     } catch (error) {
       console.error('Error updating user info:', error);
     } finally {
