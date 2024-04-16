@@ -116,7 +116,7 @@ export default function NearByPage() {
                 );
               })
             ) : (
-              <div>no post</div>
+              <div className="no_post">no post</div>
             )}
           </div>
         </div>
