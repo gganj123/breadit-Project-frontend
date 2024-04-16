@@ -68,7 +68,7 @@ export const EditorComponent: React.FC<{
   const handleImageUpload = async (file: File) => {
     const params = {
       Bucket: 'elice-breadit-project',
-      Key: `images/${file.name}`,
+      Key: `thumb/${file.name}`,
       Body: file,
       ACL: 'public-read',
     };
