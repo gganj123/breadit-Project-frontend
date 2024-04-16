@@ -206,7 +206,7 @@ const SignUpInfoPage: React.FC = () => {
       if (response.data.success) {
         console.log('인증 코드 발송 완료.');
       } else {
-        setEmailError('인증 코드를 발송 실패.');
+        setEmailError('인증 코드 발송 실패.');
       }
     } catch (error) {
       console.error('인증 코드 발송 에러:', error);
