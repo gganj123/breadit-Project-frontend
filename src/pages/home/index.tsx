@@ -22,6 +22,7 @@ import {
   InfiniteRoofStyled,
 } from './home';
 import NoProfile from '/no_profile.svg';
+import { sliceDate } from '../../utils';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -141,9 +142,9 @@ const Home = () => {
         </div>
         <Slider {...postSettings}>
           {postList &&
-            postList.map((post: BigCardProps['data']) => {
+            postList.map((post: BigCardProps['data'], index: number) => {
               return (
-                <div className="slide_item">
+                <div className="slide_item" key={index}>
                   <BigCard
                     data={post}
                     key={post._id}
@@ -161,9 +162,9 @@ const Home = () => {
           <p className="main_title_text">🍳 빵잘알들의 레시피</p>
         </div>
         {recipeData &&
-          recipeData.map((recipe: RecipeDataProps) => {
+          recipeData.map((recipe: RecipeDataProps, index: number) => {
             return (
-              <article className="recipe">
+              <article className="recipe" key={index}>
                 <div className="img_box">
                   <img src={recipe.thumbnail} alt="메인썸네일" />
                 </div>
@@ -172,7 +173,9 @@ const Home = () => {
                     <img src={NoProfile} />
                     <p>
                       <span className="nickname">{recipe.nickname}</span>
-                      <span className="date">{recipe.createdAt}</span>
+                      <span className="date">
+                        {recipe.createdAt && sliceDate(recipe.createdAt)}
+                      </span>
                     </p>
                   </div>
                   <h5>{recipe.title}</h5>

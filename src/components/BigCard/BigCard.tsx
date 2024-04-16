@@ -36,8 +36,6 @@ const BigCardList = ({
     return HTML;
   };
 
-  console.log(go);
-
   return (
     <BigCardStyled>
       {admin && handleCheckboxChange && (

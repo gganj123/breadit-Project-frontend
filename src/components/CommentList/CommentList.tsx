@@ -31,11 +31,11 @@ const Comments = ({ postId }: { postId: string }) => {
   const { user } = useAuth();
 
   const createComment = () => {
-    if (user !== null && userId !== null) {
+    if (user !== null) {
       const commentData = {
         nickname: user.nickname || 'no nickname',
         profile: NoProfile,
-        user_id: userId,
+        user_id: user._id,
         post_id: postId,
         content: commentTextArea,
       };
@@ -46,13 +46,13 @@ const Comments = ({ postId }: { postId: string }) => {
 
   return (
     <CommentsContStyled>
-      {userId ? (
+      {user && userId ? (
         <div className="comment_input">
           <div className="my_info">
             <div className="img_box">
               <img src={NoProfile} />
             </div>
-            <span>닉네임 넣을 위치</span>
+            <span>{user.nickname || 'no nickname'}</span>
           </div>
           <textarea
             name="comment"

@@ -9,6 +9,23 @@ type RecipeParameters = {
   like_count: number;
 };
 
+export type RecipeCreateParameters = {
+  user_id: string;
+  thumbnail: string;
+  nickname: string;
+  profile: string;
+  title: string;
+  content: string;
+  images: string;
+};
+
+export type RecipeEditParameters = {
+  user_id: string;
+  thumbnail: string;
+  title: string;
+  content: string;
+};
+
 export const useGetRecipeListApi = () => {
   return useQuery<RecipeParameters[]>({
     queryKey: ['recipes'],
@@ -60,6 +77,35 @@ export const useDeleteRecipeByCheckApi = () => {
       repositories.recipesApis.deleteRecipeByCheck(targetIdList),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipes'] });
+    },
+  });
+};
+
+export const useCreateRecipeApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (createData: RecipeCreateParameters) =>
+      repositories.recipesApis.createRecipe(createData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recipe'] });
+    },
+  });
+};
+
+export const useEditRecipeApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      editData,
+      targetId,
+    }: {
+      editData: RecipeEditParameters;
+      targetId: string;
+    }) => repositories.recipesApis.editRecipe(editData, targetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recipe'] });
     },
   });
 };

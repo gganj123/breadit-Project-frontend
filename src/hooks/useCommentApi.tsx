@@ -13,6 +13,14 @@ export type CommentParameters = {
   updatedAt?: string;
 };
 
+export type CreateCommentParameters = {
+  nickname: string;
+  profile: string;
+  user_id: string;
+  post_id: string;
+  content: string;
+};
+
 export const useCommentByPostIdApi = (targetId: string) => {
   return useQuery<CommentParameters[]>({
     queryKey: ['comments', targetId],
@@ -31,14 +39,6 @@ export const useDeleteCommentByIdApi = () => {
       queryClient.invalidateQueries({ queryKey: ['comments'] });
     },
   });
-};
-
-type CreateCommentParameters = {
-  nickname: string;
-  profile: string;
-  user_id: string;
-  post_id: string;
-  content: string;
 };
 
 export const useCreateCommentApi = () => {

@@ -1,7 +1,6 @@
 import { useRef, useState, useMemo, useEffect } from 'react';
 import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -9,6 +8,13 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  useCreateMagazineApi,
+  useEditMagazineApi,
+} from '../hooks/useMagazineApi';
+import { useCreatePostApi, useEditPostApi } from '../hooks/usePostApi';
+import { useCreateRecipeApi, useEditRecipeApi } from '../hooks/useRecipeApi';
+import { useAuth } from '../pages/login/AuthContext';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
@@ -41,10 +47,15 @@ const EditTitle = styled.input`
   margin-bottom: 10px;
 `;
 
-export const EditorComponent: React.FC<{
+type EditorProps = {
   selectedCategory?: string;
   postData: any;
-}> = ({ selectedCategory, postData }) => {
+};
+
+export const EditorComponent = ({
+  selectedCategory,
+  postData,
+}: EditorProps) => {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState(postData?.content || '');
   const [title, setTitle] = useState(postData?.title || '');
@@ -232,76 +243,55 @@ export const EditorComponent: React.FC<{
     }
   }, [postData]);
 
-  const handleSave = async () => {
-    if (!title) {
-      console.error('제목을 입력하세요.');
-      return;
-    }
+  // hook 변경
+  const { user } = useAuth();
+  const { mutate: createMagazine } = useCreateMagazineApi();
+  const { mutate: createPost } = useCreatePostApi();
+  const { mutate: createRecipe } = useCreateRecipeApi();
+  const { mutate: editMagazine } = useEditMagazineApi();
+  const { mutate: editPost } = useEditPostApi();
+  const { mutate: editRecipe } = useEditRecipeApi();
 
-    const imagesJSON = JSON.stringify(images);
+  const handlecreateData = () => {
+    if (user !== null) {
+      const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
+      const imagesJSON = JSON.stringify(images);
 
-    let url;
-    if (postData) {
-      url = `http://localhost:5000/api/posts/${postData._id}`;
-      try {
-        const response = await axios.put(url, {
-          title: title,
-          content: contents,
-          images: imagesJSON,
-        });
-        toast(`${response.data.nickname}님 글 수정이 완료되었습니다!`);
-      } catch (error) {
-        console.error('Error updating post:', error);
-      }
-    } else {
-      if (selectedCategory === 'megazine') {
-        url = 'http://localhost:5000/api/magazines/';
-      } else if (
-        selectedCategory === 'bakery' ||
-        selectedCategory === 'default'
-      ) {
-        url = 'http://localhost:5000/api/posts/';
-      } else if (selectedCategory === 'recipe') {
-        url = 'http://localhost:5000/api/recipes/';
-      } else {
-        console.error('Invalid category:', selectedCategory);
-        return;
-      }
+      const editData = {
+        user_id: user.id || '',
+        thumbnail: thumbnailUrl,
+        title: title,
+        content: contents,
+      };
 
-      try {
-        const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
+      const createData = {
+        user_id: user.id || '',
+        thumbnail: thumbnailUrl,
+        title: title,
+        nickname: user.nickname || 'no nickname',
+        profile: 'google.com/aksdnd.jpg',
+        content: contents,
+        images: imagesJSON,
+      };
 
-        let requestData = {
-          user_id: '661197252555dd267724ea61',
-          thumbnail: thumbnailUrl,
-          title: title,
-          nickname: '뿡뿡맘마',
-          profile: 'google.com/aksdnd.jpg',
-          content: contents,
-          images: imagesJSON,
-          bread_id: 'category456',
-        };
-
-        if (selectedCategory === 'recipe') {
-          requestData = {
-            user_id: '661197252555dd267724ea61',
-            thumbnail: thumbnailUrl,
-            nickname: '미친',
-            profile: 'google.com/aksdnd.jpg',
-            title: title,
-            content: contents,
-            images: imagesJSON,
-          };
+      if (postData !== null) {
+        if (selectedCategory === 'magazine') {
+          editMagazine({ editData: editData, targetId: postData.id });
+        } else if (selectedCategory === 'default') {
+          editPost({ editData: editData, targetId: postData.id });
+        } else if (selectedCategory === 'recipe') {
+          editRecipe({ editData: editData, targetId: postData.id });
         }
-
-        const response = await axios.post(url, requestData);
-        console.log(111);
-        console.log(response);
-
-        toast(`${response.data.nickname}님 글 작성이 완료되었습니다!`);
-      } catch (error) {
-        console.error('Error saving to database:', error);
+      } else {
+        if (selectedCategory === 'magazine') {
+          createMagazine(createData);
+        } else if (selectedCategory === 'default') {
+          createPost(createData);
+        } else if (selectedCategory === 'recipe') {
+          createRecipe(createData);
+        }
       }
+      navigate(-1);
     }
   };
 
@@ -344,7 +334,7 @@ export const EditorComponent: React.FC<{
       </div>
       {thumbnailPreview}
       <EditContextBtn>
-        <button onClick={handleSave}>{saveButtonText}</button>
+        <button onClick={handlecreateData}>{saveButtonText}</button>
         <button onClick={goBack}>취소</button>
       </EditContextBtn>
       <ToastContainer />

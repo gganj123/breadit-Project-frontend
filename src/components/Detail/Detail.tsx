@@ -8,6 +8,7 @@ import {
 import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
 import Comments from '../CommentList/CommentList';
 import NoProfile from '/no_profile.svg';
+import { sliceDate } from '../../utils';
 
 type DetailProps = {
   data: {
@@ -38,6 +39,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
     images, // 이미지 데이터
     user_id,
   } = data;
+
   const navigate = useNavigate();
 
   const clickDeleteEvent = (id: string) => {
@@ -77,7 +79,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
             <h3 className="detail_title">{title}</h3>
             <p>
               <span className="username">{nickname}</span>
-              <span className="date">{createdAt}</span>
+              <span className="date">{createdAt && sliceDate(createdAt)}</span>
             </p>
           </div>
         </UserStyled>

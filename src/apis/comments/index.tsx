@@ -1,13 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../../constants/index.tsx';
-
-type CommentCreateParameters = {
-  nickname: string;
-  profile: string;
-  user_id: string;
-  post_id: string;
-  content: string;
-};
+import { CreateCommentParameters } from '../../hooks/useCommentApi.tsx';
 
 export const commentsApis = {
   async getCommentListByPostId(id: string) {
@@ -28,7 +21,7 @@ export const commentsApis = {
     }
   },
 
-  async createComment(commentData: CommentCreateParameters) {
+  async createComment(commentData: CreateCommentParameters) {
     try {
       const response = await axios.post(`${API_URL}/comments/`, commentData);
       return response.data;

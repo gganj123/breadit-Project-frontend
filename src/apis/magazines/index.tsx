@@ -1,23 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../../constants/index.tsx';
-
-// GET: getXxx, find
-
-type MagazineCreateParameters = {
-  user_id: string;
-  thumbnail: string;
-  nickname: string;
-  profile: string;
-  title: string;
-  content: string;
-  images: File[];
-};
-
-type MagazineEditParameters = {
-  title: string;
-  content: string;
-  images: File[];
-};
+import {
+  MagazineCreateParameters,
+  MagazineEditParameters,
+} from '../../hooks/useMagazineApi.tsx';
 
 export const magazinesApis = {
   async getMagazineList() {
@@ -78,18 +64,18 @@ export const magazinesApis = {
     }
   },
 
-  async createMagazine(postData: MagazineCreateParameters) {
+  async createMagazine(createData: MagazineCreateParameters) {
     try {
-      const reponse = await axios.post(`${API_URL}/magazines/`, postData);
+      const reponse = await axios.post(`${API_URL}/magazines/`, createData);
       return reponse.data;
     } catch (err) {
       console.error(err);
     }
   },
 
-  async editMagazine(putData: MagazineEditParameters) {
+  async editMagazine(editData: MagazineEditParameters, id: string) {
     try {
-      const reponse = await axios.put(`${API_URL}/magazines/`, putData);
+      const reponse = await axios.put(`${API_URL}/magazines/${id}`, editData);
       return reponse.data;
     } catch (err) {
       console.error(err);

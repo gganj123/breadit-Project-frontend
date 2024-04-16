@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ButtonDeafult from '../atoms/buttons/ButtonDefault';
 import { useEditCommentApi } from '../../hooks/useCommentApi';
 import { CommentItemStyled } from './Comment.styles';
+import { sliceDate } from '../../utils';
 
 type CommentProps = {
   data: {
@@ -12,7 +13,7 @@ type CommentProps = {
     post_id: string;
     content: string;
     can_post: boolean;
-    createdAt?: string;
+    createdAt: string;
     updatedAt?: string;
   };
   deleteEvent: (id: string) => void;
@@ -50,7 +51,7 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
         ></div>
         <div className="user_name">
           <p className="nickname">{nickname}</p>
-          <span className="date">{createdAt}</span>
+          <span className="date">{createdAt && sliceDate(createdAt)}</span>
         </div>
       </div>
       <div className="comment">
