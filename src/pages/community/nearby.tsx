@@ -38,8 +38,10 @@ export default function NearByPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  const { data } = useGetPostListApi();
-  let postList2 = data;
+  const { data: postList2 } = useGetPostListApi();
+  const { data: searchList } = useGetPostByQueryApi(`?q=${'누네띠네'}`);
+
+  console.log(searchList);
 
   // 데이터를 가져오는 함수
   const fetchData = async (query = '') => {
@@ -67,9 +69,8 @@ export default function NearByPage() {
   // 검색 수행 함수
   const performSearch = () => {
     fetchData(searchTerm); // 검색어를 인자로 넘겨 fetchData 함수 호출
-    const { data } = useGetPostByQueryApi(`?q=${searchTerm}`);
-    postList2 = data;
-    console.log(postList2);
+    // const { data } = useGetPostByQueryApi(`?q=${searchTerm}`);
+    // postList2 = data;
     setCurrentPage(1);
   };
 
@@ -166,7 +167,7 @@ export default function NearByPage() {
       {/* 지은 */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)' }}>
         {postList2 &&
-          postList2.map((post: PostParameters) => {
+          postList2.map((post) => {
             return <BigCard data={post} key={post._id} go={'nearby'} />;
           })}
       </div>
