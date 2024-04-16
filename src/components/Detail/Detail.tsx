@@ -7,6 +7,7 @@ import {
 } from './Detail.styles';
 import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
 import Comments from '../CommentList/CommentList';
+import NoProfile from '/no_profile.svg';
 
 type DetailProps = {
   data: {
@@ -70,7 +71,7 @@ const DetailContent = ({ data, deleteEvent }: DetailProps) => {
       <DetailTopStyled>
         <UserStyled>
           <div className="user_img">
-            <img src={profile} />
+            <img src={NoProfile} />
           </div>
           <div className="user_info">
             <h3 className="detail_title">{title}</h3>

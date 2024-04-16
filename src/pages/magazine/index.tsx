@@ -1,5 +1,5 @@
 import Slider from 'react-slick';
-import BigCardList from '../../components/BigCard/BigCard';
+import BigCard from '../../components/BigCard/BigCard';
 import MagazineBanner, { BannerProps } from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 import {
@@ -57,10 +57,15 @@ const Magazine = () => {
         </div>
 
         <div className="magazine_card_list">
-          {magazineList &&
+          {magazineList && magazineList.length > 0 ? (
             magazineList.map((magazine) => {
-              return <BigCardList data={magazine} key={magazine._id} />;
-            })}
+              return (
+                <BigCard data={magazine} key={magazine._id} go={'magazine'} />
+              );
+            })
+          ) : (
+            <div className="no_post">No post</div>
+          )}
         </div>
       </section>
     </>

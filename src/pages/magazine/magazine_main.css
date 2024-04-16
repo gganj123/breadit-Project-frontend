@@ -1,5 +1,6 @@
 .magazine_banner .banner_item {
   position: relative;
+  height: 70rem;
 }
 
 .magazine_banner .banner_item .banner_img {
@@ -74,6 +75,13 @@
 
 .magazine .main_title {
   margin-bottom: 4rem;
+}
+
+.magazine_card_list .no_post {
+  text-align: center;
+  line-height: 20rem;
+  grid-column: 4/1;
+  color: #888;
 }
 
 .detail {

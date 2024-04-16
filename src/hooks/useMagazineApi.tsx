@@ -4,6 +4,7 @@ import { repositories } from '../apis';
 type MagazineParameters = {
   _id: string;
   nickname: string;
+  thumbnail: string;
   title: string;
   content: string;
   like_count: number;
@@ -60,7 +61,7 @@ export const useDeleteMagazineByCheckApi = () => {
     mutationFn: (targetIdList: string[]) =>
       repositories.magazinesApis.deleteMagazineByCheck(targetIdList),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazines'] });
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
   });
 };

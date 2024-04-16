@@ -22,6 +22,11 @@ export const UserStyled = styled.div`
     background: #eee;
   }
 
+  .user_img img {
+    width: 100%;
+    border-radius: 50%;
+  }
+
   .user_info p {
     font-size: 1.8rem;
   }

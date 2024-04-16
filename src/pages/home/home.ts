@@ -104,6 +104,10 @@ export const PostStyled = styled.section`
   .slick-slide > div {
     margin-right: 3rem;
   }
+
+  .slide_item {
+    max-width: 52rem;
+  }
 `;
 
 export const RecipeStyled = styled.section`
@@ -120,6 +124,8 @@ export const RecipeStyled = styled.section`
 
   .recipe .img_box {
     background-color: #ddd;
+    height: 50rem;
+    overflow: hidden;
   }
 
   .recipe .content_box {
@@ -145,6 +151,12 @@ export const RecipeStyled = styled.section`
     display: flex;
     gap: 1.8rem;
     align-items: center;
+  }
+
+  .recipe .user_info img {
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
   }
 
   .recipe .user_info p {

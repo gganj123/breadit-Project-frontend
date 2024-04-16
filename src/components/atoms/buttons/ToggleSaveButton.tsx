@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import saveIcon from '/save_icon.svg';
 import saveIconActive from '/save_icon_active.svg';
@@ -17,8 +18,16 @@ type SaveProps = {
 };
 
 const ToggleSaveButton = ({ bookmarkState, bookmarkEvent }: SaveProps) => {
+  const navigate = useNavigate();
+  const userId = localStorage.getItem('id');
+
+  const nonMember = () => {
+    alert('로그인 후 이용해주세요');
+    navigate('/login');
+  };
+
   return (
-    <LikeButton onClick={bookmarkEvent}>
+    <LikeButton onClick={userId ? bookmarkEvent : nonMember}>
       <img src={bookmarkState ? saveIconActive : saveIcon} />
     </LikeButton>
   );

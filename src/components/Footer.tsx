@@ -4,9 +4,9 @@ import Gitlab from '/icons/gitlab_icon.svg';
 import Notion from '/icons/notion_icon.svg';
 
 const Footer = () => {
-  function preparingAlert() {
+  const preparingAlert = () => {
     alert('준비중 입니다.');
-  }
+  };
 
   return (
     <footer className="main_cont">

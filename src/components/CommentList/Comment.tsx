@@ -24,17 +24,17 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
   const [commentText, setCommentText] = useState(content);
   const { mutate } = useEditCommentApi();
 
-  function handleDeleteEventClick(deleteId: string) {
+  const handleDeleteEventClick = (deleteId: string) => {
     // handleEvent, handleSubjectEvent
     if (confirm('삭제하시겠습니까?')) {
       deleteEvent(deleteId);
     }
-  }
+  };
 
-  function saveEditComment() {
+  const saveEditComment = () => {
     mutate({ targetId: _id, editData: commentText });
     setIsEdit(!isEdit);
-  }
+  };
 
   return (
     <CommentItemStyled>

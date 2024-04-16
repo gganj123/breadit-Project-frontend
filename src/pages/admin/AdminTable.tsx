@@ -39,8 +39,13 @@ const AdminTable = ({
   };
 
   const handleDeleteCheckList = (checkList: string[]) => {
-    if (confirm('삭제하시겠습니까?')) {
-      deleteList(checkList);
+    if (checkList.length > 0) {
+      if (confirm('삭제하시겠습니까?')) {
+        deleteList(checkList);
+        setCheckList([]);
+      }
+    } else {
+      alert('선택된 항목이 없습니다.');
     }
   };
 

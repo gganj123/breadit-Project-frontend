@@ -7,7 +7,9 @@ import SelectBox from '../../components/atoms/selectbox/Selectbox';
 import CategoryList from '../../components/CategoryList';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useGetPostListApi } from '../../hooks/usePostApi';
+import { useGetPostByQueryApi } from '../../hooks/usePostApi';
+import { useGetRecipeByQueryApi } from '../../hooks/useRecipeApi';
+import BigCard from '../../components/BigCard/BigCard';
 
 export default function CommunityPage() {
   const [postData, setPostData] = useState<any[]>([]);
@@ -16,7 +18,8 @@ export default function CommunityPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [likeCounts, setLikeCounts] = useState<number[]>([]);
 
-  const getPostListQuery = useGetPostListApi();
+  const { data: communityList } = useGetPostByQueryApi('?limit=4');
+  const { data: recipeList } = useGetRecipeByQueryApi('?limit=4');
 
   // 데이터를 가져오는 함수
   const fetchData = async () => {
@@ -192,6 +195,42 @@ export default function CommunityPage() {
               </div>
             </>
           )}
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gap: '2rem',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+          }}
+        >
+          {communityList?.map((community) => {
+            return (
+              <BigCard
+                data={community}
+                key={community._id}
+                userInfo={true}
+                go={'nearby'}
+              />
+            );
+          })}
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gap: '2rem',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+          }}
+        >
+          {recipeList?.map((recipe) => {
+            return (
+              <BigCard
+                data={recipe}
+                key={recipe._id}
+                userInfo={true}
+                go={'recipe'}
+              />
+            );
+          })}
         </div>
       </div>
     </>

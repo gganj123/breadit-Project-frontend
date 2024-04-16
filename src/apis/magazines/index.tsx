@@ -3,6 +3,22 @@ import { API_URL } from '../../constants/index.tsx';
 
 // GET: getXxx, find
 
+type MagazineCreateParameters = {
+  user_id: string;
+  thumbnail: string;
+  nickname: string;
+  profile: string;
+  title: string;
+  content: string;
+  images: File[];
+};
+
+type MagazineEditParameters = {
+  title: string;
+  content: string;
+  images: File[];
+};
+
 export const magazinesApis = {
   async getMagazineList() {
     try {
@@ -56,6 +72,24 @@ export const magazinesApis = {
           postIds: idList,
         },
       });
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async createMagazine(postData: MagazineCreateParameters) {
+    try {
+      const reponse = await axios.post(`${API_URL}/magazines/`, postData);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async editMagazine(putData: MagazineEditParameters) {
+    try {
+      const reponse = await axios.put(`${API_URL}/magazines/`, putData);
       return reponse.data;
     } catch (err) {
       console.error(err);
