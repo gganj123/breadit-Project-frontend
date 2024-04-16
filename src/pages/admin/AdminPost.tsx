@@ -7,11 +7,16 @@ import {
 } from '../../hooks/usePostApi';
 
 import './admin.css';
+import Pagination from '../../components/Pagination';
+import { useState } from 'react';
 
 const AdminPost = () => {
   const { data: postList } = useGetPostListApi();
   const { mutate: deleteMutate } = useDeletePostByIdApi();
   const { mutate: deleteList } = useDeletePostByCheckApi();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   const deletePostIdFind = (id: string) => {
     deleteMutate(id);
@@ -21,22 +26,39 @@ const AdminPost = () => {
     deleteList(idList);
   };
 
-  let theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
+  const theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = postList?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   return (
     <>
       <section className="admin_area">
         <AdminCategory />
 
-        {postList && (
+        {currentItems && (
           <AdminTable
             pageTitle={'추천글 관리'}
             theadTitle={theadTitle}
-            data={postList}
+            data={currentItems}
             deleteEvent={(id: string) => deletePostIdFind(id)}
             deleteList={(idList: string[]) => deletePostCheckList(idList)}
           />
         )}
+        <div style={{ margin: '20px 0 0', paddingBottom: '6rem' }}>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(
+              postList && postList.length ? postList.length / itemsPerPage : 1
+            )}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </section>
     </>
   );
