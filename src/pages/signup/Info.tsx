@@ -68,6 +68,7 @@ const SignUpInfoPage: React.FC = () => {
   const { verificationCode, password, confirmPassword } = formData;
   const { emailValid, passwordsMatch } = validation;
   const [emailError, setEmailError] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [nicknameError, setNicknameError] = useState('');
 
@@ -78,14 +79,16 @@ const SignUpInfoPage: React.FC = () => {
   const validateEmail = async (email: string) => {
     if (!email) {
       setEmailError('이메일을 입력해주세요.');
+      setIsEmailValid(false);
       return false;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setEmailError('올바른 이메일 형식을 입력해주세요.');
-      return false;
-    }
+    const emailRegex =
+      /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const isValid = emailRegex.test(email);
+    setEmailError(isValid ? '' : '올바른 이메일 형식을 입력해주세요.');
+    setIsEmailValid(isValid);
+    return isValid;
   };
 
   // 비밀번호 유효성 검사
@@ -186,10 +189,31 @@ const SignUpInfoPage: React.FC = () => {
   const handleSignUpSuccess = (nickname: string) => {
     navigate('/signup/info/complete', { state: { nickname } });
   };
-  // 구현해야 함
-  function checkEmail() {
-    console.log('이메일 인증 확인');
-  }
+
+  // 이메일 인증 요청 함수
+  const checkEmail = async () => {
+    if (!formData.email) {
+      setEmailError('이메일을 입력해주세요.');
+      return;
+    }
+
+    try {
+      // 이메일 인증 요청
+      const response = await axios.post(`${apiUrl}/email`, {
+        email: formData.email,
+      });
+
+      if (response.data.success) {
+        console.log('인증 코드 발송 완료.');
+      } else {
+        setEmailError('인증 코드를 발송 실패.');
+      }
+    } catch (error) {
+      console.error('인증 코드 발송 에러:', error);
+      setEmailError('인증 코드를 보내는 과정에서 문제가 발생했습니다.');
+    }
+  };
+
   // 구현해야 함
   function checkVerificationCode() {
     console.log('인증번호 확인');
@@ -213,11 +237,12 @@ const SignUpInfoPage: React.FC = () => {
             <Button
               type="button"
               text="이메일 인증"
-              backcolor="#575757"
+              backcolor={isEmailValid ? '#575757' : '#B7B7B7'}
               textcolor="#FFFFFF"
               width="110px"
               height="46px"
               onClick={checkEmail}
+              disabled={!isEmailValid}
             />
           </InputGroup>
           {emailError && <ValidationMessage>{emailError}</ValidationMessage>}
