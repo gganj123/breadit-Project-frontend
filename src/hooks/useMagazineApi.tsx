@@ -4,9 +4,27 @@ import { repositories } from '../apis';
 type MagazineParameters = {
   _id: string;
   nickname: string;
+  thumbnail: string;
   title: string;
   content: string;
   like_count: number;
+};
+
+export type MagazineCreateParameters = {
+  user_id: string;
+  thumbnail: string;
+  nickname: string;
+  profile: string;
+  title: string;
+  content: string;
+  images: string;
+};
+
+export type MagazineEditParameters = {
+  user_id: string;
+  thumbnail: string;
+  title: string;
+  content: string;
 };
 
 export const useGetMagazineListApi = () => {
@@ -60,7 +78,36 @@ export const useDeleteMagazineByCheckApi = () => {
     mutationFn: (targetIdList: string[]) =>
       repositories.magazinesApis.deleteMagazineByCheck(targetIdList),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazines'] });
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+    },
+  });
+};
+
+export const useCreateMagazineApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (createData: MagazineCreateParameters) =>
+      repositories.magazinesApis.createMagazine(createData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+    },
+  });
+};
+
+export const useEditMagazineApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      editData,
+      targetId,
+    }: {
+      editData: MagazineEditParameters;
+      targetId: string;
+    }) => repositories.magazinesApis.editMagazine(editData, targetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
   });
 };

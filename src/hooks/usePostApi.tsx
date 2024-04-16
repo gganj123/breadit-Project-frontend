@@ -9,6 +9,23 @@ type PostParameters = {
   like_count: number;
 };
 
+export type PostCreateParameters = {
+  user_id: string;
+  thumbnail: string;
+  nickname: string;
+  profile: string;
+  title: string;
+  content: string;
+  images: string;
+};
+
+export type PostEditParameters = {
+  user_id: string;
+  thumbnail: string;
+  title: string;
+  content: string;
+};
+
 export const useGetPostListApi = () => {
   return useQuery<PostParameters[]>({
     queryKey: ['posts'],
@@ -60,6 +77,35 @@ export const useDeletePostByCheckApi = () => {
       repositories.postsApis.deletePostByCheck(targetIdList),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+};
+
+export const useCreatePostApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (createData: PostCreateParameters) =>
+      repositories.postsApis.createPost(createData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post'] });
+    },
+  });
+};
+
+export const useEditPostApi = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      editData,
+      targetId,
+    }: {
+      editData: PostEditParameters;
+      targetId: string;
+    }) => repositories.postsApis.editPost(editData, targetId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['post'] });
     },
   });
 };

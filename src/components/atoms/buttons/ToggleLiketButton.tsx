@@ -33,12 +33,14 @@ const ToggleLikeButton = ({ likeCount, postId, likeState }: LikeProps) => {
   const userId = localStorage.getItem('id');
 
   const heartToggle = () => {
-    if (location.pathname.includes('magazines')) {
-      userId && postId && magazineLikeMutate({ userId, postId });
-    } else if (location.pathname.includes('nearby')) {
-      userId && postId && postLikeMutate({ userId, postId });
-    } else if (location.pathname.includes('recipe')) {
-      userId && postId && recipeLikeMutate({ userId, postId });
+    if (userId && postId) {
+      if (location.pathname.includes('magazines')) {
+        magazineLikeMutate({ userId, postId });
+      } else if (location.pathname.includes('nearby')) {
+        postLikeMutate({ userId, postId });
+      } else if (location.pathname.includes('recipe')) {
+        recipeLikeMutate({ userId, postId });
+      }
     }
   };
 

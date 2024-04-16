@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../../constants/index.tsx';
-
-// GET: getXxx, find
+import {
+  MagazineCreateParameters,
+  MagazineEditParameters,
+} from '../../hooks/useMagazineApi.tsx';
 
 export const magazinesApis = {
   async getMagazineList() {
@@ -56,6 +58,24 @@ export const magazinesApis = {
           postIds: idList,
         },
       });
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async createMagazine(createData: MagazineCreateParameters) {
+    try {
+      const reponse = await axios.post(`${API_URL}/magazines/`, createData);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async editMagazine(editData: MagazineEditParameters, id: string) {
+    try {
+      const reponse = await axios.put(`${API_URL}/magazines/${id}`, editData);
       return reponse.data;
     } catch (err) {
       console.error(err);

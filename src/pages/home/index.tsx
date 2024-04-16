@@ -11,7 +11,7 @@ import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 import MainInstagramImg from './MainInstagramImg';
 import { useGetMagazineByQueryApi } from '../../hooks/useMagazineApi';
 import { useGetPostByQueryApi } from '../../hooks/usePostApi';
-import { useGetRecipeByIdApi } from '../../hooks/useRecipeApi';
+import { useGetRecipeByQueryApi } from '../../hooks/useRecipeApi';
 import {
   MainBannerStyled,
   CategoriesStyled,
@@ -21,6 +21,8 @@ import {
   InstagramStyled,
   InfiniteRoofStyled,
 } from './home';
+import NoProfile from '/no_profile.svg';
+import { sliceDate } from '../../utils';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -31,12 +33,9 @@ const Home = () => {
 
   const { data: postList } = useGetPostByQueryApi('?limit=6');
 
-  const accessToken = localStorage.getItem('accessToken');
-
-  const { data: recipeData } = useGetRecipeByIdApi({
-    targetId: '661ccc09c22a0e88e2bd254d',
-    accessToken,
-  });
+  const { data: recipeData } = useGetRecipeByQueryApi(
+    '?sort=like_count&limit=1'
+  );
 
   const categories = [
     { go: '/map', src: CategoryImg1, categoryName: '케이크' },
@@ -79,17 +78,21 @@ const Home = () => {
     swipeToSlide: false,
   };
 
-  function sliceDate(date: string) {
-    const sliceDate = date.slice(0, 10);
-    return sliceDate;
-  }
+  type RecipeDataProps = {
+    _id: string;
+    thumbnail: string;
+    nickname: string;
+    createdAt: string;
+    title: string;
+    content: string;
+  };
 
-  function noImgContent() {
-    const imgFilter = recipeData.content.replace(/<img.*?>/g, '');
+  const noImgContent = () => {
+    const imgFilter = recipeData[0].content.replace(/<img.*?>/g, '');
 
     const HTML = { __html: imgFilter };
     return HTML;
-  }
+  };
 
   return (
     <>
@@ -139,8 +142,17 @@ const Home = () => {
         </div>
         <Slider {...postSettings}>
           {postList &&
-            postList.map((post: BigCardProps['data']) => {
-              return <BigCard data={post} key={post._id} />; // 커뮤니티 - 베이커리 소개
+            postList.map((post: BigCardProps['data'], index: number) => {
+              return (
+                <div className="slide_item" key={index}>
+                  <BigCard
+                    data={post}
+                    key={post._id}
+                    userInfo={true}
+                    go={'nearby'}
+                  />
+                </div>
+              ); // 커뮤니티 - 베이커리 소개
             })}
         </Slider>
       </PostStyled>
@@ -149,37 +161,35 @@ const Home = () => {
           <h3 className="font_oleo eng_title">Recipe</h3>
           <p className="main_title_text">🍳 빵잘알들의 레시피</p>
         </div>
-        {recipeData && (
-          <article className="recipe">
-            <div className="img_box">
-              <img src={recipeData.thumbnail} alt="메인썸네일" />
-            </div>
-            <div className="content_box">
-              <div className="user_info">
-                <span
-                  style={{
-                    display: 'inline-block',
-                    width: 70,
-                    height: 70,
-                    backgroundColor: '#ddd',
-                    borderRadius: '50%',
-                  }}
-                ></span>
-                <p>
-                  <span className="nickname">{recipeData.nickname}</span>
-                  <span className="date">
-                    {sliceDate(recipeData.createdAt)}
-                  </span>
-                </p>
-              </div>
-              <h5>{recipeData.title}</h5>
-              <div className="content">
-                <div dangerouslySetInnerHTML={noImgContent()} />
-                <RecipeGoStyled to="/community/nearby" className="go_recipe" />
-              </div>
-            </div>
-          </article>
-        )}
+        {recipeData &&
+          recipeData.map((recipe: RecipeDataProps, index: number) => {
+            return (
+              <article className="recipe" key={index}>
+                <div className="img_box">
+                  <img src={recipe.thumbnail} alt="메인썸네일" />
+                </div>
+                <div className="content_box">
+                  <div className="user_info">
+                    <img src={NoProfile} />
+                    <p>
+                      <span className="nickname">{recipe.nickname}</span>
+                      <span className="date">
+                        {recipe.createdAt && sliceDate(recipe.createdAt)}
+                      </span>
+                    </p>
+                  </div>
+                  <h5>{recipe.title}</h5>
+                  <div className="content">
+                    <div dangerouslySetInnerHTML={noImgContent()} />
+                    <RecipeGoStyled
+                      to={`/community/recipe/${recipe._id}`}
+                      className="go_recipe"
+                    />
+                  </div>
+                </div>
+              </article>
+            );
+          })}
       </RecipeStyled>
       <InfiniteRoofStyled className="info_roof">
         <span className="font_oleo">we loves bread, we are breadit!</span>

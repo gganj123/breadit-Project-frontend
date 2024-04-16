@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../../constants/index.tsx';
+import {
+  PostCreateParameters,
+  PostEditParameters,
+} from '../../hooks/usePostApi.tsx';
 
 export const postsApis = {
   async getPostList() {
@@ -54,6 +58,24 @@ export const postsApis = {
           postIds: idList,
         },
       });
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async createPost(createData: PostCreateParameters) {
+    try {
+      const reponse = await axios.post(`${API_URL}/posts/`, createData);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async editPost(editData: PostEditParameters, id: string) {
+    try {
+      const reponse = await axios.put(`${API_URL}/posts/${id}`, editData);
       return reponse.data;
     } catch (err) {
       console.error(err);

@@ -1,5 +1,9 @@
 import axios from 'axios';
 import { API_URL } from '../../constants/index.tsx';
+import {
+  RecipeCreateParameters,
+  RecipeEditParameters,
+} from '../../hooks/useRecipeApi.tsx';
 
 export const recipesApis = {
   async getRecipeList() {
@@ -54,6 +58,24 @@ export const recipesApis = {
           recipeIds: idList,
         },
       });
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async createRecipe(createData: RecipeCreateParameters) {
+    try {
+      const reponse = await axios.post(`${API_URL}/recipes/`, createData);
+      return reponse.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async editRecipe(editData: RecipeEditParameters, id: string) {
+    try {
+      const reponse = await axios.put(`${API_URL}/recipes/${id}`, editData);
       return reponse.data;
     } catch (err) {
       console.error(err);

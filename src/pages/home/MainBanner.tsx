@@ -83,11 +83,11 @@ const BannerItemStyle = styled.div`
 `;
 
 export type BannerProps = {
-  data: { _id: string; title: string; content: string };
+  data: { _id: string; thumbnail: string; title: string; content: string };
 };
 
 const MainBanner = ({ data }: BannerProps) => {
-  const { _id, title, content } = data;
+  const { _id, thumbnail, title, content } = data;
 
   function noImgContent() {
     const imgFilter = content.replace(/<img.*?>/g, '');
@@ -100,7 +100,10 @@ const MainBanner = ({ data }: BannerProps) => {
     <BannerItemStyle>
       <div
         className="img_box"
-        style={{ background: `url('./main_banner.svg')` }}
+        style={{
+          background: `url('${thumbnail}') no-repeat 50% 50%`,
+          backgroundSize: 'cover',
+        }}
       ></div>
       <div className="content_box">
         <div className="content">

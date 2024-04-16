@@ -1,5 +1,5 @@
 import Slider from 'react-slick';
-import BigCardList from '../../components/BigCard/BigCard';
+import BigCard from '../../components/BigCard/BigCard';
 import MagazineBanner, { BannerProps } from './MagazineBanner';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
 import {
@@ -8,10 +8,15 @@ import {
 } from '../../hooks/useMagazineApi';
 
 import './magazine_main.css';
+import { useState } from 'react';
+import Pagination from '../../components/Pagination';
 
 const Magazine = () => {
   const { data: magazineList } = useGetMagazineListApi();
   const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const settings = {
     dots: true,
@@ -38,6 +43,15 @@ const Magazine = () => {
     },
   };
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems =
+    magazineList?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <>
       <article className="magazine_banner">
@@ -57,11 +71,23 @@ const Magazine = () => {
         </div>
 
         <div className="magazine_card_list">
-          {magazineList &&
-            magazineList.map((magazine) => {
-              return <BigCardList data={magazine} key={magazine._id} />;
-            })}
+          {currentItems.length > 0 ? (
+            currentItems.map((magazine) => (
+              <BigCard data={magazine} key={magazine._id} go={'magazine'} />
+            ))
+          ) : (
+            <div className="no_post">No post</div>
+          )}
         </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(
+            magazineList && magazineList.length
+              ? magazineList.length / itemsPerPage
+              : 1
+          )}
+          onPageChange={handlePageChange}
+        />
       </section>
     </>
   );

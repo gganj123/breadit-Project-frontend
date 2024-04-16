@@ -8,6 +8,8 @@ import {
   useCreateCommentApi,
 } from '../../hooks/useCommentApi';
 import { CommentsContStyled } from './Comment.styles';
+import NoProfile from '/no_profile.svg';
+import { useAuth } from '../../pages/login/AuthContext';
 
 const Comments = ({ postId }: { postId: string }) => {
   const { data: commentList } = useCommentByPostIdApi(postId || '');
@@ -16,9 +18,9 @@ const Comments = ({ postId }: { postId: string }) => {
 
   const [commentTextArea, setCommentTextArea] = useState('');
 
-  function resetComment() {
+  const resetComment = () => {
     setCommentTextArea(''); // 취소버튼 textArea 초기화
-  }
+  };
 
   const deleteCommentId = (id: string) => {
     deleteMutate(id);
@@ -26,35 +28,31 @@ const Comments = ({ postId }: { postId: string }) => {
 
   const userId = localStorage.getItem('id');
 
-  function createComment() {
-    if (userId !== null) {
+  const { user } = useAuth();
+
+  const createComment = () => {
+    if (user !== null) {
       const commentData = {
-        nickname: '히히sdsfsdf힛',
-        profile: 'https://example.com/profile',
-        user_id: userId,
+        nickname: user.nickname || 'no nickname',
+        profile: NoProfile,
+        user_id: user._id,
         post_id: postId,
         content: commentTextArea,
       };
 
       createMutate(commentData);
     }
-  }
+  };
 
   return (
     <CommentsContStyled>
-      {userId ? (
+      {user && userId ? (
         <div className="comment_input">
           <div className="my_info">
-            <div
-              className="img_box"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: '50%',
-                backgroundColor: '#eee',
-              }}
-            />
-            <span>닉네임 넣을 위치</span>
+            <div className="img_box">
+              <img src={NoProfile} />
+            </div>
+            <span>{user.nickname || 'no nickname'}</span>
           </div>
           <textarea
             name="comment"
@@ -76,15 +74,9 @@ const Comments = ({ postId }: { postId: string }) => {
       ) : (
         <div className="comment_input">
           <div className="my_info">
-            <div
-              className="img_box"
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: '50%',
-                backgroundColor: '#eee',
-              }}
-            />
+            <div className="img_box">
+              <img src={NoProfile} />
+            </div>
             <span>
               <Link to="/login">로그인 후 댓글을 남겨주세요.</Link>
             </span>

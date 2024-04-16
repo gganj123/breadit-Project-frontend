@@ -12,6 +12,17 @@ export const CommentsContStyled = styled.section`
     margin-bottom: 2rem;
   }
 
+  .my_info .img_box {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .my_info .img_box img {
+    width: 100%;
+  }
+
   textarea {
     width: 100%;
     height: 13rem;
