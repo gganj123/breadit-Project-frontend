@@ -121,13 +121,14 @@ const MapComponent: React.FC = () => {
       const categoryKeywords = {
         케이크: '케이크',
         빵집: '빵집',
-        구움쿠키: '구움쿠키',
+        쿠키: '쿠키',
         샌드위치: '샌드위치',
       };
 
       const searchKeyword = categoryKeywords[categoryName] || '';
       // searchBakeryNearby 함수 호출 시 검색 키워드 전달
       searchBakeryNearby(map, setMarkers, setPagination, searchKeyword);
+      console.log(searchKeyword);
     }
   }, [categoryName, map, setMarkers, setPagination]);
 

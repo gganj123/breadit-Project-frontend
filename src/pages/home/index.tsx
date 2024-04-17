@@ -40,7 +40,7 @@ const Home = () => {
   const categories = [
     { go: '/map', src: CategoryImg1, categoryName: '케이크' },
     { go: '/map', src: CategoryImg2, categoryName: '빵집' },
-    { go: '/map', src: CategoryImg3, categoryName: '과자' },
+    { go: '/map', src: CategoryImg3, categoryName: '쿠키' },
     { go: '/map', src: CategoryImg4, categoryName: '샌드위치' },
   ];
 
