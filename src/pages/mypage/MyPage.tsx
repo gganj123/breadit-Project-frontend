@@ -233,7 +233,10 @@ export default function MyPage() {
           <ProfileContainer>
             {/*화면 좌측 프로필 */}
             <ProfileImageUpload
-              src={user?.profile || ''}
+              src={
+                user?.profile ||
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+              }
               showEditIcon={false}
             />
             <UserProfile
