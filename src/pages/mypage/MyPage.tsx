@@ -125,33 +125,6 @@ export const ListWrapper = styled.div`
   }
 `;
 
-type BasicInfo = {
-  basicInfo: {
-    mainphotourl: string;
-    placenamefull: string;
-    address: {
-      region: {
-        newaddrfullname: string;
-      };
-    };
-    category: {
-      catename: string;
-    };
-  };
-};
-
-type Data = {
-  [key: string]: BasicInfo | undefined;
-};
-
-type RestData = {
-  _id: string;
-  images: string[];
-  title: string;
-  content: string;
-  bread_id: string;
-};
-
 export default function MyPage() {
   const { user } = useAuth();
 
@@ -176,7 +149,6 @@ export default function MyPage() {
   const { data: postUserList, refetch: postRefetch } = useGetPostByUserId(
     user?._id
   );
-
   const { data: recipeUserList, refetch: recipeRefetch } =
     useGetRecipeByUserIdApi(user?._id);
   const { data: bookmarkList, refetch: bookmarkRefetch } =
@@ -249,13 +221,11 @@ export default function MyPage() {
                   </Link>
                 </MypageListTitle>
                 <ListWrapper>
-                  {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
                   {isLoading && (
                     <LoaderWrapper>
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
                   {!isLoading &&
                     postUserList &&
                     postUserList.map((post: BigCardProps['data']) => {

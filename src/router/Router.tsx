@@ -17,7 +17,6 @@ import MagazineDetailPage from '../pages/magazine/Detail.tsx';
 import MagazineEditPage from '../pages/magazine/Edit.tsx';
 import MapPage from '../pages/map';
 import AdminPage from '../pages/admin';
-import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
 import AdminPost from '../pages/admin/AdminPost.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
 import Kakao from '../pages/map/Kakao.tsx';
@@ -67,7 +66,6 @@ export default function Router() {
             <Route path="magazines/edit" element={<MagazineEditPage />} />
             <Route path="map" element={<MapPage />} />
             <Route path="admin" element={<AdminPage />} />
-            <Route path="admin-magazine" element={<AdminMagazinePage />} />
             <Route path="admin-post" element={<AdminPost />} />
             <Route path="admin-recipe" element={<AdminRecipe />} />
             <Route path="maptest" element={<Kakao />} />

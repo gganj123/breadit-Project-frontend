@@ -2,8 +2,7 @@ import ButtonCategory from '../../components/atoms/links/LinkCategory';
 
 const AdminCategory = () => {
   const categories = [
-    { go: '/admin', categoryName: '사용자 관리' },
-    { go: '/admin-magazine', categoryName: '매거진 관리' },
+    { go: '/admin', categoryName: '매거진 관리' },
     { go: '/admin-post', categoryName: '추천글 관리' },
     { go: '/admin-recipe', categoryName: '레시피 관리' },
   ];

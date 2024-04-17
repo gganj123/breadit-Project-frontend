@@ -97,7 +97,7 @@ export const useCreatePostApi = () => {
     mutationFn: (createData: PostCreateParameters) =>
       repositories.postsApis.createPost(createData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 };

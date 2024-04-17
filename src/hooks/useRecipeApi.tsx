@@ -96,7 +96,7 @@ export const useCreateRecipeApi = () => {
     mutationFn: (createData: RecipeCreateParameters) =>
       repositories.recipesApis.createRecipe(createData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['recipe'] });
+      queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },
   });
 };
