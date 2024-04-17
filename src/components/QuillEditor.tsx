@@ -97,12 +97,22 @@ export const EditorComponent = ({
     event.preventDefault();
     event.stopPropagation();
 
-    const file = event.dataTransfer.files[0];
-    if (file) {
-      const imageUrl = await handleImageUpload(file);
-      if (imageUrl) {
-        setThumbnail((prevImages) => [...prevImages, imageUrl]);
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      // 새로운 이미지로 대체하기 위한 배열 선언
+      const newImages = [];
+
+      // 새로운 이미지로 대체
+      for (let i = 0; i < files.length; i++) {
+        const imageUrl = await handleImageUpload(files[i]);
+        if (imageUrl) {
+          newImages.push(imageUrl);
+        }
       }
+
+      // 새로운 이미지로 기존 썸네일 이미지 배열 대체
+      const newThumbnailUrl = newImages.length > 0 ? newImages[0] : '';
+      setThumbnail(newThumbnailUrl);
     }
   };
 
@@ -263,7 +273,7 @@ export const EditorComponent = ({
 
       const editData = {
         user_id: user._id || '',
-        thumbnail: thumbnailUrl,
+        thumbnail: thumbnail,
         title: title,
         nickname: user.nickname || 'no nickname',
         content: contents,

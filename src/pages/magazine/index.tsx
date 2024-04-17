@@ -9,8 +9,9 @@ import {
 import { useAuth } from '../login/AuthContext';
 
 import './magazine_main.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Pagination from '../../components/Pagination';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Magazine = () => {
   const { data: magazineList } = useGetMagazineListApi();
@@ -18,6 +19,15 @@ const Magazine = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = params.get('page');
+    setCurrentPage(page ? parseInt(page) : 1);
+  }, [location.search]);
 
   const settings = {
     dots: true,
@@ -50,7 +60,7 @@ const Magazine = () => {
     magazineList?.slice(indexOfFirstItem, indexOfLastItem) || [];
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    navigate(`?page=${pageNumber}`);
   };
 
   const { user } = useAuth();
