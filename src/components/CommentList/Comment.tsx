@@ -78,7 +78,7 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
           <>
             <p className="comment_content">{commentText}</p>
             <div className="buttons">
-              {user && user._id === user_id && (
+              {user && (user._id === user_id || user.user_role == 'editor') && (
                 <>
                   <ButtonDeafult
                     text={'수정'}

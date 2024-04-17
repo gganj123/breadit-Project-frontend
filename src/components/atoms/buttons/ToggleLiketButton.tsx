@@ -61,7 +61,7 @@ const ToggleLikeButton = ({
       onClick={eventBlock ? (userId ? heartToggle : nonMember) : undefined}
     >
       <img src={likeState ? likeIconActive : likeIcon} />
-      {likeCount}
+      {likeCount ? likeCount : 0}
     </LikeButton>
   );
 };

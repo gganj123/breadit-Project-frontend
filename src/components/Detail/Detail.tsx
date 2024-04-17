@@ -44,6 +44,8 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     user_id,
   } = data;
 
+  console.log(like_count);
+
   const navigate = useNavigate();
 
   const clickDeleteEvent = (id: string) => {
@@ -97,7 +99,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
           </div>
         </UserStyled>
         <div className="buttons">
-          {user && user._id === user_id && (
+          {user && (user._id === user_id || user.user_role == 'editor') && (
             <>
               <ButtonDefault
                 text={'삭제'}

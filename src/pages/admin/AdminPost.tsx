@@ -48,6 +48,7 @@ const AdminPost = () => {
             data={currentItems}
             deleteEvent={(id: string) => deletePostIdFind(id)}
             deleteList={(idList: string[]) => deletePostCheckList(idList)}
+            go={'/community/nearby'}
           />
         )}
         <div style={{ margin: '20px 0 0', paddingBottom: '6rem' }}>

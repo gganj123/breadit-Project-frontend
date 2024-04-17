@@ -6,6 +6,7 @@ import {
   useGetMagazineListApi,
   useGetMagazineByQueryApi,
 } from '../../hooks/useMagazineApi';
+import { useAuth } from '../login/AuthContext';
 
 import './magazine_main.css';
 import { useState } from 'react';
@@ -52,6 +53,8 @@ const Magazine = () => {
     setCurrentPage(pageNumber);
   };
 
+  const { user } = useAuth();
+
   return (
     <>
       <article className="magazine_banner">
@@ -67,7 +70,9 @@ const Magazine = () => {
           <h3 className="main_title_text">
             놓치면 아쉬울, 새로운 베이커리 소식 🍰
           </h3>
-          <LinkDefault text={'Post +'} go={'/magazines/edit'} />
+          {user && user.user_role == 'editor' && (
+            <LinkDefault text={'Post +'} go={'/magazines/edit'} />
+          )}
         </div>
 
         <div className="magazine_card_list">

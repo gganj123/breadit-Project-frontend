@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 
@@ -8,6 +9,7 @@ export type AdminTableProps = {
   data: { _id: string; nickname: string; email?: string; title?: string }[];
   deleteEvent: (id: string) => void;
   deleteList: (id: string[]) => void;
+  go?: string;
 };
 
 const AdminTable = ({
@@ -16,6 +18,7 @@ const AdminTable = ({
   data,
   deleteEvent,
   deleteList,
+  go,
 }: AdminTableProps) => {
   const [checkList, setCheckList] = useState<string[]>([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
@@ -108,9 +111,19 @@ const AdminTable = ({
                     />
                   </td>
                   <td className="nickname">{content.nickname}</td>
-                  <td>
-                    {content.email} {content.title}
-                  </td>
+
+                  {go !== undefined ? (
+                    <td>
+                      <Link to={`${go}/${content._id}`}>
+                        {content.email} {content.title}
+                      </Link>
+                    </td>
+                  ) : (
+                    <td>
+                      {content.email} {content.title}
+                    </td>
+                  )}
+
                   <td className="setting">
                     <ButtonDeafult
                       text={'삭제'}

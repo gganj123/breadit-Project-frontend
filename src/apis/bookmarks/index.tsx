@@ -46,4 +46,13 @@ export const bookmarksApis = {
       console.error(err);
     }
   },
+
+  async getMagazineQuery(query: string) {
+    try {
+      const response = await axios.get(`${API_URL}/magazines?${query}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
 };

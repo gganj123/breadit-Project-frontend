@@ -48,6 +48,7 @@ const AdminRecipe = () => {
           data={currentItems}
           deleteEvent={(id: string) => deleteRecipeIdFind(id)}
           deleteList={(idList: string[]) => deleteRecipeCheckList(idList)}
+          go={'/community/recipe'}
         />
       )}
       <div style={{ margin: '20px 0 0', paddingBottom: '6rem' }}>
