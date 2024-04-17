@@ -137,7 +137,7 @@ const Home = () => {
                     data={post}
                     key={post._id}
                     userInfo={true}
-                    go={'nearby'}
+                    go={'posts'}
                   />
                 </div>
               ); // 커뮤니티 - 베이커리 소개

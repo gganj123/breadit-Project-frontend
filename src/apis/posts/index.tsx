@@ -40,7 +40,7 @@ export const postsApis = {
   async getPostByUserId(id: string) {
     try {
       const response = await axios.get(`${API_URL}/posts/user/${id}`);
-      return response.data;
+      return response.data.data;
     } catch (err) {
       console.error(err);
     }

@@ -40,7 +40,7 @@ export const recipesApis = {
   async getRecipeByUserId(id: string) {
     try {
       const response = await axios.get(`${API_URL}/recipes/user/${id}`);
-      return response.data;
+      return response.data.data;
     } catch (err) {
       console.error(err);
     }

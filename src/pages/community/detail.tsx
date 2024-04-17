@@ -30,7 +30,9 @@ const CommunityDetail = () => {
   const userId = localStorage.getItem('id');
 
   const saveToggle = () => {
-    userId && id && postBookmarkMutate({ userId, postId: id });
+    userId &&
+      id &&
+      postBookmarkMutate({ userId, postId: id, location: 'post' });
   };
 
   return (

@@ -1,21 +1,62 @@
-import styled from 'styled-components';
-
-const ContextWrap = styled.div`
-  width: 100%;
-  padding: 0 100px 100px;
-  box-sizing: border-box;
-  margin: 0 auto;
-`;
+import { useEffect, useState } from 'react';
+import { useGetPostByUserId } from '../../hooks/usePostApi';
+import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
+import { useAuth } from '../login/AuthContext';
+import {
+  ContextWrap,
+  LoaderWrapper,
+  MypageList,
+  MypageListTitle,
+  ListWrapper,
+} from './MyPage';
+import { TailSpin } from 'react-loader-spinner';
 
 export default function BakeryIntroductionSection() {
-  // 베이커리 소개에 관련된 데이터 로딩 및 처리
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { user } = useAuth();
+  const { data: postUserList, refetch: postRefetch } = useGetPostByUserId(
+    user?._id
+  );
+
+  useEffect(() => {
+    if (user) {
+      postRefetch();
+      setIsLoading(false);
+    }
+  }, [user, postRefetch]);
 
   return (
     <>
       <ContextWrap>
-        <h2 className="oleo-script-bold community_title">
-          우리 동네 베이커리를 소개합니다!
-        </h2>
+        <MypageList>
+          <MypageListTitle>
+            <h2 className="oleo-script-bold community_title">
+              우리 동네 베이커리를 소개합니다!
+            </h2>
+          </MypageListTitle>
+          <ListWrapper>
+            {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
+            {isLoading && (
+              <LoaderWrapper>
+                <TailSpin color="#FFCB46" />
+              </LoaderWrapper>
+            )}
+            {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
+            {!isLoading &&
+              postUserList &&
+              postUserList.map((post: BigCardProps['data']) => {
+                return (
+                  <BigCard
+                    key={post._id}
+                    data={post}
+                    go={'posts'}
+                    userInfo={false}
+                  />
+                );
+              })}
+          </ListWrapper>
+        </MypageList>
       </ContextWrap>
     </>
   );

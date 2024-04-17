@@ -5,16 +5,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import ProfileImageUpload from './ProfileImageUpload';
-import MyPageList from '../../components/MypageList';
 import RightArrow from '/right-arrow.svg';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../login/AuthContext';
 import { useGetPostByUserId } from '../../hooks/usePostApi';
 import { useGetRecipeByUserIdApi } from '../../hooks/useRecipeApi';
+import { useGetBookmarkByUserIdApi } from '../../hooks/useBookmarkApi';
 import { TailSpin } from 'react-loader-spinner';
 import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 
-const ContextWrap = styled.div`
+export const ContextWrap = styled.div`
   width: 100%;
   padding: 0 100px 100px;
   box-sizing: border-box;
@@ -45,11 +45,16 @@ const ContentTitle = styled.h1`
   margin-bottom: 2rem;
 `;
 
-const MypageList = styled.div`
+export const MypageList = styled.div`
   width: 100%;
+  margin-top: 8rem;
+
+  &:first-child {
+    margin-top: 0;
+  }
 `;
 
-const MypageListTitle = styled.div`
+export const MypageListTitle = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
@@ -70,7 +75,7 @@ const MypageListTitle = styled.div`
   }
 `;
 
-const LoaderWrapper = styled.div`
+export const LoaderWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -78,53 +83,44 @@ const LoaderWrapper = styled.div`
   margin: 20px 0;
 `;
 
-const ListWrapper = styled.ul`
+export const ListWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   list-style: none;
   padding: 0;
   margin: 0;
   margin-top: 40px;
-  li {
-    width: 24%;
-    margin-bottom: 30px;
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0px 0px 3rem rgb(242 242 242);
 
-    & + li {
-      margin-left: 1%;
-    }
-    .list_img_wrapper {
+  .list_img_wrapper {
+    width: 100%;
+    height: 21rem;
+    overflow: hidden;
+
+    img {
       width: 100%;
-      height: 21rem;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-      }
+      height: 100%;
     }
+  }
 
-    .subcategory {
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      height: 101px;
+  .subcategory {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 101px;
 
-      p {
-        margin: 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .category_item {
-        color: #aeaeae;
-      }
+    p {
+      margin: 0;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .category_item {
+      color: #aeaeae;
     }
   }
 `;
@@ -177,17 +173,23 @@ export default function MyPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: postUserList } = useGetPostByUserId('661fe5507c1401551d18932e');
-
-  const { data: recipeUserList } = useGetRecipeByUserIdApi(
-    '661fe5507c1401551d18932e'
+  const { data: postUserList, refetch: postRefetch } = useGetPostByUserId(
+    user?._id
   );
 
-  // useEffect(() => {
-  //   postRefetch();
-  //   recipeRefetch();
-  //   setIsLoading(false);
-  // }, []);
+  const { data: recipeUserList, refetch: recipeRefetch } =
+    useGetRecipeByUserIdApi(user?._id);
+  const { data: bookmarkList, refetch: bookmarkRefetch } =
+    useGetBookmarkByUserIdApi(user?._id);
+
+  useEffect(() => {
+    if (user) {
+      postRefetch();
+      recipeRefetch();
+      setIsLoading(false);
+      bookmarkRefetch();
+    }
+  }, [user, postRefetch, recipeRefetch, bookmarkRefetch]);
 
   return (
     <>
@@ -209,7 +211,7 @@ export default function MyPage() {
             <ContentTitle>
               <MypageList>
                 <MypageListTitle>
-                  <h3>빵집보관함</h3>
+                  <h3>저장한 게시글</h3>
                   <Link to="/mypage/breadbox">
                     More{' '}
                     <img src={RightArrow} className="icon" alt="arrow icon" />
@@ -223,6 +225,18 @@ export default function MyPage() {
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
+                  {!isLoading &&
+                    bookmarkList &&
+                    bookmarkList.map((bookmark: BigCardProps['data']) => {
+                      return (
+                        <BigCard
+                          key={bookmark._id}
+                          data={bookmark}
+                          go={bookmark.location}
+                          userInfo={true}
+                        />
+                      );
+                    })}
                 </ListWrapper>
               </MypageList>
 
@@ -242,14 +256,18 @@ export default function MyPage() {
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {postUserList &&
-                    postUserList.data.map((post: BigCardProps['data']) => (
-                      <BigCard
-                        key={post._id}
-                        data={post}
-                        go={'/community/nearby'}
-                      />
-                    ))}
+                  {!isLoading &&
+                    postUserList &&
+                    postUserList.map((post: BigCardProps['data']) => {
+                      return (
+                        <BigCard
+                          key={post._id}
+                          data={post}
+                          go={'posts'}
+                          userInfo={false}
+                        />
+                      );
+                    })}
                 </ListWrapper>
               </MypageList>
 
@@ -267,11 +285,17 @@ export default function MyPage() {
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {isLoading &&
+                  {!isLoading &&
                     recipeUserList &&
-                    recipeUserList.data.map((recipe: BigCardProps['data']) => {
-                      <BigCard data={recipe} go={'/community/recipe'} />;
+                    recipeUserList.map((recipe: BigCardProps['data']) => {
+                      return (
+                        <BigCard
+                          key={recipe._id}
+                          data={recipe}
+                          go={'recipes'}
+                          userInfo={false}
+                        />
+                      );
                     })}
                 </ListWrapper>
               </MypageList>

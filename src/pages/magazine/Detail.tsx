@@ -29,7 +29,9 @@ const MagazineDetail = () => {
   const userId = localStorage.getItem('id');
 
   const saveToggle = () => {
-    userId && id && magazineBookmarkMutate({ userId, postId: id });
+    userId &&
+      id &&
+      magazineBookmarkMutate({ userId, postId: id, location: 'magazine' });
   };
 
   return (
