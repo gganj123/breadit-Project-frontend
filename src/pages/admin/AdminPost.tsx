@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AdminCategory from './AdminCategory';
 import AdminTable from './AdminTable';
 import {
@@ -8,7 +9,6 @@ import {
 
 import './admin.css';
 import Pagination from '../../components/Pagination';
-import { useState } from 'react';
 
 const AdminPost = () => {
   const { data: postList } = useGetPostListApi();
@@ -26,7 +26,7 @@ const AdminPost = () => {
     deleteList(idList);
   };
 
-  const theadTitle: string[] = ['No', '닉네임', '제목', '관리'];
+  const theadTitle: string[] = ['닉네임', '제목', '관리'];
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);

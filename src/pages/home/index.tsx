@@ -81,6 +81,7 @@ const Home = () => {
   type RecipeDataProps = {
     _id: string;
     thumbnail: string;
+    profile: string;
     nickname: string;
     createdAt: string;
     title: string;
@@ -170,7 +171,9 @@ const Home = () => {
                 </div>
                 <div className="content_box">
                   <div className="user_info">
-                    <img src={NoProfile} />
+                    <div className="profile">
+                      <img src={recipe.profile ? recipe.profile : NoProfile} />
+                    </div>
                     <p>
                       <span className="nickname">{recipe.nickname}</span>
                       <span className="date">

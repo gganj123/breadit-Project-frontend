@@ -31,7 +31,6 @@ const ToggleLikeButton = ({
   eventBlock,
 }: LikeProps) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { mutate: magazineLikeMutate } = usePostMagazineLikeToggleApi();
   const { mutate: postLikeMutate } = usePostPostLikeToggleApi();
   const { mutate: recipeLikeMutate } = usePostRecipeLikeToggleApi();
@@ -49,6 +48,8 @@ const ToggleLikeButton = ({
       }
     }
   };
+
+  const navigate = useNavigate();
 
   const nonMember = () => {
     alert('로그인 후 이용해주세요');

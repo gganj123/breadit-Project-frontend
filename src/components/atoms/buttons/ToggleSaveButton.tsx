@@ -18,8 +18,9 @@ type SaveProps = {
 };
 
 const ToggleSaveButton = ({ bookmarkState, bookmarkEvent }: SaveProps) => {
-  const navigate = useNavigate();
   const userId = localStorage.getItem('id');
+
+  const navigate = useNavigate();
 
   const nonMember = () => {
     alert('로그인 후 이용해주세요');

@@ -15,16 +15,16 @@ export const UserStyled = styled.div`
     gap: 2rem;
   }
 
-  .user_img {
+  .profile {
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
     background: #eee;
+    overflow: hidden;
   }
 
-  .user_img img {
+  .profile img {
     width: 100%;
-    border-radius: 50%;
   }
 
   .user_info p {

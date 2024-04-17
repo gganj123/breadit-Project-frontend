@@ -9,6 +9,7 @@ import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
 import Comments from '../CommentList/CommentList';
 import NoProfile from '/no_profile.svg';
 import { sliceDate } from '../../utils';
+import { useAuth } from '../../pages/login/AuthContext';
 
 type DetailProps = {
   data: {
@@ -17,6 +18,7 @@ type DetailProps = {
     nickname: string;
     profile: string;
     createdAt: string;
+    thumbnail: string;
     title: string;
     content: string;
     like_count: number;
@@ -33,6 +35,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     nickname,
     profile,
     createdAt,
+    thumbnail,
     title,
     content,
     like_count,
@@ -66,6 +69,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
       nickname: nickname,
       profile: profile,
       createdAt: createdAt,
+      thumbnail: thumbnail,
       title: title,
       content: content,
       images: images,
@@ -75,12 +79,14 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     }); // 수정 페이지로 이동하면서 데이터 전달
   };
 
+  const { user } = useAuth();
+
   return (
     <>
       <DetailTopStyled>
         <UserStyled>
-          <div className="user_img">
-            <img src={NoProfile} />
+          <div className="profile">
+            <img src={profile ? profile : NoProfile} />
           </div>
           <div className="user_info">
             <h3 className="detail_title">{title}</h3>
@@ -91,13 +97,17 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
           </div>
         </UserStyled>
         <div className="buttons">
-          <ButtonDefault
-            text={'삭제'}
-            backgroundcolor={'#d9d9d9'}
-            color={'#575757'}
-            clickevent={() => clickDeleteEvent(_id)}
-          />
-          <ButtonDefault text={'수정'} clickevent={goToEditPage} />
+          {user && user._id === user_id && (
+            <>
+              <ButtonDefault
+                text={'삭제'}
+                backgroundcolor={'#d9d9d9'}
+                color={'#575757'}
+                clickevent={() => clickDeleteEvent(_id)}
+              />
+              <ButtonDefault text={'수정'} clickevent={goToEditPage} />
+            </>
+          )}
         </div>
       </DetailTopStyled>
       <DetailContentStyled dangerouslySetInnerHTML={tagContent()} />
@@ -105,6 +115,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
         postId={_id}
         likeCount={like_count}
         likeState={beLike}
+        eventBlock={true}
       />
       <Comments postId={_id} />
     </>

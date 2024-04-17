@@ -28,6 +28,18 @@ export const BigCardStyled = styled.div`
     font-weight: 500;
   }
 
+  .profile {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #eee;
+  }
+
+  .profile img {
+    width: 100%;
+  }
+
   .img_box {
     height: 30rem;
     overflow: hidden;

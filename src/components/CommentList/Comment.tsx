@@ -3,12 +3,14 @@ import ButtonDeafult from '../atoms/buttons/ButtonDefault';
 import { useEditCommentApi } from '../../hooks/useCommentApi';
 import { CommentItemStyled } from './Comment.styles';
 import { sliceDate } from '../../utils';
+import NoProfile from '/no_profile.svg';
+import { useAuth } from '../../pages/login/AuthContext';
 
 type CommentProps = {
   data: {
     _id: string;
     nickname: string;
-    profile: string;
+    profile: string | undefined;
     user_id: string;
     post_id: string;
     content: string;
@@ -20,7 +22,7 @@ type CommentProps = {
 };
 
 const Comment = ({ data, deleteEvent }: CommentProps) => {
-  const { _id, nickname, profile, content, createdAt } = data;
+  const { _id, nickname, profile, user_id, content, createdAt } = data;
   const [isEdit, setIsEdit] = useState(false);
   const [commentText, setCommentText] = useState(content);
   const { mutate } = useEditCommentApi();
@@ -37,18 +39,14 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
     setIsEdit(!isEdit);
   };
 
+  const { user } = useAuth();
+
   return (
     <CommentItemStyled>
       <div className="user_info">
-        <div
-          className="img_box"
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            backgroundColor: '#eee',
-          }}
-        ></div>
+        <div className="profile">
+          <img src={profile ? profile : NoProfile} />
+        </div>
         <div className="user_name">
           <p className="nickname">{nickname}</p>
           <span className="date">{createdAt && sliceDate(createdAt)}</span>
@@ -80,18 +78,22 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
           <>
             <p className="comment_content">{commentText}</p>
             <div className="buttons">
-              <ButtonDeafult
-                text={'수정'}
-                backgroundcolor={'#d9d9d9'}
-                color={'#575757'}
-                clickevent={() => {
-                  setIsEdit(!isEdit);
-                }}
-              />
-              <ButtonDeafult
-                text={'삭제'}
-                clickevent={() => handleDeleteEventClick(_id)}
-              />
+              {user && user._id === user_id && (
+                <>
+                  <ButtonDeafult
+                    text={'수정'}
+                    backgroundcolor={'#d9d9d9'}
+                    color={'#575757'}
+                    clickevent={() => {
+                      setIsEdit(!isEdit);
+                    }}
+                  />
+                  <ButtonDeafult
+                    text={'삭제'}
+                    clickevent={() => handleDeleteEventClick(_id)}
+                  />
+                </>
+              )}
             </div>
           </>
         )}

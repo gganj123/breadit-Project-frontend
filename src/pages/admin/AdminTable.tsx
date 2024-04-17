@@ -5,12 +5,7 @@ import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 export type AdminTableProps = {
   pageTitle: string;
   theadTitle: string[];
-  data: {
-    _id: string;
-    nickname: string;
-    email?: string;
-    title?: string;
-  }[];
+  data: { _id: string; nickname: string; email?: string; title?: string }[];
   deleteEvent: (id: string) => void;
   deleteList: (id: string[]) => void;
 };
@@ -23,10 +18,12 @@ const AdminTable = ({
   deleteList,
 }: AdminTableProps) => {
   const [checkList, setCheckList] = useState<string[]>([]);
+  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const handleDeleteEventClick = (id: string) => {
     if (confirm('삭제하시겠습니까?')) {
       deleteEvent(id);
+      setCheckList([]);
     }
   };
 
@@ -49,6 +46,15 @@ const AdminTable = ({
     }
   };
 
+  const handleCheckAll = () => {
+    if (isAllChecked) {
+      setCheckList([]);
+    } else {
+      setCheckList(data.map((item) => item._id));
+    }
+    setIsAllChecked(!isAllChecked);
+  };
+
   return (
     <section className="admin_cont">
       <AdminGuide />
@@ -63,11 +69,22 @@ const AdminTable = ({
         <table>
           <thead>
             <tr>
+              <th className="check_area">
+                <input
+                  type="checkbox"
+                  checked={isAllChecked}
+                  onChange={handleCheckAll}
+                  className="checkbox"
+                />
+              </th>
               {theadTitle.map((title, index) => {
                 return (
                   <th
                     key={index}
-                    style={index === 0 || index === 3 ? { width: 100 } : {}}
+                    className={
+                      index === 2 ? 'nickname' : index === 3 ? 'setting' : ''
+                    }
+                    style={index === 3 ? { width: 100 } : {}}
                   >
                     {title}
                   </th>
@@ -75,28 +92,26 @@ const AdminTable = ({
               })}
             </tr>
           </thead>
-
           <tbody>
-            {data.map((content, index) => {
+            {data.map((content) => {
               return (
-                <tr key={index}>
-                  <td>
+                <tr key={content._id}>
+                  <td className="check_area">
                     <input
                       type="checkbox"
                       className="checkbox"
                       value={content._id}
+                      checked={checkList.includes(content._id)}
                       onChange={(e) => {
                         handleCheckedList(content._id, e.target.checked);
                       }}
                     />
-                    {index + 1}
                   </td>
-                  <td>{content.nickname}</td>
+                  <td className="nickname">{content.nickname}</td>
                   <td>
-                    {content.email}
-                    {content.title}
+                    {content.email} {content.title}
                   </td>
-                  <td>
+                  <td className="setting">
                     <ButtonDeafult
                       text={'삭제'}
                       clickevent={() => handleDeleteEventClick(content._id)}
