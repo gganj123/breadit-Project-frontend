@@ -49,37 +49,60 @@ const ValidationMessage = styled.span`
   color: #e44444;
   margin-bottom: 5px;
 `;
-
+const Timer = styled.div`
+  font-size: 14px;
+  font-weight: 500;
+  color: #575757;
+`;
 const SignUpInfoPage: React.FC = () => {
   const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
-    verificationCode: '',
+    verifyCode: '',
     password: '',
     confirmPassword: '',
     nickname: '',
   });
+
   const [validation, setValidation] = useState({
-    emailValid: true,
     passwordsMatch: true,
   });
 
-  const { verificationCode, password, confirmPassword } = formData;
-  const { emailValid, passwordsMatch } = validation;
+  const { verifyCode, password, confirmPassword } = formData;
+  const { passwordsMatch } = validation;
+
+  // 에러 메시지 상태
   const [emailError, setEmailError] = useState('');
-  const [isEmailValid, setIsEmailValid] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [nicknameError, setNicknameError] = useState('');
+  const [verifyMessage, setVerifyMessage] = useState('');
 
+  // 유효성 검사 상태
+  const [emailValid, setEmailValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [nicknameValid, setNicknameValid] = useState(false);
+  const [verifyCodeValid, setVerifyCodeValid] = useState(false);
+
+  // 인증 관련 상태
+  const [serverVerifyCode, setServerVerifyCode] = useState(''); // 서버에서 준 인증코드
+  const [timeLeft, setTimeLeft] = useState(0); // 인증번호 유효 시간
+  const [isCodeSent, setIsCodeSent] = useState(false); // 인증 코드 보내준 것
+  const [verifyCodeConfirmed, setVerifyCodeConfirmed] = useState(false);
   const isFormFilled = Object.values(formData).every((value) => value);
-  const isSignUpEnabled = emailValid && passwordsMatch && isFormFilled;
+  const isSignUpEnabled =
+    emailValid &&
+    passwordValid &&
+    passwordsMatch &&
+    nicknameValid &&
+    verifyCodeValid &&
+    isFormFilled;
 
   // 이메일 유효성 검사
   const validateEmail = async (email: string) => {
     if (!email) {
       setEmailError('이메일을 입력해주세요.');
-      setIsEmailValid(false);
+      setEmailValid(false);
       return false;
     }
 
@@ -87,7 +110,7 @@ const SignUpInfoPage: React.FC = () => {
       /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const isValid = emailRegex.test(email);
     setEmailError(isValid ? '' : '올바른 이메일 형식을 입력해주세요.');
-    setIsEmailValid(isValid);
+    setEmailValid(isValid);
     return isValid;
   };
 
@@ -95,41 +118,53 @@ const SignUpInfoPage: React.FC = () => {
   const validatePassword = (password: string) => {
     if (!password) {
       setPasswordError('비밀번호를 입력해주세요.');
+      setPasswordValid(false);
       return false;
     }
     if (password.length < 8) {
       setPasswordError('비밀번호는 8자리 이상이어야 합니다.');
+      setPasswordValid(false);
       return false;
     }
     if (password.length > 20) {
       setPasswordError('비밀번호는 최대 20자까지 가능합니다.');
+      setPasswordValid(false);
       return false;
     }
     if (/\s/.test(password)) {
       setPasswordError('비밀번호에 공백을 포함할 수 없습니다.');
+      setPasswordValid(false);
       return false;
     }
     setPasswordError('');
+    setPasswordValid(true);
     return true;
   };
+
+  // 닉네임 유효성 검사
   const validateNickname = (nickname: string) => {
     if (!nickname) {
       setNicknameError('닉네임을 입력해주세요.');
+      setNicknameValid(false);
       return false;
     }
     if (nickname.length < 2) {
       setNicknameError('닉네임은 2자 이상이어야 합니다.');
+      setNicknameValid(false);
       return false;
     }
     if (nickname.length > 8) {
       setNicknameError('닉네임은 최대 8자까지 가능합니다.');
+      setNicknameValid(false);
       return false;
     }
     if (/\s/.test(nickname)) {
       setNicknameError('닉네임에 공백을 포함할 수 없습니다.');
+
       return false;
     }
     setNicknameError('');
+    setNicknameValid(true);
     return true;
   };
 
@@ -145,7 +180,11 @@ const SignUpInfoPage: React.FC = () => {
       await validateEmail(value);
     }
     if (name === 'password') {
-      validatePassword(value);
+      const isPasswordValid = validatePassword(value);
+      setValidation((prevValidation) => ({
+        ...prevValidation,
+        passwordsMatch: isPasswordValid && value === formData.confirmPassword,
+      }));
     }
     if (name === 'confirmPassword') {
       setValidation((prevValidation) => ({
@@ -201,6 +240,7 @@ const SignUpInfoPage: React.FC = () => {
     navigate('/signup/info/complete', { state: { nickname } });
   };
 
+  // 이메일 인증번호 요청
   const checkEmail = async () => {
     if (!formData.email) {
       setEmailError('이메일을 입력해주세요.');
@@ -208,26 +248,69 @@ const SignUpInfoPage: React.FC = () => {
     }
 
     try {
-      // 이메일 인증번호 요청
-      const response = await axios.post(`${apiUrl}/email`, {
+      const response = await axios.post(`${apiUrl}/users/verify-email`, {
         email: formData.email,
       });
+      console.log(response.data);
+      window.confirm('인증 코드 발송 완료');
+      const { verificationCode, expirationTimestamp } = response.data;
+      setIsCodeSent(true);
+      setServerVerifyCode(verificationCode);
+      console.log('인증번호:', verificationCode);
+      const expirationTime = new Date(expirationTimestamp).getTime();
+      const currentTime = new Date().getTime();
+      const duration = expirationTime - currentTime;
+      setTimeLeft(Math.floor(duration / 1000));
 
-      if (response.data.success) {
-        console.log('인증 코드 발송 완료.');
-      } else {
-        setEmailError('인증 코드 발송 실패.');
-      }
+      startTimer(duration);
+      console.log('인증 코드 발송 완료.');
     } catch (error) {
-      console.error('인증 코드 발송 에러:', error);
-      setEmailError('인증 코드를 보내는 과정에서 문제가 발생했습니다.');
+      const axiosError = error as AxiosError<{ message?: string }>;
+      const errorMessage =
+        axiosError.response?.data?.message ||
+        '회원가입 중 오류가 발생했습니다.';
+      if (axiosError.response?.status === 409) {
+        setEmailError(errorMessage);
+      } else {
+        console.error(errorMessage);
+      }
     }
   };
+  // 타이머
+  const startTimer = (duration: number) => {
+    let time = duration;
+    const timerInterval = setInterval(() => {
+      time -= 1000;
+      setTimeLeft(Math.floor(time / 1000));
 
-  // 구현해야 함
-  function checkVerificationCode() {
-    console.log('인증번호 확인');
-  }
+      if (time <= 0) {
+        clearInterval(timerInterval);
+        setIsCodeSent(false); // 인증 코드 전송 상태를 false로 설정
+        setVerifyMessage('인증 코드가 만료되었습니다.'); // 만료 메시지 표시
+        setServerVerifyCode(''); // 서버에서 발급한 코드를 지워서 더 이상 사용하지 않도록 함
+      }
+    }, 1000);
+
+    return () => clearInterval(timerInterval);
+  };
+  // 이메일 인증번호 확인
+  const checkVerifyCode = () => {
+    if (formData.verifyCode == serverVerifyCode) {
+      setVerifyMessage('인증되었습니다.');
+      setVerifyCodeValid(true);
+      setVerifyCodeConfirmed(true); // 인증번호가 확인되었음을 설정
+      setTimeLeft(0);
+      return true;
+    } else if (!serverVerifyCode || !formData.email) {
+      setVerifyMessage('인증번호를 발송해주세요.');
+      setVerifyCodeValid(false);
+      return false;
+    } else {
+      setVerifyMessage('인증번호가 다릅니다');
+      setVerifyCodeValid(false);
+      return false;
+    }
+  };
 
   return (
     <PageContainer>
@@ -246,13 +329,19 @@ const SignUpInfoPage: React.FC = () => {
 
             <Button
               type="button"
-              text="이메일 인증"
-              backcolor={isEmailValid ? '#575757' : '#B7B7B7'}
+              text="인증번호 발송"
+              backcolor={
+                verifyCodeConfirmed
+                  ? '#B7B7B7'
+                  : emailValid
+                    ? '#575757'
+                    : '#B7B7B7'
+              }
               textcolor="#FFFFFF"
-              width="110px"
+              width="120px"
               height="46px"
               onClick={checkEmail}
-              disabled={!isEmailValid}
+              disabled={!emailValid || verifyCodeConfirmed} // 인증번호가 확인된 후에는 인증번호 발송 버튼을 비활성화
             />
           </InputGroup>
           {emailError && <ValidationMessage>{emailError}</ValidationMessage>}
@@ -260,21 +349,40 @@ const SignUpInfoPage: React.FC = () => {
             <SignUpInput
               type="text"
               label="인증번호"
-              name="verificationCode"
-              value={verificationCode}
+              name="verifyCode"
+              value={verifyCode}
               onChange={handleInputChange}
+              disabled={verifyCodeConfirmed} // 인증번호 확인 후에는 입력 필드 비활성화
             />
 
             <Button
               type="button"
               text="확인"
-              backcolor="#575757"
+              backcolor={
+                verifyCodeConfirmed
+                  ? '#B7B7B7'
+                  : formData.verifyCode
+                    ? '#575757'
+                    : '#B7B7B7'
+              }
               textcolor="#FFFFFF"
-              width="110px"
+              width="120px"
               height="46px"
-              onClick={checkVerificationCode}
+              onClick={!verifyCodeConfirmed ? checkVerifyCode : undefined} // 인증번호가 확인되지 않았을 때만 함수 실행
+              disabled={!formData.verifyCode || verifyCodeConfirmed} // 입력 필드가 비어있거나 인증번호가 확인된 경우 비활성화
             />
           </InputGroup>
+          {isCodeSent && !verifyCodeConfirmed && (
+            <Timer>인증번호 유효 시간: {timeLeft}초</Timer>
+          )}
+          <ValidationMessage
+            style={{
+              color:
+                verifyMessage === '인증되었습니다.' ? '#3AC673' : '#e44444',
+            }}
+          >
+            {verifyMessage}
+          </ValidationMessage>
           <SignUpInput
             type="password"
             label="비밀번호"

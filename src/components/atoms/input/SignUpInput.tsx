@@ -9,6 +9,7 @@ type InputFieldProps = {
   width?: string;
   height?: string;
   icon?: ReactNode;
+  disabled?: boolean;
 };
 
 const InputContainer = styled.div<{ width?: string }>`
@@ -58,6 +59,7 @@ export const SignUpInput: React.FC<InputFieldProps> = ({
   width,
   height,
   icon,
+  disabled,
 }) => {
   return (
     <InputContainer width={width}>
@@ -71,6 +73,7 @@ export const SignUpInput: React.FC<InputFieldProps> = ({
           onChange={onChange}
           width={width}
           height={height}
+          disabled={disabled}
         />
         {icon && <IconContainer>{icon}</IconContainer>}
       </InputWrapper>

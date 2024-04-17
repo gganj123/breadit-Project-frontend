@@ -30,7 +30,11 @@ const Line = styled.div`
   border-left: 1px solid #ccc;
   height: 12px;
 `;
-
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const ActionsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -64,16 +68,18 @@ const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
     <div>
       <Nickname>{user?.nickname}</Nickname>
       <Email>{user?.email}</Email>
-      <Button
-        type="button"
-        text="정보 수정"
-        backcolor="#575757"
-        textcolor="#FFFFFF"
-        width="140px"
-        height="40px"
-        borderradius="0px"
-        onClick={onEditProfile}
-      />
+      <ButtonContainer>
+        <Button
+          type="button"
+          text="정보 수정"
+          backcolor="#575757"
+          textcolor="#FFFFFF"
+          width="140px"
+          height="40px"
+          borderradius="0px"
+          onClick={onEditProfile}
+        />
+      </ButtonContainer>
       <ActionsContainer>
         <ActionsButton onClick={logout}>로그아웃</ActionsButton>
         <Line />
