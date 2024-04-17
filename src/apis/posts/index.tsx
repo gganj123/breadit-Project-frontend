@@ -26,17 +26,21 @@ export const postsApis = {
 
   async getPost(id: string, token: string | null) {
     try {
-      if (token) {
-        const response = await axios.get(`${API_URL}/posts/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return response.data;
-      } else {
-        const response = await axios.get(`${API_URL}/posts/${id}`);
-        return response.data;
-      }
+      const response = await axios.get(`${API_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async getPostByUserId(id: string) {
+    try {
+      const response = await axios.get(`${API_URL}/posts/user/${id}`);
+      return response.data;
     } catch (err) {
       console.error(err);
     }

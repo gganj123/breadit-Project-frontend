@@ -57,6 +57,14 @@ export const useGetRecipeByIdApi = ({
   });
 };
 
+export const useGetRecipeByUserIdApi = (userId: string) => {
+  return useQuery({
+    queryKey: ['recipes', userId],
+    queryFn: () => repositories.recipesApis.getRecipeByUserId(userId),
+    enabled: !!userId,
+  });
+};
+
 export const useDeleteRecipeByIdApi = () => {
   const queryClient = useQueryClient();
 

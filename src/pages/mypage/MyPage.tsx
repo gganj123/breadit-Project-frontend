@@ -8,9 +8,12 @@ import ProfileImageUpload from './ProfileImageUpload';
 import MyPageList from '../../components/MypageList';
 import RightArrow from '/right-arrow.svg';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { BallTriangle } from 'react-loader-spinner';
 import { useAuth } from '../login/AuthContext';
+import { useGetPostByUserId } from '../../hooks/usePostApi';
+import { useGetRecipeByUserIdApi } from '../../hooks/useRecipeApi';
+import { TailSpin } from 'react-loader-spinner';
+import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
+
 const ContextWrap = styled.div`
   width: 100%;
   padding: 0 100px 100px;
@@ -155,6 +158,7 @@ type RestData = {
 
 export default function MyPage() {
   const { user } = useAuth();
+
   const navigate = useNavigate();
   useEffect(() => {
     // user 상태가 변경될 때마다 확인
@@ -171,71 +175,19 @@ export default function MyPage() {
     }
   };
 
-  const [data, setData] = useState<Data>({});
   const [isLoading, setIsLoading] = useState(true);
-  const [postData, setPostData] = useState<RestData[]>([]);
-  const [recipeData, setRecipeData] = useState<RestData[]>([]);
-  const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
-  const fetchData = async (id: string) => {
-    try {
-      const response = await axios.get(`${apiUrl}/kakao-maps/${id}`, {
-        withCredentials: true,
-      });
-      setData((prevData) => ({
-        ...prevData,
-        [id]: response.data,
-      }));
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
+  const { data: postUserList } = useGetPostByUserId('661fe5507c1401551d18932e');
 
-  // const fetchBreadData = async (id: string) => {
-  //   try {
-  //     const postResponse = await axios.get(
-  //       `http://localhost:5000/api/posts/${id}`
-  //     );
+  const { data: recipeUserList } = useGetRecipeByUserIdApi(
+    '661fe5507c1401551d18932e'
+  );
 
-  //     setPostData((prevData) => [...prevData, postResponse.data]);
-  //     console.log(postResponse.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setIsLoading(false);
-  //   }
-  // };
-  // const fetchRecipeData = async (id: string) => {
-  //   try {
-  //     const recipeResponse = await axios.get(
-  //       `http://localhost:5000/api/recipes/${id}`
-  //     );
-  //     setRecipeData((prevData) => [...prevData, recipeResponse.data]);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  useEffect(() => {
-    const ids = ['509294248', '1236155226', '857475692', '1644427819']; // 여기에 여러 개의 아이디 추가
-    // const breadids = [
-    //   '661a22cb985691ea2dffae50',
-    //   '661a22cb985691ea2dffae52',
-    //   '661a22cb985691ea2dffae54',
-    //   '661a22cc985691ea2dffae56',
-    // ];
-    // const recipeids = [
-    //   '6614f874525737b2e8e1a0e0',
-    //   '661656b9423f3780521a9e80',
-    //   '661656f7423f3780521a9e86',
-    //   '6616571c423f3780521a9e92',
-    // ];
-    ids.forEach((id) => fetchData(id));
-    // breadids.slice(0, 4).forEach((id) => fetchBreadData(id));
-    // recipeids.forEach((id) => fetchRecipeData(id));
-  }, []);
+  // useEffect(() => {
+  //   postRefetch();
+  //   recipeRefetch();
+  //   setIsLoading(false);
+  // }, []);
 
   return (
     <>
@@ -267,28 +219,10 @@ export default function MyPage() {
                   {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
                   {isLoading && (
                     <LoaderWrapper>
-                      <BallTriangle color="#FFCB46" />
+                      <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {!isLoading &&
-                    Object.keys(data)
-                      .slice(0, 4)
-                      .map((id) => {
-                        const basicInfo = data[id]?.basicInfo;
-                        return basicInfo && basicInfo.mainphotourl ? (
-                          <MyPageList
-                            key={id}
-                            to={`https://place.map.kakao.com/${id}`}
-                            images={basicInfo.mainphotourl}
-                            titles={basicInfo.placenamefull}
-                            sub={basicInfo.address.region.newaddrfullname}
-                            rest={`#${basicInfo.category.catename}`}
-                          />
-                        ) : (
-                          <p key={id}>No data available</p>
-                        );
-                      })}
                 </ListWrapper>
               </MypageList>
 
@@ -304,19 +238,16 @@ export default function MyPage() {
                   {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
                   {isLoading && (
                     <LoaderWrapper>
-                      <BallTriangle color="#FFCB46" />
+                      <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {!isLoading &&
-                    postData.slice(0, 4).map((post) => (
-                      <MyPageList
+                  {postUserList &&
+                    postUserList.data.map((post: BigCardProps['data']) => (
+                      <BigCard
                         key={post._id}
-                        to="/community/nearby"
-                        images={post.images[0]} // 이미지 배열 중 첫 번째 이미지를 사용하도록 설정
-                        titles={post.title}
-                        sub={post.content}
-                        rest={post.bread_id}
+                        data={post}
+                        go={'/community/nearby'}
                       />
                     ))}
                 </ListWrapper>
@@ -331,24 +262,17 @@ export default function MyPage() {
                   </Link>
                 </MypageListTitle>
                 <ListWrapper>
-                  {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
                   {isLoading && (
                     <LoaderWrapper>
-                      <BallTriangle color="#FFCB46" />
+                      <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {!isLoading &&
-                    recipeData.slice(0, 4).map((recipe) => (
-                      <MyPageList
-                        key={recipe._id}
-                        to="/community/nearby"
-                        images={recipe.images[0]} // 이미지 배열 중 첫 번째 이미지를 사용하도록 설정
-                        titles={recipe.title}
-                        sub={recipe.content}
-                        rest={recipe.bread_id}
-                      />
-                    ))}
+                  {isLoading &&
+                    recipeUserList &&
+                    recipeUserList.data.map((recipe: BigCardProps['data']) => {
+                      <BigCard data={recipe} go={'/community/recipe'} />;
+                    })}
                 </ListWrapper>
               </MypageList>
             </ContentTitle>

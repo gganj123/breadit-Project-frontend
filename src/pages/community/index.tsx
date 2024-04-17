@@ -5,10 +5,21 @@ import BigCard from '../../components/BigCard/BigCard';
 import RightArrow from '/right-arrow.svg';
 import { useGetPostByQueryApi } from '../../hooks/usePostApi';
 import { useGetRecipeByQueryApi } from '../../hooks/useRecipeApi';
+import { TailSpin } from 'react-loader-spinner';
+import styled from 'styled-components';
 
 // 이미지 경로
 const SearchIcon = '/search-icon.svg';
 const PostIcon = '/post-icon.svg';
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30rem;
+  grid-column: 5 / 1;
+`;
 
 type PostCommunityParameters = {
   _id: string;
@@ -27,6 +38,7 @@ type PostCommunityParameters = {
 };
 
 const CommunityPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [postList, setPostList] = useState<PostCommunityParameters[]>([]);
   const [recipeList, setRecipeList] = useState<PostCommunityParameters[]>([]);
 
@@ -39,13 +51,12 @@ const CommunityPage = () => {
     useGetRecipeByQueryApi(`?limit=4&q=${searchQuery}`);
 
   useEffect(() => {
-    if (postData) {
+    if (postData && recipeData) {
       setPostList(postData);
-    }
-    if (recipeData) {
       setRecipeList(recipeData);
+      setIsLoading(false);
     }
-  }, [postData]);
+  }, [postData, recipeData]);
 
   const handleChangeSearchQuery = () => {
     setSearchQuery(searchTerm);
@@ -106,7 +117,11 @@ const CommunityPage = () => {
             </Link>
           </div>
           <div className="community_inner">
-            {postList.length > 0 ? (
+            {isLoading ? (
+              <LoaderWrapper>
+                <TailSpin color="#FFCB46" />
+              </LoaderWrapper>
+            ) : postList.length > 0 ? (
               postList.map((post) => {
                 return (
                   <BigCard
@@ -129,8 +144,13 @@ const CommunityPage = () => {
               More <img src={RightArrow} className="icon" alt="arrow icon" />
             </Link>
           </div>
+
           <div className="community_inner">
-            {recipeList.length > 0 ? (
+            {isLoading ? (
+              <LoaderWrapper>
+                <TailSpin color="#FFCB46" />
+              </LoaderWrapper>
+            ) : recipeList.length > 0 ? (
               recipeList.map((recipe) => {
                 return (
                   <BigCard

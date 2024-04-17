@@ -44,19 +44,6 @@ const Home = () => {
     { go: '/map', src: CategoryImg4, categoryName: '샌드위치' },
   ];
 
-  const dummyImgList = [
-    { src: './instagram1.svg' },
-    { src: './instagram2.svg' },
-    { src: './instagram3.svg' },
-    { src: './instagram4.svg' },
-    { src: './instagram1.svg' },
-    { src: './instagram2.svg' },
-    { src: './instagram3.svg' },
-    { src: './instagram4.svg' },
-    { src: './instagram1.svg' },
-    { src: './instagram2.svg' },
-  ];
-
   const bannerSettings = {
     dots: false,
     fade: true,
@@ -212,11 +199,7 @@ const Home = () => {
             </Link>
           </p>
         </div>
-        <ul className="instagram_list">
-          {dummyImgList.map((img, index) => {
-            return <MainInstagramImg src={img.src} key={index} />;
-          })}
-        </ul>
+        <MainInstagramImg />
       </InstagramStyled>
     </>
   );

@@ -329,6 +329,15 @@ export const EditorComponent = ({
           createRecipe(createData);
         }
       }
+
+      if (!thumbnail) {
+        toast('썸네일을 추가해주세요.');
+      } else if (!title) {
+        toast('제목을 입력해주세요.');
+      } else if (!contents) {
+        toast('내용을 입력해주세요.');
+      }
+
       navigate(-1);
     }
   };

@@ -39,6 +39,7 @@ const BannerItemStyled = styled.div`
 
   .content_box {
     background: url('/bg/main_banner_bg.svg') no-repeat 50% 50%;
+    background-size: cover;
   }
 
   .content {

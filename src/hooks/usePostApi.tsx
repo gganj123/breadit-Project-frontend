@@ -58,6 +58,14 @@ export const useGetPostByIdApi = ({
   });
 };
 
+export const useGetPostByUserId = (userId: string) => {
+  return useQuery({
+    queryKey: ['posts', userId],
+    queryFn: () => repositories.postsApis.getPostByUserId(userId),
+    enabled: !!userId,
+  });
+};
+
 export const useDeletePostByIdApi = () => {
   const queryClient = useQueryClient();
 

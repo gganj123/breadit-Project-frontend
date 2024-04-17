@@ -236,7 +236,9 @@ export const InstagramStyled = styled.section`
   & .instagram_list {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
   }
+
   & .instagram_list li {
     overflow: hidden;
   }

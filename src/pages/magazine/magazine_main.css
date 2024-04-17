@@ -118,6 +118,7 @@
 .detail_title {
   font-size: 3rem;
   margin-bottom: 1.4rem;
+  max-width: 80rem;
 }
 
 .detail_location {

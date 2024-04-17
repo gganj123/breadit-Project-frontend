@@ -26,17 +26,21 @@ export const recipesApis = {
 
   async getRecipe(id: string, token: string | null) {
     try {
-      if (token) {
-        const response = await axios.get(`${API_URL}/recipes/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return response.data;
-      } else {
-        const response = await axios.get(`${API_URL}/recipes/${id}`);
-        return response.data;
-      }
+      const response = await axios.get(`${API_URL}/recipes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  async getRecipeByUserId(id: string) {
+    try {
+      const response = await axios.get(`${API_URL}/recipes/user/${id}`);
+      return response.data;
     } catch (err) {
       console.error(err);
     }
