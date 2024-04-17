@@ -60,6 +60,17 @@ export const CommentItemStyled = styled.div`
     margin-bottom: 1.4rem;
   }
 
+  .user_info .profile {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .user_info .profile img {
+    width: 100%;
+  }
+
   .user_name {
     display: flex;
   }

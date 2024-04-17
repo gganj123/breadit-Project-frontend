@@ -17,6 +17,7 @@ type DetailProps = {
     nickname: string;
     profile: string;
     createdAt: string;
+    thumbnail: string;
     title: string;
     content: string;
     like_count: number;
@@ -33,6 +34,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     nickname,
     profile,
     createdAt,
+    thumbnail,
     title,
     content,
     like_count,
@@ -50,6 +52,8 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     }
   };
 
+  console.log(data);
+
   const tagContent = () => {
     const HTML = { __html: content };
     return HTML;
@@ -66,6 +70,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
       nickname: nickname,
       profile: profile,
       createdAt: createdAt,
+      thumbnail: thumbnail,
       title: title,
       content: content,
       images: images,
@@ -79,7 +84,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     <>
       <DetailTopStyled>
         <UserStyled>
-          <div className="user_img">
+          <div className="profile">
             <img src={NoProfile} />
           </div>
           <div className="user_info">
@@ -105,6 +110,7 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
         postId={_id}
         likeCount={like_count}
         likeState={beLike}
+        eventBlock={true}
       />
       <Comments postId={_id} />
     </>

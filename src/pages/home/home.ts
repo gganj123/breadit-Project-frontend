@@ -153,10 +153,16 @@ export const RecipeStyled = styled.section`
     align-items: center;
   }
 
-  .recipe .user_info img {
+  .recipe .profile {
     width: 7rem;
     height: 7rem;
     border-radius: 50%;
+    overflow: hidden;
+    background-color: #eee;
+  }
+
+  .recipe .profile img {
+    width: 100%;
   }
 
   .recipe .user_info p {

@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout.tsx';
-import Home from '../pages/home/index.tsx';
+import Home from '../pages/home';
 import MyPage from '../pages/mypage/MyPage.tsx';
 import MyPageCheckPassword from '../pages/mypage/CheckPassword.tsx';
 import MyPageEdit from '../pages/mypage/Edit.tsx';
@@ -8,16 +8,15 @@ import LoginPage from '../pages/login/Login.tsx';
 import SignupPage from '../pages/signup/Agreement.tsx';
 import SignUpInfoPage from '../pages/signup/Info.tsx';
 import SignUpCompletePage from '../pages/signup/Complete.tsx';
-import CommunityPage from '../pages/community/index.tsx';
-import CommunityTest from '../pages/community/communityTest.tsx';
+import CommunityPage from '../pages/community';
 import NearByPage from '../pages/community/nearby.tsx';
 import DetailPage from '../pages/community/detail.tsx';
 import EditPage from '../pages/community/edit.tsx';
-import MagazinePage from '../pages/magazine/index.tsx';
+import MagazinePage from '../pages/magazine';
 import MagazineDetailPage from '../pages/magazine/Detail.tsx';
 import MagazineEditPage from '../pages/magazine/Edit.tsx';
-import MapPage from '../pages/map/index.tsx';
-import AdminPage from '../pages/admin/index.tsx';
+import MapPage from '../pages/map';
+import AdminPage from '../pages/admin';
 import AdminMagazinePage from '../pages/admin/AdminMagazine.tsx';
 import AdminPost from '../pages/admin/AdminPost.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
@@ -58,7 +57,6 @@ export default function Router() {
             <Route path="community/nearby/:id" element={<DetailPage />} />
             <Route path="community/recipe" element={<MyRecipe />} />
             <Route path="community/recipe/:id" element={<RecipeDetailPage />} />
-            <Route path="community/test" element={<CommunityTest />} />
             <Route path="magazines" element={<MagazinePage />} />
             <Route path="magazines/:id" element={<MagazineDetailPage />} />
             <Route path="magazines/edit" element={<MagazineEditPage />} />

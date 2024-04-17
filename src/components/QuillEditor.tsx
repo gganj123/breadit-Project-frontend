@@ -240,6 +240,7 @@ export const EditorComponent = ({
       setTitle(postData.title || '');
       setImages(postData.images || []);
       setThumbnail(postData.thumbnail || '');
+      console.log('썸네일' + postData.content);
     }
   }, [postData]);
 
@@ -282,7 +283,7 @@ export const EditorComponent = ({
             thumbnail: thumbnailUrl,
             title: title,
             nickname: user.nickname || 'no nickname',
-            profile: 'google.com/aksdnd.jpg',
+            profile: user.profile || '',
             content: contents,
             images: imagesJSON,
           };
@@ -294,7 +295,7 @@ export const EditorComponent = ({
             thumbnail: thumbnailUrl,
             title: title,
             nickname: user.nickname || 'no nickname',
-            profile: 'google.com/aksdnd.jpg',
+            profile: user.profile || '',
             content: contents,
             images: imagesJSON,
             bread_id: 'bread123',
@@ -307,7 +308,7 @@ export const EditorComponent = ({
             thumbnail: thumbnailUrl,
             title: title,
             nickname: user.nickname || 'no nickname',
-            profile: 'google.com/aksdnd.jpg',
+            profile: user.profile || '',
             content: contents,
             images: imagesJSON,
           };

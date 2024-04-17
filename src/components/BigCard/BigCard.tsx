@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 import ToggleLikeButton from '../atoms/buttons/ToggleLiketButton';
-import Noimg from '/no_img.svg';
+import NoProfile from '/no_profile.svg';
 import { BigCardStyled, ContentBoxStyled } from './BigCard.styles';
 
 export type BigCardProps = {
   data: {
     _id: string;
     nickname: string;
+    profile: string;
     title: string;
     content: string;
     like_count: number;
@@ -27,7 +28,8 @@ const BigCardList = ({
   isChecked,
   go,
 }: BigCardProps) => {
-  const { _id, nickname, title, content, like_count, thumbnail } = data;
+  const { _id, nickname, profile, title, content, like_count, thumbnail } =
+    data;
 
   const noImgContent = () => {
     const imgFilter = content.replace(/<img.*?>/g, '');
@@ -49,15 +51,9 @@ const BigCardList = ({
       )}
       {userInfo && (
         <div className="user_info">
-          <span
-            style={{
-              display: 'inline-block',
-              width: 40,
-              height: 40,
-              backgroundColor: '#ddd',
-              borderRadius: '50%',
-            }}
-          />
+          <div className="profile">
+            <img src={profile ? profile : NoProfile} />
+          </div>
           <p>{nickname}</p>
         </div>
       )}

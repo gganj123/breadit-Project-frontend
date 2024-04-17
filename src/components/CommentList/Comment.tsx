@@ -3,12 +3,13 @@ import ButtonDeafult from '../atoms/buttons/ButtonDefault';
 import { useEditCommentApi } from '../../hooks/useCommentApi';
 import { CommentItemStyled } from './Comment.styles';
 import { sliceDate } from '../../utils';
+import NoProfile from '/no_profile.svg';
 
 type CommentProps = {
   data: {
     _id: string;
     nickname: string;
-    profile: string;
+    profile: string | undefined;
     user_id: string;
     post_id: string;
     content: string;
@@ -40,15 +41,9 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
   return (
     <CommentItemStyled>
       <div className="user_info">
-        <div
-          className="img_box"
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            backgroundColor: '#eee',
-          }}
-        ></div>
+        <div className="profile">
+          <img src={profile ? profile : NoProfile} />
+        </div>
         <div className="user_name">
           <p className="nickname">{nickname}</p>
           <span className="date">{createdAt && sliceDate(createdAt)}</span>
