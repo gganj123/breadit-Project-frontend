@@ -9,7 +9,7 @@ export type CommentParameters = {
   post_id: string;
   content: string;
   can_post: boolean;
-  createdAt?: string;
+  createdAt: string;
   updatedAt?: string;
 };
 

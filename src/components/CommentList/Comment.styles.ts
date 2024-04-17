@@ -89,6 +89,7 @@ export const CommentItemStyled = styled.div`
   .comment {
     display: flex;
     justify-content: space-between;
+    min-height: 4rem;
   }
 
   .comment textarea {

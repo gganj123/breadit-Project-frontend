@@ -7,6 +7,7 @@ import {
   useDeleteMagazineByIdApi,
 } from '../../hooks/useMagazineApi';
 import { usePostMagazineBookmarkToggleApi } from '../../hooks/useBookmarkApi';
+import { useAuth } from '../login/AuthContext';
 
 const MagazineDetail = () => {
   const { id } = useParams<{ id: string }>();

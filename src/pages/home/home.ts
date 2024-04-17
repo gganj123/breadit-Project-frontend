@@ -189,6 +189,15 @@ export const RecipeStyled = styled.section`
     overflow: hidden;
     width: calc(100% - 10rem);
   }
+
+  .recipe .content * {
+    font-size: 1.8rem;
+    color: #444;
+    font-weight: 400;
+    font-style: normal;
+    text-decoration: none;
+    line-height: 1.5;
+  }
 `;
 
 export const RecipeGoStyled = styled(Link)`

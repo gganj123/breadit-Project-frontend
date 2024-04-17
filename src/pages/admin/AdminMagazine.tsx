@@ -22,6 +22,7 @@ const AdminMagazine = () => {
 
   const deleteMagazineCheckList = (idList: string[]) => {
     deleteList(idList);
+    setCheckList([]);
   };
 
   const handleCheckboxChange = (id: string, checked: boolean) => {

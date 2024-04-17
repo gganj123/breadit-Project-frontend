@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AdminCategory from './AdminCategory';
 import AdminTable from './AdminTable';
 import {
@@ -7,7 +8,6 @@ import {
 
 import './admin.css';
 import Pagination from '../../components/Pagination';
-import { useState } from 'react';
 
 const AdminMain = () => {
   const { data: userList } = useGetUserListApi();
@@ -21,7 +21,7 @@ const AdminMain = () => {
     mutate(id); // useDeleteUserByIdApi에 delete user id 전달
   };
 
-  const theadTitle: string[] = ['No', '닉네임', '이메일', '관리'];
+  const theadTitle: string[] = ['닉네임', '이메일', '관리'];
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
