@@ -14,14 +14,13 @@ const AuthRedirectPage: React.FC = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
-    console.log('요청 보내기');
-    console.log(code);
 
     if (code) {
       axios
         .post(`${apiUrl}/users/login/kakaosociallogin`, { code })
         .then((response) => {
           const { accessToken, refreshToken, user } = response.data;
+
           socialLoginSuccess(accessToken, refreshToken, user.id);
         })
         .catch((error) => console.error('토큰 요청 에러:', error));

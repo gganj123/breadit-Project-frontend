@@ -16,6 +16,7 @@ type User = {
   email?: string;
   accessToken?: string;
   profile?: string; // 프로필 이미지 추가
+  social_login_provider?: string;
 };
 
 type AuthContextType = {
@@ -102,8 +103,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       console.log('fetchUserData response:', response);
-      const { password, ...userInfo } = response.data; // 비밀번호 빼고 유저 정보 저장
-      setUser(userInfo);
+      const { password, ...user } = response.data; // 비밀번호 빼고 유저 정보 저장
+      setUser({
+        ...user,
+      });
+      console.log('user정보:', user);
 
       setLoading(false);
     } catch (error) {
@@ -219,6 +223,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         localStorage.clear();
         setUser(null);
+        navigate('/');
       } catch (error) {
         console.error('Error deleting user:', error);
         alert('회원 탈퇴에 실패했습니다.');

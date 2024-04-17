@@ -38,13 +38,14 @@ export default function Router() {
             <Route index element={<Home />} />
             <Route path="mypage" element={<MyPage />} />
             <Route path="mypage/:section" element={<DynamicSection />} />
-            <Route
-              path="mypage/check-password"
-              element={<MyPageCheckPassword />}
-            />
+
             <Route
               path="mypage/check-account-delete"
               element={<CheckAccountDelete />}
+            />
+            <Route
+              path="mypage/check-password"
+              element={<MyPageCheckPassword />}
             />
             <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
             <Route path="login" element={<LoginPage />} />

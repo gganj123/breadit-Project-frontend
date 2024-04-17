@@ -155,9 +155,21 @@ type RestData = {
 
 export default function MyPage() {
   const { user } = useAuth();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
-  const handleNavigation = (path: string) => () => navigate(path);
+  useEffect(() => {
+    // user 상태가 변경될 때마다 확인
+    console.log('현재 user 상태:', user);
+  }, [user]);
+
+  const handleNavigation = () => {
+    if (user && user.social_login_provider) {
+      console.log('소셜 로그인으로 인증된 사용자입니다.');
+      navigate('/mypage/check-password/edit');
+    } else if (user) {
+      console.log('일반 로그인 사용자입니다.');
+      navigate('/mypage/check-password');
+    }
+  };
 
   const [data, setData] = useState<Data>({});
   const [isLoading, setIsLoading] = useState(true);
@@ -239,9 +251,7 @@ export default function MyPage() {
               }
               showEditIcon={false}
             />
-            <UserProfile
-              onEditProfile={handleNavigation('/mypage/check-password')}
-            />
+            <UserProfile onEditProfile={handleNavigation} />
           </ProfileContainer>
           <MainContent>
             <ContentTitle>

@@ -49,9 +49,16 @@ const ActionsButton = styled.button`
 
 const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, deleteUser } = useAuth();
+
   const handleNavigation = () => {
-    navigate('/mypage/check-account-delete');
+    if (user && user.social_login_provider) {
+      console.log('소셜 로그인으로 인증된 사용자입니다.');
+      deleteUser();
+    } else if (user) {
+      console.log('일반 로그인 사용자입니다.');
+      navigate('/mypage/check-account-delete');
+    }
   };
   return (
     <div>
