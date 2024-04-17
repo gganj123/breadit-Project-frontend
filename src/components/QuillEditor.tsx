@@ -187,7 +187,10 @@ export const EditorComponent = ({
   };
 
   const formats = [
+    'font',
+    'size',
     'header',
+    'color',
     'bold',
     'italic',
     'underline',
@@ -199,7 +202,6 @@ export const EditorComponent = ({
     'link',
     'image',
     'align',
-    'color',
     'background',
     'float',
     'height',
@@ -277,7 +279,7 @@ export const EditorComponent = ({
         }
       } else {
         if (selectedCategory === 'magazine') {
-          let createData = {
+          const createData = {
             user_id: user._id || '',
             thumbnail: thumbnailUrl,
             title: title,
@@ -289,7 +291,7 @@ export const EditorComponent = ({
 
           createMagazine(createData);
         } else if (selectedCategory === 'default') {
-          let createData = {
+          const createData = {
             user_id: user._id || '',
             thumbnail: thumbnailUrl,
             title: title,
@@ -302,7 +304,7 @@ export const EditorComponent = ({
 
           createPost(createData);
         } else if (selectedCategory === 'recipe') {
-          let createData = {
+          const createData = {
             user_id: user._id || '',
             thumbnail: thumbnailUrl,
             title: title,
