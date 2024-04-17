@@ -44,8 +44,6 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
     user_id,
   } = data;
 
-  console.log(like_count);
-
   const navigate = useNavigate();
 
   const clickDeleteEvent = (id: string) => {
