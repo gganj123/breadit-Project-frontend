@@ -1,5 +1,5 @@
 import './community.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Pagination from '../../components/Pagination';
 import BigCard from '../../components/BigCard/BigCard';
@@ -21,7 +21,6 @@ type PostCommunityParameters = {
   content: string;
   images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
   thumbnail: string;
-  bread_id: string;
   createdAt: string;
   updatedAt: string;
   like_count: number;
@@ -38,6 +37,8 @@ export default function NearByPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const { data: initialData } = useGetPostListApi();
   const { refetch: refetchSearch } = useGetPostByQueryApi(`?q=${searchQuery}`);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (initialData) {
@@ -45,13 +46,21 @@ export default function NearByPage() {
     }
   }, [initialData]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = params.get('page');
+    setCurrentPage(page ? parseInt(page) : 1);
+  }, [location.search]);
+
   const handleChangeSearchQuery = () => {
     setSearchQuery(searchTerm);
   };
 
   const performSearch = async () => {
     try {
-      const { data: searchResults } = await refetchSearch();
+      const { data: searchResults } = await refetchSearch(
+        `?q=${searchTerm}&page=${currentPage}`
+      );
       setPostList(searchResults || []);
     } catch (error) {
       console.error('Search error:', error);
@@ -93,7 +102,7 @@ export default function NearByPage() {
 
   // 페이지 변경 이벤트 핸들러
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    navigate(`?page=${pageNumber}`);
   };
 
   return (

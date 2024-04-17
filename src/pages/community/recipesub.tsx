@@ -71,6 +71,7 @@ const RecipeDetail = () => {
               }
         }
         deleteEvent={(id: string) => deletePostId(id)}
+        editCategory={'recipe'}
       />
     </section>
   );
