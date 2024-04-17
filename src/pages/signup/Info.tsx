@@ -101,7 +101,10 @@ const SignUpInfoPage: React.FC = () => {
       setPasswordError('비밀번호는 8자리 이상이어야 합니다.');
       return false;
     }
-
+    if (password.length > 20) {
+      setPasswordError('비밀번호는 최대 20자까지 가능합니다.');
+      return false;
+    }
     if (/\s/.test(password)) {
       setPasswordError('비밀번호에 공백을 포함할 수 없습니다.');
       return false;
@@ -112,6 +115,14 @@ const SignUpInfoPage: React.FC = () => {
   const validateNickname = (nickname: string) => {
     if (!nickname) {
       setNicknameError('닉네임을 입력해주세요.');
+      return false;
+    }
+    if (nickname.length < 2) {
+      setNicknameError('닉네임은 2자 이상이어야 합니다.');
+      return false;
+    }
+    if (nickname.length > 8) {
+      setNicknameError('닉네임은 최대 8자까지 가능합니다.');
       return false;
     }
     if (/\s/.test(nickname)) {
