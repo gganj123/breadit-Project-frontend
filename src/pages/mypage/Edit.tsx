@@ -90,7 +90,11 @@ export default function Edit() {
       <Title>회원정보 수정</Title>
       <FormContainer>
         <ProfileImageUpload
-          src={formData.profile}
+          src={
+            formData.profile
+              ? formData.profile
+              : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+          }
           onImageUpload={handleImageChange}
           onRemoveImage={handleRemoveImage}
         />

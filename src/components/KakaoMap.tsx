@@ -121,13 +121,14 @@ const MapComponent: React.FC = () => {
       const categoryKeywords = {
         케이크: '케이크',
         빵집: '빵집',
-        구움쿠키: '구움쿠키',
+        쿠키: '쿠키',
         샌드위치: '샌드위치',
       };
 
       const searchKeyword = categoryKeywords[categoryName] || '';
       // searchBakeryNearby 함수 호출 시 검색 키워드 전달
       searchBakeryNearby(map, setMarkers, setPagination, searchKeyword);
+      console.log(searchKeyword);
     }
   }, [categoryName, map, setMarkers, setPagination]);
 
@@ -195,50 +196,102 @@ const MapComponent: React.FC = () => {
   };
 
   //내위치 찾는 클릭이벤트
-  const getCurrentPosBtn = () => {
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        console.log(
-          'Current position:',
-          pos.coords.latitude,
-          pos.coords.longitude
-        );
-        getPosSuccess(pos);
-      },
-      () => alert('위치 정보를 가져오는데 실패했습니다.'),
-      {
-        enableHighAccuracy: true, //위치를 가능한 정확하게 가져올지 여부
-        maximumAge: 30000, //이전에 가져온 위치 정보를 얼마나 오래 사용할지
-        timeout: 27000, //위치 정보를 가져오는 데 허용되는 시간
-      }
-    );
-  };
+  // const getCurrentPosBtn = () => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     (pos) => {
+  //       console.log(
+  //         'Current position:',
+  //         pos.coords.latitude,
+  //         pos.coords.longitude
+  //       );
+  //       getPosSuccess(pos);
+  //     },
+  //     () => alert('위치 정보를 가져오는데 실패했습니다.'),
+  //     {
+  //       enableHighAccuracy: true, //위치를 가능한 정확하게 가져올지 여부
+  //       maximumAge: 30000, //이전에 가져온 위치 정보를 얼마나 오래 사용할지
+  //       timeout: 27000, //위치 정보를 가져오는 데 허용되는 시간
+  //     }
+  //   );
+  // };
 
   // 3) 정상적으로 현재위치 가져올 경우 실행
-  const getPosSuccess = (pos: GeolocationPosition) => {
+  // const getPosSuccess = (pos: GeolocationPosition) => {
+  //   const currentPos = new window.kakao.maps.LatLng(
+  //     pos.coords.latitude,
+  //     pos.coords.longitude
+  //   );
+
+  //   // 새로운 마커 생성
+  //   const newMarker = {
+  //     position: {
+  //       lat: currentPos.getLat(),
+  //       lng: currentPos.getLng(),
+  //     },
+  //     id: '현재 위치', // 임의의 ID 설정
+  //     content: '당신은 현재 이곳에 있습니다.', // 마커 내용 설정
+  //     address: 'Your current location', // 현재 위치 주소 설정
+  //     phone: '', // 전화번호 정보 설정
+  //   };
+
+  //   if (map) {
+  //     map.panTo(currentPos);
+
+  //     // 기존 마커 배열에 새로운 마커 추가하여 업데이트
+  //     const newMarkers = [...markers];
+
+  //     setMarkers(newMarkers);
+  //     setPagination((prevPagination) => ({
+  //       ...prevPagination,
+  //       last: 1,
+  //       current: 1,
+  //     }));
+  //   }
+  // };
+
+  // 성수엘리스랩의 위도와 경도
+  const elliesSungsuLocation = {
+    latitude: 37.546857668813,
+    longitude: 127.0662920343,
+  };
+
+  // 내위치 찾는 클릭이벤트 - 현재 위치를 강남역으로 고정
+  const getCurrentPosBtn = () => {
+    const pos = {
+      coords: {
+        latitude: elliesSungsuLocation.latitude,
+        longitude: elliesSungsuLocation.longitude,
+      },
+    };
+
+    console.log('Current position:', pos.coords.latitude, pos.coords.longitude);
+    getPosSuccess(pos);
+  };
+
+  // 현 위치 가져오기 성공 시 호출되는 함수 - 강남역 위치로 고정
+  const getPosSuccess = (pos) => {
     const currentPos = new window.kakao.maps.LatLng(
-      pos.coords.latitude,
-      pos.coords.longitude
+      elliesSungsuLocation.latitude,
+      elliesSungsuLocation.longitude
     );
 
-    // 새로운 마커 생성
+    // 새로운 마커 생성 - 강남역 위치로 고정
     const newMarker = {
       position: {
         lat: currentPos.getLat(),
         lng: currentPos.getLng(),
       },
-      id: '현재 위치', // 임의의 ID 설정
-      content: '당신은 현재 이곳에 있습니다.', // 마커 내용 설정
-      address: 'Your current location', // 현재 위치 주소 설정
-      phone: '', // 전화번호 정보 설정
+      id: '74968626', // 마커 ID 설정
+      content: '엘리스랩(성수낙낙)', // 마커 내용 설정
+      address: '서울특별시 성동구 성수2가제3동 광나루로6길 49', // 위치 주소 설정
+      phone: '024628322', // 전화번호 정보 설정
     };
 
     if (map) {
       map.panTo(currentPos);
 
       // 기존 마커 배열에 새로운 마커 추가하여 업데이트
-      const newMarkers = [...markers];
-
+      const newMarkers = [newMarker];
       setMarkers(newMarkers);
       setPagination((prevPagination) => ({
         ...prevPagination,
