@@ -113,14 +113,14 @@ const Login: FC = () => {
           <SignUpTitle>회원가입</SignUpTitle>
         </Link>
         <SocialLoginTitle>SNS 계정으로 로그인</SocialLoginTitle>
-        <Button
+        {/* <Button
           type="button"
           text="구글 로그인"
           backcolor="#F2F2F2"
           textcolor="#000000"
           onClick={() => googlehandleLogin()}
           icon={<FcGoogle />}
-        />
+        />*/}
         <Button
           type="button"
           text="카카오 로그인"
@@ -129,14 +129,14 @@ const Login: FC = () => {
           onClick={() => kakaohandleLogin()}
           icon={<BsChatFill />}
         />
-        <Button
+        {/*<Button
           type="button"
           text="네이버 로그인"
           backcolor="#03C75A"
           textcolor="#FFFFFF"
           onClick={() => naverhandleLogin()}
           icon={<SiNaver />}
-        />
+        />*/}
       </Container>
     </>
   );
