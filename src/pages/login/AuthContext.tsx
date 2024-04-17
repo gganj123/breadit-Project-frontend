@@ -187,6 +187,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // 로그아웃
   const logout = async () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      console.log('No user is currently logged in.');
+      return; // 토큰이 없으면 로그아웃 절차를 중단
+    }
     if (window.confirm('로그아웃 하시겠습니까?')) {
       try {
         await axios.post(
