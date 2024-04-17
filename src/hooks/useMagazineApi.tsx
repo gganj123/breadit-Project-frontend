@@ -50,7 +50,7 @@ export const useGetMagazineByIdApi = ({
   accessToken: string | null;
 }) => {
   return useQuery({
-    queryKey: ['magazine', targetId, accessToken],
+    queryKey: ['magazine', targetId],
     queryFn: () =>
       repositories.magazinesApis.getMagazine(targetId, accessToken),
     enabled: !!targetId,
