@@ -252,7 +252,6 @@ export const EditorComponent = ({
       setTitle(postData.title || '');
       setImages(postData.images || []);
       setThumbnail(postData.thumbnail || '');
-      console.log('썸네일' + postData.content);
     }
   }, [postData]);
 
@@ -265,6 +264,10 @@ export const EditorComponent = ({
   const { mutate: editPost } = useEditPostApi();
   const { mutate: editRecipe } = useEditRecipeApi();
   const { state } = useLocation();
+
+  const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
+  console.log('이게 썸넬' + thumbnail);
+  console.log('이게 url' + thumbnailUrl);
 
   const handlecreateData = () => {
     if (user !== null) {
@@ -310,7 +313,6 @@ export const EditorComponent = ({
             profile: user.profile || '',
             content: contents,
             images: imagesJSON,
-            bread_id: 'bread123',
           };
 
           createPost(createData);

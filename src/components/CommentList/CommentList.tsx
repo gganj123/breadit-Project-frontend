@@ -51,7 +51,7 @@ const Comments = ({ postId }: { postId: string }) => {
         <div className="comment_input">
           <div className="my_info">
             <div className="img_box">
-              <img src={NoProfile} />
+              <img src={user && user.profile ? user.profile : NoProfile} />
             </div>
             <span>{user.nickname || 'no nickname'}</span>
           </div>
