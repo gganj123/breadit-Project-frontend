@@ -27,11 +27,13 @@ import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
 import DynamicSection from '../pages/mypage/DynamicSection.tsx';
 import AuthRedirectPage from '../pages/login/AuthRedirectPage.tsx';
+import { ScrollToTop } from '../utils';
 
 export default function Router() {
   return (
     <>
       <AuthProvider>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />

@@ -53,8 +53,10 @@ export default function NearByPage() {
 
   const performSearch = async () => {
     try {
-      const { data: searchResults } = await postRefetchSearch();
-      setPostList(searchResults || []);
+      const { data: searchPostResults } = await postRefetchSearch();
+      setPostList(searchPostResults || []);
+      const { data: searchRecipeResults } = await recipeRefetchSearch();
+      setRecipeList(searchRecipeResults || []);
     } catch (error) {
       console.error('Search error:', error);
     }
