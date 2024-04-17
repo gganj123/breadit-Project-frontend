@@ -17,6 +17,7 @@ type User = {
   accessToken?: string;
   profile?: string; // 프로필 이미지 추가
   social_login_provider?: string;
+  newPassword?: string;
 };
 
 type AuthContextType = {

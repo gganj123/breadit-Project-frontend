@@ -54,9 +54,10 @@ export default function Edit() {
     email: user?.email || '',
     nickname: user?.nickname || '',
     profile: user?.profile || '',
-    id: user?.id || '', // 여기서 _id 추가
+    id: user?.id || '',
+    newPassword: '',
   });
-
+  const kakaoUser = user?.social_login_provider;
   const handleRemoveImage = () => {
     const defaultImage =
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
@@ -77,6 +78,7 @@ export default function Edit() {
         nickname: formData.nickname,
         email: formData.email,
         profile: formData.profile,
+        newPassword: kakaoUser ? undefined : formData.newPassword,
       });
       alert('수정 완료했습니다.');
     } catch (error) {
@@ -100,15 +102,17 @@ export default function Edit() {
         />
         <Email>{formData.email}</Email>
         <Form onSubmit={handleSubmit}>
-          {/*<SignUpInput
-            type="password"
-            label="비밀번호"
-            name="password"
-            value={formData.password || ''}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />*/}
+          {kakaoUser ? null : (
+            <SignUpInput
+              type="password"
+              label="비밀번호"
+              name="password"
+              value={formData.newPassword || ''}
+              onChange={(e) =>
+                setFormData({ ...formData, newPassword: e.target.value })
+              }
+            />
+          )}
 
           <SignUpInput
             type="text"
