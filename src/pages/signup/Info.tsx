@@ -190,7 +190,6 @@ const SignUpInfoPage: React.FC = () => {
     navigate('/signup/info/complete', { state: { nickname } });
   };
 
-  // 이메일 인증 요청 함수
   const checkEmail = async () => {
     if (!formData.email) {
       setEmailError('이메일을 입력해주세요.');
@@ -198,7 +197,7 @@ const SignUpInfoPage: React.FC = () => {
     }
 
     try {
-      // 이메일 인증 요청
+      // 이메일 인증번호 요청
       const response = await axios.post(`${apiUrl}/email`, {
         email: formData.email,
       });
