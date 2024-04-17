@@ -219,8 +219,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         localStorage.clear();
         setUser(null);
-        navigate('/');
-        alert('회원 탈퇴가 성공적으로 처리되었습니다.');
       } catch (error) {
         console.error('Error deleting user:', error);
         alert('회원 탈퇴에 실패했습니다.');

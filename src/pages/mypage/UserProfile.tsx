@@ -4,6 +4,7 @@
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import { useAuth } from '../login/AuthContext';
+import { useNavigate } from 'react-router-dom';
 type UserProfileProps = {
   onEditProfile: () => void;
 };
@@ -47,7 +48,11 @@ const ActionsButton = styled.button`
 `;
 
 const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
-  const { user, logout, deleteUser } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const handleNavigation = () => {
+    navigate('/mypage/check-account-delete');
+  };
   return (
     <div>
       <Nickname>{user?.nickname}</Nickname>
@@ -65,7 +70,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {
       <ActionsContainer>
         <ActionsButton onClick={logout}>로그아웃</ActionsButton>
         <Line />
-        <ActionsButton onClick={deleteUser}>회원탈퇴</ActionsButton>
+        <ActionsButton onClick={handleNavigation}>회원탈퇴</ActionsButton>
       </ActionsContainer>
     </div>
   );

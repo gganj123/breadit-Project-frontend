@@ -1,3 +1,6 @@
+/**
+ * 회원 탈퇴 전 비밀번호 확인 페이지
+ */
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -5,6 +8,7 @@ import Logo from '/Logo.svg';
 import Button from '../../components/atoms/buttons/Button';
 import { Input } from '../../components/atoms/input/Input';
 import axios from 'axios';
+import { useAuth } from '../login/AuthContext';
 
 const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
@@ -41,8 +45,11 @@ const ErrorMessage = styled.p`
   color: #e44444;
   margin-bottom: 5px;
 `;
-export default function CheckPassword() {
+
+export default function CheckAccountDelete() {
   const navigate = useNavigate();
+  const { deleteUser } = useAuth();
+
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -59,7 +66,6 @@ export default function CheckPassword() {
       setErrorMessage('비밀번호를 입력해주세요.');
       return;
     }
-
     try {
       const response = await axios.post(
         `${apiUrl}/users/${userId}/verify-password`,
@@ -75,8 +81,17 @@ export default function CheckPassword() {
 
       if (response.data.success) {
         setErrorMessage('');
-        alert('비밀번호가 확인되었습니다.');
-        navigate('/mypage/check-password/edit');
+        deleteUser()
+          .then(() => {
+            alert('회원 탈퇴가 성공적으로 처리되었습니다.');
+            navigate('/'); // 성공적 탈퇴 후 홈으로 이동
+          })
+          .catch((error) => {
+            console.error('회원 탈퇴 처리 중 오류:', error);
+            setErrorMessage('회원 탈퇴 처리 중 오류가 발생했습니다.');
+          });
+      } else {
+        setErrorMessage('비밀번호가 일치하지 않습니다.');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -94,8 +109,8 @@ export default function CheckPassword() {
           <LogoImage src={Logo} className="logo" alt="Vite logo" />
         </Link>
         <MessageContainer>
-          <Message>회원 정보를 수정하기 위해</Message>
-          <Message>비밀번호를 다시 한번 확인합니다.</Message>
+          <Message>탈퇴 버튼 선택 시 계정은 삭제되며</Message>
+          <Message>Breadit 계정은 복구되지 않습니다.</Message>
         </MessageContainer>
         <Input
           type="password"
@@ -109,7 +124,7 @@ export default function CheckPassword() {
         <ButtonContainer>
           <Button
             type="submit"
-            text="확인"
+            text="탈퇴"
             backcolor="#FFCB46"
             textcolor="#000000"
             width="420px"

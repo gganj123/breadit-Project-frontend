@@ -28,7 +28,7 @@ import RecipeDetailPage from '../pages/community/recipesub.tsx';
 import DynamicSection from '../pages/mypage/DynamicSection.tsx';
 import AuthRedirectPage from '../pages/login/AuthRedirectPage.tsx';
 import { ScrollToTop } from '../utils';
-
+import CheckAccountDelete from '../pages/mypage/CheckAccountDelete.tsx';
 export default function Router() {
   return (
     <>
@@ -42,6 +42,10 @@ export default function Router() {
             <Route
               path="mypage/check-password"
               element={<MyPageCheckPassword />}
+            />
+            <Route
+              path="mypage/check-account-delete"
+              element={<CheckAccountDelete />}
             />
             <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
             <Route path="login" element={<LoginPage />} />
