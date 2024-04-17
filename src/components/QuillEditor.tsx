@@ -98,21 +98,24 @@ export const EditorComponent = ({
     event.stopPropagation();
 
     const files = event.dataTransfer.files;
-    if (files.length > 0) {
-      // 새로운 이미지로 대체하기 위한 배열 선언
-      const newImages = [];
 
-      // 새로운 이미지로 대체
-      for (let i = 0; i < files.length; i++) {
-        const imageUrl = await handleImageUpload(files[i]);
-        if (imageUrl) {
-          newImages.push(imageUrl);
-        }
+    // 이미지 파일이 존재하는지 확인
+    if (files.length === 0) {
+      return;
+    }
+
+    // 기존 이미지가 있을 경우, 기존 썸네일 이미지를 교체
+    if (thumbnail) {
+      const imageUrl = await handleImageUpload(files[0]);
+      if (imageUrl) {
+        setThumbnail(imageUrl);
       }
-
-      // 새로운 이미지로 기존 썸네일 이미지 배열 대체
-      const newThumbnailUrl = newImages.length > 0 ? newImages[0] : '';
-      setThumbnail(newThumbnailUrl);
+    } else {
+      // 기존 이미지가 없을 경우, 새로운 이미지로 썸네일 설정
+      const imageUrl = await handleImageUpload(files[0]);
+      if (imageUrl) {
+        setThumbnail((prevImages) => [...prevImages, imageUrl]);
+      }
     }
   };
 
@@ -264,10 +267,6 @@ export const EditorComponent = ({
   const { mutate: editPost } = useEditPostApi();
   const { mutate: editRecipe } = useEditRecipeApi();
   const { state } = useLocation();
-
-  const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
-  console.log('이게 썸넬' + thumbnail);
-  console.log('이게 url' + thumbnailUrl);
 
   const handlecreateData = () => {
     if (user !== null) {
