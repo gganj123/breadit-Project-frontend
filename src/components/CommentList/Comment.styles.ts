@@ -23,12 +23,22 @@ export const CommentsContStyled = styled.section`
     width: 100%;
   }
 
+  .text_area {
+    width: 100%;
+  }
+
   textarea {
     width: 100%;
     height: 13rem;
     font-size: 1.6rem;
     padding: 1.6rem;
     border: solid 1px #ddd;
+  }
+
+  .comment_count {
+    text-align: right;
+    color: #666;
+    margin-top: 1rem;
   }
 
   .buttons {
@@ -92,7 +102,7 @@ export const CommentItemStyled = styled.div`
     min-height: 4rem;
   }
 
-  .comment textarea {
+  .comment .text_area {
     max-width: 80rem;
   }
 

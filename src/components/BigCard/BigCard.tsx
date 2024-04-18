@@ -12,6 +12,7 @@ export type BigCardProps = {
     content: string;
     like_count: number;
     thumbnail: string;
+    location: string | '';
   };
   userInfo?: boolean;
   admin?: boolean;
@@ -60,9 +61,9 @@ const BigCardList = ({
       <div className="img_box">
         <Link
           to={
-            go == 'magazine'
+            go == 'magazines'
               ? `/magazines/${_id}`
-              : go == 'nearby'
+              : go == 'posts'
                 ? `/community/nearby/${_id}`
                 : `/community/recipe/${_id}`
           }

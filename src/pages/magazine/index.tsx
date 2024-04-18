@@ -33,7 +33,7 @@ const Magazine = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     appendDots: (dots: React.ReactNode[]) => (
       <div>
@@ -88,7 +88,7 @@ const Magazine = () => {
         <div className="magazine_card_list">
           {currentItems.length > 0 ? (
             currentItems.map((magazine) => (
-              <BigCard data={magazine} key={magazine._id} go={'magazine'} />
+              <BigCard data={magazine} key={magazine._id} go={'magazines'} />
             ))
           ) : (
             <div className="no_post">No post</div>

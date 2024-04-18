@@ -90,7 +90,7 @@ export default function NearByPage() {
               <BigCard
                 data={recipe}
                 key={recipe._id}
-                go={'recipe'}
+                go={'recipes'}
                 userInfo={true}
               />
             );

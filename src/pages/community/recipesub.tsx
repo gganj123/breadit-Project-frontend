@@ -30,7 +30,9 @@ const RecipeDetail = () => {
   const userId = localStorage.getItem('id');
 
   const saveToggle = () => {
-    userId && id && recipeBookmarkMutate({ userId, postId: id });
+    userId &&
+      id &&
+      recipeBookmarkMutate({ userId, postId: id, location: 'recipe' });
   };
 
   return (

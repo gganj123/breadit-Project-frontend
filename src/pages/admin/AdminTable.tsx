@@ -9,7 +9,7 @@ export type AdminTableProps = {
   data: { _id: string; nickname: string; email?: string; title?: string }[];
   deleteEvent: (id: string) => void;
   deleteList: (id: string[]) => void;
-  go?: string;
+  go: string;
 };
 
 const AdminTable = ({

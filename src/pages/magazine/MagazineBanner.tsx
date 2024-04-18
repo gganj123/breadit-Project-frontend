@@ -1,5 +1,3 @@
-import MagazineCircle from '/magazine_circle.svg';
-
 export type BannerProps = {
   data: { _id: string; thumbnail: string; title: string; content: string };
 };
@@ -22,7 +20,6 @@ const MagazineBanner = ({ data }: BannerProps) => {
         <h3>{title}</h3>
         <div className="content" dangerouslySetInnerHTML={noImgContent()} />
       </div>
-      <img src={MagazineCircle} className="magazine_circle" />
     </div>
   );
 };

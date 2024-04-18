@@ -66,7 +66,7 @@ export const useDeleteMagazineByIdApi = () => {
     mutationFn: (targetId: string) =>
       repositories.magazinesApis.deleteMagazine(targetId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+      queryClient.invalidateQueries({ queryKey: ['magazines'] });
     },
   });
 };
@@ -78,7 +78,7 @@ export const useDeleteMagazineByCheckApi = () => {
     mutationFn: (targetIdList: string[]) =>
       repositories.magazinesApis.deleteMagazineByCheck(targetIdList),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+      queryClient.invalidateQueries({ queryKey: ['magazines'] });
     },
   });
 };
@@ -90,7 +90,7 @@ export const useCreateMagazineApi = () => {
     mutationFn: (createData: MagazineCreateParameters) =>
       repositories.magazinesApis.createMagazine(createData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['magazine'] });
+      queryClient.invalidateQueries({ queryKey: ['magazines'] });
     },
   });
 };

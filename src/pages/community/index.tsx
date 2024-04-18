@@ -127,7 +127,7 @@ const CommunityPage = () => {
                   <BigCard
                     data={post}
                     key={post._id}
-                    go={'nearby'}
+                    go={'posts'}
                     userInfo={true}
                   />
                 );
@@ -156,7 +156,7 @@ const CommunityPage = () => {
                   <BigCard
                     data={recipe}
                     key={recipe._id}
-                    go={'recipe'}
+                    go={'recipes'}
                     userInfo={true}
                   />
                 );

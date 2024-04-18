@@ -1,12 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { repositories } from '../apis';
+
+type BookmarkPrameters = {
+  userId: string;
+  postId: string;
+  location: string;
+};
 
 export const usePostMagazineBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.bookmarksApis.postMagazineBookmarkToggle(userId, postId),
+    mutationFn: ({ userId, postId, location }: BookmarkPrameters) =>
+      repositories.bookmarksApis.postMagazineBookmarkToggle(
+        userId,
+        postId,
+        location
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['magazine'] });
     },
@@ -17,8 +27,12 @@ export const usePostPostBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.bookmarksApis.postPostBookmarkToggle(userId, postId),
+    mutationFn: ({ userId, postId, location }: BookmarkPrameters) =>
+      repositories.bookmarksApis.postPostBookmarkToggle(
+        userId,
+        postId,
+        location
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['post'] });
     },
@@ -29,10 +43,29 @@ export const usePostRecipeBookmarkToggleApi = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, postId }: { userId: string; postId: string }) =>
-      repositories.bookmarksApis.postRecipeBookmarkToggle(userId, postId),
+    mutationFn: ({ userId, postId, location }: BookmarkPrameters) =>
+      repositories.bookmarksApis.postRecipeBookmarkToggle(
+        userId,
+        postId,
+        location
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipe'] });
     },
+  });
+};
+
+export const useGetBookmarkByUserIdApi = ({
+  userId,
+  query,
+}: {
+  userId: string;
+  query: string | null;
+}) => {
+  return useQuery({
+    queryKey: ['posts', userId, query],
+    queryFn: () =>
+      repositories.bookmarksApis.getBookmarkByUserId(userId, query),
+    enabled: true,
   });
 };

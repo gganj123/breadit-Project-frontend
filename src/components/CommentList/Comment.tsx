@@ -5,6 +5,7 @@ import { CommentItemStyled } from './Comment.styles';
 import { sliceDate } from '../../utils';
 import NoProfile from '/no_profile.svg';
 import { useAuth } from '../../pages/login/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 type CommentProps = {
   data: {
@@ -34,9 +35,17 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
     }
   };
 
+  if (commentText.length > 200) {
+    toast('댓글은 200자가 최대입니다.');
+  }
+
   const saveEditComment = () => {
-    mutate({ targetId: _id, editData: commentText });
-    setIsEdit(!isEdit);
+    if (commentText.length > 200) {
+      toast('댓글은 200자가 최대입니다.');
+    } else {
+      mutate({ targetId: _id, editData: commentText });
+      setIsEdit(!isEdit);
+    }
   };
 
   const { user } = useAuth();
@@ -55,12 +64,16 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
       <div className="comment">
         {isEdit ? (
           <>
-            <textarea
-              value={commentText}
-              onChange={(e) => {
-                setCommentText(e.target.value);
-              }}
-            />
+            <div className="text_area">
+              <textarea
+                value={commentText}
+                onChange={(e) => {
+                  setCommentText(e.target.value);
+                }}
+              />
+              <p className="comment_count">{`${commentText.length}/200`}</p>
+            </div>
+
             <div className="buttons">
               <ButtonDeafult text={'저장'} clickevent={saveEditComment} />
               <ButtonDeafult
@@ -98,6 +111,7 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
           </>
         )}
       </div>
+      <ToastContainer />
     </CommentItemStyled>
   );
 };

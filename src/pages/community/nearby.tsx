@@ -88,7 +88,7 @@ export default function NearByPage() {
               <BigCard
                 data={post}
                 key={post._id}
-                go={'nearby'}
+                go={'posts'}
                 userInfo={true}
               />
             );

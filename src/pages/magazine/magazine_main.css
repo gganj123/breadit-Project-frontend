@@ -1,3 +1,7 @@
+.main_cont.magazine {
+  padding: 12rem 10rem;
+}
+
 .magazine_banner .banner_item {
   position: relative;
   height: 70rem;
@@ -8,10 +12,11 @@
 }
 
 .magazine_banner .content_box {
-  max-width: 80rem;
   position: absolute;
-  bottom: 10rem;
-  left: 10rem;
+  bottom: 7rem;
+  left: 0;
+  width: 100%;
+  padding: 0 8rem;
   color: #fff;
 }
 
@@ -29,19 +34,32 @@
   font-size: 2rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   overflow: hidden;
+  height: 6rem;
   line-height: 1.5;
   word-break: keep-all;
+}
+
+.magazine_banner .content_box .content * {
+  line-height: 1.5;
 }
 
 .magazine_banner .slick-arrow {
   display: none;
 }
 
+.magazine_banner .slick-prev {
+  left: 0;
+}
+
+.magazine_banner .slick-next {
+  right: 0;
+}
+
 .magazine_banner .slick-dots {
   width: auto;
-  bottom: 10rem;
+  bottom: 4rem;
   right: 10rem;
   background-color: rgba(77, 77, 77, 0.6);
   color: #dbdbdb;
@@ -51,7 +69,7 @@
 .magazine_dots li {
   width: auto;
   height: 3.4rem;
-  line-height: 2.8rem;
+  line-height: 3.4rem;
   display: none;
   font-size: 1.8rem;
   margin: 0;
@@ -61,16 +79,10 @@
   display: block;
 }
 
-.magazine_circle {
-  position: absolute;
-  top: 10rem;
-  right: 8rem;
-}
-
 .magazine_card_list {
   display: grid;
-  gap: 5rem;
-  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .magazine .main_title {
