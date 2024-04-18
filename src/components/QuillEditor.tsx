@@ -88,20 +88,26 @@ export const EditorComponent = ({
   const handleImageUpload = async (file: File) => {
     const params = {
       Bucket: 'elice-breadit-project',
-      Key: `thumb/${file.name}`,
+      Key: `newcontent/${file.name}`,
       Body: file,
       ACL: 'public-read',
     };
 
     try {
-      const command = new PutObjectCommand({
-        Bucket: 'elice-breadit-project',
-        Key: `thumb/${file.name}`,
-        Body: file,
-        ACL: 'public-read',
-      });
-      const data = await s3.send(command);
-      return data;
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: 'elice-breadit-project',
+          Key: `newcontent/${file.name}`,
+          Body: file,
+          ACL: 'public-read',
+        })
+      ); // 이미지 업로드
+
+      // 이미지 URL 구성
+      const imageUrl = `https://elice-breadit-project.s3.ap-northeast-2.amazonaws.com/${params.Key}`;
+
+      return imageUrl; // 이미지 URL 반환
+      console.log(imageUrl);
     } catch (error) {
       console.error('Error uploading image:', error);
       return null;
@@ -156,7 +162,7 @@ export const EditorComponent = ({
     </div>
   );
 
-  const imageHandler = () => {
+  const imageHandler = async () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -167,36 +173,15 @@ export const EditorComponent = ({
       if (file !== null) {
         const promises = [];
         for (let i = 0; i < file.length; i++) {
-          const params = {
-            Bucket: 'elice-breadit-project',
-            Key: `images/${file[i].name}`,
-            Body: file[i],
-            ACL: 'public-read',
-          };
-
-          promises.push(
-            new Promise<string>((resolve, reject) => {
-              const command = new PutObjectCommand({
-                Bucket: 'elice-breadit-project',
-                Key: `thumb/${file[i].name}`,
-                Body: file[i],
-                ACL: 'public-read',
-              });
-              s3.send(command)
-                .then((data) => {
-                  resolve(data.ETag);
-                })
-                .catch((err) => {
-                  console.error(err);
-                  reject(err);
-                });
-            })
-          );
+          const imageUrl = await handleImageUpload(file[i]);
+          if (imageUrl) {
+            promises.push(imageUrl);
+          }
         }
 
         Promise.all(promises)
           .then((urls) => {
-            setImages((prevImages: string) => [...prevImages, ...urls]);
+            setImages((prevImages: string[]) => [...prevImages, ...urls]);
 
             const range = QuillRef.current?.getEditor().getSelection()?.index;
             if (range !== null && range !== undefined) {
