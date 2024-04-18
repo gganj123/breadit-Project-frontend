@@ -87,6 +87,7 @@ const SignUpInfoPage: React.FC = () => {
   // 인증 관련 상태
   const [serverVerifyCode, setServerVerifyCode] = useState(''); // 서버에서 준 인증코드
   const [timeLeft, setTimeLeft] = useState(0); // 인증번호 유효 시간
+  const [timerCleanup, setTimerCleanup] = useState<() => void>();
   const [isCodeSent, setIsCodeSent] = useState(false); // 인증 코드 보내준 것
   const [verifyCodeConfirmed, setVerifyCodeConfirmed] = useState(false);
   const isFormFilled = Object.values(formData).every((value) => value);
@@ -293,15 +294,16 @@ const SignUpInfoPage: React.FC = () => {
       }
     }, 1000);
 
-    return () => clearInterval(timerInterval);
+    setTimerCleanup(() => () => clearInterval(timerInterval));
   };
   // 이메일 인증번호 확인
   const checkVerifyCode = () => {
     if (formData.verifyCode == serverVerifyCode) {
       setVerifyMessage('인증되었습니다.');
       setVerifyCodeValid(true);
-      setVerifyCodeConfirmed(true); // 인증번호가 확인되었음을 설정
+      setVerifyCodeConfirmed(true);
       setTimeLeft(0);
+      if (timerCleanup) timerCleanup();
       return true;
     } else if (!serverVerifyCode || !formData.email) {
       setVerifyMessage('인증번호를 발송해주세요.');
@@ -327,6 +329,7 @@ const SignUpInfoPage: React.FC = () => {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
+              disabled={verifyCodeConfirmed}
             />
 
             <Button
