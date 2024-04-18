@@ -146,12 +146,12 @@ export default function MyPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  // TODO: enable 옵션 제어
   const { data: bookmarkList, refetch: bookmarkRefetch } =
     useGetBookmarkByUserIdApi({
       userId: user?._id,
       query: '?limit=3',
     });
-
   const { data: postUserList, refetch: postRefetch } =
     useGetPostByUserIdQueryApi({
       userId: user?._id,
@@ -170,7 +170,7 @@ export default function MyPage() {
       recipeRefetch();
       setIsLoading(false);
     }
-  }, [user, postRefetch, recipeRefetch, bookmarkRefetch]);
+  }, [user]);
 
   return (
     <>
