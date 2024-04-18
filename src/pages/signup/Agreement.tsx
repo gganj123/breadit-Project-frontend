@@ -1,6 +1,3 @@
-/**
- * 회원가입 동의 페이지 ( 첫번째 )
- */
 import { useState, FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +6,7 @@ import Checkbox from '../../components/atoms/checkbox/Checkbox';
 import StepIndicator from './StepIndicator';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { RiErrorWarningFill } from 'react-icons/ri';
+
 type AgreementProps = {
   title: string;
   content: string;
@@ -37,18 +35,21 @@ const AgreementContainer = styled.div`
   padding: 10px;
   background-color: #fff;
 `;
+
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
 `;
+
 const Title = styled.div`
   font-size: 22px;
   font-weight: 500;
   text-align: center;
   margin-bottom: 30px;
 `;
+
 const ContentContainer = styled.div<{ open: boolean }>`
   padding-top: 10px;
   font-size: 13px;
@@ -58,7 +59,6 @@ const ContentContainer = styled.div<{ open: boolean }>`
   &::-webkit-scrollbar {
     display: none;
   }
-
   scrollbar-width: none;
   transition: max-height 0.3s ease-in-out;
   white-space: pre-line;
@@ -69,10 +69,6 @@ const ButtonsContainer = styled.div`
   justify-content: center;
   gap: 20px;
   margin-top: 40px;
-`;
-const Line = styled.div`
-  border-top: 1px solid #ccc;
-  margin-bottom: 10px;
 `;
 
 const CheckboxLabel = styled.label`
@@ -106,7 +102,9 @@ const Agreement: FC<AgreementProps> = ({
         {isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
       </TitleContainer>
       <ContentContainer open={isOpen}>
-        <Line></Line>
+        <div
+          style={{ borderTop: '1px solid #ccc', marginBottom: '10px' }}
+        ></div>
         {content}
       </ContentContainer>
     </AgreementContainer>
@@ -120,21 +118,19 @@ const SignUpPage: FC = () => {
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
 
-  // 필수 항목 체크박스가 모두 선택되었는지 여부
-  const requiredChecked = termsChecked && privacyChecked;
   const handlePrevClick = () => {
     navigate('/login');
   };
+
   const handleNextClick = () => {
-    if (!requiredChecked) {
-      // 필수 항목이 모두 체크되지 않았으면 경고 메시지 표시
+    if (!termsChecked || !privacyChecked) {
       setShowWarning(true);
     } else {
-      // 필수 항목이 모두 체크되었으면 다음 페이지로 이동
       navigate('/signup/info');
       setShowWarning(false);
     }
   };
+
   const handleAllCheckedChange = (checked: boolean) => {
     setAllChecked(checked);
     setTermsChecked(checked);
@@ -146,7 +142,17 @@ const SignUpPage: FC = () => {
     checked: boolean,
     type: 'terms' | 'privacy'
   ) => {
-    type === 'terms' ? setTermsChecked(checked) : setPrivacyChecked(checked);
+    if (type === 'terms') {
+      setTermsChecked(checked);
+    } else {
+      setPrivacyChecked(checked);
+    }
+
+    const allChecked =
+      (type === 'terms' ? checked : termsChecked) &&
+      (type === 'privacy' ? checked : privacyChecked);
+    setAllChecked(allChecked);
+
     setShowWarning(false);
   };
 
@@ -162,12 +168,7 @@ const SignUpPage: FC = () => {
       />
       <Agreement
         title="[필수] 이용약관"
-        content="[ Breadit 이용 약관 ] 
-        제1장 총칙    
-        제 1 조 (목적)
-        이 약관은 Breadit 주식회사(이하 “회사”)가 운영하는 사이버몰에서 제공하는 서비스와 이를 이용하는 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다.   
-        제 2 조 (용어의 정의)
-        이 약관에서 사용하는 용어의 정의는 다음과 같습니다. 그리고 여기에서 정의되지 않은 이 약관상의 용어의 의미는 일반적인 거래관행에 따릅니다."
+        content="[ Breadit 이용 약관 ]\n\n이 약관은 Breadit 주식회사(이하 “회사”)가 운영하는 사이버몰에서 제공하는 서비스와 이를 이용하는 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다."
         checked={termsChecked}
         onCheckedChange={(checked) =>
           handleIndividualCheckedChange(checked, 'terms')
@@ -175,13 +176,7 @@ const SignUpPage: FC = () => {
       />
       <Agreement
         title="[필수] 개인정보처리방침"
-        content="회사는 회원가입, 민원 등 고객상담 처리, 본인확인(14세 미만 아동 확인) 등 
-        의사소통을 위한 정보 활용 및 이벤트 등과 같은 마케팅용도 활용, 회원의 
-        서비스 이용에 대한 통계, 이용자들의 개인정보를 통한 서비스 개발을 위해 
-        아래와 같은 개인정보를 수집하고 있습니다.
-        
-        1. - 목적 : 이용자 식별 및 본인여부 확인-
-        "
+        content="회사는 회원가입, 민원 등 고객상담 처리, 본인확인 등을 목적으로 개인정보를 수집 및 이용합니다."
         checked={privacyChecked}
         onCheckedChange={(checked) =>
           handleIndividualCheckedChange(checked, 'privacy')
