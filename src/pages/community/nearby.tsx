@@ -51,10 +51,6 @@ export default function NearByPage() {
     setCurrentPage(page ? parseInt(page) : 1);
   }, [location.search]);
 
-  const handleChangeSearchQuery = () => {
-    setSearchQuery(searchTerm);
-  };
-
   const performSearch = async () => {
     try {
       const { data: searchResults } = await refetchSearch();
@@ -62,6 +58,11 @@ export default function NearByPage() {
     } catch (error) {
       console.error('Search error:', error);
     }
+  };
+
+  const handleChangeSearchQuery = () => {
+    setSearchQuery(searchTerm);
+    performSearch();
   };
 
   // 검색어 입력 시 상태 업데이트 함수
@@ -81,7 +82,6 @@ export default function NearByPage() {
       <div className="community_inner">
         {currentItems.length > 0 ? (
           currentItems.map((post) => {
-            console.log(post);
             return (
               <BigCard
                 data={post}
@@ -115,13 +115,17 @@ export default function NearByPage() {
               placeholder="검색어를 입력하세요."
               value={searchTerm}
               onChange={handleSearchInputChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleChangeSearchQuery();
+                }
+              }}
             />
             <img
               src={SearchIcon}
               className="icon"
               alt="search icon"
               onClick={() => {
-                performSearch();
                 handleChangeSearchQuery();
               }}
               style={{ cursor: 'pointer' }}

@@ -284,8 +284,8 @@ export const EditorComponent = ({
       toast('내용을 입력해주세요.');
     } else if (title.length > 30) {
       toast('제목은 최대 30자 입니다.');
-    } else if (contents.length > 400) {
-      toast('내용은 최대 400자 입니다.');
+    } else if (contents.length > 1000) {
+      toast('내용은 최대 1000자 입니다.');
     } else {
       if (user !== null) {
         const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
@@ -332,12 +332,6 @@ export const EditorComponent = ({
     }
   };
 
-  if (title.length > 30) {
-    toast('제목은 최대 30자 입니다.');
-  } else if (contents.length > 400) {
-    toast('내용은 최대 400자 입니다.');
-  }
-
   return (
     <>
       <EditTitle
@@ -360,7 +354,7 @@ export const EditorComponent = ({
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
-      <ContentCountStyled>{`${contents.length}/500`}</ContentCountStyled>
+      <ContentCountStyled>{`${contents.length}/1000`}</ContentCountStyled>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}

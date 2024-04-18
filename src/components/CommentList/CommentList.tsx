@@ -31,10 +31,6 @@ const Comments = ({ postId }: { postId: string }) => {
 
   const { user } = useAuth();
 
-  if (commentTextArea.length > 200) {
-    toast('댓글은 200자가 최대입니다.');
-  }
-
   const createComment = () => {
     if (commentTextArea.length > 200) {
       toast('댓글은 200자가 최대입니다.');

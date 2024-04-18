@@ -26,6 +26,7 @@ import DynamicSection from '../pages/mypage/DynamicSection.tsx';
 import AuthRedirectPage from '../pages/login/AuthRedirectPage.tsx';
 import { ScrollToTop } from '../utils';
 import CheckAccountDelete from '../pages/mypage/CheckAccountDelete.tsx';
+
 export default function Router() {
   return (
     <>

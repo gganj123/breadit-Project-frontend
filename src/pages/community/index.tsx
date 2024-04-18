@@ -42,10 +42,10 @@ const CommunityPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const { data: postData, refetch: postRefetchSearch } = useGetPostByQueryApi(
-    `?limit=4&q=${searchQuery}`
+    `?q=${searchQuery}&limit=4`
   );
   const { data: recipeData, refetch: recipeRefetchSearch } =
-    useGetRecipeByQueryApi(`?limit=4&q=${searchQuery}`);
+    useGetRecipeByQueryApi(`?q=${searchQuery}&limit=4`);
 
   useEffect(() => {
     if (postData && recipeData) {
@@ -53,11 +53,7 @@ const CommunityPage = () => {
       setRecipeList(recipeData);
       setIsLoading(false);
     }
-  }, [postData, recipeData]);
-
-  const handleChangeSearchQuery = () => {
-    setSearchQuery(searchTerm);
-  };
+  }, [postData, recipeData, searchQuery]);
 
   const performSearch = async () => {
     try {
@@ -68,6 +64,11 @@ const CommunityPage = () => {
     } catch (error) {
       console.error('Search error:', error);
     }
+  };
+
+  const handleChangeSearchQuery = () => {
+    setSearchQuery(searchTerm);
+    performSearch();
   };
 
   // 검색어 입력 시 상태 업데이트 함수
@@ -88,13 +89,17 @@ const CommunityPage = () => {
               placeholder="검색어를 입력하세요."
               value={searchTerm}
               onChange={handleSearchInputChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleChangeSearchQuery();
+                }
+              }}
             />
             <img
               src={SearchIcon}
               className="icon"
               alt="search icon"
               onClick={() => {
-                performSearch();
                 handleChangeSearchQuery();
               }}
               style={{ cursor: 'pointer' }}

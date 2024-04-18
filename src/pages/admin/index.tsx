@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
-import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
+import BigCard from '../../components/BigCard/BigCard';
 import {
   useGetMagazineListApi,
   useDeleteMagazineByCheckApi,

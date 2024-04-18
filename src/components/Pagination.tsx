@@ -1,14 +1,22 @@
 import styled from 'styled-components';
 
+type Pagination = {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
+
 interface PageNumberProps {
   active?: boolean;
 }
 
-const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
-  const pageNumbers = Array.from(
+const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination) => {
+  const pageNumbers: number[] = Array.from(
     { length: totalPages },
     (_, index) => index + 1
   );
+
+  console.log(typeof pageNumbers);
 
   return (
     <PaginationWrapper>
