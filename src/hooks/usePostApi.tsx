@@ -59,15 +59,15 @@ export const useGetPostByIdApi = ({
 
 export const useGetPostByUserIdQueryApi = ({
   userId,
-  query,
+  query = '',
 }: {
   userId: string;
-  query: string | null;
+  query: string;
 }) => {
   return useQuery({
     queryKey: ['posts', userId, query],
     queryFn: () => repositories.postsApis.getPostByUserIdQuery(userId, query),
-    enabled: true,
+    enabled: !!userId,
   });
 };
 

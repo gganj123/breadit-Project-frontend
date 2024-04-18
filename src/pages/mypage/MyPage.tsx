@@ -149,17 +149,17 @@ export default function MyPage() {
   // TODO: enable 옵션 제어
   const { data: bookmarkList, refetch: bookmarkRefetch } =
     useGetBookmarkByUserIdApi({
-      userId: user?._id,
+      userId: user?.id,
       query: '?limit=3',
     });
   const { data: postUserList, refetch: postRefetch } =
     useGetPostByUserIdQueryApi({
-      userId: user?._id,
+      userId: user?.id,
       query: '?limit=3',
     });
   const { data: recipeUserList, refetch: recipeRefetch } =
     useGetRecipeByUserIdQueryApi({
-      userId: user?._id,
+      userId: user?.id,
       query: '?limit=3',
     });
 

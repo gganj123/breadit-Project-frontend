@@ -43,7 +43,7 @@ const Comments = ({ postId }: { postId: string }) => {
         const commentData = {
           nickname: user.nickname || 'no nickname',
           profile: user.profile || NoProfile,
-          user_id: user._id,
+          user_id: user._id || '',
           post_id: postId,
           content: commentTextArea,
         };

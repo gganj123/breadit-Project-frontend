@@ -58,9 +58,15 @@ export default function NearByPage() {
 
   const performSearch = async () => {
     try {
-      const { data: searchResults } = await refetchSearch(
-        `?q=${searchTerm}&page=${currentPage}`
-      );
+      const { data: searchResults } = await refetchSearch<
+        PostCommunityParameters[]
+      >({
+        queryKey: ['search', searchTerm, currentPage],
+        queryParams: {
+          q: searchTerm,
+          page: currentPage,
+        },
+      });
       setPostList(searchResults || []);
     } catch (error) {
       console.error('Search error:', error);

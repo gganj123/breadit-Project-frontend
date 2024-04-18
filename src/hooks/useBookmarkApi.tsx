@@ -57,15 +57,15 @@ export const usePostRecipeBookmarkToggleApi = () => {
 
 export const useGetBookmarkByUserIdApi = ({
   userId,
-  query,
+  query = '',
 }: {
   userId: string;
-  query: string | null;
+  query: string;
 }) => {
   return useQuery({
     queryKey: ['posts', userId, query],
     queryFn: () =>
       repositories.bookmarksApis.getBookmarkByUserId(userId, query),
-    enabled: true,
+    enabled: !!userId,
   });
 };

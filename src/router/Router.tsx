@@ -19,7 +19,6 @@ import MapPage from '../pages/map';
 import AdminPage from '../pages/admin';
 import AdminPost from '../pages/admin/AdminPost.tsx';
 import AdminRecipe from '../pages/admin/AdminRecipe.tsx';
-import Kakao from '../pages/map/Kakao.tsx';
 import { AuthProvider } from '../pages/login/AuthContext.tsx';
 import MyRecipe from '../pages/community/recipe.tsx';
 import RecipeDetailPage from '../pages/community/recipesub.tsx';
@@ -68,7 +67,6 @@ export default function Router() {
             <Route path="admin" element={<AdminPage />} />
             <Route path="admin-post" element={<AdminPost />} />
             <Route path="admin-recipe" element={<AdminRecipe />} />
-            <Route path="maptest" element={<Kakao />} />
           </Route>
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>

@@ -7,12 +7,12 @@ export type BigCardProps = {
   data: {
     _id: string;
     nickname: string;
-    profile: string;
+    profile?: string;
     title: string;
     content: string;
     like_count: number;
     thumbnail: string;
-    location: string | '';
+    location?: string | '';
   };
   userInfo?: boolean;
   admin?: boolean;

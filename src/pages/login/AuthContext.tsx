@@ -11,13 +11,14 @@ import { useNavigate } from 'react-router-dom';
 const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
 type User = {
-  id?: string;
+  _id?: string;
   nickname?: string;
   email?: string;
   accessToken?: string;
   profile?: string; // 프로필 이미지 추가
   social_login_provider?: string;
   newPassword?: string;
+  user_role?: string;
 };
 
 type AuthContextType = {

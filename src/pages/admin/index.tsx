@@ -79,6 +79,7 @@ const AdminMagazine = () => {
                   admin={true}
                   handleCheckboxChange={handleCheckboxChange}
                   isChecked={checkList.includes(magazine._id)}
+                  go={'magazines'}
                 />
               );
             })}
