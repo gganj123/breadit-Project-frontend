@@ -22,7 +22,7 @@ export const MapContainer = styled.div`
 `;
 
 export const MapWrapper = styled.div<{ $expanded: boolean }>`
-  width: ${(props) => (props.$expanded ? '100%' : 'calc(100% - 40rem)')};
+  width: ${(props) => (props.$expanded ? 'calc(100% - 40rem)' : '100%')};
   margin-left: auto;
   height: 100vh;
 `;
@@ -123,7 +123,7 @@ export const SlidePin = styled.div<{ $expanded: boolean }>`
   height: 100px;
   position: absolute;
   top: 50%;
-  left: ${(props) => (props.$expanded ? '0' : '40rem')};
+  left: ${(props) => (props.$expanded ? '40rem' : '0')};
   transform: translateY(-50%);
   background: red;
   z-index: 100;

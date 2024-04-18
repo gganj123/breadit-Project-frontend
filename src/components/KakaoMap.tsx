@@ -124,7 +124,7 @@ const MapComponent: React.FC = () => {
         쿠키: '쿠키',
         샌드위치: '샌드위치',
       };
-
+      setExpanded(true);
       const searchKeyword = categoryKeywords[categoryName] || '';
       // searchBakeryNearby 함수 호출 시 검색 키워드 전달
       if (map) {
@@ -259,6 +259,7 @@ const MapComponent: React.FC = () => {
 
   // 내위치 찾는 클릭이벤트 - 현재 위치를 강남역으로 고정
   const getCurrentPosBtn = () => {
+    setExpanded(true);
     const pos = {
       coords: {
         latitude: elliesSungsuLocation.latitude,
@@ -358,6 +359,7 @@ const MapComponent: React.FC = () => {
   const visibleMarkers = markers.slice(startIndex, startIndex + itemsPerPage);
 
   const searchNearbyBakeries = () => {
+    setExpanded(true);
     if (map !== null) {
       searchBakeryNearby(map, setMarkers, setPagination, '빵집');
     }
