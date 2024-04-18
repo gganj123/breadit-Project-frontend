@@ -10,10 +10,24 @@ import {
   ListWrapper,
 } from './MyPage';
 import { TailSpin } from 'react-loader-spinner';
+import Pagination from '../../components/Pagination';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function BakeryIntroductionSection() {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = params.get('page');
+    setCurrentPage(page ? parseInt(page) : 1);
+  }, [location.search]);
 
   const { data: recipeUserList, refetch: recipeRefetch } =
     useGetRecipeByUserIdQueryApi({
@@ -27,6 +41,15 @@ export default function BakeryIntroductionSection() {
       setIsLoading(false);
     }
   }, [user, recipeRefetch]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems =
+    recipeUserList?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
+  const handlePageChange = (pageNumber: number) => {
+    navigate(`?page=${pageNumber}`);
+  };
 
   return (
     <>
@@ -46,8 +69,8 @@ export default function BakeryIntroductionSection() {
             )}
             {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
             {!isLoading &&
-              recipeUserList &&
-              recipeUserList.map((recipe: BigCardProps['data']) => {
+              currentItems &&
+              currentItems.map((recipe: BigCardProps['data']) => {
                 return (
                   <BigCard
                     key={recipe._id}
@@ -58,6 +81,15 @@ export default function BakeryIntroductionSection() {
                 );
               })}
           </ListWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(
+              recipeUserList && recipeUserList.length
+                ? recipeUserList.length / itemsPerPage
+                : 1
+            )}
+            onPageChange={handlePageChange}
+          />
         </MypageList>
       </ContextWrap>
     </>

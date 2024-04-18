@@ -10,9 +10,23 @@ import {
   ListWrapper,
 } from './MyPage';
 import { TailSpin } from 'react-loader-spinner';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Pagination from '../../components/Pagination';
 
 export default function BakeryIntroductionSection() {
   const [isLoading, setIsLoading] = useState(true);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = params.get('page');
+    setCurrentPage(page ? parseInt(page) : 1);
+  }, [location.search]);
 
   const { user } = useAuth();
   const { data: bookmarkList, refetch: bookmarkRefetch } =
@@ -28,6 +42,15 @@ export default function BakeryIntroductionSection() {
     }
   }, [user, bookmarkRefetch]);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems =
+    bookmarkList?.slice(indexOfFirstItem, indexOfLastItem) || [];
+
+  const handlePageChange = (pageNumber: number) => {
+    navigate(`?page=${pageNumber}`);
+  };
+
   return (
     <>
       <ContextWrap>
@@ -42,8 +65,8 @@ export default function BakeryIntroductionSection() {
               </LoaderWrapper>
             )}
             {!isLoading &&
-              bookmarkList &&
-              bookmarkList.map((bookmark: BigCardProps['data']) => {
+              currentItems &&
+              currentItems.map((bookmark: BigCardProps['data']) => {
                 return (
                   <BigCard
                     key={bookmark._id}
@@ -54,6 +77,15 @@ export default function BakeryIntroductionSection() {
                 );
               })}
           </ListWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(
+              bookmarkList && bookmarkList.length
+                ? bookmarkList.length / itemsPerPage
+                : 1
+            )}
+            onPageChange={handlePageChange}
+          />
         </MypageList>
       </ContextWrap>
     </>
