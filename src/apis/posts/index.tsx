@@ -37,9 +37,9 @@ export const postsApis = {
     }
   },
 
-  async getPostByUserId(id: string) {
+  async getPostByUserIdQuery(id: string, query: string | null) {
     try {
-      const response = await axios.get(`${API_URL}/posts/user/${id}`);
+      const response = await axios.get(`${API_URL}/posts/user/${id}${query}`);
       return response.data.data;
     } catch (err) {
       console.error(err);

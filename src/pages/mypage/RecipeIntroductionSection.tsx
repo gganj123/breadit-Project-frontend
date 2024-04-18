@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useGetRecipeByUserIdApi } from '../../hooks/useRecipeApi';
+import { useGetRecipeByUserIdQueryApi } from '../../hooks/useRecipeApi';
 import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 import { useAuth } from '../login/AuthContext';
 import {
@@ -16,7 +16,10 @@ export default function BakeryIntroductionSection() {
   const { user } = useAuth();
 
   const { data: recipeUserList, refetch: recipeRefetch } =
-    useGetRecipeByUserIdApi(user?._id);
+    useGetRecipeByUserIdQueryApi({
+      userId: user?._id,
+      query: '?limit=3',
+    });
 
   useEffect(() => {
     if (user) {

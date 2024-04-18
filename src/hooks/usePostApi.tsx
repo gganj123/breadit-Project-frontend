@@ -17,7 +17,6 @@ export type PostCreateParameters = {
   title: string;
   content: string;
   images: string;
-  bread_id: string;
 };
 
 export type PostEditParameters = {
@@ -58,11 +57,17 @@ export const useGetPostByIdApi = ({
   });
 };
 
-export const useGetPostByUserId = (userId: string) => {
+export const useGetPostByUserIdQueryApi = ({
+  userId,
+  query,
+}: {
+  userId: string;
+  query: string | null;
+}) => {
   return useQuery({
-    queryKey: ['posts', userId],
-    queryFn: () => repositories.postsApis.getPostByUserId(userId),
-    enabled: !!userId,
+    queryKey: ['posts', userId, query],
+    queryFn: () => repositories.postsApis.getPostByUserIdQuery(userId, query),
+    enabled: true,
   });
 };
 

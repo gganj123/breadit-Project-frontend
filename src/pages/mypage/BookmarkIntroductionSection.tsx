@@ -16,7 +16,10 @@ export default function BakeryIntroductionSection() {
 
   const { user } = useAuth();
   const { data: bookmarkList, refetch: bookmarkRefetch } =
-    useGetBookmarkByUserIdApi(user?._id);
+    useGetBookmarkByUserIdApi({
+      userId: user?._id,
+      query: '?limit=3',
+    });
 
   useEffect(() => {
     if (user) {

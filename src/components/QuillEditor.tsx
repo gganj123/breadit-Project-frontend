@@ -15,6 +15,7 @@ import {
 import { useCreatePostApi, useEditPostApi } from '../hooks/usePostApi';
 import { useCreateRecipeApi, useEditRecipeApi } from '../hooks/useRecipeApi';
 import { useAuth } from '../pages/login/AuthContext';
+import NoImg from '/no_img.svg';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
@@ -45,6 +46,12 @@ const EditTitle = styled.input`
   border: 1px solid #dedede;
   font-size: 1rem;
   margin-bottom: 10px;
+`;
+
+const ContentCountStyled = styled.p`
+  margin: 1rem 0;
+  text-align: right;
+  color: #666;
 `;
 
 type EditorProps = {
@@ -268,79 +275,68 @@ export const EditorComponent = ({
   const { mutate: editRecipe } = useEditRecipeApi();
   const { state } = useLocation();
 
+  console.log(title.length);
+
   const handlecreateData = () => {
-    if (user !== null) {
-      const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
-      const imagesJSON = JSON.stringify(images);
+    if (!title) {
+      toast('제목을 입력해주세요.');
+    } else if (!contents) {
+      toast('내용을 입력해주세요.');
+    } else if (title.length > 30) {
+      toast('제목은 최대 30자 입니다.');
+    } else if (contents.length > 400) {
+      toast('내용은 최대 400자 입니다.');
+    } else {
+      if (user !== null) {
+        const thumbnailUrl = thumbnail.length > 0 ? thumbnail[0] : '';
+        const imagesJSON = JSON.stringify(images);
 
-      const editData = {
-        user_id: user._id || '',
-        thumbnail: thumbnail,
-        title: title,
-        nickname: user.nickname || 'no nickname',
-        content: contents,
-        images: imagesJSON,
-      };
+        const createData = {
+          user_id: user._id || '',
+          thumbnail: thumbnailUrl || NoImg,
+          title: title,
+          nickname: user.nickname || 'no nickname',
+          profile: user.profile || '',
+          content: contents,
+          images: imagesJSON,
+        };
 
-      if (postData !== null) {
-        if (state.editCategory === 'magazine') {
-          editMagazine({ editData: editData, targetId: postData.id });
-        } else if (state.editCategory === 'default') {
-          editPost({ editData: editData, targetId: postData.id });
-        } else if (state.editCategory === 'recipe') {
-          editRecipe({ editData: editData, targetId: postData.id });
-        }
-      } else {
-        if (selectedCategory === 'magazine') {
-          const createData = {
-            user_id: user._id || '',
-            thumbnail: thumbnailUrl,
-            title: title,
-            nickname: user.nickname || 'no nickname',
-            profile: user.profile || '',
-            content: contents,
-            images: imagesJSON,
-          };
+        const editData = {
+          user_id: user._id || '',
+          thumbnail: thumbnail || NoImg,
+          title: title,
+          nickname: user.nickname || 'no nickname',
+          content: contents,
+          images: imagesJSON,
+        };
 
-          createMagazine(createData);
-        } else if (selectedCategory === 'default') {
-          const createData = {
-            user_id: user._id || '',
-            thumbnail: thumbnailUrl,
-            title: title,
-            nickname: user.nickname || 'no nickname',
-            profile: user.profile || '',
-            content: contents,
-            images: imagesJSON,
-          };
-
-          createPost(createData);
-        } else if (selectedCategory === 'recipe') {
-          const createData = {
-            user_id: user._id || '',
-            thumbnail: thumbnailUrl,
-            title: title,
-            nickname: user.nickname || 'no nickname',
-            profile: user.profile || '',
-            content: contents,
-            images: imagesJSON,
-          };
-
-          createRecipe(createData);
+        if (postData !== null) {
+          if (state.editCategory === 'magazine') {
+            editMagazine({ editData: editData, targetId: postData.id });
+          } else if (state.editCategory === 'default') {
+            editPost({ editData: editData, targetId: postData.id });
+          } else if (state.editCategory === 'recipe') {
+            editRecipe({ editData: editData, targetId: postData.id });
+          }
+        } else {
+          if (selectedCategory === 'magazine') {
+            createMagazine(createData);
+          } else if (selectedCategory === 'default') {
+            createPost(createData);
+          } else if (selectedCategory === 'recipe') {
+            createRecipe(createData);
+          }
         }
       }
-
-      if (!thumbnail) {
-        toast('썸네일을 추가해주세요.');
-      } else if (!title) {
-        toast('제목을 입력해주세요.');
-      } else if (!contents) {
-        toast('내용을 입력해주세요.');
-      }
-
       navigate(-1);
     }
   };
+
+  if (title.length > 30) {
+    toast('제목은 최대 30자 입니다.');
+  } else if (contents.length > 400) {
+    toast('내용은 최대 400자 입니다.');
+  }
 
   return (
     <>
@@ -364,6 +360,7 @@ export const EditorComponent = ({
         theme="snow"
         placeholder="내용을 입력해주세요."
       />
+      <ContentCountStyled>{`${contents.length}/500`}</ContentCountStyled>
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -375,6 +372,7 @@ export const EditorComponent = ({
           textAlign: 'center',
           lineHeight: '200px',
           cursor: 'pointer',
+          marginTop: '1rem',
         }}
       >
         드래그 앤 드롭하여 이미지 업로드

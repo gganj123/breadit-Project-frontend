@@ -71,9 +71,11 @@ export const bookmarksApis = {
     }
   },
 
-  async getBookmarkByUserId(userId: string) {
+  async getBookmarkByUserId(userId: string, query: string | null) {
     try {
-      const response = await axios.get(`${API_URL}/bookmarks/${userId}`);
+      const response = await axios.get(
+        `${API_URL}/bookmarks/${userId}${query}`
+      );
       return response.data;
     } catch (err) {
       console.error(err);

@@ -8,8 +8,8 @@ import ProfileImageUpload from './ProfileImageUpload';
 import RightArrow from '/right-arrow.svg';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../login/AuthContext';
-import { useGetPostByUserId } from '../../hooks/usePostApi';
-import { useGetRecipeByUserIdApi } from '../../hooks/useRecipeApi';
+import { useGetPostByUserIdQueryApi } from '../../hooks/usePostApi';
+import { useGetRecipeByUserIdQueryApi } from '../../hooks/useRecipeApi';
 import { useGetBookmarkByUserIdApi } from '../../hooks/useBookmarkApi';
 import { TailSpin } from 'react-loader-spinner';
 import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
@@ -146,20 +146,29 @@ export default function MyPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: postUserList, refetch: postRefetch } = useGetPostByUserId(
-    user?._id
-  );
-  const { data: recipeUserList, refetch: recipeRefetch } =
-    useGetRecipeByUserIdApi(user?._id);
   const { data: bookmarkList, refetch: bookmarkRefetch } =
-    useGetBookmarkByUserIdApi(user?._id);
+    useGetBookmarkByUserIdApi({
+      userId: user?._id,
+      query: '?limit=3',
+    });
+
+  const { data: postUserList, refetch: postRefetch } =
+    useGetPostByUserIdQueryApi({
+      userId: user?._id,
+      query: '?limit=3',
+    });
+  const { data: recipeUserList, refetch: recipeRefetch } =
+    useGetRecipeByUserIdQueryApi({
+      userId: user?._id,
+      query: '?limit=3',
+    });
 
   useEffect(() => {
     if (user) {
+      bookmarkRefetch();
       postRefetch();
       recipeRefetch();
       setIsLoading(false);
-      bookmarkRefetch();
     }
   }, [user, postRefetch, recipeRefetch, bookmarkRefetch]);
 

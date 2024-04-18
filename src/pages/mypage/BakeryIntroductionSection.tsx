@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useGetPostByUserId } from '../../hooks/usePostApi';
+import { useGetPostByUserIdQueryApi } from '../../hooks/usePostApi';
 import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
 import { useAuth } from '../login/AuthContext';
 import {
@@ -15,9 +15,11 @@ export default function BakeryIntroductionSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useAuth();
-  const { data: postUserList, refetch: postRefetch } = useGetPostByUserId(
-    user?._id
-  );
+  const { data: postUserList, refetch: postRefetch } =
+    useGetPostByUserIdQueryApi({
+      userId: user?._id,
+      query: '',
+    });
 
   useEffect(() => {
     if (user) {

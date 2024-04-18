@@ -57,11 +57,18 @@ export const useGetRecipeByIdApi = ({
   });
 };
 
-export const useGetRecipeByUserIdApi = (userId: string) => {
+export const useGetRecipeByUserIdQueryApi = ({
+  userId,
+  query,
+}: {
+  userId: string;
+  query: string | null;
+}) => {
   return useQuery({
-    queryKey: ['recipes', userId],
-    queryFn: () => repositories.recipesApis.getRecipeByUserId(userId),
-    enabled: !!userId,
+    queryKey: ['recipes', userId, query],
+    queryFn: () =>
+      repositories.recipesApis.getRecipeByUserIdQuery(userId, query),
+    enabled: true,
   });
 };
 

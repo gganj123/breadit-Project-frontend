@@ -37,9 +37,9 @@ export const recipesApis = {
     }
   },
 
-  async getRecipeByUserId(id: string) {
+  async getRecipeByUserIdQuery(id: string, query: string | null) {
     try {
-      const response = await axios.get(`${API_URL}/recipes/user/${id}`);
+      const response = await axios.get(`${API_URL}/recipes/user/${id}${query}`);
       return response.data.data;
     } catch (err) {
       console.error(err);
