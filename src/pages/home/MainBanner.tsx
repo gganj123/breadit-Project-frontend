@@ -60,27 +60,33 @@ const BannerItemStyled = styled.div`
 
   .content .title {
     font-size: 3.4rem;
-    padding: 2.2rem 0 2.6rem;
-    border-bottom: solid 1px #ddd;
-    margin-bottom: 3rem;
+    padding: 2.2rem 0 0;
+    margin-bottom: 2.2rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    line-height: 1.5;
   }
 
   .content .text {
     min-height: 9rem;
     font-size: 2rem;
-    color: #444;
-    margin: 2rem 0 3rem;
+    color: #575757;
+    margin: 0 0 3rem;
+    padding-top: 2.2rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
     line-height: 1.5;
     word-break: keep-all;
+    border-top: solid 1px #ddd;
   }
 
   .content .text * {
     font-size: 2rem;
-    color: #444;
+    color: #575757;
     font-weight: 400;
     font-style: normal;
     text-decoration: none;

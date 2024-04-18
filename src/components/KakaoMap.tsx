@@ -6,6 +6,7 @@ import MapDetailContent from './MapDetailContent/MapDetailContent';
 import { searchBakeryNearby } from '../components/SearchArea';
 import { useLocation } from 'react-router-dom';
 import { Hearts } from 'react-loader-spinner';
+import TelIcon from '/icons/tel_icon.svg';
 
 export type Marker = {
   position: { lat: number; lng: number };
@@ -354,7 +355,7 @@ const MapComponent: React.FC = () => {
   }, [map]);
 
   // 페이지 당 마커 수
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
   const startIndex = (pagination.current - 1) * itemsPerPage;
   const visibleMarkers = markers.slice(startIndex, startIndex + itemsPerPage);
 
@@ -424,33 +425,39 @@ const MapComponent: React.FC = () => {
         </S.MapSearchBox>
       </Map>
       <S.MapContainer>
-        <S.MapList>
-          {visibleMarkers.map((marker, index) => (
-            <li key={index}>
-              <a>
-                <S.MapListItem
-                  onClick={() => {
-                    getMapData(marker.id);
-                  }}
-                >
-                  <div className="img" />
-                  <div>
-                    <p className="title">{marker.content}</p>
-                    <span>{marker.address}</span>
-                    <p>내 위치로 부터 2km</p>
-                    <p>{marker.phone}</p>
-                  </div>
-                </S.MapListItem>
-              </a>
-            </li>
-          ))}
-        </S.MapList>
-        {/* Pagination 추가 */}
-        <Pagination
-          last={pagination.last}
-          current={pagination.current}
-          gotoPage={gotoPage}
-        />
+        <div className="map_inner">
+          <S.MapList>
+            {visibleMarkers.map((marker, index) => (
+              <li key={index}>
+                <a>
+                  <S.MapListItem
+                    onClick={() => {
+                      getMapData(marker.id);
+                    }}
+                  >
+                    <div>
+                      <p className="title">{marker.content}</p>
+                      <span className="address">{marker.address}</span>
+                      {marker.phone && (
+                        <p className="tel">
+                          <img src={TelIcon} />
+                          {marker.phone}
+                        </p>
+                      )}
+                    </div>
+                  </S.MapListItem>
+                </a>
+              </li>
+            ))}
+          </S.MapList>
+          {/* Pagination 추가 */}
+          <Pagination
+            last={pagination.last}
+            current={pagination.current}
+            gotoPage={gotoPage}
+          />
+        </div>
+
         {isShowDetail && (
           <S.MapDetailStyle>
             <MapDetailContent data={mapDetail} />
@@ -463,8 +470,14 @@ const MapComponent: React.FC = () => {
           </S.MapDetailStyle>
         )}
         {/* 디테일정보 전달 */}
+        <S.SlidePin
+          $expanded={expanded}
+          onClick={() => {
+            setIsShowDetail(false);
+            toggleMapSize();
+          }}
+        ></S.SlidePin>
       </S.MapContainer>
-      <S.SlidePin $expanded={expanded} onClick={toggleMapSize}></S.SlidePin>
     </S.MapWrapper>
   );
 };

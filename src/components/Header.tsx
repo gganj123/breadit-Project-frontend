@@ -1,12 +1,22 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../pages/login/AuthContext';
 import Logo from '/Logo.svg';
 
 const Header = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+  });
+
   const { user, logout, loading } = useAuth();
 
   return (
-    <header className="flex_default header">
+    <header className={`flex_default header ${scrollPosition > 60 && 'fixed'}`}>
       <nav className="main_nav">
         <ul>
           <li>

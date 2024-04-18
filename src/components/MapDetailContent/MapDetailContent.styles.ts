@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const MapDetailStyled = styled.div`
   margin-bottom: 1rem;
   font-size: 1.5rem;
+  width: 40rem;
 
   .thumbnail_box {
     height: 30rem;
@@ -17,7 +18,7 @@ export const MapDetailStyled = styled.div`
   .store_name {
     padding: 2.6rem 2rem 2.4rem;
     text-align: center;
-    border-bottom: solid 1px #ddd;
+    border-bottom: solid 1px #eee;
   }
 
   .store_name h4 {
