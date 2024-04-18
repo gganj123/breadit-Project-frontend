@@ -14,8 +14,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Pagination from '../../components/Pagination';
 
 export default function BakeryIntroductionSection() {
-  const [isLoading, setIsLoading] = useState(true);
-
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
@@ -29,16 +27,18 @@ export default function BakeryIntroductionSection() {
   }, [location.search]);
 
   const { user } = useAuth();
-  const { data: bookmarkList, refetch: bookmarkRefetch } =
-    useGetBookmarkByUserIdApi({
-      userId: user?._id,
-      query: '?limit=3',
-    });
+  const {
+    data: bookmarkList,
+    refetch: bookmarkRefetch,
+    isLoading: isBookmarkLoading,
+  } = useGetBookmarkByUserIdApi({
+    userId: user?._id || '',
+    query: '?limit=3',
+  });
 
   useEffect(() => {
     if (user) {
       bookmarkRefetch();
-      setIsLoading(false);
     }
   }, [user, bookmarkRefetch]);
 
@@ -59,12 +59,12 @@ export default function BakeryIntroductionSection() {
             <h2 className="oleo-script-bold community_title">저장한 게시글</h2>
           </MypageListTitle>
           <ListWrapper>
-            {isLoading && (
+            {isBookmarkLoading && (
               <LoaderWrapper>
                 <TailSpin color="#FFCB46" />
               </LoaderWrapper>
             )}
-            {!isLoading &&
+            {!isBookmarkLoading &&
               currentItems &&
               currentItems.map((bookmark: BigCardProps['data']) => {
                 return (

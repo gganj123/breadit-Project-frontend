@@ -14,7 +14,6 @@ import Pagination from '../../components/Pagination';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function BakeryIntroductionSection() {
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,16 +28,18 @@ export default function BakeryIntroductionSection() {
     setCurrentPage(page ? parseInt(page) : 1);
   }, [location.search]);
 
-  const { data: recipeUserList, refetch: recipeRefetch } =
-    useGetRecipeByUserIdQueryApi({
-      userId: user?._id,
-      query: '?limit=3',
-    });
+  const {
+    data: recipeUserList,
+    refetch: recipeRefetch,
+    isLoading: isRecipeLoading,
+  } = useGetRecipeByUserIdQueryApi({
+    userId: user?._id || '',
+    query: '?limit=3',
+  });
 
   useEffect(() => {
     if (user) {
       recipeRefetch();
-      setIsLoading(false);
     }
   }, [user, recipeRefetch]);
 
@@ -62,13 +63,13 @@ export default function BakeryIntroductionSection() {
           </MypageListTitle>
           <ListWrapper>
             {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
-            {isLoading && (
+            {isRecipeLoading && (
               <LoaderWrapper>
                 <TailSpin color="#FFCB46" />
               </LoaderWrapper>
             )}
             {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-            {!isLoading &&
+            {!isRecipeLoading &&
               currentItems &&
               currentItems.map((recipe: BigCardProps['data']) => {
                 return (

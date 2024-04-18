@@ -63,7 +63,7 @@ export const useGetBookmarkByUserIdApi = ({
   query: string;
 }) => {
   return useQuery({
-    queryKey: ['posts', userId, query],
+    queryKey: ['bookmarks', userId, query],
     queryFn: () =>
       repositories.bookmarksApis.getBookmarkByUserId(userId, query),
     enabled: !!userId,

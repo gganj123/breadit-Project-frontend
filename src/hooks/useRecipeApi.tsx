@@ -4,9 +4,12 @@ import { repositories } from '../apis';
 type RecipeParameters = {
   _id: string;
   nickname: string;
+  profile?: string;
   title: string;
   content: string;
   like_count: number;
+  thumbnail: string;
+  location?: string | '';
 };
 
 export type RecipeCreateParameters = {

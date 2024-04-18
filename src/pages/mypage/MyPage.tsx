@@ -144,31 +144,37 @@ export default function MyPage() {
     }
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-
   // TODO: enable 옵션 제어
-  const { data: bookmarkList, refetch: bookmarkRefetch } =
-    useGetBookmarkByUserIdApi({
-      userId: user?.id,
-      query: '?limit=3',
-    });
-  const { data: postUserList, refetch: postRefetch } =
-    useGetPostByUserIdQueryApi({
-      userId: user?.id,
-      query: '?limit=3',
-    });
-  const { data: recipeUserList, refetch: recipeRefetch } =
-    useGetRecipeByUserIdQueryApi({
-      userId: user?.id,
-      query: '?limit=3',
-    });
+  const {
+    data: bookmarkList,
+    refetch: bookmarkRefetch,
+    isLoading: isBookmarkLoading,
+  } = useGetBookmarkByUserIdApi({
+    userId: user?._id || '',
+    query: '?limit=3',
+  });
+  const {
+    data: postUserList,
+    refetch: postRefetch,
+    isLoading: isPostLoading,
+  } = useGetPostByUserIdQueryApi({
+    userId: user?._id || '',
+    query: '?limit=3',
+  });
+  const {
+    data: recipeUserList,
+    refetch: recipeRefetch,
+    isLoading: isRecipeLoading,
+  } = useGetRecipeByUserIdQueryApi({
+    userId: user?._id || '',
+    query: '?limit=3',
+  });
 
   useEffect(() => {
     if (user) {
       bookmarkRefetch();
       postRefetch();
       recipeRefetch();
-      setIsLoading(false);
     }
   }, [user]);
 
@@ -200,13 +206,13 @@ export default function MyPage() {
                 </MypageListTitle>
                 <ListWrapper>
                   {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
-                  {isLoading && (
+                  {isBookmarkLoading && (
                     <LoaderWrapper>
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-                  {!isLoading &&
+                  {!isBookmarkLoading &&
                     bookmarkList &&
                     bookmarkList.map((bookmark: BigCardProps['data']) => {
                       return (
@@ -230,12 +236,12 @@ export default function MyPage() {
                   </Link>
                 </MypageListTitle>
                 <ListWrapper>
-                  {isLoading && (
+                  {isPostLoading && (
                     <LoaderWrapper>
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {!isLoading &&
+                  {!isPostLoading &&
                     postUserList &&
                     postUserList.map((post: BigCardProps['data']) => {
                       return (
@@ -259,12 +265,12 @@ export default function MyPage() {
                   </Link>
                 </MypageListTitle>
                 <ListWrapper>
-                  {isLoading && (
+                  {isRecipeLoading && (
                     <LoaderWrapper>
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {!isLoading &&
+                  {!isRecipeLoading &&
                     recipeUserList &&
                     recipeUserList.map((recipe: BigCardProps['data']) => {
                       return (

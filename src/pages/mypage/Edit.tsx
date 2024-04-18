@@ -54,7 +54,7 @@ export default function Edit() {
     email: user?.email || '',
     nickname: user?.nickname || '',
     profile: user?.profile || '',
-    id: user?.id || '',
+    id: user?._id || '',
     newPassword: '',
   });
   const kakaoUser = user?.social_login_provider;
@@ -74,7 +74,7 @@ export default function Edit() {
     try {
       await updateUserInfo({
         ...user,
-        id: formData.id,
+        _id: formData.id,
         nickname: formData.nickname,
         email: formData.email,
         profile: formData.profile,

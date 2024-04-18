@@ -30,9 +30,6 @@ type PostCommunityParameters = {
   content: string;
   images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
   thumbnail: string;
-  bread_id: string;
-  createdAt: string;
-  updatedAt: string;
   like_count: number;
   // 다른 필드들도 필요에 따라 추가
 };

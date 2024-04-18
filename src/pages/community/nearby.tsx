@@ -14,16 +14,13 @@ const PostIcon = '/post-icon.svg';
 
 type PostCommunityParameters = {
   _id: string;
-  user_id: string;
   nickname: string;
-  profile: string;
+  profile?: string;
   title: string;
   content: string;
-  images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
-  thumbnail: string;
-  createdAt: string;
-  updatedAt: string;
   like_count: number;
+  thumbnail: string;
+  location?: string | '';
   // 다른 필드들도 필요에 따라 추가
 };
 
@@ -36,7 +33,9 @@ export default function NearByPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const { data: initialData } = useGetPostListApi();
-  const { refetch: refetchSearch } = useGetPostByQueryApi(`?q=${searchQuery}`);
+  const { refetch: refetchSearch } = useGetPostByQueryApi(
+    `?q=${searchTerm}&page=${currentPage}`
+  );
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -58,15 +57,7 @@ export default function NearByPage() {
 
   const performSearch = async () => {
     try {
-      const { data: searchResults } = await refetchSearch<
-        PostCommunityParameters[]
-      >({
-        queryKey: ['search', searchTerm, currentPage],
-        queryParams: {
-          q: searchTerm,
-          page: currentPage,
-        },
-      });
+      const { data: searchResults } = await refetchSearch();
       setPostList(searchResults || []);
     } catch (error) {
       console.error('Search error:', error);
@@ -90,6 +81,7 @@ export default function NearByPage() {
       <div className="community_inner">
         {currentItems.length > 0 ? (
           currentItems.map((post) => {
+            console.log(post);
             return (
               <BigCard
                 data={post}

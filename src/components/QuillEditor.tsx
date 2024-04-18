@@ -121,7 +121,7 @@ export const EditorComponent = ({
       // 기존 이미지가 없을 경우, 새로운 이미지로 썸네일 설정
       const imageUrl = await handleImageUpload(files[0]);
       if (imageUrl) {
-        setThumbnail((prevImages) => [...prevImages, imageUrl]);
+        setThumbnail((prevImages: string) => [...prevImages, imageUrl]);
       }
     }
   };
@@ -185,7 +185,7 @@ export const EditorComponent = ({
 
         Promise.all(promises)
           .then((urls) => {
-            setImages((prevImages) => [...prevImages, ...urls]);
+            setImages((prevImages: string) => [...prevImages, ...urls]);
 
             const range = QuillRef.current?.getEditor().getSelection()?.index;
             if (range !== null && range !== undefined) {

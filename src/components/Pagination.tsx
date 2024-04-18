@@ -16,7 +16,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
         <PageNumber
           key={pageNumber}
           onClick={() => onPageChange(pageNumber)}
-          active={pageNumber === currentPage ? 'true' : undefined} // active 속성을 사용
+          active={pageNumber === currentPage} // active 속성을 사용
         >
           {pageNumber}
         </PageNumber>

@@ -14,17 +14,13 @@ const PostIcon = '/post-icon.svg';
 
 type RecipeCommunityParameters = {
   _id: string;
-  user_id: string;
   nickname: string;
-  profile: string;
+  profile?: string;
   title: string;
   content: string;
-  images: string; // 이미지 경로 배열 등의 형태로 가정합니다.
-  thumbnail: string;
-  createdAt: string;
-  updatedAt: string;
   like_count: number;
-  // 다른 필드들도 필요에 따라 추가
+  thumbnail: string;
+  location?: string | '';
 };
 
 export default function NearByPage() {
@@ -37,7 +33,7 @@ export default function NearByPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const { data: initialData } = useGetRecipeListApi();
   const { refetch: refetchSearch } = useGetRecipeByQueryApi(
-    `?q=${searchQuery}`
+    `?q=${searchTerm}&page=${currentPage}`
   );
   const location = useLocation();
   const navigate = useNavigate();
@@ -60,9 +56,7 @@ export default function NearByPage() {
 
   const performSearch = async () => {
     try {
-      const { data: searchResults } = await refetchSearch(
-        `?q=${searchTerm}&page=${currentPage}`
-      );
+      const { data: searchResults } = await refetchSearch();
       setRecipeList(searchResults || []);
     } catch (error) {
       console.error('Search error:', error);

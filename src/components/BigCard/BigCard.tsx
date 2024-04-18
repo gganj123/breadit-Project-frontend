@@ -18,7 +18,7 @@ export type BigCardProps = {
   admin?: boolean;
   handleCheckboxChange?: (id: string, checked: boolean) => void;
   isChecked?: boolean;
-  go: string;
+  go?: string;
 };
 
 const BigCardList = ({

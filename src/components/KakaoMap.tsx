@@ -118,7 +118,7 @@ const MapComponent: React.FC = () => {
 
   useEffect(() => {
     if (categoryName) {
-      const categoryKeywords = {
+      const categoryKeywords: { [key: string]: string } = {
         케이크: '케이크',
         빵집: '빵집',
         쿠키: '쿠키',
@@ -127,7 +127,9 @@ const MapComponent: React.FC = () => {
 
       const searchKeyword = categoryKeywords[categoryName] || '';
       // searchBakeryNearby 함수 호출 시 검색 키워드 전달
-      searchBakeryNearby(map, setMarkers, setPagination, searchKeyword);
+      if (map) {
+        searchBakeryNearby(map, setMarkers, setPagination, searchKeyword);
+      }
       console.log(searchKeyword);
     }
   }, [categoryName, map, setMarkers, setPagination]);
@@ -268,8 +270,16 @@ const MapComponent: React.FC = () => {
     getPosSuccess(pos);
   };
 
+  type postParameters = {
+    coords: {
+      latitude: number;
+      longitude: number;
+    };
+  };
+
   // 현 위치 가져오기 성공 시 호출되는 함수 - 강남역 위치로 고정
-  const getPosSuccess = (pos) => {
+  const getPosSuccess = (pos: postParameters) => {
+    console.log(pos);
     const currentPos = new window.kakao.maps.LatLng(
       elliesSungsuLocation.latitude,
       elliesSungsuLocation.longitude
