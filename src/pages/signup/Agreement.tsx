@@ -168,7 +168,7 @@ const SignUpPage: FC = () => {
       />
       <Agreement
         title="[필수] 이용약관"
-        content="[ Breadit 이용 약관 ]\n\n이 약관은 Breadit 주식회사(이하 “회사”)가 운영하는 사이버몰에서 제공하는 서비스와 이를 이용하는 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다."
+        content="[ Breadit 이용 약관 ] 이 약관은 Breadit 주식회사(이하 “회사”)가 운영하는 사이버몰에서 제공하는 서비스와 이를 이용하는 회원의 권리·의무 및 책임사항을 규정함을 목적으로 합니다."
         checked={termsChecked}
         onCheckedChange={(checked) =>
           handleIndividualCheckedChange(checked, 'terms')
@@ -176,7 +176,7 @@ const SignUpPage: FC = () => {
       />
       <Agreement
         title="[필수] 개인정보처리방침"
-        content="회사는 회원가입, 민원 등 고객상담 처리, 본인확인 등을 목적으로 개인정보를 수집 및 이용합니다."
+        content="Breadit은 회원가입, 민원 등 고객상담 처리, 본인확인 등을 목적으로 개인정보를 수집 및 이용합니다."
         checked={privacyChecked}
         onCheckedChange={(checked) =>
           handleIndividualCheckedChange(checked, 'privacy')
