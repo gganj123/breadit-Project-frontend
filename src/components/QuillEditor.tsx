@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo, useEffect } from 'react';
-import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactQuill, { Quill } from 'react-quill';
@@ -77,9 +77,11 @@ export const EditorComponent = ({
     navigate(-1);
   };
 
-  const s3 = new AWS.S3({
-    accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
-    secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+  const s3 = new S3Client({
+    credentials: {
+      accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+      secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+    },
     region: `${import.meta.env.VITE_REGION}`,
   });
 
@@ -92,8 +94,14 @@ export const EditorComponent = ({
     };
 
     try {
-      const data = await s3.upload(params).promise();
-      return data.Location;
+      const command = new PutObjectCommand({
+        Bucket: 'elice-breadit-project',
+        Key: `thumb/${file.name}`,
+        Body: file,
+        ACL: 'public-read',
+      });
+      const data = await s3.send(command);
+      return data;
     } catch (error) {
       console.error('Error uploading image:', error);
       return null;
@@ -168,17 +176,20 @@ export const EditorComponent = ({
 
           promises.push(
             new Promise<string>((resolve, reject) => {
-              s3.upload(
-                params,
-                (err: Error | null, data: AWS.S3.ManagedUpload.SendData) => {
-                  if (err) {
-                    console.error(err);
-                    reject(err);
-                  } else {
-                    resolve(data.Location);
-                  }
-                }
-              );
+              const command = new PutObjectCommand({
+                Bucket: 'elice-breadit-project',
+                Key: `thumb/${file[i].name}`,
+                Body: file[i],
+                ACL: 'public-read',
+              });
+              s3.send(command)
+                .then((data) => {
+                  resolve(data.ETag);
+                })
+                .catch((err) => {
+                  console.error(err);
+                  reject(err);
+                });
             })
           );
         }

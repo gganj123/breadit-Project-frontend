@@ -5,7 +5,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaPen } from 'react-icons/fa';
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { useAuth } from '../login/AuthContext';
 
 type ProfileImageUploadProps = {
@@ -101,29 +101,31 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
     if (file) {
       const imageUrl = await uploadImageToS3(file);
       if (imageUrl) {
-        onImageUpload?.(imageUrl);
+        onImageUpload?.('imageUrl');
         setShowOptions(false);
       }
     }
   };
 
   const uploadImageToS3 = async (file: File) => {
-    const s3 = new AWS.S3({
-      accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
-      secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+    const s3 = new S3Client({
+      credentials: {
+        accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+        secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+      },
       region: `${import.meta.env.VITE_REGION}`,
     });
 
-    const params = {
+    const params = new PutObjectCommand({
       Bucket: 'elice-breadit-project',
-      Key: `profile/${file.name}`,
+      Key: `thumb/${file.name}`,
       Body: file,
       ACL: 'public-read',
-    };
+    });
 
     try {
-      const data = await s3.upload(params).promise();
-      return data.Location;
+      const data = await s3.send(params);
+      return data.$metadata;
     } catch (error) {
       console.error('Error uploading image:', error);
       return null;

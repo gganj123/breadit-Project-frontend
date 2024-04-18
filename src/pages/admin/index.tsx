@@ -9,11 +9,24 @@ import {
   useGetMagazineListApi,
   useDeleteMagazineByCheckApi,
 } from '../../hooks/useMagazineApi';
+import { useAuth } from '../login/AuthContext';
 
 import './admin.css';
 import Pagination from '../../components/Pagination';
 
 const AdminMagazine = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        navigate('/');
+      } else if (user.user_role !== 'editor') {
+        navigate('/');
+      }
+    }
+  }, [user, loading, navigate]);
   const { data: magazineList } = useGetMagazineListApi();
   const { mutate: deleteList } = useDeleteMagazineByCheckApi();
   const [checkList, setCheckList] = useState<string[]>([]);
