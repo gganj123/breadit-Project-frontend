@@ -10,6 +10,7 @@ import {
 import { CommentsContStyled } from './Comment.styles';
 import NoProfile from '/no_profile.svg';
 import { useAuth } from '../../pages/login/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Comments = ({ postId }: { postId: string }) => {
   const { data: commentList } = useCommentByPostIdApi(postId || '');
@@ -30,18 +31,26 @@ const Comments = ({ postId }: { postId: string }) => {
 
   const { user } = useAuth();
 
-  const createComment = () => {
-    if (user !== null) {
-      const commentData = {
-        nickname: user.nickname || 'no nickname',
-        profile: user.profile || NoProfile,
-        user_id: user._id,
-        post_id: postId,
-        content: commentTextArea,
-      };
+  if (commentTextArea.length > 200) {
+    toast('댓글은 200자가 최대입니다.');
+  }
 
-      createMutate(commentData);
-      setCommentTextArea('');
+  const createComment = () => {
+    if (commentTextArea.length > 200) {
+      toast('댓글은 200자가 최대입니다.');
+    } else {
+      if (user !== null) {
+        const commentData = {
+          nickname: user.nickname || 'no nickname',
+          profile: user.profile || NoProfile,
+          user_id: user._id,
+          post_id: postId,
+          content: commentTextArea,
+        };
+
+        createMutate(commentData);
+        setCommentTextArea('');
+      }
     }
   };
 
@@ -55,13 +64,15 @@ const Comments = ({ postId }: { postId: string }) => {
             </div>
             <span>{user.nickname || 'no nickname'}</span>
           </div>
-          <textarea
-            name="comment"
-            placeholder="댓글을 입력하세요"
-            onChange={(e) => setCommentTextArea(e.target.value)}
-            value={commentTextArea}
-          />
-
+          <div className="text_area">
+            <textarea
+              name="comment"
+              placeholder="댓글을 입력하세요"
+              onChange={(e) => setCommentTextArea(e.target.value)}
+              value={commentTextArea}
+            />
+            <p className="comment_count">{`${commentTextArea.length}/200`}</p>
+          </div>
           <div className="buttons">
             <ButtonDefault
               text={'취소'}
@@ -101,6 +112,7 @@ const Comments = ({ postId }: { postId: string }) => {
           <p className="no_content">댓글이 없습니다.</p>
         )}
       </div>
+      <ToastContainer />
     </CommentsContStyled>
   );
 };
