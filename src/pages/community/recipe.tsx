@@ -7,6 +7,7 @@ import {
   useGetRecipeListApi,
   useGetRecipeByQueryApi,
 } from '../../hooks/useRecipeApi';
+import { useAuth } from '../login/AuthContext';
 
 // 이미지 경로
 const SearchIcon = '/search-icon.svg';
@@ -102,6 +103,8 @@ export default function NearByPage() {
     navigate(`?page=${pageNumber}`);
   };
 
+  const { user } = useAuth();
+
   return (
     <div className="community_container">
       <div className="community">
@@ -130,11 +133,13 @@ export default function NearByPage() {
               style={{ cursor: 'pointer' }}
             />
           </div>
-          <div className="community_post_btn">
-            <Link to="/community/edit">
-              <img src={PostIcon} className="icon" alt="search icon" />
-            </Link>
-          </div>
+          {user && (
+            <div className="community_post_btn">
+              <Link to="/community/edit">
+                <img src={PostIcon} className="icon" alt="search icon" />
+              </Link>
+            </div>
+          )}
         </div>
         <div className="community_list">
           <div className="community_list_title box_wrapper">
