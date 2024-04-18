@@ -16,8 +16,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination) => {
     (_, index) => index + 1
   );
 
-  console.log(typeof pageNumbers);
-
   return (
     <PaginationWrapper>
       {pageNumbers.map((pageNumber) => (

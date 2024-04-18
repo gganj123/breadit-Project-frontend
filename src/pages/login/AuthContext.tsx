@@ -43,7 +43,7 @@ type AuthProviderProps = {
 // AuthProvider 구현
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -100,7 +100,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // 유저 정보 조회
   const fetchUserData = async (userId: string, accessToken: string) => {
     try {
-      setLoading(true);
       const response = await axios.get(`${apiUrl}/users/${userId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -120,7 +119,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // 유저 정보 수정
   const updateUserInfo = async (userData: Partial<User>) => {
     if (!user) return;
-    setLoading(true);
     try {
       const userId = localStorage.getItem('id');
       await axios.put(`${apiUrl}/users/${userId}`, userData, {
@@ -220,7 +218,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         '정말로 회원 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.'
       )
     ) {
-      setLoading(true);
       try {
         const userId = localStorage.getItem('id');
         await axios.delete(`${apiUrl}/users/${userId}`, {

@@ -18,15 +18,16 @@ const AdminMagazine = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  const userId = localStorage.getItem('id');
+
   useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        navigate('/');
-      } else if (user.user_role !== 'editor') {
-        navigate('/');
-      }
+    if (!loading && user.user_role !== 'editor') {
+      navigate('/');
+    } else if (!userId) {
+      navigate('/');
     }
-  }, [user, loading, navigate]);
+  }, [user, loading]);
+
   const { data: magazineList } = useGetMagazineListApi();
   const { mutate: deleteList } = useDeleteMagazineByCheckApi();
   const [checkList, setCheckList] = useState<string[]>([]);

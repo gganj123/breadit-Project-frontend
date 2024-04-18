@@ -60,8 +60,6 @@ const DetailContent = ({ data, deleteEvent, editCategory }: DetailProps) => {
 
   const location = useLocation();
 
-  console.log(location.pathname);
-
   const locationRoute = location.pathname.split('/')[1];
 
   const goToEditPage = () => {
