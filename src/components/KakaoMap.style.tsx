@@ -2,18 +2,23 @@ import styled from 'styled-components';
 
 export const MapContainer = styled.div`
   position: absolute;
-  background: #000;
-  width: 40rem;
+  background: #fff;
   height: 100%;
   top: 7.4rem;
   left: 0;
+  display: flex;
+
+  .map_inner {
+    width: 34rem;
+  }
 
   #pagination {
     text-align: center;
-    font-size: 25px;
+    font-size: 1.8rem;
+    margin-top: 2rem;
     a {
       cursor: pointer;
-      color: #fff;
+      color: #000;
       + a {
         margin-left: 15px;
       }
@@ -22,26 +27,19 @@ export const MapContainer = styled.div`
 `;
 
 export const MapWrapper = styled.div<{ $expanded: boolean }>`
-  width: ${(props) => (props.$expanded ? '100%' : 'calc(100% - 40rem)')};
+  width: ${(props) => (props.$expanded ? 'calc(100% - 34rem)' : '100%')};
   margin-left: auto;
   height: 100vh;
 `;
 
 export const MapList = styled.ul`
-  width: 90%;
-  margin: 20px auto 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  .img {
-    width: 50px;
-    height: 50px;
-    background: gray;
-    border-radius: 50%;
-    margin-right: 26px;
-  }
+
   li {
     width: 100%;
+    height: 11rem;
+    border-bottom: solid 1px #eee;
   }
 `;
 
@@ -55,16 +53,25 @@ export const MapListItem = styled.div`
     margin-top: 10px;
   }
   .title {
-    font-size: 1.6rem;
+    font-size: 2rem;
     font-weight: 600;
     color: #000;
     margin-top: 0;
     margin-bottom: 10px;
+    cursor: pointer;
   }
-  span {
+  .address {
     margin: 10px 0;
-    font-size: 1rem;
+    font-size: 1.6rem;
     color: dimgray;
+  }
+  .tel {
+    font-size: 1.4rem;
+    height: 2rem;
+  }
+
+  .tel img {
+    width: 16px;
   }
 `;
 
@@ -119,27 +126,24 @@ export const FindNearBakery = styled.div`
 `;
 
 export const SlidePin = styled.div<{ $expanded: boolean }>`
-  width: 10px;
-  height: 100px;
+  width: 2rem;
+  height: 6rem;
   position: absolute;
   top: 50%;
-  left: ${(props) => (props.$expanded ? '0' : '40rem')};
+  left: ${(props) => (props.$expanded ? '100%' : '0')};
   transform: translateY(-50%);
-  background: red;
+  background: #ffcb46;
   z-index: 100;
-  box-shadow: rgba(255, 255, 255, 0.5);
+  box-shadow: 0.6rem 0.6rem 0.4rem rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
 
 export const MapDetailStyle = styled.section`
-  width: 40rem;
   height: 100%;
   background-color: #fff;
-  position: absolute;
-  top: 0;
-  left: 100%;
   z-index: 12;
   box-shadow: 1rem 1rem 1.2rem rgba(0, 0, 0, 0.1);
+  border-left: solid 1px #ddd;
 
   .closed_detail_btn {
     position: absolute;

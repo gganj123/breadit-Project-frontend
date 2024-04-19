@@ -1,4 +1,4 @@
-import { useLocation, Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
@@ -10,7 +10,6 @@ import { usePostRecipeBookmarkToggleApi } from '../../hooks/useBookmarkApi';
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
 
   const accessToken = localStorage.getItem('accessToken');
 

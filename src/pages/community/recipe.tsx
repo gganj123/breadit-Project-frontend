@@ -7,6 +7,7 @@ import {
   useGetRecipeListApi,
   useGetRecipeByQueryApi,
 } from '../../hooks/useRecipeApi';
+import { useAuth } from '../login/AuthContext';
 
 // 이미지 경로
 const SearchIcon = '/search-icon.svg';
@@ -50,10 +51,6 @@ export default function NearByPage() {
     setCurrentPage(page ? parseInt(page) : 1);
   }, [location.search]);
 
-  const handleChangeSearchQuery = () => {
-    setSearchQuery(searchTerm);
-  };
-
   const performSearch = async () => {
     try {
       const { data: searchResults } = await refetchSearch();
@@ -61,6 +58,11 @@ export default function NearByPage() {
     } catch (error) {
       console.error('Search error:', error);
     }
+  };
+
+  const handleChangeSearchQuery = () => {
+    setSearchQuery(searchTerm);
+    performSearch();
   };
 
   // 검색어 입력 시 상태 업데이트 함수
@@ -101,6 +103,8 @@ export default function NearByPage() {
     navigate(`?page=${pageNumber}`);
   };
 
+  const { user } = useAuth();
+
   return (
     <div className="community_container">
       <div className="community">
@@ -113,23 +117,29 @@ export default function NearByPage() {
               placeholder="검색어를 입력하세요."
               value={searchTerm}
               onChange={handleSearchInputChange}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleChangeSearchQuery();
+                }
+              }}
             />
             <img
               src={SearchIcon}
               className="icon"
               alt="search icon"
               onClick={() => {
-                performSearch();
                 handleChangeSearchQuery();
               }}
               style={{ cursor: 'pointer' }}
             />
           </div>
-          <div className="community_post_btn">
-            <Link to="/community/edit">
-              <img src={PostIcon} className="icon" alt="search icon" />
-            </Link>
-          </div>
+          {user && (
+            <div className="community_post_btn">
+              <Link to="/community/edit">
+                <img src={PostIcon} className="icon" alt="search icon" />
+              </Link>
+            </div>
+          )}
         </div>
         <div className="community_list">
           <div className="community_list_title box_wrapper">

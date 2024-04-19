@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {font-weight:700;}
   ul, ol, li {list-style: none;}
   table, td, th, tr {border-collapse: collapse;}
-  a {color: #3d3d3d; text-decoration: none;}
+  a {color: #575757; text-decoration: none;}
   textarea {resize: none;}
   fieldset {border: 0;}
   button {cursor:pointer; background: none; border: 0; outline:none;}
@@ -43,8 +43,9 @@ const GlobalStyle = createGlobalStyle`
   }
   
   body {
-    background-color:#fdfaf7;
+    background-color:#fdfbf7;
     font-size:1.6rem;
+    padding-top:9.2rem;
   }
   
   ::selection {
@@ -59,13 +60,22 @@ const GlobalStyle = createGlobalStyle`
   /* header */
   .header {
     width: 100%;
-    height: 7.4rem;
-    padding: 0 10rem;
+    height: 9.2rem;
+    padding: 1.4rem 10rem 0;
     box-sizing: border-box;
-    background-color: #fdfaf7;
-    position: relative;
+    background-color: #fdfbf7;
+    position: fixed;
+    top:0;
     box-shadow: 0px 0px 1.2rem rgb(233 227 222);
+    transition:all 0.25s;
+    z-index: 999;
   }
+
+  .header.fixed {
+    height: 6.6rem;
+    padding-top:0;
+  }
+
 
   .header ul {
     display: flex;
@@ -74,17 +84,32 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .header ul li a {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     color: #222;
     font-weight: 500;
+    transition:font-size 0.25s;
+  }
+
+  .fixed ul li a {
+    font-size:1.6rem;
   }
 
   #logo {
     position: absolute;
-    top: 50%;
+    top: 54%;
     left: 50%;
+    width:16rem;
     transform: translate(-50%, -50%);
+    transition:all 0.25s;
   }
+
+  #logo img {width:100%}
+
+  .fixed #logo {
+    top:52%;
+    width:14.6rem
+  }
+
 
   .box_arrow_btn a {
     display: flex;

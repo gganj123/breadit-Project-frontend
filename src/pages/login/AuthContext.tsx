@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import { toast, ToastContainer } from 'react-toastify';
 const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 
 type User = {
@@ -43,43 +43,39 @@ type AuthProviderProps = {
 // AuthProvider 구현
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.interceptors.response.use(
       (response) => response,
       async (error) => {
-        // 401 오류를 감지하고, 재시도 플래그가 없는 경우 토큰 갱신을 시도
         if (error.response.status === 401 && !error.config._retry) {
-          error.config._retry = true; // 재시도 플래그 설정
+          error.config._retry = true;
           const currentAccessToken = localStorage.getItem('accessToken'); // 현재 사용 중인 액세스 토큰 가져오기
           console.log('현재 사용 중인 토큰:', currentAccessToken);
           const refreshToken = localStorage.getItem('refreshToken');
           if (!refreshToken) {
             console.error('No refresh token available');
-            logout(); // 리프레시 토큰이 없으면 로그아웃 처리
+            logout();
             return Promise.reject(error);
           }
 
           try {
-            // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청
             const res = await axios.post(`${apiUrl}/users/refreshToken`, {
               refreshToken,
             });
             const { accessToken, userId } = res.data;
             console.log('새로 발급받은 토큰:', accessToken);
             console.log('사용자 ID:', userId);
-            // 새 토큰을 로컬 스토리지에 저장
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('id', userId);
             console.log('토큰 갱신 성공');
-            // 요청에 새 액세스 토큰을 설정하고, 요청 재시도
             error.config.headers['Authorization'] = `Bearer ${accessToken}`;
             return axios(error.config);
           } catch (refreshError) {
             console.error('토큰 갱신 실패:', refreshError);
-            logout(); // 토큰 갱신 실패 시 로그아웃
+            logout();
             return Promise.reject(refreshError);
           }
         }
@@ -100,12 +96,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // 유저 정보 조회
   const fetchUserData = async (userId: string, accessToken: string) => {
     try {
-      setLoading(true);
       const response = await axios.get(`${apiUrl}/users/${userId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       console.log('fetchUserData response:', response);
-      const { password, ...user } = response.data; // 비밀번호 빼고 유저 정보 저장
+      const { password, ...user } = response.data;
       setUser({
         ...user,
       });
@@ -120,7 +115,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // 유저 정보 수정
   const updateUserInfo = async (userData: Partial<User>) => {
     if (!user) return;
-    setLoading(true);
     try {
       const userId = localStorage.getItem('id');
       await axios.put(`${apiUrl}/users/${userId}`, userData, {
@@ -129,14 +123,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       });
 
-      // API 호출 후에 최신 사용자 정보를 다시 가져옵니다.
       const updatedUserData = await axios.get(`${apiUrl}/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
 
-      // 최신 사용자 정보로 상태를 업데이트합니다.
       setUser(updatedUserData.data);
       navigate('/mypage');
       console.log('User info updated successfully');
@@ -168,8 +160,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       navigate('/');
       await fetchUserData(userId, accessToken);
+      setTimeout(
+        () => {
+          if (window.confirm('토큰 갱신 처리중 입니다..')) {
+            navigate('/');
+            window.location.reload();
+          }
+        },
+        60 * 60 * 1000
+      );
     } catch (error) {
-      console.error('Login error:', error);
+      toast.error('로그인 정보를 다시 입력해주세요.');
     }
   };
   // 소셜로그인 성공 후 호출할 함수
@@ -182,8 +183,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('id', userId);
 
-    await fetchUserData(userId, accessToken); // 사용자 데이터를 가져와 상태를 업데이트
+    await fetchUserData(userId, accessToken);
     navigate('/');
+    setTimeout(
+      () => {
+        if (
+          window.confirm(
+            '세션을 갱신하고 있습니다. 계속해서 서비스를 이용하시겠습니까?'
+          )
+        ) {
+          navigate('/');
+          window.location.reload();
+        }
+      },
+      60 * 60 * 1000
+    );
   };
 
   // 로그아웃
@@ -191,7 +205,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       console.log('No user is currently logged in.');
-      return; // 토큰이 없으면 로그아웃 절차를 중단
+      return;
     }
     if (window.confirm('로그아웃 하시겠습니까?')) {
       try {
@@ -220,7 +234,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         '정말로 회원 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.'
       )
     ) {
-      setLoading(true);
       try {
         const userId = localStorage.getItem('id');
         await axios.delete(`${apiUrl}/users/${userId}`, {
@@ -253,6 +266,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }}
     >
       {children}
+      <ToastContainer position="top-center" autoClose={3000} />
     </AuthContext.Provider>
   );
 };

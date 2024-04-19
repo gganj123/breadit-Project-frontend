@@ -1,18 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminCategory from './AdminCategory';
 import AdminGuide from './AdminGuide';
 import ButtonDeafult from '../../components/atoms/buttons/ButtonDefault';
 import LinkDefault from '../../components/atoms/links/LinkDefault';
-import BigCard, { BigCardProps } from '../../components/BigCard/BigCard';
+import BigCard from '../../components/BigCard/BigCard';
 import {
   useGetMagazineListApi,
   useDeleteMagazineByCheckApi,
 } from '../../hooks/useMagazineApi';
+import { useAuth } from '../login/AuthContext';
 
 import './admin.css';
 import Pagination from '../../components/Pagination';
 
 const AdminMagazine = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  const userId = localStorage.getItem('id');
+
+  useEffect(() => {
+    if (!loading && user.user_role !== 'editor') {
+      navigate('/');
+    } else if (!userId) {
+      navigate('/');
+    }
+  }, [user, loading]);
+
   const { data: magazineList } = useGetMagazineListApi();
   const { mutate: deleteList } = useDeleteMagazineByCheckApi();
   const [checkList, setCheckList] = useState<string[]>([]);

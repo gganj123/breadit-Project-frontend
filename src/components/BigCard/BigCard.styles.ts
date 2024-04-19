@@ -34,6 +34,7 @@ export const BigCardStyled = styled.div`
     border-radius: 50%;
     overflow: hidden;
     background-color: #eee;
+    border: solid 1px #eee;
   }
 
   .profile img {

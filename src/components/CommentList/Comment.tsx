@@ -35,10 +35,6 @@ const Comment = ({ data, deleteEvent }: CommentProps) => {
     }
   };
 
-  if (commentText.length > 200) {
-    toast('댓글은 200자가 최대입니다.');
-  }
-
   const saveEditComment = () => {
     if (commentText.length > 200) {
       toast('댓글은 200자가 최대입니다.');

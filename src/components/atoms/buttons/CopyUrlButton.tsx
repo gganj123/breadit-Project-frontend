@@ -1,8 +1,12 @@
+import { useLocation } from 'react-router-dom';
 import ShareIcon from '/share_icon.svg';
+export const COPY_URL: string = `${import.meta.env.VITE_COPY_URL}`;
 
 const CopyUrlButton = () => {
+  const location = useLocation();
+
   const copyurl = () => {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(`${COPY_URL}${location.pathname}`);
     alert('URL이 복사되었습니다.');
   };
 

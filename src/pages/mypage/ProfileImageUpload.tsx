@@ -5,12 +5,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FaPen } from 'react-icons/fa';
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { useAuth } from '../login/AuthContext';
 
 type ProfileImageUploadProps = {
   src: string;
-  onImageUpload?: (imageSrc: string) => void;
+  onImageUpload?: (imageUrl: string) => void; // 수정: imageUrl로 변경
   onRemoveImage?: () => void;
   showEditIcon?: boolean;
 };
@@ -86,44 +86,59 @@ const ProfileImageUpload: React.FC<ProfileImageUploadProps> = ({
   onRemoveImage,
   showEditIcon = true,
 }) => {
-  const [imageSrc, setImageSrc] = useState(src); // src 값을 상태로 관리
+  const [imageSrc, setImageSrc] = useState(src);
   const [showOptions, setShowOptions] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user, updateUserInfo } = useAuth();
 
   const handleEditClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // 프로필 이미지 컨테이너의 onClick 이벤트가 발생하지 않도록 방지
+    e.stopPropagation();
     setShowOptions((prev) => !prev);
   };
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
+
     if (file) {
       const imageUrl = await uploadImageToS3(file);
       if (imageUrl) {
-        onImageUpload?.(imageUrl);
+        onImageUpload?.(imageUrl); // 수정: imageUrl 전달
         setShowOptions(false);
+        setImageSrc(imageUrl); // 수정: 이미지 업로드 후 상태 업데이트
       }
     }
   };
 
   const uploadImageToS3 = async (file: File) => {
-    const s3 = new AWS.S3({
-      accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
-      secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+    const s3 = new S3Client({
+      credentials: {
+        accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+        secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+      },
       region: `${import.meta.env.VITE_REGION}`,
     });
 
     const params = {
       Bucket: 'elice-breadit-project',
-      Key: `profile/${file.name}`,
+      Key: `new/${file.name}`,
       Body: file,
       ACL: 'public-read',
     };
 
     try {
-      const data = await s3.upload(params).promise();
-      return data.Location;
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: 'elice-breadit-project',
+          Key: `new/${file.name}`,
+          Body: file,
+          ACL: 'public-read',
+        })
+      ); // 이미지 업로드
+
+      // 이미지 URL 구성
+      const imageUrl = `https://elice-breadit-project.s3.ap-northeast-2.amazonaws.com/${params.Key}`;
+
+      return imageUrl; // 이미지 URL 반환
     } catch (error) {
       console.error('Error uploading image:', error);
       return null;

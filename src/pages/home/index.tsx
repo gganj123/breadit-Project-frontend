@@ -125,7 +125,9 @@ const Home = () => {
       </InfiniteRoofStyled>
       <PostStyled className="main_cont">
         <div className="main_title flex_default">
-          <h3 className="main_title_text">최근 추가된 빵집 추천! 🍰</h3>
+          <h3 className="main_title_text">
+            <Link to="/community/nearby">최근 추가된 빵집 추천! 🍰</Link>
+          </h3>
           <img src={Review} className="review_right" />
         </div>
         <Slider {...postSettings}>
@@ -147,12 +149,14 @@ const Home = () => {
       <RecipeStyled className="main_cont">
         <div className="main_title flex_default">
           <h3 className="font_oleo eng_title">Recipe</h3>
-          <p className="main_title_text">🍳 빵잘알들의 레시피</p>
+          <p className="main_title_text">
+            <Link to="/community/recipe">🍳 빵잘알들의 레시피</Link>
+          </p>
         </div>
         {recipeData &&
           recipeData.map((recipe: RecipeDataProps, index: number) => {
             return (
-              <article className="recipe" key={index}>
+              <section className="recipe" key={index}>
                 <div className="img_box">
                   <img src={recipe.thumbnail} alt="메인썸네일" />
                 </div>
@@ -177,7 +181,7 @@ const Home = () => {
                     />
                   </div>
                 </div>
-              </article>
+              </section>
             );
           })}
       </RecipeStyled>

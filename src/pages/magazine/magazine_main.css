@@ -5,6 +5,7 @@
 .magazine_banner .banner_item {
   position: relative;
   height: 70rem;
+  background-color: #ddd;
 }
 
 .magazine_banner .banner_item .banner_img {
@@ -13,10 +14,10 @@
 
 .magazine_banner .content_box {
   position: absolute;
-  bottom: 7rem;
+  bottom: 9rem;
   left: 0;
   width: 100%;
-  padding: 0 8rem;
+  padding: 0 6rem;
   color: #fff;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .magazine_banner .content_box h3 {
-  font-size: 3.4rem;
+  font-size: 3.2rem;
   margin: 3rem 0 2rem;
 }
 

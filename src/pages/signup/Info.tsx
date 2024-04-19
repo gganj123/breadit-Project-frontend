@@ -395,7 +395,7 @@ const SignUpInfoPage: React.FC = () => {
             value={formData.password}
             onChange={handleInputChange}
             icon={
-              password ? (
+              passwordValid ? (
                 <IoCheckmarkCircleSharp size={24} color="#5FD08D" />
               ) : null
             }

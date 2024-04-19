@@ -21,6 +21,7 @@ export const UserStyled = styled.div`
     border-radius: 50%;
     background: #eee;
     overflow: hidden;
+    border: solid 1px #eee;
   }
 
   .profile img {
