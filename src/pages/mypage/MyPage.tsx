@@ -126,19 +126,23 @@ export const ListWrapper = styled.div`
 `;
 
 export default function MyPage() {
-  const { user } = useAuth();
-
+  const { user, loading } = useAuth();
+  const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
+
   useEffect(() => {
-    // user 상태가 변경될 때마다 확인
-    console.log('현재 user 상태:', user);
-  }, [user]);
+    if (!loading && user.user_role !== '') {
+      navigate('/');
+    } else if (!accessToken) {
+      navigate('/');
+    }
+  }, [user, loading]);
 
   const handleNavigation = () => {
     if (user && user.social_login_provider) {
       console.log('소셜 로그인으로 인증된 사용자입니다.');
       navigate('/mypage/check-password/edit');
-    } else if (user) {
+    } else if (user && !user.social_login_provider) {
       console.log('일반 로그인 사용자입니다.');
       navigate('/mypage/check-password');
     }

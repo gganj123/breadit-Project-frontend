@@ -5,7 +5,7 @@ import MyPage from '../pages/mypage/MyPage.tsx';
 import MyPageCheckPassword from '../pages/mypage/CheckPassword.tsx';
 import MyPageEdit from '../pages/mypage/Edit.tsx';
 import LoginPage from '../pages/login/Login.tsx';
-import SignupPage from '../pages/signup/Agreement.tsx';
+import SignUpPage from '../pages/signup/Agreement.tsx';
 import SignUpInfoPage from '../pages/signup/Info.tsx';
 import SignUpCompletePage from '../pages/signup/Complete.tsx';
 import CommunityPage from '../pages/community';
@@ -49,7 +49,7 @@ export default function Router() {
             <Route path="mypage/check-password/edit" element={<MyPageEdit />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="auth-redirect" element={<AuthRedirectPage />} />
-            <Route path="signup" element={<SignupPage />} />
+            <Route path="signup" element={<SignUpPage />} />
             <Route path="signup/info" element={<SignUpInfoPage />} />
             <Route
               path="signup/info/complete"
