@@ -27,7 +27,7 @@ const PageLayout = styled.div`
 `;
 
 const ProfileContainer = styled.aside`
-  width: 30%;
+  width: 24%;
   padding: 6rem 5rem 0 0;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@ const ProfileContainer = styled.aside`
 `;
 
 const MainContent = styled.main`
-  width: 70%;
+  width: 76%;
   flex-grow: 1;
   padding: 6rem 0;
 `;
@@ -213,7 +213,8 @@ export default function MyPage() {
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
                   {!isBookmarkLoading &&
-                    bookmarkList &&
+                  bookmarkList &&
+                  bookmarkList.length > 0 ? (
                     bookmarkList.map((bookmark: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -223,17 +224,22 @@ export default function MyPage() {
                           userInfo={true}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
 
               <MypageList>
                 <MypageListTitle>
                   <h3>우리 동네 베이커리를 소개합니다!</h3>
-                  <Link to="/mypage/bakery-introduction">
-                    More{' '}
-                    <img src={RightArrow} className="icon" alt="arrow icon" />
-                  </Link>
+                  {postUserList && (
+                    <Link to="/mypage/bakery-introduction">
+                      More{' '}
+                      <img src={RightArrow} className="icon" alt="arrow icon" />
+                    </Link>
+                  )}
                 </MypageListTitle>
                 <ListWrapper>
                   {isPostLoading && (
@@ -241,8 +247,7 @@ export default function MyPage() {
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {!isPostLoading &&
-                    postUserList &&
+                  {!isPostLoading && postUserList && postUserList.length > 0 ? (
                     postUserList.map((post: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -252,17 +257,22 @@ export default function MyPage() {
                           userInfo={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
 
               <MypageList>
                 <MypageListTitle>
                   <h3>나만의 레시피를 공유해요</h3>
-                  <Link to="/mypage/recipe-introduction">
-                    More{' '}
-                    <img src={RightArrow} className="icon" alt="arrow icon" />
-                  </Link>
+                  {recipeUserList > 0 && (
+                    <Link to="/mypage/recipe-introduction">
+                      More{' '}
+                      <img src={RightArrow} className="icon" alt="arrow icon" />
+                    </Link>
+                  )}
                 </MypageListTitle>
                 <ListWrapper>
                   {isRecipeLoading && (
@@ -271,7 +281,8 @@ export default function MyPage() {
                     </LoaderWrapper>
                   )}
                   {!isRecipeLoading &&
-                    recipeUserList &&
+                  recipeUserList &&
+                  recipeUserList.length > 0 ? (
                     recipeUserList.map((recipe: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -281,7 +292,10 @@ export default function MyPage() {
                           userInfo={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
             </ContentTitle>

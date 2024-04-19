@@ -7,6 +7,7 @@ import {
   useGetMagazineByQueryApi,
 } from '../../hooks/useMagazineApi';
 import { useAuth } from '../login/AuthContext';
+import CopyBtn from '../../components/atoms/buttons/CopyUrlButton';
 
 import './magazine_main.css';
 import { useEffect, useState } from 'react';
@@ -18,7 +19,7 @@ const Magazine = () => {
   const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ const Magazine = () => {
             })}
         </Slider>
       </article>
+      <CopyBtn />
       <section className="main_cont magazine">
         <div className="main_title flex_default">
           <h3 className="main_title_text">

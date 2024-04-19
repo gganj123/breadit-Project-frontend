@@ -56,7 +56,7 @@ export default function BakeryIntroductionSection() {
       <ContextWrap>
         <MypageList>
           <MypageListTitle>
-            <h2 className="oleo-script-bold community_title">
+            <h2 className="community_title">
               우리 동네 베이커리를 소개합니다!
             </h2>
           </MypageListTitle>
@@ -68,8 +68,7 @@ export default function BakeryIntroductionSection() {
               </LoaderWrapper>
             )}
             {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-            {!isPostLoading &&
-              currentItems &&
+            {!isPostLoading && currentItems && currentItems.length > 0 ? (
               currentItems.map((post: BigCardProps['data']) => {
                 return (
                   <BigCard
@@ -79,7 +78,10 @@ export default function BakeryIntroductionSection() {
                     userInfo={false}
                   />
                 );
-              })}
+              })
+            ) : (
+              <div className="no_post">no post</div>
+            )}
           </ListWrapper>
           <Pagination
             currentPage={currentPage}
