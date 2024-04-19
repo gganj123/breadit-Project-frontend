@@ -59,7 +59,7 @@ export default function BakeryIntroductionSection() {
           <MypageListTitle>
             <h2 className="community_title">나만의 레시피를 공유해요</h2>
           </MypageListTitle>
-          <ListWrapper>
+          <ListWrapper className="grid_04">
             {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
             {isRecipeLoading && (
               <LoaderWrapper>

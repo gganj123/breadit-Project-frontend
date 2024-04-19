@@ -4,7 +4,7 @@
 
 .magazine_banner .banner_item {
   position: relative;
-  height: 70rem;
+  height: 63rem;
   background-color: #ddd;
 }
 
@@ -116,7 +116,7 @@
 .magazine_dots li {
   width: auto;
   height: 3.4rem;
-  line-height: 3.4rem;
+  line-height: 3.2rem;
   display: none;
   font-size: 1.8rem;
   margin: 0;

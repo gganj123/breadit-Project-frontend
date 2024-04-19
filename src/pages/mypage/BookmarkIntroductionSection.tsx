@@ -58,7 +58,7 @@ export default function BakeryIntroductionSection() {
           <MypageListTitle>
             <h2 className="community_title">저장한 게시글</h2>
           </MypageListTitle>
-          <ListWrapper>
+          <ListWrapper className="grid_04">
             {isBookmarkLoading && (
               <LoaderWrapper>
                 <TailSpin color="#FFCB46" />

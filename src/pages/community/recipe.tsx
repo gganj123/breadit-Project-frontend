@@ -142,9 +142,6 @@ export default function NearByPage() {
           )}
         </div>
         <div className="community_list">
-          <div className="community_list_title box_wrapper">
-            <h3>나만의 레시피를 공유해요</h3>
-          </div>
           <div className="community_list_content">{getCurrentItems()}</div>
         </div>
         <Pagination

@@ -60,7 +60,7 @@ export default function BakeryIntroductionSection() {
               우리 동네 베이커리를 소개합니다!
             </h2>
           </MypageListTitle>
-          <ListWrapper>
+          <ListWrapper className="grid_04">
             {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
             {isPostLoading && (
               <LoaderWrapper>

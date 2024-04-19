@@ -95,6 +95,10 @@ export const ListWrapper = styled.div`
   margin: 0;
   margin-top: 40px;
 
+  &.grid_04 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .list_img_wrapper {
     width: 100%;
     height: 21rem;

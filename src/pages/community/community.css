@@ -43,11 +43,13 @@
 
 .community_search {
   position: relative;
-  border: 1px solid #222;
+  border: 1px solid #ddd;
   width: 600px;
-  height: 42px;
+  height: 44px;
   background-color: #fff;
   box-sizing: border-box;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .community_search div {
@@ -111,12 +113,11 @@
   display: block;
   text-align: center;
   width: 120px;
-  height: 42px;
+  height: 44px;
   padding: 0;
   box-sizing: border-box;
   background-color: #ffcb46;
-  border: 1px solid #575757;
-  border-radius: 0;
+  border-radius: 1rem;
 }
 
 .community_post_btn > a:active,
@@ -125,7 +126,7 @@
 }
 
 .community_post_btn > a img {
-  margin-top: 4px;
+  margin-top: 6px;
   height: 32px;
 }
 
