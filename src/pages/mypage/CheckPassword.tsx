@@ -89,6 +89,7 @@ export default function CheckPassword() {
       if (response.data.success) {
         setErrorMessage('');
         alert('비밀번호가 확인되었습니다.');
+        localStorage.setItem('canEditAccess', 'true');
         navigate('/mypage/check-password/edit');
       }
     } catch (error) {
@@ -127,14 +128,16 @@ export default function CheckPassword() {
             textcolor="#000000"
             width="420px"
             onClick={handleSubmit}
+            icon={true}
           />
           <Button
             type="button"
             text="취소"
-            backcolor="#fdfbf7"
-            textcolor="#000000"
+            backcolor="#575757"
+            textcolor="#fff"
             width="420px"
             onClick={handleNavigation}
+            icon={true}
           />
         </ButtonContainer>
       </PageContainer>

@@ -71,10 +71,10 @@ const BigCardList = ({
                   : `/community/recipe/${_id}`
             }
           >
-            <img src={thumbnail} alt={'매거진 이미지'} />
+            <img src={thumbnail} />
           </Link>
         ) : (
-          <img src={thumbnail} alt={'매거진 이미지'} />
+          <img src={thumbnail} />
         )}
       </div>
       <ContentBoxStyled>

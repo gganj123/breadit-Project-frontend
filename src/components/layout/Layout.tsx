@@ -83,14 +83,15 @@ const GlobalStyle = createGlobalStyle`
     align-items: center;
   }
 
-  .header ul li a {
+  .header ul li a, .header ul li button {
     font-size: 1.8rem;
     color: #222;
     font-weight: 500;
     transition:font-size 0.25s;
   }
 
-  .fixed ul li a {
+
+  .fixed ul li a, .fixed ul li button {
     font-size:1.6rem;
   }
 

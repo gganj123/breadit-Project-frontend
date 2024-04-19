@@ -12,24 +12,23 @@ const StepContainer = styled.div`
 `;
 
 const StepNumber = styled.div<{ active: string }>`
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: ${(props) =>
     props.active === 'true' ? '#ffc14b' : '#D9D9D9'}; // active 따라 배경색 변경
-  color: #575757;
-  border: 1px solid #575757;
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 500;
   z-index: 1;
 `;
 
 const StepLabel = styled.div`
   margin-top: 8px;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 500;
   text-align: center;
 `;
 
@@ -38,7 +37,8 @@ const StepsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
-  margin-bottom: 30px;
+  max-width: 40rem;
+  margin: 0px auto 4rem;
 `;
 
 const Connector = styled.div`

@@ -29,7 +29,7 @@ export default function EditPage() {
 
   return (
     <>
-      <div className="community_container">
+      <div className="detail">
         <div className="community">
           <h2 className="oleo-script-bold community_title">Community</h2>
           {state == null && (

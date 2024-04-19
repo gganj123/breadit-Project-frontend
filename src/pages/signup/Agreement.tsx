@@ -17,22 +17,21 @@ type AgreementProps = {
 const PageContainer = styled.div`
   width: 100%;
   max-width: 600px;
-  margin: 150px auto;
+  margin: 120px auto;
   padding: 20px;
 `;
 
 const AgreementTitle = styled.div`
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 600;
   color: #333;
   margin-left: 10px;
 `;
 
 const AgreementContainer = styled.div`
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 8px;
   margin-bottom: 15px;
-  padding: 10px;
   background-color: #fff;
 `;
 
@@ -40,27 +39,30 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1.6rem 1.2rem;
   cursor: pointer;
 `;
 
 const Title = styled.div`
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 2.6rem;
+  color: #333;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 30px;
 `;
 
 const ContentContainer = styled.div<{ open: boolean }>`
-  padding-top: 10px;
-  font-size: 13px;
-  line-height: 1.6;
+  border-top: solid 1px #eee;
+  font-size: 15px;
+  line-height: 1.4;
+  padding: ${({ open }) => (open ? '1.4rem' : '0 1.4rem')};
   max-height: ${({ open }) => (open ? '1000px' : '0')};
   overflow-y: auto;
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
-  transition: max-height 0.3s ease-in-out;
+  transition: all 0.2s;
   white-space: pre-line;
 `;
 
@@ -101,12 +103,7 @@ const Agreement: FC<AgreementProps> = ({
         </CheckboxLabel>
         {isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
       </TitleContainer>
-      <ContentContainer open={isOpen}>
-        <div
-          style={{ borderTop: '1px solid #ccc', marginBottom: '10px' }}
-        ></div>
-        {content}
-      </ContentContainer>
+      <ContentContainer open={isOpen}>{content}</ContentContainer>
     </AgreementContainer>
   );
 };

@@ -106,7 +106,7 @@ export const PostStyled = styled.section`
   }
 
   .slide_item {
-    max-width: 52rem;
+    max-width: 46rem;
   }
 `;
 

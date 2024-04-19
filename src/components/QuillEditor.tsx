@@ -30,21 +30,23 @@ const EditContextBtn = styled.div`
   a {
     display: block;
     text-align: center;
-    width: 100px;
+    width: 110px;
+    height: 44px;
     padding: 12px 0;
-    font-size: 1.25rem;
-    background-color: #6c757d;
+    font-size: 1.8rem;
+    background-color: #575757;
     color: #fff;
+    border-radius: 0.6rem;
   }
 `;
 
 const EditTitle = styled.input`
   width: 100%;
-  height: 4rem;
+  height: 4.4rem;
   padding: 10px;
   background-color: #fff;
   border: 1px solid #dedede;
-  font-size: 1rem;
+  font-size: 1.6rem;
   margin-bottom: 10px;
 `;
 

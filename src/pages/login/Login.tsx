@@ -17,27 +17,27 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 90vh;
 `;
 const LogoImage = styled.img`
   width: 250px;
   height: 70px;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 `;
 const SignUpTitle = styled.div`
-  font-size: 13px;
-  font-weight: 300;
+  font-size: 16px;
+  font-weight: 400;
   color: #616161;
-  margin: 10px 20px 20px;
+  margin: 2rem;
   &:hover {
     color: #575757;
-    font-weight: 600;
+    font-weight: 400;
   }
 `;
 const SocialLoginTitle = styled.div`
   font-size: 15px;
   font-weight: 500;
-  margin: 20px;
+  margin: 30px 20px 10px;
 `;
 
 const RedirectUri = `${import.meta.env.VITE_REDIRECT_URI}`;
@@ -83,9 +83,7 @@ const Login: FC = () => {
   return (
     <>
       <Container>
-        <Link to="/">
-          <LogoImage src={Logo} className="logo" alt="Vite logo" />
-        </Link>
+        <LogoImage src={Logo} className="logo" alt="Vite logo" />
         <form onSubmit={handleSubmit}>
           <Input
             type="email"
@@ -106,6 +104,7 @@ const Login: FC = () => {
             text="로그인"
             backcolor="#FFCB46"
             textcolor="#000000"
+            icon={true}
           />
         </form>
         <Link to="/signup">

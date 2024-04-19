@@ -38,11 +38,29 @@ const Header = () => {
       <ul className="user_ul">
         {user ? (
           <>
-            <Link to="/mypage">
+            {user.user_role === 'editor' ? (
+              <>
+                <li>
+                  <Link to="/admin">에디터 관리</Link>
+                </li>
+
+                <li>
+                  <Link to="/mypage">
+                    {loading
+                      ? 'Loading...'
+                      : `${user.nickname}님` || 'No Nickname'}
+                  </Link>
+                </li>
+              </>
+            ) : (
               <li>
-                {loading ? 'Loading...' : `${user.nickname}님` || 'No Nickname'}
+                <Link to="/mypage">
+                  {loading
+                    ? 'Loading...'
+                    : `${user.nickname}님` || 'No Nickname'}
+                </Link>
               </li>
-            </Link>
+            )}
             <li>
               <button onClick={logout}>로그아웃</button>
             </li>

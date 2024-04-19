@@ -14,6 +14,7 @@ export const BigCardStyled = styled.div`
     position: absolute;
     top: 1rem;
     left: 1rem;
+    z-index: 10;
   }
 
   .user_info {
@@ -42,8 +43,15 @@ export const BigCardStyled = styled.div`
   }
 
   .img_box {
-    height: 30rem;
+    width: 100%;
+    aspect-ratio: 3 / 2;
     overflow: hidden;
+  }
+
+  .img_box img {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   button {
@@ -71,6 +79,7 @@ export const ContentBoxStyled = styled.div`
   h5 a {
     font-size: 2.2rem;
     color: #333;
+    font-weight: 600;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;

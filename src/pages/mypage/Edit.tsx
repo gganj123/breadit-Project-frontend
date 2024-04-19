@@ -22,23 +22,22 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 520px;
-  height: 648px;
   background-color: white;
-  border: 1px solid #000;
-  border-radius: 8px;
+  border-radius: 2rem;
   padding: 40px;
+  box-shadow: 0px 0px 1rem rgb(242 242 242);
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 40px;
-  margin-bottom: 40px;
   align-self: flex-start;
   width: 100%;
 `;
 const Title = styled.div`
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 2.6rem;
+  color: #333;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 70px;
 `;
@@ -46,7 +45,7 @@ const Email = styled.div`
   font-size: 16px;
   text-align: center;
   color: #777777;
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
 `;
 export default function Edit() {

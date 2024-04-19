@@ -97,6 +97,7 @@ export const ListWrapper = styled.div`
 
   &.grid_04 {
     grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
   }
 
   .list_img_wrapper {
@@ -135,7 +136,7 @@ export default function MyPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && user.user_role !== '') {
+    if (!loading && !user) {
       navigate('/');
     } else if (!accessToken) {
       navigate('/');

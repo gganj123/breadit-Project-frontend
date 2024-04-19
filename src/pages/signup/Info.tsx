@@ -13,34 +13,36 @@ import { SignUpInput } from '../../components/atoms/input/SignUpInput';
 const PageContainer = styled.div`
   width: 100%;
   max-width: 600px;
-  margin: 150px auto;
+  margin: 120px auto;
   padding: 20px;
 `;
 
 const Title = styled.div`
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 2.6rem;
+  color: #333;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 30px;
 `;
 
 const FormContainer = styled.div`
   background-color: white;
-  border: 1px solid #000;
-  border-radius: 8px;
-  padding: 20px;
+  padding: 2.6rem;
+  box-shadow: 0px 0px 1rem rgb(242 242 242);
+  border-radius: 2rem;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.8rem;
 `;
 
 const InputGroup = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 1rem;
 `;
 
 const ValidationMessage = styled.span`
