@@ -1,5 +1,5 @@
 import { useRef, useState, useMemo, useEffect } from 'react';
-import AWS from 'aws-sdk'; // AWS SDK를 불러옵니다.
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactQuill, { Quill } from 'react-quill';
@@ -77,23 +77,37 @@ export const EditorComponent = ({
     navigate(-1);
   };
 
-  const s3 = new AWS.S3({
-    accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
-    secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+  const s3 = new S3Client({
+    credentials: {
+      accessKeyId: `${import.meta.env.VITE_ACCESS_KEY}`,
+      secretAccessKey: `${import.meta.env.VITE_SECRET_ACCESS_KEY}`,
+    },
     region: `${import.meta.env.VITE_REGION}`,
   });
 
   const handleImageUpload = async (file: File) => {
     const params = {
       Bucket: 'elice-breadit-project',
-      Key: `thumb/${file.name}`,
+      Key: `newcontent/${file.name}`,
       Body: file,
       ACL: 'public-read',
     };
 
     try {
-      const data = await s3.upload(params).promise();
-      return data.Location;
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: 'elice-breadit-project',
+          Key: `newcontent/${file.name}`,
+          Body: file,
+          ACL: 'public-read',
+        })
+      ); // 이미지 업로드
+
+      // 이미지 URL 구성
+      const imageUrl = `https://elice-breadit-project.s3.ap-northeast-2.amazonaws.com/${params.Key}`;
+
+      return imageUrl; // 이미지 URL 반환
+      console.log(imageUrl);
     } catch (error) {
       console.error('Error uploading image:', error);
       return null;
@@ -148,7 +162,7 @@ export const EditorComponent = ({
     </div>
   );
 
-  const imageHandler = () => {
+  const imageHandler = async () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
@@ -159,33 +173,15 @@ export const EditorComponent = ({
       if (file !== null) {
         const promises = [];
         for (let i = 0; i < file.length; i++) {
-          const params = {
-            Bucket: 'elice-breadit-project',
-            Key: `images/${file[i].name}`,
-            Body: file[i],
-            ACL: 'public-read',
-          };
-
-          promises.push(
-            new Promise<string>((resolve, reject) => {
-              s3.upload(
-                params,
-                (err: Error | null, data: AWS.S3.ManagedUpload.SendData) => {
-                  if (err) {
-                    console.error(err);
-                    reject(err);
-                  } else {
-                    resolve(data.Location);
-                  }
-                }
-              );
-            })
-          );
+          const imageUrl = await handleImageUpload(file[i]);
+          if (imageUrl) {
+            promises.push(imageUrl);
+          }
         }
 
         Promise.all(promises)
           .then((urls) => {
-            setImages((prevImages: string) => [...prevImages, ...urls]);
+            setImages((prevImages: string[]) => [...prevImages, ...urls]);
 
             const range = QuillRef.current?.getEditor().getSelection()?.index;
             if (range !== null && range !== undefined) {

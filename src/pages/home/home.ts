@@ -159,6 +159,7 @@ export const RecipeStyled = styled.section`
     border-radius: 50%;
     overflow: hidden;
     background-color: #eee;
+    border: solid 1px #eee;
   }
 
   .recipe .profile img {
@@ -192,7 +193,7 @@ export const RecipeStyled = styled.section`
 
   .recipe .content * {
     font-size: 1.8rem;
-    color: #444;
+    color: #575757;
     font-weight: 400;
     font-style: normal;
     text-decoration: none;

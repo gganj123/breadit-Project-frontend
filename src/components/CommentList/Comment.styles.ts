@@ -75,6 +75,7 @@ export const CommentItemStyled = styled.div`
     height: 4rem;
     border-radius: 50%;
     overflow: hidden;
+    border: solid 1px #eee;
   }
 
   .user_info .profile img {

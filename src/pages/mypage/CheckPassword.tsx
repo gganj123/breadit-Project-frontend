@@ -118,7 +118,7 @@ export default function CheckPassword() {
           <Button
             type="button"
             text="취소"
-            backcolor="#fdfaf7"
+            backcolor="#fdfbf7"
             textcolor="#000000"
             width="420px"
             onClick={handleNavigation}

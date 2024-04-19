@@ -7,4 +7,9 @@ export default defineConfig({
   define: {
     global: {},
   },
+  build: {
+    chunkSizeWarningLimit: 1000000000,
+  },
 });
+
+// aws는 정해져있어서 어떻게 저장이 될지 미리 알 수있음
