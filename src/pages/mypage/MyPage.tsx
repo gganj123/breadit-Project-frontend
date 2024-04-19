@@ -27,7 +27,7 @@ const PageLayout = styled.div`
 `;
 
 const ProfileContainer = styled.aside`
-  width: 30%;
+  width: 24%;
   padding: 6rem 5rem 0 0;
   display: flex;
   flex-direction: column;
@@ -35,7 +35,7 @@ const ProfileContainer = styled.aside`
 `;
 
 const MainContent = styled.main`
-  width: 70%;
+  width: 76%;
   flex-grow: 1;
   padding: 6rem 0;
 `;
@@ -95,6 +95,10 @@ export const ListWrapper = styled.div`
   margin: 0;
   margin-top: 40px;
 
+  &.grid_04 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
   .list_img_wrapper {
     width: 100%;
     height: 21rem;
@@ -126,19 +130,23 @@ export const ListWrapper = styled.div`
 `;
 
 export default function MyPage() {
-  const { user } = useAuth();
-
+  const { user, loading } = useAuth();
+  const accessToken = localStorage.getItem('accessToken');
   const navigate = useNavigate();
+
   useEffect(() => {
-    // user 상태가 변경될 때마다 확인
-    console.log('현재 user 상태:', user);
-  }, [user]);
+    if (!loading && user.user_role !== '') {
+      navigate('/');
+    } else if (!accessToken) {
+      navigate('/');
+    }
+  }, [user, loading]);
 
   const handleNavigation = () => {
     if (user && user.social_login_provider) {
       console.log('소셜 로그인으로 인증된 사용자입니다.');
       navigate('/mypage/check-password/edit');
-    } else if (user) {
+    } else if (user && !user.social_login_provider) {
       console.log('일반 로그인 사용자입니다.');
       navigate('/mypage/check-password');
     }
@@ -213,7 +221,8 @@ export default function MyPage() {
                   )}
                   {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
                   {!isBookmarkLoading &&
-                    bookmarkList &&
+                  bookmarkList &&
+                  bookmarkList.length > 0 ? (
                     bookmarkList.map((bookmark: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -223,17 +232,22 @@ export default function MyPage() {
                           userInfo={true}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
 
               <MypageList>
                 <MypageListTitle>
                   <h3>우리 동네 베이커리를 소개합니다!</h3>
-                  <Link to="/mypage/bakery-introduction">
-                    More{' '}
-                    <img src={RightArrow} className="icon" alt="arrow icon" />
-                  </Link>
+                  {postUserList && (
+                    <Link to="/mypage/bakery-introduction">
+                      More{' '}
+                      <img src={RightArrow} className="icon" alt="arrow icon" />
+                    </Link>
+                  )}
                 </MypageListTitle>
                 <ListWrapper>
                   {isPostLoading && (
@@ -241,8 +255,7 @@ export default function MyPage() {
                       <TailSpin color="#FFCB46" />
                     </LoaderWrapper>
                   )}
-                  {!isPostLoading &&
-                    postUserList &&
+                  {!isPostLoading && postUserList && postUserList.length > 0 ? (
                     postUserList.map((post: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -252,17 +265,22 @@ export default function MyPage() {
                           userInfo={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
 
               <MypageList>
                 <MypageListTitle>
                   <h3>나만의 레시피를 공유해요</h3>
-                  <Link to="/mypage/recipe-introduction">
-                    More{' '}
-                    <img src={RightArrow} className="icon" alt="arrow icon" />
-                  </Link>
+                  {recipeUserList > 0 && (
+                    <Link to="/mypage/recipe-introduction">
+                      More{' '}
+                      <img src={RightArrow} className="icon" alt="arrow icon" />
+                    </Link>
+                  )}
                 </MypageListTitle>
                 <ListWrapper>
                   {isRecipeLoading && (
@@ -271,7 +289,8 @@ export default function MyPage() {
                     </LoaderWrapper>
                   )}
                   {!isRecipeLoading &&
-                    recipeUserList &&
+                  recipeUserList &&
+                  recipeUserList.length > 0 ? (
                     recipeUserList.map((recipe: BigCardProps['data']) => {
                       return (
                         <BigCard
@@ -281,7 +300,10 @@ export default function MyPage() {
                           userInfo={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className="no_post">no post</div>
+                  )}
                 </ListWrapper>
               </MypageList>
             </ContentTitle>

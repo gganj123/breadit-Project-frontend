@@ -1,7 +1,7 @@
 /**
  * 회원 탈퇴 전 비밀번호 확인 페이지
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '/Logo.svg';
@@ -52,6 +52,17 @@ export default function CheckAccountDelete() {
 
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { user, loading } = useAuth();
+  const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (!loading && user.user_role !== '') {
+      navigate('/');
+    } else if (!accessToken) {
+      navigate('/');
+    } else if (!loading && user.social_login_provider === 'Kakao') {
+      navigate('/');
+    }
+  }, [user, loading]);
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);

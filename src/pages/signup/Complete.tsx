@@ -1,7 +1,7 @@
 /**
  * 회원가입 완료 페이지 ( 세번째 )
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
@@ -50,7 +50,14 @@ const SignUpCompletePage: React.FC = () => {
 
   // navigate 함수를 인자로 받아 해당 경로로 이동하는 함수
   const handleNavigation = (path: string) => () => navigate(path);
-
+  useEffect(() => {
+    const canAccess = localStorage.getItem('canAccess');
+    if (canAccess === 'true') {
+      localStorage.removeItem('canAccess'); // 접근 후 권한 삭제
+    } else {
+      navigate('/signup');
+    }
+  }, [navigate]);
   return (
     <>
       <PageContainer>

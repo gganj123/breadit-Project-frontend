@@ -1,7 +1,7 @@
 /**
  * 회원가입 입력 페이지 ( 두번째 )
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -98,7 +98,14 @@ const SignUpInfoPage: React.FC = () => {
     nicknameValid &&
     verifyCodeValid &&
     isFormFilled;
-
+  useEffect(() => {
+    const canAccess = localStorage.getItem('canAccess');
+    if (canAccess === 'true') {
+      localStorage.removeItem('canAccess'); // 접근 후 권한 삭제
+    } else {
+      navigate('/signup'); // 권한 없으면 리디렉션
+    }
+  }, [navigate]);
   // 이메일 유효성 검사
   const validateEmail = async (email: string) => {
     if (!email) {
@@ -240,6 +247,7 @@ const SignUpInfoPage: React.FC = () => {
   };
   // 회원가입 최종 완료
   const handleSignUpSuccess = (nickname: string) => {
+    localStorage.setItem('canAccess', 'true'); // 접근 권한 저장
     navigate('/signup/info/complete', { state: { nickname } });
   };
 

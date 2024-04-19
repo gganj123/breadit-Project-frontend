@@ -126,6 +126,7 @@ const SignUpPage: FC = () => {
     if (!termsChecked || !privacyChecked) {
       setShowWarning(true);
     } else {
+      localStorage.setItem('canAccess', 'true');
       navigate('/signup/info');
       setShowWarning(false);
     }

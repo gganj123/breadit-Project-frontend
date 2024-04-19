@@ -6,8 +6,22 @@ const CopyUrlButton = () => {
   const location = useLocation();
 
   const copyurl = () => {
-    navigator.clipboard.writeText(`${COPY_URL}${location.pathname}`);
-    alert('URL이 복사되었습니다.');
+    if (navigator.clipboard !== undefined) {
+      navigator.clipboard.writeText(`${COPY_URL}${location.pathname}`);
+      alert('URL이 복사되었습니다.');
+    } else {
+      const textArea = document.createElement('textarea');
+      textArea.value = `${COPY_URL}${location.pathname}`;
+      document.body.appendChild(textArea);
+      textArea.select();
+      textArea.setSelectionRange(0, 99999);
+
+      document.execCommand('copy');
+
+      textArea.setSelectionRange(0, 0);
+      document.body.removeChild(textArea);
+      alert('URL이 복사되었습니다.');
+    }
   };
 
   return (

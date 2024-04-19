@@ -18,7 +18,7 @@ const Magazine = () => {
   const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   const location = useLocation();
   const navigate = useNavigate();

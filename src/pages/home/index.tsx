@@ -140,6 +140,7 @@ const Home = () => {
                     key={post._id}
                     userInfo={true}
                     go={'posts'}
+                    linkUse={true}
                   />
                 </div>
               ); // 커뮤니티 - 베이커리 소개
@@ -172,7 +173,11 @@ const Home = () => {
                       </span>
                     </p>
                   </div>
-                  <h5>{recipe.title}</h5>
+                  <h5>
+                    <Link to={`/community/recipe/${recipe._id}`}>
+                      {recipe.title}
+                    </Link>
+                  </h5>
                   <div className="content">
                     <div dangerouslySetInnerHTML={noImgContent()} />
                     <RecipeGoStyled

@@ -182,6 +182,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('id', userId);
+    localStorage.setItem('canEditAccess', 'true');
 
     await fetchUserData(userId, accessToken);
     navigate('/');

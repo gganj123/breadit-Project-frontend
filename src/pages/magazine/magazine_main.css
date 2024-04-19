@@ -4,8 +4,18 @@
 
 .magazine_banner .banner_item {
   position: relative;
-  height: 70rem;
+  height: 63rem;
   background-color: #ddd;
+}
+
+.magazine_banner .banner_item::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .magazine_banner .banner_item .banner_img {
@@ -18,7 +28,7 @@
   left: 0;
   width: 100%;
   padding: 0 6rem;
-  color: #fff;
+  color: #eee;
 }
 
 .magazine_banner .content_box .font_oleo {
@@ -28,7 +38,16 @@
 
 .magazine_banner .content_box h3 {
   font-size: 3.2rem;
-  margin: 3rem 0 2rem;
+  margin: 2.4rem 0 1.6rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.magazine_banner .content_box h3 a {
+  color: #fff;
 }
 
 .magazine_banner .content_box .content {
@@ -47,30 +66,57 @@
 }
 
 .magazine_banner .slick-arrow {
-  display: none;
+  z-index: 99;
+  width: 6rem;
+  height: 6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.magazine_banner .slick-arrow::before {
+  content: '';
+  width: 1.6rem;
+  height: 1.6rem;
+  border: solid 2px #fff;
+  text-indent: -9999px;
+  position: absolute;
+  top: 34%;
+  left: 30%;
+  transform: rotate(45deg);
 }
 
 .magazine_banner .slick-prev {
   left: 0;
 }
 
+.magazine_banner .slick-prev::before {
+  border-top: 0;
+  border-right: 0;
+  left: 38%;
+}
+
 .magazine_banner .slick-next {
   right: 0;
 }
 
+.magazine_banner .slick-next::before {
+  border-left: 0;
+  border-bottom: 0;
+  left: 30%;
+}
+
 .magazine_banner .slick-dots {
   width: auto;
-  bottom: 4rem;
-  right: 10rem;
-  background-color: rgba(77, 77, 77, 0.6);
-  color: #dbdbdb;
+  bottom: 3rem;
+  right: 6rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
   padding: 0 2rem;
 }
 
 .magazine_dots li {
   width: auto;
   height: 3.4rem;
-  line-height: 3.4rem;
+  line-height: 3.2rem;
   display: none;
   font-size: 1.8rem;
   margin: 0;

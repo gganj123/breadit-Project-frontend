@@ -1,12 +1,13 @@
 /**
  * 마이페이지 - 회원 정보 수정 페이지
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../../components/atoms/buttons/Button';
 import { SignUpInput } from '../../components/atoms/input/SignUpInput';
 import ProfileImageUpload from './ProfileImageUpload';
 import { useAuth } from '../login/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled.div`
   display: flex;
@@ -49,7 +50,8 @@ const Email = styled.div`
   margin-bottom: 50px;
 `;
 export default function Edit() {
-  const { user, updateUserInfo } = useAuth();
+  const navigate = useNavigate();
+  const { user, loading, updateUserInfo } = useAuth();
   const [formData, setFormData] = useState({
     email: user?.email || '',
     nickname: user?.nickname || '',
@@ -58,6 +60,13 @@ export default function Edit() {
     newPassword: '',
   });
   const kakaoUser = user?.social_login_provider;
+  useEffect(() => {
+    const canEditAccess = localStorage.getItem('canEditAccess');
+    if (!kakaoUser && canEditAccess !== 'true') {
+      navigate('/');
+    }
+    localStorage.removeItem('canEditAccess');
+  }, [kakaoUser, navigate]);
   const handleRemoveImage = () => {
     const defaultImage =
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';

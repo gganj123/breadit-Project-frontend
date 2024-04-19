@@ -4,7 +4,7 @@ export const MapContainer = styled.div`
   position: absolute;
   background: #fff;
   height: 100%;
-  top: 7.4rem;
+  top: 9.2rem;
   left: 0;
   display: flex;
 
@@ -47,7 +47,7 @@ export const MapListItem = styled.div`
   width: 100%;
   display: flex;
   background: #fff;
-  padding: 16px;
+  padding: 20px 20px 0;
   border-radius: 20px;
   p {
     margin-top: 10px;
@@ -68,22 +68,25 @@ export const MapListItem = styled.div`
   .tel {
     font-size: 1.4rem;
     height: 2rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
   }
 
   .tel img {
-    width: 16px;
+    width: 14px;
   }
 `;
 
 export const MapSearchBox = styled.div`
   position: absolute;
-  top: 10rem;
+  top: 12rem;
   left: 60%;
   transform: translateX(-50%);
   z-index: 10;
   background: #fff;
   width: 50%;
-  height: 35px;
+  height: 4.4rem;
   display: flex;
 
   input {
@@ -92,22 +95,25 @@ export const MapSearchBox = styled.div`
     cursor: default;
   }
   button {
-    width: 10%;
-    background: blue;
-    color: #fff;
+    width: 4rem;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent;
   }
 `;
 
 export const FindNearMap = styled.div`
   padding: 10px 20px;
-  background: #656565;
+  background: #575757;
   width: 100px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   color: #fff;
 `;
 
@@ -120,13 +126,13 @@ export const FindNearBakery = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   background: #ffcb46;
   color: #fff;
 `;
 
 export const SlidePin = styled.div<{ $expanded: boolean }>`
-  width: 2rem;
+  width: 3rem;
   height: 6rem;
   position: absolute;
   top: 50%;
@@ -136,6 +142,19 @@ export const SlidePin = styled.div<{ $expanded: boolean }>`
   z-index: 100;
   box-shadow: 0.6rem 0.6rem 0.4rem rgba(0, 0, 0, 0.1);
   cursor: pointer;
+
+  &::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 40%;
+    left: ${(props) => (props.$expanded ? '40%' : '20%')};
+    border-top: solid 1px #575757;
+    border-right: solid 1px #575757;
+    transform: ${(props) =>
+      props.$expanded ? 'rotate(225deg)' : 'rotate(45deg)'};
+  }
 `;
 
 export const MapDetailStyle = styled.section`
