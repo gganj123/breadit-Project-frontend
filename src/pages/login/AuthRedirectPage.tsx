@@ -5,6 +5,32 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import styled from 'styled-components';
+import { TailSpin } from 'react-loader-spinner';
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  width: 100vw;
+`;
+
+export const LoaderWrapper = styled.div`
+  size: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px 0;
+`;
+const Message = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #675a5a;
+  margin-top: 30px;
+`;
 
 const AuthRedirectPage: React.FC = () => {
   const location = useLocation();
@@ -27,7 +53,14 @@ const AuthRedirectPage: React.FC = () => {
     }
   }, [location]);
 
-  return null; // UI 렌더링 없음
+  return (
+    <Container>
+      <LoaderWrapper>
+        <TailSpin color="#FFCB46" />
+        <Message>로그인 처리중 입니다... </Message>
+      </LoaderWrapper>
+    </Container>
+  );
 };
 
 export default AuthRedirectPage;
