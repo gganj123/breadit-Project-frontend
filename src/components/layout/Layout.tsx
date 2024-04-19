@@ -61,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
   .header {
     width: 100%;
     height: 9.2rem;
-    padding: 1.4rem 10rem 0;
+    padding: 1.4rem 5vw 0;
     box-sizing: border-box;
     background-color: #fdfbf7;
     position: fixed;
@@ -158,7 +158,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .main_cont {
-    padding:8rem 10rem;
+    padding:8rem 5vw;
   }
 
   .buttons {

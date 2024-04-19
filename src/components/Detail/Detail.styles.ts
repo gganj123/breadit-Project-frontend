@@ -50,4 +50,7 @@ export const DetailContentStyled = styled.div`
   * {
     line-height: 1.6;
   }
+  img {
+    max-width: 100%;
+  }
 `;

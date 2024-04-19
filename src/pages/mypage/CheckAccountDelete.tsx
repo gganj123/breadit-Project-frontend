@@ -15,7 +15,7 @@ const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 const LogoImage = styled.img`
   width: 250px;
   height: 70px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 const PageContainer = styled.div`
   width: 100%;
@@ -34,7 +34,7 @@ const MessageContainer = styled.div`
   margin-bottom: 40px;
 `;
 const Message = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 500;
   color: #575757;
   margin-bottom: 10px;
@@ -116,9 +116,7 @@ export default function CheckAccountDelete() {
   return (
     <>
       <PageContainer>
-        <Link to="/">
-          <LogoImage src={Logo} className="logo" alt="Vite logo" />
-        </Link>
+        <LogoImage src={Logo} className="logo" alt="Vite logo" />
         <MessageContainer>
           <Message>탈퇴 버튼 선택 시 계정은 삭제되며</Message>
           <Message>Breadit 계정은 복구되지 않습니다.</Message>
@@ -140,14 +138,16 @@ export default function CheckAccountDelete() {
             textcolor="#000000"
             width="420px"
             onClick={handleSubmit}
+            icon={true}
           />
           <Button
             type="button"
             text="취소"
-            backcolor="#fdfbf7"
-            textcolor="#000000"
+            backcolor="#575757"
+            textcolor="#fff"
             width="420px"
             onClick={handleNavigation}
+            icon={true}
           />
         </ButtonContainer>
       </PageContainer>

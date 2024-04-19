@@ -81,11 +81,11 @@ export const MapListItem = styled.div`
 export const MapSearchBox = styled.div`
   position: absolute;
   top: 12rem;
-  left: 60%;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 10;
   background: #fff;
-  width: 50%;
+  width: 40%;
   height: 4.4rem;
   display: flex;
 

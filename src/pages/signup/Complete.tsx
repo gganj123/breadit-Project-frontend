@@ -21,21 +21,22 @@ const ButtonsContainer = styled.div`
   margin-top: 20px;
 `;
 const Title = styled.div`
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 2.6rem;
+  color: #333;
+  font-weight: 600;
   text-align: center;
   margin-bottom: 30px;
 `;
 const Message = styled.div`
   text-align: center;
-  font-size: 20px;
+  font-size: 2.4rem;
   font-weight: 600;
   margin-top: 10px;
   margin-bottom: 5px;
 `;
 const SubMessage = styled.div`
   text-align: center;
-  font-size: 12px;
+  font-size: 1.8rem;
   color: #5c5c5c;
   margin: 30px;
 `;

@@ -1,4 +1,4 @@
-import { useLocation, Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DetailContent from '../../components/Detail/Detail';
 import ToggleSaveButton from '../../components/atoms/buttons/ToggleSaveButton';
 import CopyUrlButton from '../../components/atoms/buttons/CopyUrlButton';
@@ -7,14 +7,14 @@ import {
   useDeletePostByIdApi,
 } from '../../hooks/usePostApi';
 import { usePostPostBookmarkToggleApi } from '../../hooks/useBookmarkApi';
+import { TailSpin } from 'react-loader-spinner';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
 
   const accessToken = localStorage.getItem('accessToken');
 
-  let { data: postDetail } = useGetPostByIdApi({
+  let { data: postDetail, isLoading: isPostLoading } = useGetPostByIdApi({
     targetId: id,
     accessToken,
   });
@@ -35,6 +35,13 @@ const CommunityDetail = () => {
       postBookmarkMutate({ userId, postId: id, location: 'post' });
   };
 
+  if (isPostLoading)
+    return (
+      <div className="detail_loading_wrapper">
+        <TailSpin color="#FFCB46" />
+      </div>
+    );
+
   return (
     <section className="detail">
       <div className="flex_default detail_top">
@@ -47,7 +54,12 @@ const CommunityDetail = () => {
           </li>
         </ul>
         <div className="buttons">
-          {postDetail && (
+          {isPostLoading && (
+            <div className="detail_loading_wrapper">
+              <TailSpin color="#FFCB46" />
+            </div>
+          )}
+          {!isPostLoading && postDetail && (
             <ToggleSaveButton
               bookmarkState={postDetail.beBookmark}
               bookmarkEvent={() => saveToggle()}

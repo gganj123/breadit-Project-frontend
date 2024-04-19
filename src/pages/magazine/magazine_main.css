@@ -1,5 +1,5 @@
 .main_cont.magazine {
-  padding: 12rem 10rem;
+  padding: 12rem 5vw;
 }
 
 .magazine_banner .banner_item {
@@ -139,7 +139,7 @@
 .magazine_card_list .no_post {
   text-align: center;
   line-height: 20rem;
-  grid-column: 4/1;
+  grid-column: 5/1;
   color: #888;
 }
 
@@ -192,4 +192,17 @@
 .detail_btns {
   display: flex;
   gap: 1.2rem;
+}
+
+.magazine.detail h2 {
+  font-size: 3rem;
+  margin-bottom: 3rem;
+}
+
+.detail_loading_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90vh;
 }

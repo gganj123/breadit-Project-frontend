@@ -16,8 +16,7 @@
 
 .community_container {
   width: 100%;
-  max-width: 1720px;
-  padding: 0 0 100px;
+  padding: 0 5vw 10rem;
   box-sizing: border-box;
   margin: 0 auto;
 }

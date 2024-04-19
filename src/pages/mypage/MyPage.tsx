@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import UserProfile from './UserProfile';
 import ProfileImageUpload from './ProfileImageUpload';
 import RightArrow from '/right-arrow.svg';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '../login/AuthContext';
 import { useGetPostByUserIdQueryApi } from '../../hooks/usePostApi';
 import { useGetRecipeByUserIdQueryApi } from '../../hooks/useRecipeApi';

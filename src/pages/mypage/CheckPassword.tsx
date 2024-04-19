@@ -12,7 +12,7 @@ const apiUrl = `${import.meta.env.VITE_BACKEND_SERVER}`;
 const LogoImage = styled.img`
   width: 250px;
   height: 70px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 const PageContainer = styled.div`
   width: 100%;
@@ -31,7 +31,7 @@ const MessageContainer = styled.div`
   margin-bottom: 40px;
 `;
 const Message = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 500;
   color: #575757;
   margin-bottom: 10px;
@@ -50,7 +50,7 @@ export default function CheckPassword() {
   const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    if (!loading && user.user_role !== '') {
+    if (!loading && !loading && !user) {
       navigate('/');
     } else if (!accessToken) {
       navigate('/');

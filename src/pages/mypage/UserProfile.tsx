@@ -48,7 +48,7 @@ const ActionsButton = styled.button`
   border: none;
   cursor: pointer;
   color: #575757;
-  font-size: 11px;
+  font-size: 1.4rem;
 `;
 
 const UserProfile: React.FC<UserProfileProps> = ({ onEditProfile }) => {

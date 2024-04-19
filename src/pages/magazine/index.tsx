@@ -7,6 +7,7 @@ import {
   useGetMagazineByQueryApi,
 } from '../../hooks/useMagazineApi';
 import { useAuth } from '../login/AuthContext';
+import { TailSpin } from 'react-loader-spinner';
 
 import './magazine_main.css';
 import { useEffect, useState } from 'react';
@@ -15,7 +16,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const Magazine = () => {
   const { data: magazineList } = useGetMagazineListApi();
-  const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
+  const { data: magazineBanner, isLoading: isMagazineLoading } =
+    useGetMagazineByQueryApi('?limit=5');
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -64,6 +66,13 @@ const Magazine = () => {
   };
 
   const { user } = useAuth();
+
+  if (isMagazineLoading)
+    return (
+      <div className="detail_loading_wrapper">
+        <TailSpin color="#FFCB46" />
+      </div>
+    );
 
   return (
     <>

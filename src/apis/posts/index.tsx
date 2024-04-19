@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { API_URL } from '../../constants/index.tsx';
 import {
   PostCreateParameters,
@@ -19,7 +19,13 @@ export const postsApis = {
     try {
       const response = await axios.get(`${API_URL}/posts${query}`);
       return response.data;
-    } catch (err) {
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response && axiosError.response.status === 404) {
+        return [];
+      }
+
       console.error(err);
     }
   },
@@ -46,7 +52,13 @@ export const postsApis = {
     try {
       const response = await axios.get(`${API_URL}/posts/user/${id}${query}`);
       return response.data.data;
-    } catch (err) {
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response && axiosError.response.status === 404) {
+        return [];
+      }
+
       console.error(err);
     }
   },

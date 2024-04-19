@@ -28,7 +28,7 @@ const AdminMagazine = () => {
     }
   }, [user, loading]);
 
-  const { data: magazineList } = useGetMagazineListApi();
+  const { data: magazineList, refetch } = useGetMagazineListApi();
   const { mutate: deleteList } = useDeleteMagazineByCheckApi();
   const [checkList, setCheckList] = useState<string[]>([]);
 
@@ -38,6 +38,8 @@ const AdminMagazine = () => {
   const deleteMagazineCheckList = (idList: string[]) => {
     deleteList(idList);
     setCheckList([]);
+    refetch();
+    setCurrentPage(1);
   };
 
   const handleCheckboxChange = (id: string, checked: boolean) => {

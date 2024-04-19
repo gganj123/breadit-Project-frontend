@@ -23,13 +23,15 @@ import {
 } from './home';
 import NoProfile from '/no_profile.svg';
 import { sliceDate } from '../../utils';
+import { TailSpin } from 'react-loader-spinner';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './main.css';
 
 const Home = () => {
-  const { data: magazineBanner } = useGetMagazineByQueryApi('?limit=5');
+  const { data: magazineBanner, isLoading: isMagazineLoading } =
+    useGetMagazineByQueryApi('?limit=5');
 
   const { data: postList } = useGetPostByQueryApi('?limit=6');
 
@@ -81,6 +83,13 @@ const Home = () => {
     const HTML = { __html: imgFilter };
     return HTML;
   };
+
+  if (isMagazineLoading)
+    return (
+      <div className="detail_loading_wrapper">
+        <TailSpin color="#FFCB46" />
+      </div>
+    );
 
   return (
     <>

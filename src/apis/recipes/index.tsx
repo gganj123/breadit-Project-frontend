@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { API_URL } from '../../constants/index.tsx';
 import {
   RecipeCreateParameters,
@@ -19,8 +19,12 @@ export const recipesApis = {
     try {
       const response = await axios.get(`${API_URL}/recipes${query}`);
       return response.data;
-    } catch (err) {
-      console.error(err);
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response && axiosError.response.status === 404) {
+        return [];
+      }
     }
   },
 
@@ -46,7 +50,14 @@ export const recipesApis = {
     try {
       const response = await axios.get(`${API_URL}/recipes/user/${id}${query}`);
       return response.data.data;
-    } catch (err) {
+    } catch (err: unknown) {
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response && axiosError.response.status === 404) {
+        return [];
+      }
+
+      console.error(err);
       console.error(err);
     }
   },

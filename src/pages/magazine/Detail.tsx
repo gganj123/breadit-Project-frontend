@@ -7,16 +7,18 @@ import {
   useDeleteMagazineByIdApi,
 } from '../../hooks/useMagazineApi';
 import { usePostMagazineBookmarkToggleApi } from '../../hooks/useBookmarkApi';
+import { TailSpin } from 'react-loader-spinner';
 
 const MagazineDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   const accessToken = localStorage.getItem('accessToken');
 
-  const { data: magazineDetail } = useGetMagazineByIdApi({
-    targetId: id,
-    accessToken,
-  });
+  const { data: magazineDetail, isLoading: isMagazineloading } =
+    useGetMagazineByIdApi({
+      targetId: id,
+      accessToken,
+    });
 
   const { mutate: deleteMutate } = useDeleteMagazineByIdApi();
 
@@ -33,6 +35,13 @@ const MagazineDetail = () => {
       id &&
       magazineBookmarkMutate({ userId, postId: id, location: 'magazine' });
   };
+
+  if (isMagazineloading)
+    return (
+      <div className="detail_loading_wrapper">
+        <TailSpin color="#FFCB46" />
+      </div>
+    );
 
   return (
     <section className="detail">

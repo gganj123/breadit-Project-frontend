@@ -36,23 +36,26 @@ type PostCommunityParameters = {
 };
 
 const CommunityPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [postList, setPostList] = useState<PostCommunityParameters[]>([]);
   const [recipeList, setRecipeList] = useState<PostCommunityParameters[]>([]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: postData, refetch: postRefetchSearch } = useGetPostByQueryApi(
-    `?q=${searchQuery}&limit=4`
-  );
-  const { data: recipeData, refetch: recipeRefetchSearch } =
-    useGetRecipeByQueryApi(`?q=${searchQuery}&limit=4`);
+  const {
+    data: postData,
+    refetch: postRefetchSearch,
+    isLoading: isPostLoading,
+  } = useGetPostByQueryApi(`?q=${searchQuery}&limit=4`);
+  const {
+    data: recipeData,
+    refetch: recipeRefetchSearch,
+    isLoading: isRecipeLoading,
+  } = useGetRecipeByQueryApi(`?q=${searchQuery}&limit=4`);
 
   useEffect(() => {
     if (postData && recipeData) {
       setPostList(postData);
       setRecipeList(recipeData);
-      setIsLoading(false);
     }
   }, [postData, recipeData, searchQuery]);
 
@@ -124,7 +127,7 @@ const CommunityPage = () => {
             </Link>
           </div>
           <div className="community_inner">
-            {isLoading ? (
+            {isPostLoading ? (
               <LoaderWrapper>
                 <TailSpin color="#FFCB46" />
               </LoaderWrapper>
@@ -153,7 +156,7 @@ const CommunityPage = () => {
           </div>
 
           <div className="community_inner">
-            {isLoading ? (
+            {isRecipeLoading ? (
               <LoaderWrapper>
                 <TailSpin color="#FFCB46" />
               </LoaderWrapper>

@@ -7,13 +7,14 @@ import {
   useDeleteRecipeByIdApi,
 } from '../../hooks/useRecipeApi';
 import { usePostRecipeBookmarkToggleApi } from '../../hooks/useBookmarkApi';
+import { TailSpin } from 'react-loader-spinner';
 
 const RecipeDetail = () => {
   const { id } = useParams<{ id: string }>();
 
   const accessToken = localStorage.getItem('accessToken');
 
-  let { data: recipeDetail } = useGetRecipeByIdApi({
+  let { data: recipeDetail, isLoading: isRecipeLoading } = useGetRecipeByIdApi({
     targetId: id,
     accessToken,
   });
@@ -34,6 +35,13 @@ const RecipeDetail = () => {
       recipeBookmarkMutate({ userId, postId: id, location: 'recipe' });
   };
 
+  if (isRecipeLoading)
+    return (
+      <div className="detail_loading_wrapper">
+        <TailSpin color="#FFCB46" />
+      </div>
+    );
+
   return (
     <section className="detail">
       <div className="flex_default detail_top">
@@ -46,7 +54,12 @@ const RecipeDetail = () => {
           </li>
         </ul>
         <div className="buttons">
-          {recipeDetail && (
+          {isRecipeLoading && (
+            <div className="detail_loading_wrapper">
+              <TailSpin color="#FFCB46" />
+            </div>
+          )}
+          {!isRecipeLoading && recipeDetail && (
             <ToggleSaveButton
               bookmarkState={recipeDetail.beBookmark}
               bookmarkEvent={() => saveToggle()}

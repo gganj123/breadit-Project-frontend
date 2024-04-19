@@ -18,7 +18,7 @@ const MagazineEdit = () => {
 
   return (
     <>
-      <div className="detail">
+      <div className="magazine detail">
         <h2 className="oleo-script-bold">Magazine</h2>
         <EditorComponent selectedCategory={'magazine'} postData={postData} />
       </div>
