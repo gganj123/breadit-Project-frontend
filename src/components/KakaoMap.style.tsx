@@ -40,13 +40,20 @@ export const MapList = styled.ul`
     width: 100%;
     height: 11rem;
     border-bottom: solid 1px #eee;
+
+    &:hover {
+      background: #eff7ff;
+    }
+
+    &.active {
+      background: #eff7ff;
+    }
   }
 `;
 
 export const MapListItem = styled.div`
   width: 100%;
   display: flex;
-  background: #fff;
   padding: 20px 20px 0;
   border-radius: 20px;
   p {
