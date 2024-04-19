@@ -60,13 +60,22 @@ export const ContentBoxStyled = styled.div`
   background-color: #fff;
 
   h5 {
-    font-size: 2.2rem;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0.8rem;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
-    line-height: 1.2;
+    line-height: 1.4;
+  }
+
+  h5 a {
+    font-size: 2.2rem;
+    color: #333;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    line-height: 1.4;
   }
 
   .text {

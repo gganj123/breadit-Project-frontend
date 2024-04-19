@@ -19,6 +19,7 @@ export type BigCardProps = {
   handleCheckboxChange?: (id: string, checked: boolean) => void;
   isChecked?: boolean;
   go?: string;
+  linkUse?: boolean | false;
 };
 
 const BigCardList = ({
@@ -28,6 +29,7 @@ const BigCardList = ({
   handleCheckboxChange,
   isChecked,
   go,
+  linkUse,
 }: BigCardProps) => {
   const { _id, nickname, profile, title, content, like_count, thumbnail } =
     data;
@@ -59,17 +61,21 @@ const BigCardList = ({
         </div>
       )}
       <div className="img_box">
-        <Link
-          to={
-            go == 'magazines'
-              ? `/magazines/${_id}`
-              : go == 'posts'
-                ? `/community/nearby/${_id}`
-                : `/community/recipe/${_id}`
-          }
-        >
+        {!linkUse ? (
+          <Link
+            to={
+              go == 'magazines'
+                ? `/magazines/${_id}`
+                : go == 'posts'
+                  ? `/community/nearby/${_id}`
+                  : `/community/recipe/${_id}`
+            }
+          >
+            <img src={thumbnail} alt={'매거진 이미지'} />
+          </Link>
+        ) : (
           <img src={thumbnail} alt={'매거진 이미지'} />
-        </Link>
+        )}
       </div>
       <ContentBoxStyled>
         <h5>

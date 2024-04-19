@@ -19,20 +19,24 @@ const Footer = () => {
         <p>copyright.2024 Elice Lab All rights reserved.</p>
       </div>
       <ul className="flex_default footer_icon">
-        <li onClick={preparingAlert}>
-          <Link to="/">
+        <li>
+          <Link
+            to="https://www.figma.com/file/Mdf4ewn8zhXbhaEbCNZWav/Team03_Design?type=design&node-id=0%3A1&mode=dev&t=WTB6mmCVKZdOWZ0y-1"
+            target="_blank"
+          >
             <img src={Figma} />
           </Link>
         </li>
-        <li onClick={preparingAlert}>
-          <Link to="/">
+        <li>
+          <Link
+            to="https://kdt-gitlab.elice.io/sw_track/class_08/web_project_ii/team03"
+            target="_blank"
+          >
             <img src={Gitlab} />
           </Link>
         </li>
         <li onClick={preparingAlert}>
-          <Link to="/">
-            <img src={Notion} />
-          </Link>
+          <img src={Notion} />
         </li>
       </ul>
     </footer>

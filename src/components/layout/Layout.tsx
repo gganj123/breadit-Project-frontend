@@ -17,7 +17,7 @@ const GlobalStyle = createGlobalStyle`
   h1, h2, h3, h4, h5, h6 {font-weight:700;}
   ul, ol, li {list-style: none;}
   table, td, th, tr {border-collapse: collapse;}
-  a {color: #575757; text-decoration: none;}
+  a {color: #333; text-decoration: none;}
   textarea {resize: none;}
   fieldset {border: 0;}
   button {cursor:pointer; background: none; border: 0; outline:none;}
@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Noto Sans KR", sans-serif;
     font-weight: 400;
     font-size: 62.5%;
-    color:#333;
+    color:#575757;
   } 
 
   html {
@@ -153,7 +153,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .footer_icon {
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .main_cont {

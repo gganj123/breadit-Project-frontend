@@ -7,7 +7,6 @@ import {
   useGetMagazineByQueryApi,
 } from '../../hooks/useMagazineApi';
 import { useAuth } from '../login/AuthContext';
-import CopyBtn from '../../components/atoms/buttons/CopyUrlButton';
 
 import './magazine_main.css';
 import { useEffect, useState } from 'react';
@@ -76,7 +75,6 @@ const Magazine = () => {
             })}
         </Slider>
       </article>
-      <CopyBtn />
       <section className="main_cont magazine">
         <div className="main_title flex_default">
           <h3 className="main_title_text">

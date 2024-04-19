@@ -7,6 +7,7 @@ import { searchBakeryNearby } from '../components/SearchArea';
 import { useLocation } from 'react-router-dom';
 import { Hearts } from 'react-loader-spinner';
 import TelIcon from '/icons/tel_icon.svg';
+import SearchIcon from '/search-icon.svg';
 
 export type Marker = {
   position: { lat: number; lng: number };
@@ -175,7 +176,6 @@ const MapComponent: React.FC = () => {
             address: data[i].road_address_name,
             phone: data[i].phone,
           });
-          console.log(data[i]);
           bounds.extend(new kakao.maps.LatLng(lat, lng));
         }
         const totalPages = Math.ceil(newMarkers.length / itemsPerPage);
@@ -294,9 +294,9 @@ const MapComponent: React.FC = () => {
         lng: currentPos.getLng(),
       },
       id: '74968626', // 마커 ID 설정
-      content: '엘리스랩(성수낙낙)', // 마커 내용 설정
-      address: '서울특별시 성동구 성수2가제3동 광나루로6길 49', // 위치 주소 설정
-      phone: '024628322', // 전화번호 정보 설정
+      content: '엘리스랩 성수점', // 마커 내용 설정
+      address: '서울 성동구 아차산로17길 48 (우)04799', // 위치 주소 설정
+      phone: '070-4633-2740', // 전화번호 정보 설정
     };
 
     if (map) {
@@ -337,6 +337,7 @@ const MapComponent: React.FC = () => {
             address: data[i].road_address_name,
             phone: data[i].phone,
           });
+          console.log(data);
           bounds.extend(new kakao.maps.LatLng(lat, lng));
         }
 
@@ -421,7 +422,9 @@ const MapComponent: React.FC = () => {
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
-          <button onClick={handleSearch}>검색하기</button>
+          <button onClick={handleSearch}>
+            <img src={SearchIcon} />
+          </button>
         </S.MapSearchBox>
       </Map>
       <S.MapContainer>
