@@ -4,7 +4,7 @@ export const MapContainer = styled.div`
   position: absolute;
   background: #fff;
   height: 100%;
-  top: 7.4rem;
+  top: 9.2rem;
   left: 0;
   display: flex;
 

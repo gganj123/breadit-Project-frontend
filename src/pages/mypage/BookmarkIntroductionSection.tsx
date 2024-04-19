@@ -33,7 +33,7 @@ export default function BakeryIntroductionSection() {
     isLoading: isBookmarkLoading,
   } = useGetBookmarkByUserIdApi({
     userId: user?._id || '',
-    query: '?limit=3',
+    query: '',
   });
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function BakeryIntroductionSection() {
       <ContextWrap>
         <MypageList>
           <MypageListTitle>
-            <h2 className="oleo-script-bold community_title">저장한 게시글</h2>
+            <h2 className="community_title">저장한 게시글</h2>
           </MypageListTitle>
           <ListWrapper>
             {isBookmarkLoading && (
@@ -64,8 +64,7 @@ export default function BakeryIntroductionSection() {
                 <TailSpin color="#FFCB46" />
               </LoaderWrapper>
             )}
-            {!isBookmarkLoading &&
-              currentItems &&
+            {!isBookmarkLoading && currentItems && currentItems.length > 0 ? (
               currentItems.map((bookmark: BigCardProps['data']) => {
                 return (
                   <BigCard
@@ -75,7 +74,10 @@ export default function BakeryIntroductionSection() {
                     userInfo={true}
                   />
                 );
-              })}
+              })
+            ) : (
+              <div className="no_post">no post</div>
+            )}
           </ListWrapper>
           <Pagination
             currentPage={currentPage}

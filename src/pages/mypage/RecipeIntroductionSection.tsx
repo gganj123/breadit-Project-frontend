@@ -34,7 +34,7 @@ export default function BakeryIntroductionSection() {
     isLoading: isRecipeLoading,
   } = useGetRecipeByUserIdQueryApi({
     userId: user?._id || '',
-    query: '?limit=3',
+    query: '',
   });
 
   useEffect(() => {
@@ -57,9 +57,7 @@ export default function BakeryIntroductionSection() {
       <ContextWrap>
         <MypageList>
           <MypageListTitle>
-            <h2 className="oleo-script-bold community_title">
-              나만의 레시피를 공유해요
-            </h2>
+            <h2 className="community_title">나만의 레시피를 공유해요</h2>
           </MypageListTitle>
           <ListWrapper>
             {/* 데이터가 로딩 중이면 로딩 바를 표시 */}
@@ -69,8 +67,7 @@ export default function BakeryIntroductionSection() {
               </LoaderWrapper>
             )}
             {/* 데이터가 있는지 확인하고 mainphotourl이 있는지 확인합니다 */}
-            {!isRecipeLoading &&
-              currentItems &&
+            {!isRecipeLoading && currentItems && currentItems.length > 0 ? (
               currentItems.map((recipe: BigCardProps['data']) => {
                 return (
                   <BigCard
@@ -80,7 +77,10 @@ export default function BakeryIntroductionSection() {
                     userInfo={false}
                   />
                 );
-              })}
+              })
+            ) : (
+              <div className="no_post">no post</div>
+            )}
           </ListWrapper>
           <Pagination
             currentPage={currentPage}

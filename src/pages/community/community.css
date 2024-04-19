@@ -309,7 +309,7 @@
 }
 
 .no_post {
-  grid-column: 4 / 2;
+  grid-column: 5 / 1;
   text-align: center;
   line-height: 20rem;
   color: #666;
