@@ -5,8 +5,20 @@
 React, TypeScript 와 REST API 를 활용한 빵집 탐방 커뮤니티 프로젝트입니다.
 
 <br/>
+<br/>
 
-## ⚒️ STACKS 
+**배포 링크 : [Breadit](https://frontend-nine-tau-41.vercel.app/)**
+
+<br/>
+
+**테스트 계정**
+| 이메일 | 비밀번호 |
+| ------ | ------ |
+| test@test.com | 11111111 |
+
+<br/>
+
+## STACKS 
 <div> 
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> 
@@ -29,7 +41,7 @@ React, TypeScript 와 REST API 를 활용한 빵집 탐방 커뮤니티 프로�
 <br/>
 
 
-## 🧑 팀 구성
+## 팀 구성
 | 이름   | 역할          | 이미지 |
 | ------ | ------------- | ------ |
 | 정영준 | FE 총괄        | 🐸     |
@@ -41,16 +53,21 @@ React, TypeScript 와 REST API 를 활용한 빵집 탐방 커뮤니티 프로�
 
 <br/>
 
-## 🗃 와이어프레임
+## 와이어프레임
 [FIGMA](https://www.figma.com/file/Mdf4ewn8zhXbhaEbCNZWav/Team_03?type=design&node-id=0-1&mode=design&t=cU5x1zBWzl93Bn6p-0)
 <br/>
 <br/>
 <br/>
 
-## 🍞 프로젝트 소개
-![브레딧딧](/uploads/09613b806fdc11e10a998bd3299b92a3/xxx.png)
+## 프로젝트 소개
 
+![브레딧](/uploads/09613b806fdc11e10a998bd3299b92a3/xxx.png)
+<h4>프로젝트 기간 : 2024.03.23 ~ 2023.04.19</h4>
+<br/>
 <h3>사용자 관련 기능</h3>
+
+![로그인](/uploads/6760fb414b7e38952d71813e1db4f7a2/로그인.JPG)
+
 
 1. 회원가입
     - 회원가입 폼의 입력 값이 조건에 안 맞을 시 (이메일 형식, 이메일 중복 여부, 이메일 인증번호 일치 여부, 비밀번호와 비밀번호확인의 일치 여부, 닉네임 형식식) 이를 사용자에게 알려준다.
@@ -67,7 +84,7 @@ React, TypeScript 와 REST API 를 활용한 빵집 탐방 커뮤니티 프로�
     - 로그아웃 시, 프론트 단에 저장되어 있던 JWT 토큰이 제거된다.
     <br/>
 5. 사용자 정보 조회 (일반 사용자/ 카카오 사용자)
-    - 사용자는 마이이 페이지에서 자신의 회원 정보를 조회할 수 있다.
+    - 사용자는 마이 페이지에서 자신의 회원 정보를 조회할 수 있다.
     <br/>
 
 6. 사용자 정보 수정 (일반 사용자/ 카카오 사용자)
@@ -171,14 +188,4 @@ React, TypeScript 와 REST API 를 활용한 빵집 탐방 커뮤니티 프로�
     - 매거진 관리 기능을 통해 관리자는 공개 전 내용을 최종 검토하고, 필요한 경우 수정할 수 있다.
     - 관리자는 또한 사용자의 댓글을 관리할 수 있으며, 부적절한 댓글을 삭제할 수 있다.
     <br/>
-```
-    작업 기간 : 2024.03.23 ~ 2023.04.19
-    배포 링크 : [Breadit](https://frontend-nine-tau-41.vercel.app/)
-```
-```
-    관리자 계정: editor@naver.com
-    비밀번호: 11111111
 
-    테스트 계정: test@test.com
-    비밀번호: 11111111
-```
